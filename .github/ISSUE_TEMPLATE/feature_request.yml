@@ -1,0 +1,40 @@
+name: Feature request
+description: Propose a product, proof, safety, or documentation improvement.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What real user, judge, steward, or maintainer problem does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Describe the smallest useful version.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Product UX
+        - Proof verification
+        - Solana program
+        - Safety and moderation
+        - Dashboard and data
+        - Documentation
+        - Dev tooling
+    validations:
+      required: true
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Boundary check
+      description: Explain why this does not weaken the proof-first, no-token, no-accusation MVP boundary.
+    validations:
+      required: true

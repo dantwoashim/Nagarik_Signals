@@ -27,6 +27,6 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "^16.3.0-canary.36",
-    "typescript": "^5"
+    "typescript": "^6"
   }
 }

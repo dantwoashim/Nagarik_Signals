@@ -1,0 +1,48 @@
+{
+  "type": "viral-sync-civic-receipt-adapter",
+  "version": "1.0.0",
+  "generatedForPhase": "phase-3",
+  "market": "ward12-water-repair",
+  "network": "solana-devnet",
+  "receiptPurpose": "verified civic participation reward settlement",
+  "sourceArtifactHashes": {
+    "devnet-causal-commerce.json": "6415744176993eb8471c424e97384fae2da5a4f9ac0a12d99646babd9d52e86c",
+    "devnet-causal-commerce-verifier.json": "7ce0895d0351550a4530fb54316cebefb31c909fad20e03378d3cfb8559415e2",
+    "fraud-gauntlet.json": "a37fa2a5199e0a81a66c10a84e5b873d3c4706a36a4ced190d1db15be636239c",
+    "proof-feed.json": "acaa88f3a526c76736dfe62241ed5426e9a13e9e6562b5910804dad6ae2a73e3",
+    "frontier-readiness.json": "b247fe91c878ec17148db16be7fa61b74c36bbc7752a134844b63acf7db564ab"
+  },
+  "sourceManifest": "app/public/proofs/devnet-causal-commerce.json",
+  "sourceManifestSha256": "6415744176993eb8471c424e97384fae2da5a4f9ac0a12d99646babd9d52e86c",
+  "receiptPda": "6i9UeRN1s9tA3qxZ3PQvCseoVFAWNGia6NsLieorJRxK",
+  "nullifierPda": "E3kT3UT9XEKhxLY8p22YLFtiQ3aZJ1USRJPFt8WU5eEB",
+  "settlementRecord": "5FUTwyEP1UanmtxJNECfEiieczAKEahH4Tb81JPvyVpy",
+  "attestationModel": "merchant_terminal_visitor_signed",
+  "forecastCredits": {
+    "transferable": false,
+    "cashValue": "0"
+  },
+  "settlement": {
+    "dependsOnForecast": false,
+    "dependsOnReceipt": true
+  },
+  "civicMapping": {
+    "merchantAuthority": "sponsor_or_verifier_authority",
+    "terminalDevice": "field_verifier_station",
+    "visitorAuthority": "participant_authority",
+    "growthCampaign": "civic_action_reward_campaign"
+  },
+  "limits": [
+    "The adapter maps the existing receipt primitive to a civic action flow.",
+    "It does not claim live official municipal data.",
+    "It does not claim a live privacy identity proof adapter."
+  ],
+  "programSourceHash": "e487e72b37d3672a841da31a3a5a5080e04ffd10d969cf708677e08aa1e31a3d",
+  "idlHash": "af31db003a46ce5eb56fa5b3ad226678d688373524aabe1b635c66e99161b49e",
+  "proofGeneratorHash": "f8ce8d854e59d7d417e7b769bcdbd68d46a039a7849fb44b0f49396e5dfcb820",
+  "verifierHash": "f6bdca7d4652439b1c49419320cb478e5813e44a8a4b688f29c0b2c87ab8ac84",
+  "rawVerifierHash": "556d7dc43cf17e0c7d77c00574d0b9b063627ad49e17ed772456a5cf97c5d0e0",
+  "publishedVerifierHash": "556d7dc43cf17e0c7d77c00574d0b9b063627ad49e17ed772456a5cf97c5d0e0",
+  "stampMode": "final-candidate",
+  "artifactHash": "478bd8f28d956c22090528677baa9d02e2060ae2ee0bc48e9fd810f677bbd1c5"
+}

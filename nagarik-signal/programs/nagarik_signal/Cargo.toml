@@ -1,0 +1,8 @@
+[workspace]
+members = [
+  "programs/nagarik_signal"
+]
+resolver = "2"
+
+[profile.release]
+overflow-checks = true

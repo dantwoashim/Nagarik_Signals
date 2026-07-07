@@ -1,0 +1,38 @@
+# Dependencies and build output
+node_modules/
+**/node_modules/
+.next/
+**/.next/
+target/
+**/target/
+.anchor/
+**/.anchor/
+dist/
+**/dist/
+*.tsbuildinfo
+**/*.tsbuildinfo
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Runtime-generated local data
+**/data/logs/
+**/data/session-keypairs/
+**/apps/web/public/uploads/
+*.log
+
+# Local/editor state
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Scratch planning exports kept locally
+4.7.txt
+4.8.txt
+5.5pro.txt
+Fable.txt

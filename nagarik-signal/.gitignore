@@ -1,0 +1,11 @@
+node_modules/
+.next/
+apps/web/.next/
+target/
+programs/nagarik_signal/target/
+.anchor/
+
+# Runtime-generated local Phase 2 data.
+data/logs/
+data/session-keypairs/
+apps/web/public/uploads/

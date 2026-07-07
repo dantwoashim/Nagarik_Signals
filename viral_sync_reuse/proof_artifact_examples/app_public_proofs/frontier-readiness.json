@@ -1,0 +1,107 @@
+{
+  "type": "viral-sync-frontier-readiness",
+  "generatedAt": "2026-07-06T16:10:19.711Z",
+  "status": "GO",
+  "gates": [
+    {
+      "id": "program-build-command",
+      "label": "Program build command",
+      "status": "PASS",
+      "detail": "Anchor program source present."
+    },
+    {
+      "id": "program-id-consistency",
+      "label": "Program ID consistency",
+      "status": "PASS",
+      "detail": "Anchor.toml, declare_id!, and deploy keypair match."
+    },
+    {
+      "id": "artifact-schema-gate",
+      "label": "Artifact schema gate",
+      "status": "PASS",
+      "detail": "POC-1 schema exists."
+    },
+    {
+      "id": "counter-attestation-manifest",
+      "label": "Counter-attestation manifest",
+      "status": "PASS",
+      "detail": "Manifest is fresh and counter-attested."
+    },
+    {
+      "id": "verifier-output",
+      "label": "Verifier output",
+      "status": "PASS",
+      "detail": "Verifier ok=true with terminal/visitor/lineage/settlement/nullifier flags."
+    },
+    {
+      "id": "fraud-gauntlet",
+      "label": "Negative-path suite",
+      "status": "PASS",
+      "detail": "19/19 invalid flows rejected with expected error evidence."
+    },
+    {
+      "id": "merchant-passport",
+      "label": "Merchant Passport",
+      "status": "PASS",
+      "detail": "Passport facts are all verified."
+    },
+    {
+      "id": "orderbook-proof-slot",
+      "label": "Orderbook proof-backed slot",
+      "status": "PASS",
+      "detail": "Orderbook has verified proof-backed campaign."
+    },
+    {
+      "id": "campaign-links",
+      "label": "Campaign links",
+      "status": "PASS",
+      "detail": "At least one campaign link is proof-backed and verified."
+    },
+    {
+      "id": "proof-feed",
+      "label": "Proof Feed",
+      "status": "PASS",
+      "detail": "Every proof feed entry is verified."
+    },
+    {
+      "id": "hash-binding",
+      "label": "Source and artifact hash binding",
+      "status": "PASS",
+      "detail": "Proof hashes match the current repository state."
+    },
+    {
+      "id": "merchant-validation-kit",
+      "label": "Merchant validation kit",
+      "status": "PASS",
+      "detail": "Validation kit present; real traction is intentionally not claimed unless evidence slots are filled."
+    },
+    {
+      "id": "submission-generator",
+      "label": "Submission packet generator",
+      "status": "PASS",
+      "detail": "frontier:submission script exists."
+    },
+    {
+      "id": "final-command",
+      "label": "Final command prepared",
+      "status": "PASS",
+      "detail": "frontier:final includes final artifact assertion."
+    }
+  ],
+  "hashesVerified": true,
+  "hashFailures": [],
+  "programIdConsistency": {
+    "anchorToml": "AeKT1B58Qi9rBtrtnMe11o4eXbVwHweKxGFNS5X3Vv46",
+    "declareId": "AeKT1B58Qi9rBtrtnMe11o4eXbVwHweKxGFNS5X3Vv46",
+    "deployKeypair": "AeKT1B58Qi9rBtrtnMe11o4eXbVwHweKxGFNS5X3Vv46",
+    "matches": true
+  },
+  "programSourceHash": "e487e72b37d3672a841da31a3a5a5080e04ffd10d969cf708677e08aa1e31a3d",
+  "idlHash": "af31db003a46ce5eb56fa5b3ad226678d688373524aabe1b635c66e99161b49e",
+  "proofGeneratorHash": "f8ce8d854e59d7d417e7b769bcdbd68d46a039a7849fb44b0f49396e5dfcb820",
+  "verifierHash": "f6bdca7d4652439b1c49419320cb478e5813e44a8a4b688f29c0b2c87ab8ac84",
+  "rawVerifierHash": "556d7dc43cf17e0c7d77c00574d0b9b063627ad49e17ed772456a5cf97c5d0e0",
+  "publishedVerifierHash": "556d7dc43cf17e0c7d77c00574d0b9b063627ad49e17ed772456a5cf97c5d0e0",
+  "stampMode": "final-candidate",
+  "artifactHash": "74a71122ac5857f2d811c83a577012c44bf92c92b4b1afad18b44def6423c64f"
+}

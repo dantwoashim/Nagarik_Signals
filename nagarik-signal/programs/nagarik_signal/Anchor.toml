@@ -1,0 +1,19 @@
+[features]
+seeds = false
+skip-lint = false
+
+[programs.localnet]
+nagarik_signal = "76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY"
+
+[programs.devnet]
+nagarik_signal = "76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "/mnt/c/NODE/node.exe ../../node_modules/tsx/dist/cli.mjs tests/nagarik_signal.ts"

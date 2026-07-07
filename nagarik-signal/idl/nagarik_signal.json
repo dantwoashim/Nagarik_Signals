@@ -1,0 +1,245 @@
+{
+  "address": "76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY",
+  "metadata": {
+    "name": "nagarik_signal",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Nagarik Signal proof-core program"
+  },
+  "instructions": [
+    {
+      "name": "initialize_registry",
+      "discriminator": [189, 181, 20, 17, 174, 57, 249, 59],
+      "accounts": [
+        { "name": "registry", "writable": true },
+        { "name": "authority", "writable": true, "signer": true },
+        { "name": "system_program", "address": "11111111111111111111111111111111" }
+      ],
+      "args": []
+    },
+    {
+      "name": "add_steward",
+      "discriminator": [19, 218, 243, 103, 80, 195, 188, 218],
+      "accounts": [
+        { "name": "registry" },
+        { "name": "authority", "writable": true, "signer": true },
+        { "name": "wallet" },
+        { "name": "steward", "writable": true },
+        { "name": "system_program", "address": "11111111111111111111111111111111" }
+      ],
+      "args": []
+    },
+    {
+      "name": "revoke_steward",
+      "discriminator": [111, 136, 44, 81, 130, 59, 174, 17],
+      "accounts": [
+        { "name": "registry" },
+        { "name": "authority", "signer": true },
+        { "name": "steward", "writable": true }
+      ],
+      "args": []
+    },
+    {
+      "name": "create_issue",
+      "discriminator": [177, 159, 162, 73, 188, 253, 190, 63],
+      "accounts": [
+        { "name": "registry", "writable": true },
+        { "name": "reporter", "writable": true, "signer": true },
+        { "name": "issue", "writable": true },
+        { "name": "system_program", "address": "11111111111111111111111111111111" }
+      ],
+      "args": [
+        { "name": "issue_id", "type": "u64" },
+        { "name": "category", "type": "u8" },
+        { "name": "first_observed_at", "type": "i64" },
+        { "name": "metadata_hash", "type": { "array": ["u8", 32] } },
+        { "name": "evidence_hash", "type": { "array": ["u8", 32] } },
+        { "name": "location_hash", "type": { "array": ["u8", 32] } }
+      ]
+    },
+    {
+      "name": "verify_issue",
+      "discriminator": [137, 13, 12, 236, 37, 29, 55, 140],
+      "accounts": [
+        { "name": "issue", "writable": true },
+        { "name": "verifier", "writable": true, "signer": true },
+        { "name": "verification", "writable": true },
+        { "name": "system_program", "address": "11111111111111111111111111111111" }
+      ],
+      "args": [
+        { "name": "issue_id", "type": "u64" }
+      ]
+    },
+    {
+      "name": "update_status",
+      "discriminator": [147, 215, 74, 174, 55, 191, 42, 0],
+      "accounts": [
+        { "name": "issue", "writable": true },
+        { "name": "steward" },
+        { "name": "updater", "writable": true, "signer": true },
+        { "name": "status_update", "writable": true },
+        { "name": "system_program", "address": "11111111111111111111111111111111" }
+      ],
+      "args": [
+        { "name": "seq", "type": "u32" },
+        { "name": "new_status", "type": "u8" },
+        { "name": "proof_hash", "type": { "array": ["u8", 32] } }
+      ]
+    }
+  ],
+  "accounts": [
+    { "name": "Registry", "discriminator": [47, 174, 110, 246, 184, 182, 252, 218] },
+    { "name": "Steward", "discriminator": [238, 203, 102, 90, 244, 49, 170, 189] },
+    { "name": "Issue", "discriminator": [171, 193, 204, 62, 63, 166, 106, 255] },
+    { "name": "Verification", "discriminator": [230, 33, 140, 88, 132, 240, 116, 178] },
+    { "name": "StatusUpdate", "discriminator": [23, 37, 229, 84, 255, 146, 59, 85] }
+  ],
+  "events": [
+    {
+      "name": "IssueCreated",
+      "discriminator": [103, 105, 134, 176, 163, 146, 250, 102]
+    },
+    {
+      "name": "IssueVerified",
+      "discriminator": [227, 76, 45, 143, 231, 14, 136, 112]
+    },
+    {
+      "name": "StatusUpdated",
+      "discriminator": [19, 149, 70, 150, 145, 120, 241, 11]
+    }
+  ],
+  "errors": [
+    { "code": 6000, "name": "InvalidCategory", "msg": "Invalid category." },
+    { "code": 6001, "name": "InvalidStatus", "msg": "Invalid status." },
+    { "code": 6002, "name": "InvalidHash", "msg": "Hash value must be non-zero." },
+    { "code": 6003, "name": "InvalidObservedDate", "msg": "First observed date is outside the accepted MVP range." },
+    { "code": 6004, "name": "UnauthorizedSteward", "msg": "Only an active steward can perform this action." },
+    { "code": 6005, "name": "StewardInactive", "msg": "Steward is inactive." },
+    { "code": 6006, "name": "DuplicateVerification", "msg": "Duplicate verification is not allowed." },
+    { "code": 6007, "name": "SelfVerificationNotAllowed", "msg": "Reporter cannot verify their own issue." },
+    { "code": 6008, "name": "IssueClosed", "msg": "Issue is closed." },
+    { "code": 6009, "name": "InvalidSequence", "msg": "Invalid status update sequence." },
+    { "code": 6010, "name": "ResolutionProofRequired", "msg": "Resolution proof is required for resolved status." },
+    { "code": 6011, "name": "ArithmeticOverflow", "msg": "Arithmetic overflow." }
+  ],
+  "types": [
+    {
+      "name": "Registry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "authority", "type": "pubkey" },
+          { "name": "issue_count", "type": "u64" },
+          { "name": "created_at", "type": "i64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "Steward",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "wallet", "type": "pubkey" },
+          { "name": "active", "type": "bool" },
+          { "name": "created_at", "type": "i64" },
+          { "name": "revoked_at", "type": "i64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "Issue",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "id", "type": "u64" },
+          { "name": "reporter", "type": "pubkey" },
+          { "name": "category", "type": "u8" },
+          { "name": "status", "type": "u8" },
+          { "name": "first_observed_at", "type": "i64" },
+          { "name": "created_at", "type": "i64" },
+          { "name": "updated_at", "type": "i64" },
+          { "name": "resolved_at", "type": "i64" },
+          { "name": "metadata_hash", "type": { "array": ["u8", 32] } },
+          { "name": "evidence_hash", "type": { "array": ["u8", 32] } },
+          { "name": "location_hash", "type": { "array": ["u8", 32] } },
+          { "name": "verification_count", "type": "u32" },
+          { "name": "update_count", "type": "u32" },
+          { "name": "timeline_hash", "type": { "array": ["u8", 32] } },
+          { "name": "resolution_hash", "type": { "array": ["u8", 32] } },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "Verification",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "issue", "type": "pubkey" },
+          { "name": "verifier", "type": "pubkey" },
+          { "name": "created_at", "type": "i64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "StatusUpdate",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "issue", "type": "pubkey" },
+          { "name": "seq", "type": "u32" },
+          { "name": "updater", "type": "pubkey" },
+          { "name": "old_status", "type": "u8" },
+          { "name": "new_status", "type": "u8" },
+          { "name": "proof_hash", "type": { "array": ["u8", 32] } },
+          { "name": "previous_timeline_hash", "type": { "array": ["u8", 32] } },
+          { "name": "new_timeline_hash", "type": { "array": ["u8", 32] } },
+          { "name": "created_at", "type": "i64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "IssueCreated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "issue", "type": "pubkey" },
+          { "name": "issue_id", "type": "u64" },
+          { "name": "reporter", "type": "pubkey" },
+          { "name": "category", "type": "u8" },
+          { "name": "created_at", "type": "i64" }
+        ]
+      }
+    },
+    {
+      "name": "IssueVerified",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "issue", "type": "pubkey" },
+          { "name": "verifier", "type": "pubkey" },
+          { "name": "verification_count", "type": "u32" },
+          { "name": "created_at", "type": "i64" }
+        ]
+      }
+    },
+    {
+      "name": "StatusUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "issue", "type": "pubkey" },
+          { "name": "updater", "type": "pubkey" },
+          { "name": "old_status", "type": "u8" },
+          { "name": "new_status", "type": "u8" },
+          { "name": "seq", "type": "u32" },
+          { "name": "created_at", "type": "i64" }
+        ]
+      }
+    }
+  ]
+}

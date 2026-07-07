@@ -1,0 +1,35 @@
+{
+  "name": "nagarik-signal",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Public proof for public problems.",
+  "workspaces": [
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace @nagarik-signal/web",
+    "build": "npm run build --workspace @nagarik-signal/web",
+    "lint": "npm run lint --workspace @nagarik-signal/web",
+    "typecheck": "npm run typecheck --workspace @nagarik-signal/web",
+    "verify": "npm run typecheck && npm run lint",
+    "anchor:test": "cd programs/nagarik_signal && anchor test --skip-build",
+    "anchor:test:devnet": "cd programs/nagarik_signal && anchor test --skip-build --skip-deploy --skip-local-validator --provider.cluster devnet",
+    "anchor:build": "cd programs/nagarik_signal && anchor build --no-idl",
+    "anchor:deploy:devnet": "cd programs/nagarik_signal && anchor deploy --provider.cluster devnet",
+    "proof:create": "tsx scripts/create-issue.ts",
+    "proof:verify": "tsx scripts/verify-issue.ts",
+    "proof:status": "tsx scripts/update-status.ts",
+    "proof:read": "tsx scripts/read-proof.ts",
+    "seed:demo": "tsx scripts/seed-demo-data.ts",
+    "verify:proof": "tsx scripts/verify-proof-cli.ts",
+    "reindex": "tsx scripts/reindex.ts",
+    "phase2:smoke": "tsx scripts/phase2-api-smoke.ts",
+    "phase5:smoke": "tsx scripts/phase5-status-lifecycle-smoke.ts",
+    "final:preflight": "tsx scripts/final-preflight.ts"
+  },
+  "devDependencies": {
+    "@coral-xyz/anchor": "^0.30.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,22 @@
+import { listIssues } from '@/lib/db/queries';
+import { StewardConsole } from '@/components/StewardConsole';
+
+export default function StewardPage() {
+  const issues = listIssues({ sort: 'most_ignored', limit: 100 }).sort((a, b) => {
+    if (a.proof.proofStatus === 'seeded_demo' && b.proof.proofStatus !== 'seeded_demo') return 1;
+    if (a.proof.proofStatus !== 'seeded_demo' && b.proof.proofStatus === 'seeded_demo') return -1;
+    return b.issueId - a.issueId;
+  });
+  return (
+    <section className="container page-section page-stack">
+      <div className="page-heading">
+        <span className="eyebrow">Steward console</span>
+        <h1>Moderate and update public status</h1>
+        <p className="muted" style={{ lineHeight: 1.65 }}>
+          Steward updates create StatusUpdate PDAs, attach resolution proof when available, and keep the issue timeline auditable.
+        </p>
+      </div>
+      <StewardConsole issues={issues} />
+    </section>
+  );
+}

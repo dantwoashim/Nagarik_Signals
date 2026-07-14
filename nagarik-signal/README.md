@@ -14,7 +14,6 @@ Nagarik Signal is a Solana-backed public proof layer for ignored civic issues in
 | Devnet program | `76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY` |
 | Cluster | Solana devnet |
 | Live judge showcase | `https://nagarik-signal.vercel.app` (read-only; proof checks are live) |
-| Demo video | Add final video URL after recording |
 
 ## What It Does
 
@@ -198,7 +197,6 @@ Recommended production path:
 
 - [Architecture](ARCHITECTURE.md)
 - [Safety](SAFETY.md)
-- [Demo script](DEMO_SCRIPT.md)
 - [Competitors](docs/competitors.md)
 - [Why Solana](docs/why-solana.md)
 - [Privacy and safety](docs/privacy-and-safety.md)

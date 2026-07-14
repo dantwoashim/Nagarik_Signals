@@ -14,7 +14,6 @@ const requiredFiles = [
   'ARCHITECTURE.md',
   'ROADMAP.md',
   'SAFETY.md',
-  'DEMO_SCRIPT.md',
   'docs/competitors.md',
   'docs/why-solana.md',
   'docs/privacy-and-safety.md',
@@ -44,7 +43,6 @@ function assertFiles() {
 function assertDocs() {
   const readme = readText('README.md');
   const readmeLower = readme.toLowerCase();
-  const demoScript = readText('DEMO_SCRIPT.md');
   const publicPosts = readText('docs/public-posts.md');
   const requiredReadmeText = [
     '76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY',
@@ -54,9 +52,6 @@ function assertDocs() {
   ];
   const missing = requiredReadmeText.filter((text) => !readmeLower.includes(text.toLowerCase()));
   if (missing.length) fail(`README is missing required text: ${missing.join(', ')}`);
-  if (!demoScript.includes('Janamat shows what citizens think. Nagarik Signal shows what citizens proved.')) {
-    fail('Demo script is missing the final positioning line.');
-  }
   if (!publicPosts.includes('Submitted Nagarik Signal to Superteam Nepal')) {
     fail('Public posts file is missing the submission post.');
   }

@@ -143,8 +143,6 @@ Read the complete [safety policy](nagarik-signal/SAFETY.md) and [privacy notes](
 - [Architecture](nagarik-signal/ARCHITECTURE.md)
 - [Judge FAQ](nagarik-signal/docs/judge-faq.md)
 - [Why Solana](nagarik-signal/docs/why-solana.md)
-- [Demo script](nagarik-signal/DEMO_SCRIPT.md)
-- [72-second video plan](nagarik-signal/docs/submission-video.md)
 - [Submission package](nagarik-signal/docs/submission-package.md)
 - [Roadmap](nagarik-signal/ROADMAP.md)
 

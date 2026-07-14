@@ -2,11 +2,12 @@ import Link from 'next/link';
 import { ArrowRight, CheckCircle, Eye, MapPin, ShieldCheck } from '@phosphor-icons/react/dist/ssr';
 import { DashboardStats } from '@/components/DashboardStats';
 import { IssueCard } from '@/components/IssueCard';
-import { dashboardStats, daysIgnored, listIssues, mostIgnoredIssues } from '@/lib/db/queries';
+import { dashboardStats, daysIgnored, latestIndexedIssue, listIssues, mostIgnoredIssues } from '@/lib/db/queries';
 import { appConfig } from '@/lib/constants/config';
 import { categoryLabel } from '@/lib/constants/categories';
 import { isClosedStatus, statusLabel } from '@/lib/constants/statuses';
 import { publicPreviewReadOnly } from '@/lib/deployment';
+import { shortText } from '@/lib/ui/format';
 
 export default function HomePage() {
   const stats = dashboardStats();
@@ -14,10 +15,17 @@ export default function HomePage() {
   const ignoredIssues = mostIgnoredIssues(4);
   const issues = ignoredIssues.length ? ignoredIssues : allIssues.slice(0, 4);
   const spotlight = issues[0];
+  const liveIssue = latestIndexedIssue();
   const liveCount = allIssues.filter((issue) => issue.proof.proofStatus !== 'seeded_demo').length;
   const sampleCount = allIssues.length - liveCount;
   const spotlightDays = spotlight ? daysIgnored(spotlight) : 0;
   const spotlightClosed = spotlight ? isClosedStatus(spotlight.status) : false;
+  const primaryHref = publicPreviewReadOnly
+    ? liveIssue ? `/issues/${liveIssue.id}#proof` : '/explore'
+    : '/report';
+  const primaryLabel = publicPreviewReadOnly
+    ? liveIssue ? 'Verify a live record' : 'Browse public records'
+    : 'Report an issue';
   return (
     <div>
       <section className="home-hero" style={spotlight ? { '--hero-image': `url(${spotlight.photoUrl})` } as React.CSSProperties : undefined}>
@@ -27,9 +35,17 @@ export default function HomePage() {
             <h1>{appConfig.tagline}</h1>
             <p>{appConfig.positioning}</p>
             <div className="hero-actions">
-              <Link className="button primary" href={publicPreviewReadOnly ? '/explore' : '/report'}>{publicPreviewReadOnly ? 'Inspect public proof' : 'Report an issue'} <ArrowRight size={17} weight="bold" /></Link>
+              <Link className="button primary" href={primaryHref}>{primaryLabel} <ArrowRight size={17} weight="bold" /></Link>
               <Link className="button light" href="/explore">Explore public records</Link>
             </div>
+            {liveIssue ? (
+              <Link className="live-proof-receipt" href={`/issues/${liveIssue.id}#proof`} aria-label={`Verify live devnet issue ${liveIssue.issueId}`}>
+                <span className="live-proof-state"><CheckCircle size={17} weight="fill" /> Live on devnet</span>
+                <span><small>Issue account</small><strong className="mono">#{liveIssue.issueId} / {shortText(liveIssue.proof.issuePda, 6, 6)}</strong></span>
+                <span><small>Public trail</small><strong>{liveIssue.verificationCount} signals / {liveIssue.updateCount} updates</strong></span>
+                <ArrowRight size={18} weight="bold" aria-hidden="true" />
+              </Link>
+            ) : null}
           </div>
           {spotlight ? (
             <Link className="hero-record" href={`/issues/${spotlight.id}`} aria-label={`Open ${spotlight.title}`}>

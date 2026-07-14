@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { List, Plus, X } from '@phosphor-icons/react';
+import { List, Plus, ShieldCheck, X } from '@phosphor-icons/react';
 import { WalletButton } from './WalletButton';
 import { publicPreviewReadOnly } from '@/lib/deployment';
 
@@ -27,15 +27,15 @@ export function SiteNavigation() {
           </Link>
         ))}
         <Link className="button primary nav-report" href={publicPreviewReadOnly ? '/explore' : '/report'}>
-          <Plus size={16} weight="bold" />
+          {publicPreviewReadOnly ? <ShieldCheck size={16} weight="bold" /> : <Plus size={16} weight="bold" />}
           {publicPreviewReadOnly ? 'Browse proof' : 'Report issue'}
         </Link>
-        <WalletButton />
+        {publicPreviewReadOnly ? null : <WalletButton />}
       </nav>
 
       <div className="mobile-nav-shell">
         <Link className="button primary mobile-report" href={publicPreviewReadOnly ? '/explore' : '/report'}>
-          <Plus size={17} weight="bold" />
+          {publicPreviewReadOnly ? <ShieldCheck size={17} weight="bold" /> : <Plus size={17} weight="bold" />}
           {publicPreviewReadOnly ? 'Proofs' : 'Report'}
         </Link>
         <button
@@ -58,7 +58,7 @@ export function SiteNavigation() {
               {label}
             </Link>
           ))}
-          <WalletButton />
+          {publicPreviewReadOnly ? null : <WalletButton />}
         </nav>
       ) : null}
     </>

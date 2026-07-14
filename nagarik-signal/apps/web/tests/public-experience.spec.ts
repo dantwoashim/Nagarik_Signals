@@ -10,8 +10,26 @@ test('homepage establishes the civic record and honest proof scope', async ({ pa
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Public proof for public problems.');
   await expect(page.getByText(/live devnet/).first()).toBeVisible();
   await expect(page.getByText(/clearly marked sample records/)).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Verify live devnet issue 11' })).toHaveAttribute('href', '/issues/11#proof');
+  await page.getByRole('heading', { name: 'What the city is still carrying' }).scrollIntoViewIfNeeded();
+  const evidenceImages = page.locator('.issue-card img');
+  await expect(evidenceImages).toHaveCount(4);
+  await expect.poll(() => evidenceImages.evaluateAll((images) => images.every((image) => (image as HTMLImageElement).complete))).toBe(true);
+  const brokenImages = await evidenceImages.evaluateAll((images) => images
+    .map((image) => image as HTMLImageElement)
+    .filter((image) => image.complete && image.naturalWidth === 0)
+    .map((image) => image.currentSrc || image.src));
+  expect(brokenImages).toEqual([]);
   await expect(page.locator('img:not([alt])')).toHaveCount(0);
   await expectNoHorizontalOverflow(page);
+});
+
+test('live proof receipt opens the verifiable chain record', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('link', { name: 'Verify live devnet issue 11' }).click();
+  await expect(page).toHaveURL(/\/issues\/11#proof$/);
+  await expect(page.locator('#proof')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Verify this record' })).toBeVisible();
 });
 
 test('mobile navigation and core actions fit without overflow', async ({ page }) => {

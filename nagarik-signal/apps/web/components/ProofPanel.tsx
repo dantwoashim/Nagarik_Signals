@@ -115,7 +115,7 @@ export function ProofPanel({ issue }: { issue: CivicIssue }) {
   }
 
   return (
-    <section className="panel pad proof-panel">
+    <section id="proof" className="panel pad proof-panel">
       <div className="proof-panel-heading">
         <div>
           <span className="proof-kicker">{sample ? 'Sample integrity' : 'Independent verification'}</span>

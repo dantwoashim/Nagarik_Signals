@@ -20,16 +20,16 @@ type DemoSpec = {
 };
 
 const demoPhotos = [
-  'https://images.unsplash.com/photo-1523419409543-a5e549c1faa8?auto=format&fit=crop&w=1200&q=70',
-  'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70',
-  'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70',
-  'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1200&q=70',
-  'https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=70',
-  '/demo/pothole-road.jpg',
+  '/demo/broken-paving-top.jpg',
+  '/demo/garbage-street.jpg',
   '/demo/storm-drain.jpg',
   '/demo/pothole-road.jpg',
+  '/demo/broken-paving-top.jpg',
   '/demo/pothole-road.jpg',
-  'https://images.unsplash.com/photo-1517394834181-95ed159986c7?auto=format&fit=crop&w=1200&q=70',
+  '/demo/storm-drain.jpg',
+  '/demo/garbage-street.jpg',
+  '/demo/broken-paving-top.jpg',
+  '/demo/storm-drain.jpg',
 ];
 
 const specs: DemoSpec[] = [
@@ -388,7 +388,7 @@ function timelineFor(spec: DemoSpec, issueId: number) {
         issueId,
         seq: 0.5,
         status: 'verified',
-        note: `${spec.verificationCount} seeded citizen verifications reached the demo threshold.`,
+        note: `${spec.verificationCount} sample citizen signals were recorded for this illustrative record.`,
         daysAgo: Math.max(1, spec.daysAgo - 2),
       })
     );
@@ -403,12 +403,12 @@ function timelineFor(spec: DemoSpec, issueId: number) {
         status: status as IssueStatus,
         note:
           status === 'in_progress'
-            ? 'Seeded steward marked repair follow-up in progress.'
+            ? 'Sample data steward marked repair follow-up in progress.'
             : status === 'disputed'
-              ? 'Seeded steward marked this issue for review because location details need confirmation.'
+              ? 'Sample data steward marked this issue for review because location details need confirmation.'
               : status === 'rejected'
-                ? 'Seeded steward hid this item from the active queue after safety review.'
-                : 'Seeded steward update recorded.',
+                ? 'Sample data steward hid this item from the active queue after safety review.'
+                : 'Sample data steward update recorded.',
         daysAgo: Math.max(1, spec.daysAgo - 6),
         statusUpdatePda: demoPda('DemoStatusUpdatePda', issueId, '1'),
       })
@@ -422,7 +422,7 @@ function timelineFor(spec: DemoSpec, issueId: number) {
         issueId,
         seq: 2,
         status: 'resolved',
-        note: 'Seeded steward attached after-state resolution proof for the public asset.',
+        note: 'Sample data steward attached after-state resolution proof for the public asset.',
         daysAgo: Math.max(1, spec.daysAgo - 14),
         proofHash,
         statusUpdatePda: demoPda('DemoStatusUpdatePda', issueId, '2'),

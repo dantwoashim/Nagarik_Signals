@@ -1,7 +1,7 @@
 {
   "version": 1,
   "storage": "local_json",
-  "updatedAt": "2026-07-14T05:59:43.918Z",
+  "updatedAt": "2026-07-14T07:19:32.608Z",
   "issues": [
     {
       "id": "4",
@@ -492,7 +492,7 @@
         "metadataHash": "f2777350787f948c9fd58bb90e4eb2cb84b5097245c77b28808b065922c12a2c",
         "evidenceHash": "6bf51525fc61d056d9c6026c620420d4e70d6efd449fe8ba326dd0c6f0fee7cc",
         "locationHash": "4b8409af05f18544087462943a85c40f3acc5aec502439d3c72c6d49c59d46d8",
-        "timelineHash": "e5c355fc8cb4a70936816ac6145bab29b87c56f1ec4048f7f74daa3cc848824c",
+        "timelineHash": "ab2fd3000b1a7594ab38b159467d744afa5652b024273f8773def338112c5416",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -513,8 +513,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "4 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "3c264b88fd9eec022dc0c1f6d160425643a15cd2977ac0bbbc50e3631d9a3b62",
+          "note": "4 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "ad5692f3c38aa3cb434d5f1da216a3d62034edbc75668d536c24ac57725a2cb4",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-18T08:00:00.000Z"
@@ -537,7 +537,7 @@
       "reporterPubkey": "DemoReporterPubkey910002",
       "verificationCount": 3,
       "updateCount": 1,
-      "photoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
+      "photoUrl": "/demo/storm-drain.jpg",
       "resolutionHash": null,
       "resolutionPhotoUrl": null,
       "safetyReviewStatus": "visible",
@@ -545,10 +545,10 @@
       "lngDisplay": 85.313,
       "proof": {
         "issuePda": "DemoIssuePda910002",
-        "metadataHash": "c604d554aa9b2491c415dbefa4f3e120f8b15d4579c1454c242af9e97aea39ab",
+        "metadataHash": "aa11ac218c71368723b74a85e98ff0080183652c649d9d658a5a90f5938e78e1",
         "evidenceHash": "8fa1ceb7e4d54639a0ba8b9f4ea75bcffd0f060e12b8c5c920b2a81a57340d7a",
         "locationHash": "ebadf98e8859f30d3fdcc659ff2fa038e67f8c4f589294354e1102e422385f9f",
-        "timelineHash": "e4a6ac674b7d3b8ffcdf298b199e944b28dd8175016f180be8108fa144ea9143",
+        "timelineHash": "3394b2e11309815c0e9f5fe40f255d6a82c7c9607a535f18cf450985cf5b665b",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -569,8 +569,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "00b52b2d9d08801c94c5a0a51aa8628215e068b2d8e012bb7a57416f25ecd993",
+          "note": "3 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "e6b4df966c800b4843eb65be1597812fcd49f94b69e1d9f66ca82b772df00a41",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-25T08:00:00.000Z"
@@ -579,8 +579,8 @@
           "seq": 1,
           "status": "in_progress",
           "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "10a74a97a80070afced145ca61ba79aaf224b4cd89c3dd93b3f922943dd6d4e3",
+          "note": "Sample data steward marked repair follow-up in progress.",
+          "proofHash": "fcd3f9ab8673dc295e606c982f9a305dfa09bcb1d3c025dfbd7ef11e11aba3ff",
           "txSig": null,
           "statusUpdatePda": "DemoStatusUpdatePda910002_1",
           "createdAt": "2026-06-29T09:00:00.000Z"
@@ -603,18 +603,18 @@
       "reporterPubkey": "DemoReporterPubkey910003",
       "verificationCount": 5,
       "updateCount": 2,
-      "photoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
+      "photoUrl": "/demo/garbage-street.jpg",
       "resolutionHash": "07d667411196f06e56dbaa30b6e18fc362c40ce7129a6dae7724c0be2237414a",
-      "resolutionPhotoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
+      "resolutionPhotoUrl": "/demo/storm-drain.jpg",
       "safetyReviewStatus": "visible",
       "latDisplay": 27.672,
       "lngDisplay": 85.427,
       "proof": {
         "issuePda": "DemoIssuePda910003",
-        "metadataHash": "b3e05e5fe522b969490fab0922a72cd349646aa87b10b3047a4e0acb234b4006",
+        "metadataHash": "d2e5b2c4dc193c6f6957f8f1f28b317f03c4cdbbb670c634518a450d48d11095",
         "evidenceHash": "a67a261258d589f037b636501d1fc0c70b7e3b05dd37ba06e3f87212bd7fb23c",
         "locationHash": "202b0c2da9b7e306ecfe2a4e6959a23de574424f526b5709bd7a50322d40a5a7",
-        "timelineHash": "035e666bd185ca6514d6565a29712a255ba72a264732a9bf67543b8137a59f2a",
+        "timelineHash": "c00fe56c37f77ddf9297de7e46009a75838c834703023d82f17a051e707ea706",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -635,8 +635,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "5 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "20def188f724357ecde6ac5733650fee98f975d793561495ffa9f6a719669324",
+          "note": "5 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "26766a5a57f6feb641b136b8eac005e0a229358bbc93f3c4de103e4a2911270f",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-14T08:00:00.000Z"
@@ -645,8 +645,8 @@
           "seq": 1,
           "status": "in_progress",
           "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "f70accb67f70ddceac22d3147ab48168f9d0e11d5c9e48f16cfb743ac2a6c337",
+          "note": "Sample data steward marked repair follow-up in progress.",
+          "proofHash": "4899884e08b6793df5afc79396326c0a12b3cb1f0a3520f7c8863c3002567272",
           "txSig": null,
           "statusUpdatePda": "DemoStatusUpdatePda910003_1",
           "createdAt": "2026-06-18T09:00:00.000Z"
@@ -655,7 +655,7 @@
           "seq": 2,
           "status": "resolved",
           "label": "resolved",
-          "note": "Seeded steward attached after-state resolution proof for the public asset.",
+          "note": "Sample data steward attached after-state resolution proof for the public asset.",
           "proofHash": "07d667411196f06e56dbaa30b6e18fc362c40ce7129a6dae7724c0be2237414a",
           "txSig": null,
           "statusUpdatePda": "DemoStatusUpdatePda910003_2",
@@ -679,7 +679,7 @@
       "reporterPubkey": "DemoReporterPubkey910004",
       "verificationCount": 3,
       "updateCount": 0,
-      "photoUrl": "/demo/pothole-road.jpg",
+      "photoUrl": "/demo/garbage-street.jpg",
       "resolutionHash": null,
       "resolutionPhotoUrl": null,
       "safetyReviewStatus": "visible",
@@ -687,10 +687,10 @@
       "lngDisplay": 85.336,
       "proof": {
         "issuePda": "DemoIssuePda910004",
-        "metadataHash": "980408c3d7ea7ba57742291cf99703831ad528abfd21b40bc3de224fcb3b4c92",
+        "metadataHash": "5022b5478ebca8273e91390916ee0151c5c0f69eaf3d56570d3022e34a46fa7d",
         "evidenceHash": "c5dcd0a12a5d0d3d2a42c8144cabf0e8002ad6d7867adcd9a98420898cc2d59b",
         "locationHash": "2e8b2044a8ad5eb4183bad80fbcc64222607878e7b106c07a34ece5531749509",
-        "timelineHash": "d0d9b97d10c0d079e9afd306b5419ec8ff4c7cf3d8aacdbd7b39873b01a462d7",
+        "timelineHash": "779457d6912d77eb9dfd32857e640e9a1325db799349f40984ed6b3f7b9c0812",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -711,8 +711,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "3c2fb2a9d948245f444e23788ecedf5a62994ddbcdac4b43ced19e7563592d9f",
+          "note": "3 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "9a384c559e49b2c65dc4b1d02deb5f031886bc86227d216020c9e2daa2a08f35",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-27T08:00:00.000Z"
@@ -746,7 +746,7 @@
         "metadataHash": "5b4ebd3a4c48343d10f6642c8dc05c7405872c2f3f389243e6f25333bbef8982",
         "evidenceHash": "670395eb1d81ea40c3b88f93bda8d93a894837b7f86b96257e5c0f7382b75bac",
         "locationHash": "fd8957f628f86793180160d04bfc8cfcee915988ba5caa167568c1d742ed4ebf",
-        "timelineHash": "b5950e47b9a96ad7d772094855e28f7cbaba8228eaaba57cd4fda7316afe85c7",
+        "timelineHash": "41ece584006daf2d88027eba37355e0293b00feecde09bdb1fc2f8fa3a9779df",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -767,8 +767,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "139e35300609a92a76a95343d7fe1cd9d6270f21e1b993545769f5d389c21318",
+          "note": "2 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "bd212b9cd7d9a7e9032873265bf552369f5db8bb987715b50cb647f329233100",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-07-01T08:00:00.000Z"
@@ -777,8 +777,8 @@
           "seq": 1,
           "status": "in_progress",
           "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "c68947e9135f1245b0ea10cf53ddd21c41ea415b47a57a0aff01f1649a3be165",
+          "note": "Sample data steward marked repair follow-up in progress.",
+          "proofHash": "b6eafbdf81b1949e90df8da8fce2eba169eacc11c07bb51428727fd3b3b279c4",
           "txSig": null,
           "statusUpdatePda": "DemoStatusUpdatePda910005_1",
           "createdAt": "2026-07-05T09:00:00.000Z"
@@ -801,7 +801,7 @@
       "reporterPubkey": "DemoReporterPubkey910006",
       "verificationCount": 0,
       "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1523419409543-a5e549c1faa8?auto=format&fit=crop&w=1200&q=70",
+      "photoUrl": "/demo/broken-paving-top.jpg",
       "resolutionHash": null,
       "resolutionPhotoUrl": null,
       "safetyReviewStatus": "visible",
@@ -809,7 +809,7 @@
       "lngDisplay": 85.309,
       "proof": {
         "issuePda": "DemoIssuePda910006",
-        "metadataHash": "2bb058612c33df1d0bfc69437fc2afe3872a95618589c0a5d33fd8644520442e",
+        "metadataHash": "3340edeaaeaa6fb6b2a4fb763af30631454867b3a0240a0c1e9814d43d687277",
         "evidenceHash": "7e6440aed9234ef0a0c41272d0cfcb77d3b363251df4d380383ad0c873e33d0e",
         "locationHash": "eff7fb84b9554bde400d1be040f76a86705a1a540e05d8821e8abb6dae7a57cd",
         "timelineHash": "f17ba2208390c9805864498dd2af80b55da5c1e38a20ead18749def736b94297",
@@ -858,7 +858,7 @@
         "metadataHash": "788e0de0b009aa725bcc8bc0bb1a242bf5df12f1b3942efc0c88cd3a833e096a",
         "evidenceHash": "2225a692afb37f6812cf0280ff1aebe2f3c27474f6bb4851d61df7b4ee6ef973",
         "locationHash": "e4111507c35b1dbc7e334dfb94150284c5c51c2237ae481e801d6ec4ecb3b6ac",
-        "timelineHash": "902ac065f5f62f5b2741821df3879a3c52794282f3efbbe4021589dea3a9b561",
+        "timelineHash": "935ca2248f0ffb84824a4d02e0882ce5e61c0132c7bd915f81d8141dfbb8e90a",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -879,8 +879,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "3bff03e25eae9a5f157a232e3b2461b53163e7e2e01971fa30de3c432e911305",
+          "note": "3 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "4ffe98dde833163dedd2b6399567e51bd100cc1ba2696489131346abebb36017",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-22T08:00:00.000Z"
@@ -903,18 +903,18 @@
       "reporterPubkey": "DemoReporterPubkey910008",
       "verificationCount": 2,
       "updateCount": 2,
-      "photoUrl": "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1200&q=70",
+      "photoUrl": "/demo/pothole-road.jpg",
       "resolutionHash": "f8609244d98f1606a05593d601b87aa8cec3e49f92dd4e7e577b9a8ceeacb340",
-      "resolutionPhotoUrl": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=70",
+      "resolutionPhotoUrl": "/demo/broken-paving-top.jpg",
       "safetyReviewStatus": "visible",
       "latDisplay": 28.209,
       "lngDisplay": 83.979,
       "proof": {
         "issuePda": "DemoIssuePda910008",
-        "metadataHash": "45ac37f5cacd8db8bbbed8ad662517ee8a8c3fbb1e7800925ad1c9423dce3a44",
+        "metadataHash": "19543e82f174d92e06de0ea1d7aaf2349819d57914cfe3e49f4cbd87f885aab8",
         "evidenceHash": "6cb2fce62eb4eae80e601457c24e71f5bda82f4595ef79439074ba038b23dd33",
         "locationHash": "716307fdbfb3bd519d2e6e8c80e975ff076b988480a00ecdcae4d00dd1adac7a",
-        "timelineHash": "bfa54b618159ed471ab95127b8833a45fdc6645f03cbf21565dd21ddc53c78bc",
+        "timelineHash": "dfa082e4b1eec254cd1514a45d6a86b0e68904705c6815d8280732cfdfea666b",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -935,8 +935,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "5689a8e5aa554c5bf8fedd90e9fcc1a83bc0ead237db40fabc97246a942f284f",
+          "note": "2 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "a40aa53d3262fab5a0ce799a8499fd1e68a0ed7b8b3c45c7389fd37ff4e548e0",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-20T08:00:00.000Z"
@@ -945,8 +945,8 @@
           "seq": 1,
           "status": "in_progress",
           "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "1a15b545ed16271d29b3042d7229524da0f2ea82ec51a8b6be11eeaa0e75276b",
+          "note": "Sample data steward marked repair follow-up in progress.",
+          "proofHash": "50dc35694c05ae1d4176caa8e4fe989705da691d6bdecbe9012e3f49799795bd",
           "txSig": null,
           "statusUpdatePda": "DemoStatusUpdatePda910008_1",
           "createdAt": "2026-06-24T09:00:00.000Z"
@@ -955,7 +955,7 @@
           "seq": 2,
           "status": "resolved",
           "label": "resolved",
-          "note": "Seeded steward attached after-state resolution proof for the public asset.",
+          "note": "Sample data steward attached after-state resolution proof for the public asset.",
           "proofHash": "f8609244d98f1606a05593d601b87aa8cec3e49f92dd4e7e577b9a8ceeacb340",
           "txSig": null,
           "statusUpdatePda": "DemoStatusUpdatePda910008_2",
@@ -979,7 +979,7 @@
       "reporterPubkey": "DemoReporterPubkey910009",
       "verificationCount": 2,
       "updateCount": 1,
-      "photoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
+      "photoUrl": "/demo/garbage-street.jpg",
       "resolutionHash": null,
       "resolutionPhotoUrl": null,
       "safetyReviewStatus": "visible",
@@ -987,10 +987,10 @@
       "lngDisplay": 85.332,
       "proof": {
         "issuePda": "DemoIssuePda910009",
-        "metadataHash": "af0a616056794081eba25f686514b11036d9a15ebe49b0920d44ee027d623e09",
+        "metadataHash": "dd3756c651df0c2274bbd51d9e4da437388d9c66d1a3ba5076e74284098399a3",
         "evidenceHash": "17d98699ab09e5f38c69ce5e272a75f0b970525218d83d52e29d0468b93ca776",
         "locationHash": "4739039d8eeeeda67787f086213e97b85ea9f836a13aabd118e1c352f2da53aa",
-        "timelineHash": "f07ca65a08047b011bd3a3b836e36daad726e439d66bae52359ef387750b3bc3",
+        "timelineHash": "6092f46398cff40dbdd40c65ad485520d18b7693de58b751deae4b65a456edd3",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -1011,8 +1011,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "8924099221aad931688aef8ba9fd80045d2e3678de2ac67910287b86347b1e40",
+          "note": "2 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "2bc8b06c2d3cce7e92908c5175c3480e3f9b1e72c89bfa0eff285fc10ef01a8f",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-07-03T08:00:00.000Z"
@@ -1021,8 +1021,8 @@
           "seq": 1,
           "status": "in_progress",
           "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "be73e989bac334690a7e12e42bea8cf4fdf555fb1b03d31ed16228314996c0b3",
+          "note": "Sample data steward marked repair follow-up in progress.",
+          "proofHash": "fd42ed2af4215cad9b3307604910e91a695524ed98d098edf6928f1c5b4964cc",
           "txSig": null,
           "statusUpdatePda": "DemoStatusUpdatePda910009_1",
           "createdAt": "2026-07-07T09:00:00.000Z"
@@ -1045,7 +1045,7 @@
       "reporterPubkey": "DemoReporterPubkey910010",
       "verificationCount": 3,
       "updateCount": 0,
-      "photoUrl": "/demo/pothole-road.jpg",
+      "photoUrl": "/demo/garbage-street.jpg",
       "resolutionHash": null,
       "resolutionPhotoUrl": null,
       "safetyReviewStatus": "visible",
@@ -1053,10 +1053,10 @@
       "lngDisplay": 85.427,
       "proof": {
         "issuePda": "DemoIssuePda910010",
-        "metadataHash": "4096e229e3bb0570a50441bc21e621f281ddc9402f31953f31d558d6356560a7",
+        "metadataHash": "3fd3e188d86d84dbc96b5d91b1ddc04ea57cdf5b505a51c1d3f4d6c27533c07b",
         "evidenceHash": "8f6b6b741d3be0a4b9a62785fbc370f5eaf7dc4b00dfcb8cbf0f6ff1bdad2d12",
         "locationHash": "99058a58ce0ae83fb8a15d7b0ec30f605df30c344de41f8ea19dc8d9c6144200",
-        "timelineHash": "2f5b32076b9996ddfd45d443ac89922e5400f7394e1a1dd07ce8dfaf7f0c7673",
+        "timelineHash": "08d95633155a116315f07abaffb30a515b8c6b60e6763d6eb7ab44de24143d5e",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -1077,8 +1077,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "f6b4cd39fb9cc6b8f5e33dae2045d292128715ed082cb08750b595daa1742cc7",
+          "note": "3 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "f1548fc9842a41a808f642da354c9ccf7f911053aea897bdd36bfaac36cc1d1a",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-29T08:00:00.000Z"
@@ -1101,7 +1101,7 @@
       "reporterPubkey": "DemoReporterPubkey910011",
       "verificationCount": 1,
       "updateCount": 1,
-      "photoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
+      "photoUrl": "/demo/storm-drain.jpg",
       "resolutionHash": null,
       "resolutionPhotoUrl": null,
       "safetyReviewStatus": "visible",
@@ -1109,10 +1109,10 @@
       "lngDisplay": 85.305,
       "proof": {
         "issuePda": "DemoIssuePda910011",
-        "metadataHash": "666c5da8c5bcf0e95b4fdd17d2984f090290f7626e2439a0a959ddee0499c723",
+        "metadataHash": "b52de3e0c30dc22656bad0fabb017acfe221b9f0850491871857f06d9ca178ed",
         "evidenceHash": "659a695e542a0fd38af2d05e9a689ab874a29140cec015336f242f70234719c9",
         "locationHash": "eff7fb84b9554bde400d1be040f76a86705a1a540e05d8821e8abb6dae7a57cd",
-        "timelineHash": "a4656bb1ec1eace10a81d7660637bb48219aa00a632920635f8c378097052d6a",
+        "timelineHash": "9a3a5883956d1ab7e3e3d1949a64ee6ef7b2b30dd353ebe2e18ce8982fcb187d",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -1133,8 +1133,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "1 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "818d40f7d2ce51e96b56ce0d9fc90f744e57914918626dcd86987babdb06c0f1",
+          "note": "1 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "8c5b0c8c340f1cfa34dea6f4d3cc490f48460019e52eeb7e828236a2834634c4",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-07-06T08:00:00.000Z"
@@ -1143,8 +1143,8 @@
           "seq": 1,
           "status": "disputed",
           "label": "disputed",
-          "note": "Seeded steward marked this issue for review because location details need confirmation.",
-          "proofHash": "c1e9e09c673cb0958120fa28f1b5cdccd71d0ba5601bde1a6c997145a9c9a423",
+          "note": "Sample data steward marked this issue for review because location details need confirmation.",
+          "proofHash": "ef336c9c1526d5ca028f32a0738b7f5fae9b2e378d0c532073ca88f28cfe0356",
           "txSig": null,
           "statusUpdatePda": "DemoStatusUpdatePda910011_1",
           "createdAt": "2026-07-10T09:00:00.000Z"
@@ -1167,7 +1167,7 @@
       "reporterPubkey": "DemoReporterPubkey910012",
       "verificationCount": 0,
       "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1523419409543-a5e549c1faa8?auto=format&fit=crop&w=1200&q=70",
+      "photoUrl": "/demo/broken-paving-top.jpg",
       "resolutionHash": null,
       "resolutionPhotoUrl": null,
       "safetyReviewStatus": "visible",
@@ -1175,7 +1175,7 @@
       "lngDisplay": 85.319,
       "proof": {
         "issuePda": "DemoIssuePda910012",
-        "metadataHash": "7a68565701e7c24192478ea73cee3091fe5522fa312214aae59a68f1296250ca",
+        "metadataHash": "e40f563a040b2e303a112b9dc50f2e72d83ab4f28de19eb34cec36db0b9315fb",
         "evidenceHash": "69450eeb98e921e176605f5c580b2961de795533d2be3190d09628d8084ee84d",
         "locationHash": "e4111507c35b1dbc7e334dfb94150284c5c51c2237ae481e801d6ec4ecb3b6ac",
         "timelineHash": "41c43b79a814387dd3feeb1ebd207d737ddd1fd62d9ccbd9b0b08ffebc537719",
@@ -1224,7 +1224,7 @@
         "metadataHash": "0b47a3fc53b7bf211f8bfe79f5c9f81e17d00ebcf6e01ca6f521eac8098829ac",
         "evidenceHash": "269514f5103cbbfe1b194d490b7adea43ff6fb6a82e6e0e3c3af63dd051c486c",
         "locationHash": "2e8b2044a8ad5eb4183bad80fbcc64222607878e7b106c07a34ece5531749509",
-        "timelineHash": "b7a482a3582521d29919d123f7ff70dbba100447fffea0b26f7d10ee64801dad",
+        "timelineHash": "a757381c64df6ccd172074fbc3abfa9768d85efa2e5db9c90ce97c0d7ae2b4c4",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -1245,8 +1245,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "9d9da397f675771d011273b87db8d0504d09806fe09c2f9ec7ab71b8812e4ee7",
+          "note": "3 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "32ee3b0ab6b63d99e8672de291145684eb7cb444980e6660842ca9729e600123",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-07-04T08:00:00.000Z"
@@ -1269,7 +1269,7 @@
       "reporterPubkey": "DemoReporterPubkey910014",
       "verificationCount": 2,
       "updateCount": 1,
-      "photoUrl": "/demo/pothole-road.jpg",
+      "photoUrl": "/demo/broken-paving-top.jpg",
       "resolutionHash": null,
       "resolutionPhotoUrl": null,
       "safetyReviewStatus": "visible",
@@ -1277,10 +1277,10 @@
       "lngDisplay": 83.991,
       "proof": {
         "issuePda": "DemoIssuePda910014",
-        "metadataHash": "ee6b40f364493c0ed5d510f791c3d7f46ae286fe0440f0596c4e24ee1e84df6f",
+        "metadataHash": "f242eb67aefa4ac636df401803f0a27fce840549db144d2f6af27a8af51f47f5",
         "evidenceHash": "3ac2962a6cfc4971d221938d5d754fe311efb6a85d4957866877e7bdbec1a97d",
         "locationHash": "fd8957f628f86793180160d04bfc8cfcee915988ba5caa167568c1d742ed4ebf",
-        "timelineHash": "c7f8aa874be309cec73d464ff5e37f1bd5c19e2a8700173c56cfda339c5faf75",
+        "timelineHash": "62d47efb7e26e1d3a0a87e65857d42a54a0ae2bfc4ae303cdae0ed17c0083864",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -1301,8 +1301,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "4b0757e72df0eb0088538a1bdfd9c02fed1dd87c4c5a734b27daaf0ec7cad0e7",
+          "note": "2 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "851d78a3bdb8572520839b29cb83509d969382c7399bf393996f80aaa641f457",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-23T08:00:00.000Z"
@@ -1311,8 +1311,8 @@
           "seq": 1,
           "status": "in_progress",
           "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "546b6aa9ae6a35f9a44f5126317d77c48c9584c42d864476119fa8ea0f997f67",
+          "note": "Sample data steward marked repair follow-up in progress.",
+          "proofHash": "00c067bcfd44ddb3e64ec010f3b266434c84f0fbe3eba9cfe79b5a75ab1bcc90",
           "txSig": null,
           "statusUpdatePda": "DemoStatusUpdatePda910014_1",
           "createdAt": "2026-06-27T09:00:00.000Z"
@@ -1335,7 +1335,7 @@
       "reporterPubkey": "DemoReporterPubkey910015",
       "verificationCount": 2,
       "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
+      "photoUrl": "/demo/storm-drain.jpg",
       "resolutionHash": null,
       "resolutionPhotoUrl": null,
       "safetyReviewStatus": "visible",
@@ -1343,10 +1343,10 @@
       "lngDisplay": 85.423,
       "proof": {
         "issuePda": "DemoIssuePda910015",
-        "metadataHash": "3824dad1690fd2256e64c9384952fe0b6b80c6bc4a30af27c07132f8f2b0b4af",
+        "metadataHash": "f7de1a5f2fcf9cb58eebdd304df56986ac4bd1d8c062ad0a500143f4dc39177c",
         "evidenceHash": "dcc2f8ef84072afa0b0b92fab915e0dd6cc8d903c130bab5b1bc4bab3d324b0d",
         "locationHash": "d9abca13e06eecd561845515e30953a1c029d1c74705e5d8f370ba886b11f785",
-        "timelineHash": "19093342587bbae8674464c9c4c05aec692de32bceb6eeb9145e629ad64dedb9",
+        "timelineHash": "81d0a8d971673c9463e314532395ec39a06850be3c00030e89f80af172fe3336",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -1367,8 +1367,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "625cd35eec35724995a6f4b4079f30ccecd0a3d9e3ae5327aa20074e68b0e50f",
+          "note": "2 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "977484f22d05652e2ecc015f9d12cba62b573ff1306698578962fdfa88695b44",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-26T08:00:00.000Z"
@@ -1437,7 +1437,7 @@
       "reporterPubkey": "DemoReporterPubkey910017",
       "verificationCount": 2,
       "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1517394834181-95ed159986c7?auto=format&fit=crop&w=1200&q=70",
+      "photoUrl": "/demo/storm-drain.jpg",
       "resolutionHash": null,
       "resolutionPhotoUrl": null,
       "safetyReviewStatus": "visible",
@@ -1445,10 +1445,10 @@
       "lngDisplay": 85.303,
       "proof": {
         "issuePda": "DemoIssuePda910017",
-        "metadataHash": "323b5f18a594b7232e51e4f100f65774bd222a2dbaae3b2bf84bd7e56635a49b",
+        "metadataHash": "6f5b0cbae6cb322624f3fafa91fc48305f4e0045cc9ea07e80d8018391d2d62d",
         "evidenceHash": "9467b17267f247ff5ca2bf898fd3d0fae83452c4827b70d82f25f8f99fffe81b",
         "locationHash": "4b8409af05f18544087462943a85c40f3acc5aec502439d3c72c6d49c59d46d8",
-        "timelineHash": "ef77903b1a0e42f97f96c74f47d438b3c989b0256d3611c22a4f884a962e430e",
+        "timelineHash": "fb636da809807088aacfe4215e11da643761bbdbe8d41881dd0e777caed1e3c9",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -1469,8 +1469,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "61a092005f6d76776e8cf9e96ab058c6cd80ebcb94cb1211f76113cc5cb2e358",
+          "note": "2 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "fee872febe52485e0a07fb5b8d3a8627f9fd64aa000cb06159e86af1c77876e4",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-07-02T08:00:00.000Z"
@@ -1493,7 +1493,7 @@
       "reporterPubkey": "DemoReporterPubkey910018",
       "verificationCount": 3,
       "updateCount": 2,
-      "photoUrl": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=70",
+      "photoUrl": "/demo/broken-paving-top.jpg",
       "resolutionHash": "331e70b33e55b89e97134972763ccd2db4ba3978d55bd3857e7468bb46c42b9a",
       "resolutionPhotoUrl": "/demo/pothole-road.jpg",
       "safetyReviewStatus": "visible",
@@ -1501,10 +1501,10 @@
       "lngDisplay": 83.985,
       "proof": {
         "issuePda": "DemoIssuePda910018",
-        "metadataHash": "dcd480ba3514b54fc8f19f68646455433fd0e769f178beb65125a2af745c4416",
+        "metadataHash": "0969d611d348161678b69dd511b29dffbe0f8fff1ad42aa382e9b20eeb6f936c",
         "evidenceHash": "526d3c4258c15189190c96bbd2f09f61bc9b6e3f4388cf713f00494d70516331",
         "locationHash": "716307fdbfb3bd519d2e6e8c80e975ff076b988480a00ecdcae4d00dd1adac7a",
-        "timelineHash": "70822d64a5cd73cc2a9ef0ccea3bcd11c372fb14b114d0e03995110c2554be50",
+        "timelineHash": "35bd9b6ae4bf53565862701bec3510cf425e34a8270e36aa60dc47873306b013",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -1525,8 +1525,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "49417bd5c8f7bd39469b6aaaf22568d3fa76962433fb76040b651d0ee0d1bef2",
+          "note": "3 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "ea64736145c06815a9e4df115ef2977ad0fff9ab0f151eb189cd649c2f3a060d",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-16T08:00:00.000Z"
@@ -1535,8 +1535,8 @@
           "seq": 1,
           "status": "in_progress",
           "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "8412c98f87cc49f4af60be61d9d401336b1a5b76dbe17fa929af00f0f917a834",
+          "note": "Sample data steward marked repair follow-up in progress.",
+          "proofHash": "8ea31dd3483e5bddd9354da4c78262d7c6b1f994f3f407f4b098c953bc1a379d",
           "txSig": null,
           "statusUpdatePda": "DemoStatusUpdatePda910018_1",
           "createdAt": "2026-06-20T09:00:00.000Z"
@@ -1545,7 +1545,7 @@
           "seq": 2,
           "status": "resolved",
           "label": "resolved",
-          "note": "Seeded steward attached after-state resolution proof for the public asset.",
+          "note": "Sample data steward attached after-state resolution proof for the public asset.",
           "proofHash": "331e70b33e55b89e97134972763ccd2db4ba3978d55bd3857e7468bb46c42b9a",
           "txSig": null,
           "statusUpdatePda": "DemoStatusUpdatePda910018_2",
@@ -1580,7 +1580,7 @@
         "metadataHash": "38b55ba3d181e7de39be693708b004a4578c186d45132aea827e0f7e3bc885e6",
         "evidenceHash": "62f0cd6dc717934a186fdfc11f40dd29f53ff5fee248d6cf3025534809fd9183",
         "locationHash": "e4111507c35b1dbc7e334dfb94150284c5c51c2237ae481e801d6ec4ecb3b6ac",
-        "timelineHash": "0d35467ba65d00aa3bb908a1f757049e50a6a45c32b07c47f3af7567f2042e5d",
+        "timelineHash": "92cecb9d19935008fd83da8e1463f556081428ace73e4a0c4ffe636e9e902ae7",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -1601,8 +1601,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "1c79482954cf1cc2366717667918e4cc6f12de4f14b94cda5ddd12f773d37bca",
+          "note": "3 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "537f219989d295b57c093ba912fb520701bbb772f45c15cf6f8f1f36dad899ca",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-21T08:00:00.000Z"
@@ -1611,8 +1611,8 @@
           "seq": 1,
           "status": "in_progress",
           "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "28f5be756a48e5258de678f809b289a171078de6471f8c2afc2e01c4467e253a",
+          "note": "Sample data steward marked repair follow-up in progress.",
+          "proofHash": "921a51f471bdd2016c93b720ca02bfb2447777a9394674a8dbb9a416be86ce01",
           "txSig": null,
           "statusUpdatePda": "DemoStatusUpdatePda910019_1",
           "createdAt": "2026-06-25T09:00:00.000Z"
@@ -1635,7 +1635,7 @@
       "reporterPubkey": "DemoReporterPubkey910020",
       "verificationCount": 2,
       "updateCount": 0,
-      "photoUrl": "/demo/pothole-road.jpg",
+      "photoUrl": "/demo/broken-paving-top.jpg",
       "resolutionHash": null,
       "resolutionPhotoUrl": null,
       "safetyReviewStatus": "visible",
@@ -1643,10 +1643,10 @@
       "lngDisplay": 85.433,
       "proof": {
         "issuePda": "DemoIssuePda910020",
-        "metadataHash": "4ad7f310bb7566a6e06ddbc29326871f7b0d5fb0e146e04e49a1be32d1a9dee2",
+        "metadataHash": "a04ed7be89c1798c103159bbbcd88e8c1a5d6e1fe82da67a3f15d0395ed4747e",
         "evidenceHash": "adeeb9c4e2c00a4d898ee5e9c3c204791d1be864ed66943a4530dad5dd4ef120",
         "locationHash": "99058a58ce0ae83fb8a15d7b0ec30f605df30c344de41f8ea19dc8d9c6144200",
-        "timelineHash": "a52b4ced7e5d5439d5a72d9a85668394d3adc79f2dc51d05b4e11e1d490d56fb",
+        "timelineHash": "7c141f7d78afc3f40d2e80c9032754e61fa1a9a26e24a06ff3a4fa956d487289",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -1667,8 +1667,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "8cc4f4114009d2559e738a3ab6dc9f2173c4e3967268d1ebf16e96d71a7458b1",
+          "note": "2 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "03727f432772787773227445a2a095da342751196db083888c3eb5acb8be005f",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-30T08:00:00.000Z"
@@ -1691,7 +1691,7 @@
       "reporterPubkey": "DemoReporterPubkey910021",
       "verificationCount": 0,
       "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
+      "photoUrl": "/demo/garbage-street.jpg",
       "resolutionHash": null,
       "resolutionPhotoUrl": null,
       "safetyReviewStatus": "visible",
@@ -1699,7 +1699,7 @@
       "lngDisplay": 83.991,
       "proof": {
         "issuePda": "DemoIssuePda910021",
-        "metadataHash": "4e04a623517a4f67c95875ddf3c12d7e9d9a0ea4664573356a44ea204661cc79",
+        "metadataHash": "46c41bbd36bc1c1505d972cff2badbe1015ed06e854eaba2542225a36759f345",
         "evidenceHash": "07873df7eaa37606d91fa70c771a3b31031eaa2c78931a4836baa9ea28686afc",
         "locationHash": "cddb7bad15be04d9f38594fe90d702ae1c350b3e5496d7f61584829065c895cc",
         "timelineHash": "51356ab1abd9dc85527a4e33b498a985a8025091892f5d66dc2072d1433ea81c",
@@ -1748,7 +1748,7 @@
         "metadataHash": "5c13c64253d44e6bf0913eafafc663b9b44dc7c4a5ee4de045cea3acbd6377db",
         "evidenceHash": "3ccf43fe20b8214c1118d19a8069ca5694f96e036a96ea4c74fddf387d8975eb",
         "locationHash": "4b8409af05f18544087462943a85c40f3acc5aec502439d3c72c6d49c59d46d8",
-        "timelineHash": "6360ff7bc38d630e36e06beaf0af40ed7d9656cb2960b4194127ae5c5d24bd9c",
+        "timelineHash": "74842e07967e2c0cc3870ea829828617a7370abe2772a6481940e133d274f176",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -1769,8 +1769,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "8df1b06b5a3bcc08d08a7baabc08290747cda7c9990b4cca4fd3583a8cecd67f",
+          "note": "2 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "07c2dfeab580e52d156aae13221eddb15065098e77cc4db82c3b2895903d7513",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-28T08:00:00.000Z"
@@ -1793,7 +1793,7 @@
       "reporterPubkey": "DemoReporterPubkey910023",
       "verificationCount": 2,
       "updateCount": 1,
-      "photoUrl": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=70",
+      "photoUrl": "/demo/broken-paving-top.jpg",
       "resolutionHash": null,
       "resolutionPhotoUrl": null,
       "safetyReviewStatus": "visible",
@@ -1801,10 +1801,10 @@
       "lngDisplay": 85.332,
       "proof": {
         "issuePda": "DemoIssuePda910023",
-        "metadataHash": "f3e2a271a72ab079383dd2c9d9aff15b7d3e3c5567e00001ba6ff7895817f2cf",
+        "metadataHash": "3d5784e62410d91828c3aa34d6eb1d1705a902244e66102dbbac92a74d160fd4",
         "evidenceHash": "319bd0de339729819a15e080463cb6a460a2321c5267ad35940e693ad958ab3d",
         "locationHash": "4739039d8eeeeda67787f086213e97b85ea9f836a13aabd118e1c352f2da53aa",
-        "timelineHash": "4bdfa3ca6c52be2709c60ba08c8ca41aca46eadad9885af32049cbef2a2eeaee",
+        "timelineHash": "dafcdd32774a513e749ac90417bf400018dd3951e61886dc1953197371899949",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -1825,8 +1825,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "b1524f9221c6db9fef8b6e10b8a24a6b49da6805b0e26e38b8024ef1dc325317",
+          "note": "2 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "9f5e8c6db9bfaf440e7425cb677b09bcbfeeadf07a321274da959e41b6e7333a",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-19T08:00:00.000Z"
@@ -1835,8 +1835,8 @@
           "seq": 1,
           "status": "in_progress",
           "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "7b2b48053cc3928268aa543a3c3ecc9f555f09838a5375cdb2672a919898c395",
+          "note": "Sample data steward marked repair follow-up in progress.",
+          "proofHash": "3c93243b9b2f2b409d02b61144a4f285a2bc5fbc3ec83aa86f2d95486a386b23",
           "txSig": null,
           "statusUpdatePda": "DemoStatusUpdatePda910023_1",
           "createdAt": "2026-06-23T09:00:00.000Z"
@@ -1859,7 +1859,7 @@
       "reporterPubkey": "DemoReporterPubkey910024",
       "verificationCount": 1,
       "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
+      "photoUrl": "/demo/storm-drain.jpg",
       "resolutionHash": null,
       "resolutionPhotoUrl": null,
       "safetyReviewStatus": "visible",
@@ -1867,10 +1867,10 @@
       "lngDisplay": 85.315,
       "proof": {
         "issuePda": "DemoIssuePda910024",
-        "metadataHash": "8cf4a6797cbcd1b204681051767e8b2f5417c32572bfd69d5c9db5c150fcb4dc",
+        "metadataHash": "5f342aa4aa88ec6610404f67802381425d46e359951875971c93f1164c82b82d",
         "evidenceHash": "f9e3380a6f88e09501dda3caef5e70f6d7e4ee70fd3b0d78a714dc1e534ddec5",
         "locationHash": "ebadf98e8859f30d3fdcc659ff2fa038e67f8c4f589294354e1102e422385f9f",
-        "timelineHash": "45c0f47d5ac4133542dd6ec5331f44d17ed92f9f0343b3a8b67b38bfc09447aa",
+        "timelineHash": "4999d965eca56506b2565053f52f0082999c6b1cadd5e4f143700f651e98da29",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -1891,8 +1891,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "1 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "7eec12b0b5b29e6f5c432c51a5a783a8732a0bb89473df3f9adfc6501b725ae1",
+          "note": "1 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "6bbeb54bc9015c27a41cb8cc12a7c43b1a1cc47a426134936ef52834df25ce38",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-07-05T08:00:00.000Z"
@@ -1915,7 +1915,7 @@
       "reporterPubkey": "DemoReporterPubkey910025",
       "verificationCount": 0,
       "updateCount": 0,
-      "photoUrl": "/demo/pothole-road.jpg",
+      "photoUrl": "/demo/broken-paving-top.jpg",
       "resolutionHash": null,
       "resolutionPhotoUrl": null,
       "safetyReviewStatus": "visible",
@@ -1923,7 +1923,7 @@
       "lngDisplay": 85.305,
       "proof": {
         "issuePda": "DemoIssuePda910025",
-        "metadataHash": "a6fde9c9b6a1fde1032fbe83c6d0e48406b319e21e3e3974e36200dd6f898e83",
+        "metadataHash": "a45d2b0235db8e1a61893de1996d023fe0b4f69e012e907114e05d85f5ada693",
         "evidenceHash": "5a2dad52f91e0f90595a0c78cfc7b5ef8acce26a73c5ede270874244bdf0fc4f",
         "locationHash": "eff7fb84b9554bde400d1be040f76a86705a1a540e05d8821e8abb6dae7a57cd",
         "timelineHash": "f5cd7ad74afc1d5530b3c5679ff36ee61b4057736d04eea636c49630a5ffdbb7",
@@ -1972,7 +1972,7 @@
         "metadataHash": "8a6ac64cf25188eb5a7c02dd599ebc1768b458c3b2cfbba4d4db15b8f108dc5e",
         "evidenceHash": "93bd60ea4428cfaaa85790769c19b51bcaf9b6918169bea92bce061311bc15f0",
         "locationHash": "202b0c2da9b7e306ecfe2a4e6959a23de574424f526b5709bd7a50322d40a5a7",
-        "timelineHash": "1b09c3a78cd2e4f9b385a54958393814cc2a3ecd34be75f994c0b992d25d2452",
+        "timelineHash": "aaa8e717afd8b86669716671026c109898d21fdfb26883b2acdfa30a937d0239",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -1993,8 +1993,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "c985f8d684cfd029eb45266b4faa5385fca3a63ce8e83cf57767ba351fce9e5f",
+          "note": "3 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "21b33824ee1235586040d5d72f2b2e53e1e70345499bf61b36a3c7171e292093",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-24T08:00:00.000Z"
@@ -2017,18 +2017,18 @@
       "reporterPubkey": "DemoReporterPubkey910027",
       "verificationCount": 4,
       "updateCount": 2,
-      "photoUrl": "https://images.unsplash.com/photo-1523419409543-a5e549c1faa8?auto=format&fit=crop&w=1200&q=70",
+      "photoUrl": "/demo/broken-paving-top.jpg",
       "resolutionHash": "4daf968acd42e301e7b8cc3287ad9090de47f6692c8263a5ead78c535b9ae9a3",
-      "resolutionPhotoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
+      "resolutionPhotoUrl": "/demo/garbage-street.jpg",
       "safetyReviewStatus": "visible",
       "latDisplay": 28.207,
       "lngDisplay": 83.989,
       "proof": {
         "issuePda": "DemoIssuePda910027",
-        "metadataHash": "f9390af72eaea61c308c39c18b562178161ede79c6fb2122978ae5bbbad45bc6",
+        "metadataHash": "a53c2d4eceaa67f251ea89d6447ffa15b272b74d03cb04420611c1f8643c60f1",
         "evidenceHash": "30d98480524a039c4013687b6b7a0eeca0f95bac715bda86b6a0a3fc9dde6f3a",
         "locationHash": "fd8957f628f86793180160d04bfc8cfcee915988ba5caa167568c1d742ed4ebf",
-        "timelineHash": "6bed5400c8a9d64e8ec913c30012bd5b91678790bb1cd20d7b65d9a1afaddd82",
+        "timelineHash": "62e5e53fcb99c8364c955e6a87e5f1c1dab3e475ee9ce57fef0b90422ce8efdc",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -2049,8 +2049,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "4 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "dff8221417b12cb9b1a4511e314cb8eb58284f513c9821ee3a1c41ce1b7ecd95",
+          "note": "4 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "0cb54a9ea9c2d57c9993f76ed1ee1bf46b2ca816d94141687251982c9667d2b0",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-12T08:00:00.000Z"
@@ -2059,8 +2059,8 @@
           "seq": 1,
           "status": "in_progress",
           "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "c05965ee235300d5b44c33ba0544f4d3c25f59ee88e0b4de5ce822f1f2b08cc2",
+          "note": "Sample data steward marked repair follow-up in progress.",
+          "proofHash": "6ffe39b9d819603faafe6c85acac925d1c1a5c21d5aef9d157e398ab24bcd2b8",
           "txSig": null,
           "statusUpdatePda": "DemoStatusUpdatePda910027_1",
           "createdAt": "2026-06-16T09:00:00.000Z"
@@ -2069,7 +2069,7 @@
           "seq": 2,
           "status": "resolved",
           "label": "resolved",
-          "note": "Seeded steward attached after-state resolution proof for the public asset.",
+          "note": "Sample data steward attached after-state resolution proof for the public asset.",
           "proofHash": "4daf968acd42e301e7b8cc3287ad9090de47f6692c8263a5ead78c535b9ae9a3",
           "txSig": null,
           "statusUpdatePda": "DemoStatusUpdatePda910027_2",
@@ -2093,7 +2093,7 @@
       "reporterPubkey": "DemoReporterPubkey910028",
       "verificationCount": 1,
       "updateCount": 1,
-      "photoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
+      "photoUrl": "/demo/garbage-street.jpg",
       "resolutionHash": null,
       "resolutionPhotoUrl": null,
       "safetyReviewStatus": "rejected",
@@ -2101,10 +2101,10 @@
       "lngDisplay": 85.323,
       "proof": {
         "issuePda": "DemoIssuePda910028",
-        "metadataHash": "e3cab542a77851fd2f57ed538f1909b1c1c32b28366774f58a156fae7ea5c7ca",
+        "metadataHash": "a07e12b0960231c57eed7f26dc4ac89af2524cc3c7673a03c3540c93e3971671",
         "evidenceHash": "dca3d1e57f28447cd3c1088646083de05b86c203f297b8f71540d1f337965ac3",
         "locationHash": "e4111507c35b1dbc7e334dfb94150284c5c51c2237ae481e801d6ec4ecb3b6ac",
-        "timelineHash": "2b117bd87040d6dda8b4e79690f894186fea3db17808378bc78b122d9eed22f2",
+        "timelineHash": "9515c45bf4b02b7486ddf80aacc8093f124aef40ca7bc9d9ef9f95c6d7f225cd",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -2125,8 +2125,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "1 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "8db3a6f9e823dfc319072ce8247e60442eaddcf5aa2fb2299a5896c757c24451",
+          "note": "1 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "ae7f8ce2dde6f5e308d049de2daafa871fb9feafd3329c5bf743f02a6f6719f9",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-07-10T08:00:00.000Z"
@@ -2135,8 +2135,8 @@
           "seq": 1,
           "status": "rejected",
           "label": "rejected",
-          "note": "Seeded steward hid this item from the active queue after safety review.",
-          "proofHash": "727fef5cf4090aba0baf279cd53512c15706915084b0a71c9f50525097069066",
+          "note": "Sample data steward hid this item from the active queue after safety review.",
+          "proofHash": "ad4f0ae3b4b2c28892cb0c770edefb46245d04d82c259a915cd02d49245046e0",
           "txSig": null,
           "statusUpdatePda": "DemoStatusUpdatePda910028_1",
           "createdAt": "2026-07-13T09:00:00.000Z"
@@ -2170,7 +2170,7 @@
         "metadataHash": "3ce8204dd300024863d5da3b30f9e74282ab1819819956a9710fc533c314d2c0",
         "evidenceHash": "dc868e6a0ecf2662e5fb9e9f3e5904bda3c6f96748fad206ae4f125d535de76c",
         "locationHash": "1226a106477406d57ec02ba05eb61fba3687297082eb6c393cb20a8bb0789ed6",
-        "timelineHash": "865cb9d13d69f91e8d3dca6eaedcd22da8bfce91100c612a1201c5f3743d6ca3",
+        "timelineHash": "fe0fc84634d6f672759a9ce16b098b0fd198369ed015de0c7952cdc34670f581",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -2191,8 +2191,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "4 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "a7c5335cd36bc5fced31fc477379fa17c3b4daa913499b95a4eb47e6565ed43a",
+          "note": "4 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "70bf3e9c440376c5bfe39134769859789cbcbdfc15b1ef16fdafaabad5e6acda",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-17T08:00:00.000Z"
@@ -2226,7 +2226,7 @@
         "metadataHash": "ba02bca7ddda244feadb3c8055df165eb1c4257f216af666e4d1ab050dcf57e8",
         "evidenceHash": "a7eb87617f87ecfc39a21ea552ccef7b04ab2abc63398e62e80f62b386c14e11",
         "locationHash": "251068345c9c5a55d5e99da53ed321465c7b610cf477b0a63b460a8cfb274e84",
-        "timelineHash": "1378a192cb016f3a4a8bc2cb1a5e7d86ea019af7074efb119b80364e8b7926eb",
+        "timelineHash": "e4d0e479f331667d213cb2077e2cb112ba700e5610761ddbf102fca1c8d2337c",
         "proofStatus": "seeded_demo",
         "createTxSig": null,
         "latestTxSig": null,
@@ -2247,8 +2247,8 @@
           "seq": 0.5,
           "status": "verified",
           "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "2856d96376e46c2c5e8327c13f3d16a687ccf854a4ebc14ad67b10e8436f78f2",
+          "note": "3 sample citizen signals were recorded for this illustrative record.",
+          "proofHash": "fc6ac5edb230c05529f9a53bb55fdba8f3e973d938a36eee71b136f8c597435f",
           "txSig": null,
           "statusUpdatePda": null,
           "createdAt": "2026-06-15T08:00:00.000Z"
@@ -2257,8 +2257,8 @@
           "seq": 1,
           "status": "in_progress",
           "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "b53f1ff98e14988408a2b637db42206dfcb9f0afbaec4d50a6d8506de0b31bf1",
+          "note": "Sample data steward marked repair follow-up in progress.",
+          "proofHash": "ce5014fde832572d8a151bfe6e0c8a5e180c5ce48ff2d5ba6f431f99c844407c",
           "txSig": null,
           "statusUpdatePda": "DemoStatusUpdatePda910030_1",
           "createdAt": "2026-06-19T09:00:00.000Z"
@@ -2273,7 +2273,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910001_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-18T10:00:00.000Z"
+      "createdAt": "2026-06-17T10:00:00.000Z"
     },
     {
       "issueId": 910001,
@@ -2281,7 +2281,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910001_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-19T10:00:00.000Z"
+      "createdAt": "2026-06-18T10:00:00.000Z"
     },
     {
       "issueId": 910001,
@@ -2289,7 +2289,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910001_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-20T10:00:00.000Z"
+      "createdAt": "2026-06-19T10:00:00.000Z"
     },
     {
       "issueId": 910001,
@@ -2297,7 +2297,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910001_4",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-21T10:00:00.000Z"
+      "createdAt": "2026-06-20T10:00:00.000Z"
     },
     {
       "issueId": 910002,
@@ -2305,7 +2305,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910002_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-25T10:00:00.000Z"
+      "createdAt": "2026-06-24T10:00:00.000Z"
     },
     {
       "issueId": 910002,
@@ -2313,7 +2313,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910002_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-26T10:00:00.000Z"
+      "createdAt": "2026-06-25T10:00:00.000Z"
     },
     {
       "issueId": 910002,
@@ -2321,7 +2321,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910002_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-27T10:00:00.000Z"
+      "createdAt": "2026-06-26T10:00:00.000Z"
     },
     {
       "issueId": 910003,
@@ -2329,7 +2329,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910003_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-14T10:00:00.000Z"
+      "createdAt": "2026-06-13T10:00:00.000Z"
     },
     {
       "issueId": 910003,
@@ -2337,7 +2337,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910003_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-15T10:00:00.000Z"
+      "createdAt": "2026-06-14T10:00:00.000Z"
     },
     {
       "issueId": 910003,
@@ -2345,7 +2345,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910003_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-16T10:00:00.000Z"
+      "createdAt": "2026-06-15T10:00:00.000Z"
     },
     {
       "issueId": 910003,
@@ -2353,7 +2353,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910003_4",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-17T10:00:00.000Z"
+      "createdAt": "2026-06-16T10:00:00.000Z"
     },
     {
       "issueId": 910003,
@@ -2361,7 +2361,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910003_5",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-18T10:00:00.000Z"
+      "createdAt": "2026-06-17T10:00:00.000Z"
     },
     {
       "issueId": 910004,
@@ -2369,7 +2369,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910004_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-27T10:00:00.000Z"
+      "createdAt": "2026-06-26T10:00:00.000Z"
     },
     {
       "issueId": 910004,
@@ -2377,7 +2377,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910004_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-28T10:00:00.000Z"
+      "createdAt": "2026-06-27T10:00:00.000Z"
     },
     {
       "issueId": 910004,
@@ -2385,7 +2385,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910004_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-29T10:00:00.000Z"
+      "createdAt": "2026-06-28T10:00:00.000Z"
     },
     {
       "issueId": 910005,
@@ -2393,7 +2393,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910005_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-07-01T10:00:00.000Z"
+      "createdAt": "2026-06-30T10:00:00.000Z"
     },
     {
       "issueId": 910005,
@@ -2401,7 +2401,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910005_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-07-02T10:00:00.000Z"
+      "createdAt": "2026-07-01T10:00:00.000Z"
     },
     {
       "issueId": 910007,
@@ -2409,7 +2409,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910007_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-22T10:00:00.000Z"
+      "createdAt": "2026-06-21T10:00:00.000Z"
     },
     {
       "issueId": 910007,
@@ -2417,7 +2417,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910007_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-23T10:00:00.000Z"
+      "createdAt": "2026-06-22T10:00:00.000Z"
     },
     {
       "issueId": 910007,
@@ -2425,7 +2425,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910007_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-24T10:00:00.000Z"
+      "createdAt": "2026-06-23T10:00:00.000Z"
     },
     {
       "issueId": 910008,
@@ -2433,7 +2433,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910008_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-20T10:00:00.000Z"
+      "createdAt": "2026-06-19T10:00:00.000Z"
     },
     {
       "issueId": 910008,
@@ -2441,7 +2441,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910008_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-21T10:00:00.000Z"
+      "createdAt": "2026-06-20T10:00:00.000Z"
     },
     {
       "issueId": 910009,
@@ -2449,7 +2449,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910009_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-07-03T10:00:00.000Z"
+      "createdAt": "2026-07-02T10:00:00.000Z"
     },
     {
       "issueId": 910009,
@@ -2457,7 +2457,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910009_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-07-04T10:00:00.000Z"
+      "createdAt": "2026-07-03T10:00:00.000Z"
     },
     {
       "issueId": 910010,
@@ -2465,7 +2465,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910010_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-29T10:00:00.000Z"
+      "createdAt": "2026-06-28T10:00:00.000Z"
     },
     {
       "issueId": 910010,
@@ -2473,7 +2473,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910010_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-30T10:00:00.000Z"
+      "createdAt": "2026-06-29T10:00:00.000Z"
     },
     {
       "issueId": 910010,
@@ -2481,7 +2481,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910010_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-07-01T10:00:00.000Z"
+      "createdAt": "2026-06-30T10:00:00.000Z"
     },
     {
       "issueId": 910011,
@@ -2489,7 +2489,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910011_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-07-06T10:00:00.000Z"
+      "createdAt": "2026-07-05T10:00:00.000Z"
     },
     {
       "issueId": 910013,
@@ -2497,7 +2497,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910013_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-07-04T10:00:00.000Z"
+      "createdAt": "2026-07-03T10:00:00.000Z"
     },
     {
       "issueId": 910013,
@@ -2505,7 +2505,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910013_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-07-05T10:00:00.000Z"
+      "createdAt": "2026-07-04T10:00:00.000Z"
     },
     {
       "issueId": 910013,
@@ -2513,7 +2513,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910013_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-07-06T10:00:00.000Z"
+      "createdAt": "2026-07-05T10:00:00.000Z"
     },
     {
       "issueId": 910014,
@@ -2521,7 +2521,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910014_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-23T10:00:00.000Z"
+      "createdAt": "2026-06-22T10:00:00.000Z"
     },
     {
       "issueId": 910014,
@@ -2529,7 +2529,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910014_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-24T10:00:00.000Z"
+      "createdAt": "2026-06-23T10:00:00.000Z"
     },
     {
       "issueId": 910015,
@@ -2537,7 +2537,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910015_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-26T10:00:00.000Z"
+      "createdAt": "2026-06-25T10:00:00.000Z"
     },
     {
       "issueId": 910015,
@@ -2545,7 +2545,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910015_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-27T10:00:00.000Z"
+      "createdAt": "2026-06-26T10:00:00.000Z"
     },
     {
       "issueId": 910017,
@@ -2553,7 +2553,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910017_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-07-02T10:00:00.000Z"
+      "createdAt": "2026-07-01T10:00:00.000Z"
     },
     {
       "issueId": 910017,
@@ -2561,7 +2561,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910017_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-07-03T10:00:00.000Z"
+      "createdAt": "2026-07-02T10:00:00.000Z"
     },
     {
       "issueId": 910018,
@@ -2569,7 +2569,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910018_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-16T10:00:00.000Z"
+      "createdAt": "2026-06-15T10:00:00.000Z"
     },
     {
       "issueId": 910018,
@@ -2577,7 +2577,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910018_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-17T10:00:00.000Z"
+      "createdAt": "2026-06-16T10:00:00.000Z"
     },
     {
       "issueId": 910018,
@@ -2585,7 +2585,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910018_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-18T10:00:00.000Z"
+      "createdAt": "2026-06-17T10:00:00.000Z"
     },
     {
       "issueId": 910019,
@@ -2593,7 +2593,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910019_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-21T10:00:00.000Z"
+      "createdAt": "2026-06-20T10:00:00.000Z"
     },
     {
       "issueId": 910019,
@@ -2601,7 +2601,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910019_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-22T10:00:00.000Z"
+      "createdAt": "2026-06-21T10:00:00.000Z"
     },
     {
       "issueId": 910019,
@@ -2609,7 +2609,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910019_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-23T10:00:00.000Z"
+      "createdAt": "2026-06-22T10:00:00.000Z"
     },
     {
       "issueId": 910020,
@@ -2617,7 +2617,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910020_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-30T10:00:00.000Z"
+      "createdAt": "2026-06-29T10:00:00.000Z"
     },
     {
       "issueId": 910020,
@@ -2625,7 +2625,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910020_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-07-01T10:00:00.000Z"
+      "createdAt": "2026-06-30T10:00:00.000Z"
     },
     {
       "issueId": 910022,
@@ -2633,7 +2633,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910022_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-28T10:00:00.000Z"
+      "createdAt": "2026-06-27T10:00:00.000Z"
     },
     {
       "issueId": 910022,
@@ -2641,7 +2641,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910022_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-29T10:00:00.000Z"
+      "createdAt": "2026-06-28T10:00:00.000Z"
     },
     {
       "issueId": 910023,
@@ -2649,7 +2649,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910023_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-19T10:00:00.000Z"
+      "createdAt": "2026-06-18T10:00:00.000Z"
     },
     {
       "issueId": 910023,
@@ -2657,7 +2657,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910023_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-20T10:00:00.000Z"
+      "createdAt": "2026-06-19T10:00:00.000Z"
     },
     {
       "issueId": 910024,
@@ -2665,7 +2665,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910024_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-07-05T10:00:00.000Z"
+      "createdAt": "2026-07-04T10:00:00.000Z"
     },
     {
       "issueId": 910026,
@@ -2673,7 +2673,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910026_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-24T10:00:00.000Z"
+      "createdAt": "2026-06-23T10:00:00.000Z"
     },
     {
       "issueId": 910026,
@@ -2681,7 +2681,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910026_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-25T10:00:00.000Z"
+      "createdAt": "2026-06-24T10:00:00.000Z"
     },
     {
       "issueId": 910026,
@@ -2689,7 +2689,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910026_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-26T10:00:00.000Z"
+      "createdAt": "2026-06-25T10:00:00.000Z"
     },
     {
       "issueId": 910027,
@@ -2697,7 +2697,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910027_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-12T10:00:00.000Z"
+      "createdAt": "2026-06-11T10:00:00.000Z"
     },
     {
       "issueId": 910027,
@@ -2705,7 +2705,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910027_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-13T10:00:00.000Z"
+      "createdAt": "2026-06-12T10:00:00.000Z"
     },
     {
       "issueId": 910027,
@@ -2713,7 +2713,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910027_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-14T10:00:00.000Z"
+      "createdAt": "2026-06-13T10:00:00.000Z"
     },
     {
       "issueId": 910027,
@@ -2721,7 +2721,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910027_4",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-15T10:00:00.000Z"
+      "createdAt": "2026-06-14T10:00:00.000Z"
     },
     {
       "issueId": 910028,
@@ -2729,7 +2729,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910028_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-07-10T10:00:00.000Z"
+      "createdAt": "2026-07-09T10:00:00.000Z"
     },
     {
       "issueId": 910029,
@@ -2737,7 +2737,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910029_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-17T10:00:00.000Z"
+      "createdAt": "2026-06-16T10:00:00.000Z"
     },
     {
       "issueId": 910029,
@@ -2745,7 +2745,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910029_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-18T10:00:00.000Z"
+      "createdAt": "2026-06-17T10:00:00.000Z"
     },
     {
       "issueId": 910029,
@@ -2753,7 +2753,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910029_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-19T10:00:00.000Z"
+      "createdAt": "2026-06-18T10:00:00.000Z"
     },
     {
       "issueId": 910029,
@@ -2761,7 +2761,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910029_4",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-20T10:00:00.000Z"
+      "createdAt": "2026-06-19T10:00:00.000Z"
     },
     {
       "issueId": 910030,
@@ -2769,7 +2769,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910030_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-15T10:00:00.000Z"
+      "createdAt": "2026-06-14T10:00:00.000Z"
     },
     {
       "issueId": 910030,
@@ -2777,7 +2777,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910030_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-16T10:00:00.000Z"
+      "createdAt": "2026-06-15T10:00:00.000Z"
     },
     {
       "issueId": 910030,
@@ -2785,7 +2785,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910030_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-17T10:00:00.000Z"
+      "createdAt": "2026-06-16T10:00:00.000Z"
     },
     {
       "issueId": 4,
@@ -2883,12 +2883,12 @@
       "updaterPubkey": "DemoStewardPubkey",
       "oldStatus": "submitted",
       "newStatus": "in_progress",
-      "proofHash": "10a74a97a80070afced145ca61ba79aaf224b4cd89c3dd93b3f922943dd6d4e3",
+      "proofHash": "fcd3f9ab8673dc295e606c982f9a305dfa09bcb1d3c025dfbd7ef11e11aba3ff",
       "previousTimelineHash": "3ee1985773ae47f41aaa375dbe59cd76b1100afe2f7bc7a56437ffbc152f584c",
       "newTimelineHash": "9c46f575e564230b8a1ec021d5f6fdba3849ba27f1978906d32ce3eecd6fd500",
       "statusUpdatePda": "DemoStatusUpdatePda910002_1",
       "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
+      "note": "Sample data steward marked repair follow-up in progress.",
       "proofPhotoUrl": null,
       "createdAt": "2026-06-29T09:00:00.000Z"
     },
@@ -2898,12 +2898,12 @@
       "updaterPubkey": "DemoStewardPubkey",
       "oldStatus": "submitted",
       "newStatus": "in_progress",
-      "proofHash": "f70accb67f70ddceac22d3147ab48168f9d0e11d5c9e48f16cfb743ac2a6c337",
+      "proofHash": "4899884e08b6793df5afc79396326c0a12b3cb1f0a3520f7c8863c3002567272",
       "previousTimelineHash": "812476297115d416de8173f8c6ad02a3225f10b44cd1a981ec9077609914a38c",
       "newTimelineHash": "3d0d540b5f9caec2426b8dc4cd4da30cfa01a1a2e2ff01bc0799fe3ee58acfe3",
       "statusUpdatePda": "DemoStatusUpdatePda910003_1",
       "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
+      "note": "Sample data steward marked repair follow-up in progress.",
       "proofPhotoUrl": null,
       "createdAt": "2026-06-18T09:00:00.000Z"
     },
@@ -2918,8 +2918,8 @@
       "newTimelineHash": "45ddc2899472fc3088681b103ff6bca44b750c35f593acd6e6c05abb97acf94a",
       "statusUpdatePda": "DemoStatusUpdatePda910003_2",
       "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward attached after-state resolution proof for the public asset.",
-      "proofPhotoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
+      "note": "Sample data steward attached after-state resolution proof for the public asset.",
+      "proofPhotoUrl": "/demo/storm-drain.jpg",
       "createdAt": "2026-06-26T10:00:00.000Z"
     },
     {
@@ -2928,12 +2928,12 @@
       "updaterPubkey": "DemoStewardPubkey",
       "oldStatus": "submitted",
       "newStatus": "in_progress",
-      "proofHash": "c68947e9135f1245b0ea10cf53ddd21c41ea415b47a57a0aff01f1649a3be165",
+      "proofHash": "b6eafbdf81b1949e90df8da8fce2eba169eacc11c07bb51428727fd3b3b279c4",
       "previousTimelineHash": "3f2215e2acaf9439a3a55502fc4fbf51628de7e4f4e7ba4e74fcb8d6569f08ee",
       "newTimelineHash": "8bb7b6c7c6b3bb053a4256db565ae2eb8dd92affcbb266fe00792b52baa501f3",
       "statusUpdatePda": "DemoStatusUpdatePda910005_1",
       "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
+      "note": "Sample data steward marked repair follow-up in progress.",
       "proofPhotoUrl": null,
       "createdAt": "2026-07-05T09:00:00.000Z"
     },
@@ -2943,12 +2943,12 @@
       "updaterPubkey": "DemoStewardPubkey",
       "oldStatus": "submitted",
       "newStatus": "in_progress",
-      "proofHash": "1a15b545ed16271d29b3042d7229524da0f2ea82ec51a8b6be11eeaa0e75276b",
+      "proofHash": "50dc35694c05ae1d4176caa8e4fe989705da691d6bdecbe9012e3f49799795bd",
       "previousTimelineHash": "90cfb2db2a8dd6afc20bfc53a246599af19d45cd89178e76cac63c7981f54c2b",
       "newTimelineHash": "473a8a26f3f0c73a0ef03afa6c028b57519b073bd8498330743580a15421ea0e",
       "statusUpdatePda": "DemoStatusUpdatePda910008_1",
       "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
+      "note": "Sample data steward marked repair follow-up in progress.",
       "proofPhotoUrl": null,
       "createdAt": "2026-06-24T09:00:00.000Z"
     },
@@ -2963,8 +2963,8 @@
       "newTimelineHash": "ac38add3548f23dd1b9f82bb6eeae8a8cae5727c055f4040003b8d63125524af",
       "statusUpdatePda": "DemoStatusUpdatePda910008_2",
       "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward attached after-state resolution proof for the public asset.",
-      "proofPhotoUrl": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=70",
+      "note": "Sample data steward attached after-state resolution proof for the public asset.",
+      "proofPhotoUrl": "/demo/broken-paving-top.jpg",
       "createdAt": "2026-07-02T10:00:00.000Z"
     },
     {
@@ -2973,12 +2973,12 @@
       "updaterPubkey": "DemoStewardPubkey",
       "oldStatus": "submitted",
       "newStatus": "in_progress",
-      "proofHash": "be73e989bac334690a7e12e42bea8cf4fdf555fb1b03d31ed16228314996c0b3",
+      "proofHash": "fd42ed2af4215cad9b3307604910e91a695524ed98d098edf6928f1c5b4964cc",
       "previousTimelineHash": "fe91f11a59a18b12a6d97791fc4d451b53cc1defefc33ff9c7ed3d37cefe1c45",
       "newTimelineHash": "d591d3997fba5f8363f606ffeaefa82210a6b235e8a84e4aec29b31db5ed22d6",
       "statusUpdatePda": "DemoStatusUpdatePda910009_1",
       "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
+      "note": "Sample data steward marked repair follow-up in progress.",
       "proofPhotoUrl": null,
       "createdAt": "2026-07-07T09:00:00.000Z"
     },
@@ -2988,12 +2988,12 @@
       "updaterPubkey": "DemoStewardPubkey",
       "oldStatus": "submitted",
       "newStatus": "disputed",
-      "proofHash": "c1e9e09c673cb0958120fa28f1b5cdccd71d0ba5601bde1a6c997145a9c9a423",
+      "proofHash": "ef336c9c1526d5ca028f32a0738b7f5fae9b2e378d0c532073ca88f28cfe0356",
       "previousTimelineHash": "eb195fb0291610004f7398c161e1a54e28d47de764ec0ba2e14bf0cf7868d8af",
       "newTimelineHash": "f3d9290c12703c652a92a6c1b1498902b297d20c2e20bef9b64589d43f30340b",
       "statusUpdatePda": "DemoStatusUpdatePda910011_1",
       "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked this issue for review because location details need confirmation.",
+      "note": "Sample data steward marked this issue for review because location details need confirmation.",
       "proofPhotoUrl": null,
       "createdAt": "2026-07-10T09:00:00.000Z"
     },
@@ -3003,12 +3003,12 @@
       "updaterPubkey": "DemoStewardPubkey",
       "oldStatus": "submitted",
       "newStatus": "in_progress",
-      "proofHash": "546b6aa9ae6a35f9a44f5126317d77c48c9584c42d864476119fa8ea0f997f67",
+      "proofHash": "00c067bcfd44ddb3e64ec010f3b266434c84f0fbe3eba9cfe79b5a75ab1bcc90",
       "previousTimelineHash": "e8aee6c1cab37fb192d99b43647c2cf4c2b1960de035df58e345967f92644dd1",
       "newTimelineHash": "2c459e14da90b3646e501300d52d3e693b8794fd25e547e5e91c9bcaf5cf74ff",
       "statusUpdatePda": "DemoStatusUpdatePda910014_1",
       "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
+      "note": "Sample data steward marked repair follow-up in progress.",
       "proofPhotoUrl": null,
       "createdAt": "2026-06-27T09:00:00.000Z"
     },
@@ -3018,12 +3018,12 @@
       "updaterPubkey": "DemoStewardPubkey",
       "oldStatus": "submitted",
       "newStatus": "in_progress",
-      "proofHash": "8412c98f87cc49f4af60be61d9d401336b1a5b76dbe17fa929af00f0f917a834",
+      "proofHash": "8ea31dd3483e5bddd9354da4c78262d7c6b1f994f3f407f4b098c953bc1a379d",
       "previousTimelineHash": "e768d543afc16e4df5d3742aec8211c01075c7aa54942b88074140887399e359",
       "newTimelineHash": "8ee8c11a15d312f156059f0f4a51a462fcf3d54f66f624b012e7b59132a8adc2",
       "statusUpdatePda": "DemoStatusUpdatePda910018_1",
       "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
+      "note": "Sample data steward marked repair follow-up in progress.",
       "proofPhotoUrl": null,
       "createdAt": "2026-06-20T09:00:00.000Z"
     },
@@ -3038,7 +3038,7 @@
       "newTimelineHash": "9f2ab4e0b527302c32d54cc89ccc46ccb1645565e7f84d139502a6ec31aecbe5",
       "statusUpdatePda": "DemoStatusUpdatePda910018_2",
       "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward attached after-state resolution proof for the public asset.",
+      "note": "Sample data steward attached after-state resolution proof for the public asset.",
       "proofPhotoUrl": "/demo/pothole-road.jpg",
       "createdAt": "2026-06-28T10:00:00.000Z"
     },
@@ -3048,12 +3048,12 @@
       "updaterPubkey": "DemoStewardPubkey",
       "oldStatus": "submitted",
       "newStatus": "in_progress",
-      "proofHash": "28f5be756a48e5258de678f809b289a171078de6471f8c2afc2e01c4467e253a",
+      "proofHash": "921a51f471bdd2016c93b720ca02bfb2447777a9394674a8dbb9a416be86ce01",
       "previousTimelineHash": "b8113598ae7694426a1b4e6969283216ab8f1d26f99949de8ba3504378051c4f",
       "newTimelineHash": "182342393b0f64e4521deef640ca7d71a83e1e63f124156433778e070d5a9dec",
       "statusUpdatePda": "DemoStatusUpdatePda910019_1",
       "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
+      "note": "Sample data steward marked repair follow-up in progress.",
       "proofPhotoUrl": null,
       "createdAt": "2026-06-25T09:00:00.000Z"
     },
@@ -3063,12 +3063,12 @@
       "updaterPubkey": "DemoStewardPubkey",
       "oldStatus": "submitted",
       "newStatus": "in_progress",
-      "proofHash": "7b2b48053cc3928268aa543a3c3ecc9f555f09838a5375cdb2672a919898c395",
+      "proofHash": "3c93243b9b2f2b409d02b61144a4f285a2bc5fbc3ec83aa86f2d95486a386b23",
       "previousTimelineHash": "0721fd0058451d83f97e82800d4126a1e36ee7ee1f3f9f2539670fd8d82ae389",
       "newTimelineHash": "c12cb6507b15722b3d6c705156f44e4781f0b9bd60de849cc58ec991b46d3552",
       "statusUpdatePda": "DemoStatusUpdatePda910023_1",
       "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
+      "note": "Sample data steward marked repair follow-up in progress.",
       "proofPhotoUrl": null,
       "createdAt": "2026-06-23T09:00:00.000Z"
     },
@@ -3078,12 +3078,12 @@
       "updaterPubkey": "DemoStewardPubkey",
       "oldStatus": "submitted",
       "newStatus": "in_progress",
-      "proofHash": "c05965ee235300d5b44c33ba0544f4d3c25f59ee88e0b4de5ce822f1f2b08cc2",
+      "proofHash": "6ffe39b9d819603faafe6c85acac925d1c1a5c21d5aef9d157e398ab24bcd2b8",
       "previousTimelineHash": "29ca8bcfb0321e6c3d934b76fde79c12dc68be05d7c5ca28cff057a196a8240d",
       "newTimelineHash": "9e9626550750021c9fc1d471387827cecd0fe0f94847cc4e266efa74d8c28707",
       "statusUpdatePda": "DemoStatusUpdatePda910027_1",
       "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
+      "note": "Sample data steward marked repair follow-up in progress.",
       "proofPhotoUrl": null,
       "createdAt": "2026-06-16T09:00:00.000Z"
     },
@@ -3098,8 +3098,8 @@
       "newTimelineHash": "76acc651835a52c60f98d99b3058df9ffe55d75a42ecedccabd5993377e86ea3",
       "statusUpdatePda": "DemoStatusUpdatePda910027_2",
       "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward attached after-state resolution proof for the public asset.",
-      "proofPhotoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
+      "note": "Sample data steward attached after-state resolution proof for the public asset.",
+      "proofPhotoUrl": "/demo/garbage-street.jpg",
       "createdAt": "2026-06-24T10:00:00.000Z"
     },
     {
@@ -3108,12 +3108,12 @@
       "updaterPubkey": "DemoStewardPubkey",
       "oldStatus": "submitted",
       "newStatus": "rejected",
-      "proofHash": "727fef5cf4090aba0baf279cd53512c15706915084b0a71c9f50525097069066",
+      "proofHash": "ad4f0ae3b4b2c28892cb0c770edefb46245d04d82c259a915cd02d49245046e0",
       "previousTimelineHash": "83a17184b3c9695a3b2e5d83e71fac21be090bc2121ae65bccbc8276c2ef1eba",
       "newTimelineHash": "44b66a43e01b45e0fdfd5ca4b7219a0f49a43e6394285c8f693f46c93dd72372",
       "statusUpdatePda": "DemoStatusUpdatePda910028_1",
       "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward hid this item from the active queue after safety review.",
+      "note": "Sample data steward hid this item from the active queue after safety review.",
       "proofPhotoUrl": null,
       "createdAt": "2026-07-13T09:00:00.000Z"
     },
@@ -3123,12 +3123,12 @@
       "updaterPubkey": "DemoStewardPubkey",
       "oldStatus": "submitted",
       "newStatus": "in_progress",
-      "proofHash": "b53f1ff98e14988408a2b637db42206dfcb9f0afbaec4d50a6d8506de0b31bf1",
+      "proofHash": "ce5014fde832572d8a151bfe6e0c8a5e180c5ce48ff2d5ba6f431f99c844407c",
       "previousTimelineHash": "ae0b0f4c6727cce6f93434f738fa7fac7d6b522a8ab4362fd0a979ec82ddc7b0",
       "newTimelineHash": "b4bc65658d310aebc3ce9fb8c49a1795c22848bc68924b54620140ad434610b4",
       "statusUpdatePda": "DemoStatusUpdatePda910030_1",
       "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
+      "note": "Sample data steward marked repair follow-up in progress.",
       "proofPhotoUrl": null,
       "createdAt": "2026-06-19T09:00:00.000Z"
     },

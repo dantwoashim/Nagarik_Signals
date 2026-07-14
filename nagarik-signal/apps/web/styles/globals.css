@@ -555,6 +555,57 @@ h3 {
   margin-top: 28px;
 }
 
+.live-proof-receipt {
+  max-width: 700px;
+  display: grid;
+  grid-template-columns: auto minmax(150px, 1fr) minmax(150px, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  margin-top: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 7px;
+  background: rgba(13, 19, 18, 0.68);
+  color: var(--white);
+  padding: 13px 15px;
+  text-decoration: none;
+  backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), background-color 180ms ease;
+}
+
+.live-proof-receipt:hover {
+  transform: translateY(-2px);
+  background: rgba(13, 19, 18, 0.82);
+}
+
+.live-proof-receipt small,
+.live-proof-receipt strong {
+  display: block;
+}
+
+.live-proof-receipt small {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 9px;
+  font-weight: 720;
+  text-transform: uppercase;
+}
+
+.live-proof-receipt strong {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 12px;
+}
+
+.live-proof-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #8ed5aa;
+  font-size: 11px;
+  font-weight: 760;
+  text-transform: uppercase;
+}
+
 .hero-record {
   display: block;
   border: 1px solid rgba(255, 255, 255, 0.22);
@@ -1146,6 +1197,8 @@ h3 {
   align-items: start;
 }
 
+#proof { scroll-margin-top: 116px; }
+
 .proof-panel-heading h2 { margin-top: 7px; font-size: 25px; }
 .proof-kicker { min-height: auto; border: 0; background: transparent; padding: 0; color: var(--muted); }
 .proof-explainer { margin: 14px 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
@@ -1568,6 +1621,13 @@ a.table-row:hover strong { color: var(--crimson); }
   .hero-copy h1 { font-size: 44px; line-height: 0.98; }
   .hero-copy > p { font-size: 16px; }
   .hero-actions .button { width: 100%; }
+  .live-proof-receipt {
+    grid-template-columns: 1fr auto;
+    gap: 11px 14px;
+  }
+  .live-proof-receipt > span:nth-child(2),
+  .live-proof-receipt > span:nth-child(3) { grid-column: 1 / -1; }
+  .live-proof-receipt > svg { grid-column: 2; grid-row: 1; }
   .hero-record { padding: 17px; }
   .hero-day-count strong { font-size: 54px; }
   .home-metrics .container { width: 100%; }

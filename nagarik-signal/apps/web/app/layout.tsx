@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { HashScrollRestorer } from '@/components/HashScrollRestorer';
 import { SiteNavigation } from '@/components/SiteNavigation';
 import { publicPreviewReadOnly } from '@/lib/deployment';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import '../styles/globals.css';
 
 export const metadata: Metadata = {
@@ -16,6 +17,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" data-scroll-behavior="smooth">
+      <head>
+        <link rel="preconnect" href="https://tiles.openfreemap.org" crossOrigin="anonymous" />
+      </head>
       <body>
         <a className="skip-link" href="#main-content">Skip to content</a>
         <div className="shell">

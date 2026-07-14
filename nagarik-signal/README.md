@@ -33,6 +33,8 @@ Open `http://127.0.0.1:3001`.
 
 The bundled model includes four public-source records, thirty illustrative samples, and retained QA fixtures. Public queries include only `community_report` and `public_source`; samples require an explicit scope; QA fixtures are never returned by list APIs.
 
+Interactive maps use MapLibre GL JS with an OpenFreeMap vector style and visible OpenStreetMap attribution. Public issue coordinates are rounded before rendering, and the report picker rounds a one-time browser location fix before placing it on the map. Set `NEXT_PUBLIC_NAGARIK_MAP_STYLE_URL` to switch to another compatible hosted or self-managed MapLibre style without changing application code.
+
 ## Writable Configuration
 
 Copy the values described by [`.env.example`](.env.example) into the deployment environment. Production writes fail closed unless the required secrets exist.

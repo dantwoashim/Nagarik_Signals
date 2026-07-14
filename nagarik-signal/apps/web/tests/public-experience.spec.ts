@@ -51,13 +51,17 @@ test('explore keeps real records, samples, and map state separate', async ({ pag
   await expect(page.locator('.issue-card')).toHaveCount(4);
   await expect(page.getByText('Broken drain cover beside public bus stop')).toHaveCount(0);
 
+  await page.waitForLoadState('networkidle');
   await page.getByRole('link', { name: 'Illustrative samples' }).click();
   await expect(page.getByRole('status')).toContainText('30 illustrative samples', { timeout: 15_000 });
   await expect(page.locator('.issue-card')).toHaveCount(12);
   await expect(page.getByText('Public drainage channel needs clearing')).toBeVisible();
 
   await page.goto('/explore?view=map');
-  await expect(page.locator('.map-marker')).toHaveCount(4);
+  await expect(page.locator('.atlas-record-list button')).toHaveCount(4);
+  await expect(page.locator('.atlas-map')).toHaveAttribute('data-map-state', /ready|error/, { timeout: 30_000 });
+  await page.locator('.atlas-record-list button').filter({ hasText: 'Bancharedanda landfill' }).click();
+  await expect(page.locator('.atlas-selection').getByRole('heading')).toContainText('Bancharedanda landfill');
   await expect(page.locator('img:not([alt])')).toHaveCount(0);
   await expectNoHorizontalOverflow(page);
 });
@@ -81,6 +85,15 @@ test('mobile navigation, report flow, and issue hierarchy remain usable', async 
   await page.getByRole('button', { name: /Continue to details/ }).click();
   await expect(page.getByLabel('Title')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Photo' })).toHaveClass(/complete/);
+  await page.getByLabel('Title').fill('Blocked drain beside a public footpath');
+  await page.getByLabel('Description').fill('A damaged drain cover blocks part of the public footpath and leaves an exposed edge beside the walking route.');
+  await page.getByRole('button', { name: /Continue to place/ }).click();
+  await expect(page.locator('.location-picker-map')).toHaveAttribute('data-map-state', /ready|error/, { timeout: 30_000 });
+  await expect(page.getByText('Public coordinate', { exact: true })).toBeVisible();
+  await page.context().grantPermissions(['geolocation'], { origin: 'http://127.0.0.1:3001' });
+  await page.context().setGeolocation({ latitude: 27.689876, longitude: 85.321234 });
+  await page.getByRole('button', { name: 'Use my current area' }).click();
+  await expect(page.locator('.location-coordinate-strip code')).toHaveText('27.690, 85.321');
   await expectNoHorizontalOverflow(page);
 
   const samplesResponse = await request.get('/api/reports?scope=samples&limit=1');
@@ -104,6 +117,8 @@ test('mobile navigation, report flow, and issue hierarchy remain usable', async 
   expect(evidence!.y).toBeLessThan(provenanceOrVerify!.y);
   expect(provenanceOrVerify!.y).toBeLessThan(proof!.y);
   expect(proof!.y).toBeLessThan(timeline!.y);
+  await page.locator('.issue-location-map').scrollIntoViewIfNeeded();
+  await expect(page.locator('.issue-map-surface')).toHaveAttribute('data-map-state', /ready|error/, { timeout: 30_000 });
   await page.getByRole('button', { name: 'Check sample integrity' }).click();
   await expect(page.getByText('local sample match')).toBeVisible();
   await expectNoHorizontalOverflow(page);

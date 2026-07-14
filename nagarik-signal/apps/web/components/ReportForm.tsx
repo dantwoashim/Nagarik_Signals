@@ -261,7 +261,7 @@ export function ReportForm() {
 
         <section className="report-step" data-stage="2" hidden={stage !== 2}>
           <div className="report-step-heading"><span className="mono">03</span><div><h2 tabIndex={-1}>Place it approximately</h2><p>Ward-level context is useful. Exact reporter coordinates are not.</p></div></div>
-          <ReportLocation />
+          <ReportLocation active={stage === 2} />
           <div className="report-stage-actions">
             <button className="button secondary" type="button" onClick={() => moveTo(1)}><ArrowLeft size={17} weight="bold" />Back</button>
             <button className="button primary" type="button" onClick={continueFlow}>Review the record <ArrowRight size={17} weight="bold" /></button>

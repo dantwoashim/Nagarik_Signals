@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ListBullets, MagnifyingGlass, MapTrifold } from '@phosphor-icons/react/dist/ssr';
+import { CaretDown, FunnelSimple, ListBullets, MagnifyingGlass, MapTrifold } from '@phosphor-icons/react/dist/ssr';
 import { ExploreMap } from '@/components/ExploreMap';
 import { IssueCard } from '@/components/IssueCard';
 import { categories } from '@/lib/constants/categories';
@@ -58,69 +58,84 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
     return suffix ? `/explore?${suffix}` : '/explore';
   }
 
+  const filterForm = (
+    <form className="filter-bar explore-filter-shell">
+      <input type="hidden" name="scope" value={scope === 'samples' ? 'samples' : ''} />
+      <input type="hidden" name="view" value={view === 'map' ? 'map' : ''} />
+      <div className="field search-field">
+        <label htmlFor="record-search">Search</label>
+        <div className="input-with-icon">
+          <MagnifyingGlass size={18} weight="bold" aria-hidden="true" />
+          <input id="record-search" name="q" defaultValue={query} placeholder="Drain, road, publisher, issue ID" />
+        </div>
+      </div>
+      <label className="field">
+        <span>Area</span>
+        <select name="ward" defaultValue={ward}>
+          <option value="">All areas</option>
+          {wards.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
+        </select>
+      </label>
+      <label className="field">
+        <span>Category</span>
+        <select name="category" defaultValue={category}>
+          <option value="">All categories</option>
+          {categories.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
+        </select>
+      </label>
+      <label className="field">
+        <span>Status</span>
+        <select name="status" defaultValue={status}>
+          <option value="">All statuses</option>
+          {statuses.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
+        </select>
+      </label>
+      <label className="field">
+        <span>Sort</span>
+        <select name="sort" defaultValue={sort}>
+          <option value="newest">Newest</option>
+          <option value="most_ignored">Longest observed</option>
+          <option value="most_verified">Most signals</option>
+        </select>
+      </label>
+      <div className="row-actions">
+        <button className="button crimson" type="submit">Apply</button>
+        <Link className="button secondary" href={scope === 'samples' ? '/explore?scope=samples' : '/explore'}>Reset</Link>
+      </div>
+    </form>
+  );
+
   return (
-    <section className="container page-section page-stack">
+    <section className={`container page-section page-stack explore-page ${view === 'map' ? 'explore-page-map' : ''}`}>
       <div className="page-heading">
         <span className="eyebrow">Public civic record</span>
-        <h1>See what still needs a current answer</h1>
-        <p>Browse community reports and checked public-source dossiers. Illustrative samples stay in a separate view and never contribute to public totals.</p>
+        <h1>{view === 'map' ? 'Public follow-up, mapped.' : 'See what still needs a current answer'}</h1>
+        <p>{view === 'map'
+          ? 'Approximate civic records across Nepal, separated from illustrative samples and backed by inspectable proof.'
+          : 'Browse community reports and checked public-source dossiers. Illustrative samples stay in a separate view and never contribute to public totals.'}</p>
       </div>
 
       <div className="explore-modes">
         <nav className="scope-switch" aria-label="Record origin">
-          <Link className={scope === 'public' ? 'active' : ''} href={href({ scope: null, page: null })}>Public records</Link>
-          <Link className={scope === 'samples' ? 'active' : ''} href={href({ scope: 'samples', page: null })}>Illustrative samples</Link>
+          <a className={scope === 'public' ? 'active' : ''} href={href({ scope: null, page: null })}>Public records</a>
+          <a className={scope === 'samples' ? 'active' : ''} href={href({ scope: 'samples', page: null })}>Illustrative samples</a>
         </nav>
         <nav className="scope-switch" aria-label="Explore view">
-          <Link className={view === 'list' ? 'active' : ''} href={href({ view: null, page: null })}><ListBullets size={16} weight="bold" />List</Link>
-          <Link className={view === 'map' ? 'active' : ''} href={href({ view: 'map', page: null })}><MapTrifold size={16} weight="bold" />Map</Link>
+          <a className={view === 'list' ? 'active' : ''} href={href({ view: null, page: null })}><ListBullets size={16} weight="bold" />List</a>
+          <a className={view === 'map' ? 'active' : ''} href={href({ view: 'map', page: null })}><MapTrifold size={16} weight="bold" />Map</a>
         </nav>
       </div>
 
-      <form className="filter-bar explore-filter-shell">
-        <input type="hidden" name="scope" value={scope === 'samples' ? 'samples' : ''} />
-        <input type="hidden" name="view" value={view === 'map' ? 'map' : ''} />
-        <div className="field search-field">
-          <label htmlFor="record-search">Search</label>
-          <div className="input-with-icon">
-            <MagnifyingGlass size={18} weight="bold" aria-hidden="true" />
-            <input id="record-search" name="q" defaultValue={query} placeholder="Drain, road, publisher, issue ID" />
-          </div>
-        </div>
-        <label className="field">
-          <span>Area</span>
-          <select name="ward" defaultValue={ward}>
-            <option value="">All areas</option>
-            {wards.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
-          </select>
-        </label>
-        <label className="field">
-          <span>Category</span>
-          <select name="category" defaultValue={category}>
-            <option value="">All categories</option>
-            {categories.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
-          </select>
-        </label>
-        <label className="field">
-          <span>Status</span>
-          <select name="status" defaultValue={status}>
-            <option value="">All statuses</option>
-            {statuses.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
-          </select>
-        </label>
-        <label className="field">
-          <span>Sort</span>
-          <select name="sort" defaultValue={sort}>
-            <option value="newest">Newest</option>
-            <option value="most_ignored">Longest observed</option>
-            <option value="most_verified">Most signals</option>
-          </select>
-        </label>
-        <div className="row-actions">
-          <button className="button crimson" type="submit">Apply</button>
-          <Link className="button secondary" href={scope === 'samples' ? '/explore?scope=samples' : '/explore'}>Reset</Link>
-        </div>
-      </form>
+      {view === 'map' ? (
+        <details className="map-filter-disclosure">
+          <summary>
+            <span><FunnelSimple size={17} weight="bold" />Filter mapped records</span>
+            <span>{activeFilters.length ? `${activeFilters.length} active` : 'All records'}</span>
+            <CaretDown size={15} weight="bold" aria-hidden="true" />
+          </summary>
+          {filterForm}
+        </details>
+      ) : filterForm}
 
       <div className="result-toolbar">
         <div className="result-count" role="status"><strong>{matches.length}</strong> {scope === 'samples' ? 'illustrative sample' : 'public civic record'}{matches.length === 1 ? '' : 's'}</div>
@@ -133,7 +148,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
 
       {issues.length ? (
         view === 'map'
-          ? <ExploreMap issues={issues} />
+          ? <ExploreMap issues={matches} />
           : <div className="issue-list">{issues.map((issue, index) => <IssueCard key={issue.id} issue={issue} variant="ledger" priority={index === 0} />)}</div>
       ) : (
         <div className="empty-state">
@@ -143,7 +158,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
         </div>
       )}
 
-      {pageCount > 1 ? (
+      {view === 'list' && pageCount > 1 ? (
         <nav className="pagination" aria-label="Explore pages">
           {currentPage > 1 ? <Link className="button secondary" href={href({ page: String(currentPage - 1) })}>Previous</Link> : <span />}
           <span>Page {currentPage} of {pageCount}</span>

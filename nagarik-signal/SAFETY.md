@@ -46,6 +46,8 @@ Moderation does not erase the on-chain commitment. This is deliberate, but it al
 
 The UI uses ward/locality as the primary location. Coordinates are rounded to three decimals before public storage, and only a coarse location hash is committed on-chain. Exact camera GPS is removed with the original metadata.
 
+The optional "current area" control requests one browser location fix, rounds it immediately, and does not retain or transmit the exact fix. The rounded viewport loads OpenStreetMap-derived tiles through OpenFreeMap; no address search, reverse geocoding, or continuous location tracking is performed.
+
 ## Source Dossiers
 
 Public-source records must include the original URL, publisher, publication time, check time, review expiry, confidence, and status at check. A dossier proves what was cited and committed, not that the underlying issue remains unchanged. Expired records visibly require rechecking.

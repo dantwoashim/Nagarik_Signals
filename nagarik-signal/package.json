@@ -8,12 +8,15 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspace @nagarik-signal/web",
+    "start": "npm run start --workspace @nagarik-signal/web",
     "build": "npm run build --workspace @nagarik-signal/web",
     "lint": "npm run lint --workspace @nagarik-signal/web",
     "typecheck": "npm run typecheck --workspace @nagarik-signal/web",
     "verify": "npm run typecheck && npm run lint",
-    "anchor:test": "cd programs/nagarik_signal && anchor test --skip-build",
-    "anchor:test:devnet": "cd programs/nagarik_signal && anchor test --skip-build --skip-deploy --skip-local-validator --provider.cluster devnet",
+    "test:e2e": "npm run test:e2e --workspace @nagarik-signal/web",
+    "anchor:prepare": "node scripts/prepare-anchor-test.mjs",
+    "anchor:test": "npm run anchor:prepare && cd programs/nagarik_signal && anchor test --skip-build",
+    "anchor:test:devnet": "npm run anchor:prepare && cd programs/nagarik_signal && anchor test --skip-build --skip-deploy --skip-local-validator --provider.cluster devnet",
     "anchor:build": "cd programs/nagarik_signal && anchor build --no-idl",
     "anchor:deploy:devnet": "cd programs/nagarik_signal && anchor deploy --provider.cluster devnet",
     "proof:create": "tsx scripts/create-issue.ts",
@@ -31,5 +34,13 @@
     "@coral-xyz/anchor": "^0.30.1",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "next": "16.2.10"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "8.5.10"
+    }
   }
 }

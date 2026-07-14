@@ -13,7 +13,7 @@ Nagarik Signal is a Solana-backed public proof layer for ignored civic issues in
 | Local app | `http://127.0.0.1:3001` after `npm run dev` |
 | Devnet program | `76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY` |
 | Cluster | Solana devnet |
-| Live deployment | Add Vercel URL after deployment |
+| Live judge showcase | `https://nagarik-signal.vercel.app` (read-only; proof checks are live) |
 | Demo video | Add final video URL after recording |
 
 ## What It Does
@@ -24,7 +24,7 @@ Report -> Hash -> Anchor -> Verify -> Track -> Resolve
 
 - Citizens report public infrastructure issues with safe photos, categories, ward/locality, and approximate location.
 - The app strips metadata, hashes evidence, builds canonical metadata, and creates an Issue PDA on Solana devnet.
-- Other citizens verify once through Verification PDAs. Duplicate verification is blocked by the program.
+- A signer or sponsored civic session can add one signal through a Verification PDA. Duplicate verification by that identity is blocked by the program.
 - Stewards update status through StatusUpdate PDAs and can attach resolution proof.
 - ProofPanel recomputes displayed data and compares it against Solana state.
 - Dashboard ranks unresolved issues by ward/locality and Days Ignored.
@@ -78,7 +78,7 @@ Program ID:
 76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY
 ```
 
-Verified devnet lifecycle coverage:
+Implemented lifecycle checks:
 
 - Registry PDA creation.
 - Steward PDA creation.
@@ -90,6 +90,8 @@ Verified devnet lifecycle coverage:
 - Resolved issue rejection for further verification.
 - Timeline hash updates.
 - Resolution hash storage.
+
+The program is deployed on devnet. The funded lifecycle suite is available through `npm run anchor:test:devnet`; publishing a program ID alone is not treated as proof that every physical-world claim is true.
 
 ## Demo Data
 
@@ -171,19 +173,22 @@ npm run verify:proof -- --issue-id 1
 
 ## Deployment
 
+The current MVP writes its read model, session keys, and sanitized uploads to disk. Deploy the full workflow on a stateful Node host with a persistent volume. The Vercel deployment is intentionally configured as a read-only judge showcase: it bundles the public read model, keeps live Solana proof verification available, and fails every state-changing route closed.
+
 Recommended production path:
 
 1. Set `NEXT_PUBLIC_NAGARIK_PROGRAM_ID`.
 2. Set `NEXT_PUBLIC_SOLANA_RPC_URL`.
 3. Set `ANCHOR_WALLET` or `NAGARIK_RELAYER_KEYPAIR` for the devnet relayer.
-4. Set `NAGARIK_STEWARD_SECRET` if the steward API should require a shared secret.
-5. Deploy the Next.js app to Vercel.
-6. Run `npm run final:preflight` against the deployed URL with `NAGARIK_PREFLIGHT_BASE_URL`.
+4. Set a strong `NAGARIK_STEWARD_SECRET`; production steward writes fail closed when it is absent.
+5. Mount persistent storage and set `NAGARIK_DATA_DIR` to that mount path.
+6. Build and run the included `Dockerfile` on a stateful host.
+7. Run `npm run final:preflight` against the deployed URL with `NAGARIK_PREFLIGHT_BASE_URL`.
 
 ## Known Limitations
 
 - MVP is devnet-only.
-- Local demo uses a JSON read model; Supabase is documented but not required for the local MVP.
+- The MVP uses a JSON read model and filesystem uploads. Hosted write flows require a persistent volume through `NAGARIK_DATA_DIR`; Supabase remains a future adapter.
 - Wallet identity can be connected in the browser, but the current live transaction path is still sponsored devnet signing for accessibility.
 - Seeded demo rows are synthetic/staged examples and intentionally marked `seeded_demo`.
 - Verification is duplicate-resistant per session/signer, not proof-of-personhood.

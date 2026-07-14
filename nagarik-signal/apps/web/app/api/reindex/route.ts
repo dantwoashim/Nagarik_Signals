@@ -1,10 +1,14 @@
 import { NextResponse } from 'next/server';
 import { applyChainIssue, getIssue } from '@/lib/db/queries';
 import { fetchAllIssueAccounts } from '@/lib/solana/readOnly';
+import { showcaseReadOnly } from '@/lib/deployment';
 
 export const runtime = 'nodejs';
 
 export async function POST(request: Request) {
+  if (showcaseReadOnly) {
+    return NextResponse.json({ ok: false, error: 'showcase_read_only' }, { status: 503 });
+  }
   const secret = request.headers.get('x-nagarik-reindex-secret');
   if (process.env.NAGARIK_REINDEX_SECRET && secret !== process.env.NAGARIK_REINDEX_SECRET) {
     return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 });

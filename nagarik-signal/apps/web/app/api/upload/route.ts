@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
 import { prepareUpload } from '@/lib/storage/upload';
+import { showcaseReadOnly } from '@/lib/deployment';
 
 export const runtime = 'nodejs';
 
 export async function POST(request: Request) {
+  if (showcaseReadOnly) {
+    return NextResponse.json({ ok: false, error: 'showcase_read_only' }, { status: 503 });
+  }
   const form = await request.formData().catch(() => null);
   const file = form?.get('file');
   if (!(file instanceof File)) {

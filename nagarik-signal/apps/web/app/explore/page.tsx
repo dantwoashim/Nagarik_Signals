@@ -35,11 +35,9 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
   return (
     <section className="container page-section page-stack">
       <div className="page-heading">
-        <span className="eyebrow">Issue feed</span>
-        <h1>Explore civic proof objects</h1>
-        <p className="muted" style={{ lineHeight: 1.65 }}>
-          Filter safe public reports by ward, category, status, and ignored days. Every card opens a proof-first issue page.
-        </p>
+        <span className="eyebrow">Public record</span>
+        <h1>See what is still waiting</h1>
+        <p>Filter safe civic infrastructure records by place, category, status, and time ignored. Live devnet proof and demo data stay visibly separate.</p>
       </div>
       <form className="panel filter-bar">
         <label className="field">
@@ -81,12 +79,16 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
         </div>
       </form>
       <ExploreMap issues={issues} />
-      <div>
-        <span className="pill">{issues.length} visible issue{issues.length === 1 ? '' : 's'}</span>
-      </div>
-      <div className="grid-auto">
-        {issues.map((issue) => <IssueCard key={issue.id} issue={issue} />)}
-      </div>
+      <div className="result-count" role="status"><strong>{issues.length}</strong> visible record{issues.length === 1 ? '' : 's'}</div>
+      {issues.length ? (
+        <div className="issue-grid">{issues.map((issue) => <IssueCard key={issue.id} issue={issue} />)}</div>
+      ) : (
+        <div className="empty-state">
+          <strong>No civic records match these filters.</strong>
+          <span>Try a wider area or reset the current filter set.</span>
+          <Link className="button secondary" href="/explore">Reset filters</Link>
+        </div>
+      )}
     </section>
   );
 }

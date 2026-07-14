@@ -25,10 +25,10 @@ const demoPhotos = [
   'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70',
   'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1200&q=70',
   'https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=70',
-  'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=70',
-  'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=1200&q=70',
-  'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1200&q=70',
-  'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?auto=format&fit=crop&w=1200&q=70',
+  '/demo/pothole-road.jpg',
+  '/demo/storm-drain.jpg',
+  '/demo/pothole-road.jpg',
+  '/demo/pothole-road.jpg',
   'https://images.unsplash.com/photo-1517394834181-95ed159986c7?auto=format&fit=crop&w=1200&q=70',
 ];
 

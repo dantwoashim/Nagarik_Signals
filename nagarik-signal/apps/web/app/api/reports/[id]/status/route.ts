@@ -6,6 +6,7 @@ import { sha256Hex } from '@/lib/proof/hash';
 import { updateStatusOnChain } from '@/lib/solana/actions';
 import { explorerTxUrl } from '@/lib/solana/server';
 import type { IssueStatus } from '@/lib/types';
+import { showcaseReadOnly } from '@/lib/deployment';
 
 export const runtime = 'nodejs';
 
@@ -14,6 +15,9 @@ function isHex32(value: string) {
 }
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  if (showcaseReadOnly) {
+    return NextResponse.json({ ok: false, reason: 'showcase_read_only' }, { status: 503 });
+  }
   const { id } = await params;
   const issue = getIssue(id);
   if (!issue) return NextResponse.json({ ok: false, reason: 'issue_not_found' }, { status: 404 });
@@ -22,6 +26,9 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   }
   const requiredSecret = process.env.NAGARIK_STEWARD_SECRET;
   const providedSecret = request.headers.get('x-nagarik-steward-secret');
+  if (!requiredSecret && process.env.NODE_ENV === 'production') {
+    return NextResponse.json({ ok: false, reason: 'steward_secret_not_configured' }, { status: 503 });
+  }
   if (requiredSecret && providedSecret !== requiredSecret) {
     return NextResponse.json({ ok: false, reason: 'unauthorized_steward' }, { status: 401 });
   }
@@ -133,7 +140,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       proofMetadata,
       stewardCreated: chain.stewardCreated,
       stewardCreateTxSig: chain.stewardCreateTxSig,
-      authMode: requiredSecret ? 'secret_header' : 'dev_open_because_secret_unset',
+      authMode: requiredSecret ? 'secret_header' : 'local_development_open',
     });
   } catch (error) {
     return NextResponse.json(

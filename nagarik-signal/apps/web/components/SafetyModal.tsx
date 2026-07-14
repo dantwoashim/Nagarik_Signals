@@ -1,26 +1,19 @@
 export function SafetyModal() {
   const rules = [
     'Public infrastructure only',
-    'No faces or license plates',
-    'No private homes',
-    'No personal accusations',
+    'No faces, plates, or private homes',
+    'No names or personal accusations',
     'Not for emergencies',
-    'Resolution proof must show the public asset, not private people',
-    'Reports may become public proof',
   ];
   return (
-    <section className="panel pad">
-      <span className="eyebrow">Before reporting</span>
-      <h2 style={{ marginTop: 0 }}>Safety rules</h2>
-      <p className="muted" style={{ lineHeight: 1.55 }}>
-        Nagarik Signal creates public proof. Keep the record about infrastructure, not private people.
-      </p>
-      <ul style={{ display: 'grid', gap: 8, paddingLeft: 20, lineHeight: 1.5 }}>
+    <aside className="safety-brief">
+      <span className="eyebrow">Safety boundary</span>
+      <h2>Keep people out of the record</h2>
+      <p>Nagarik Signal is for public infrastructure evidence, never private allegations.</p>
+      <ul>
         {rules.map((rule) => <li key={rule}>{rule}</li>)}
       </ul>
-      <div className="notice">
-        Unsafe media can be hidden by stewards, but the public proof record remains visible. Resolution proof is evidence of a steward update, not an official government claim.
-      </div>
-    </section>
+      <p className="safety-note">Unsafe media can be hidden, but the proof trail remains. Resolution evidence is a steward update, not an official government claim.</p>
+    </aside>
   );
 }

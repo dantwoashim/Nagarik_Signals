@@ -7,6 +7,7 @@ import { getOrCreateCivicSession, type CivicSession } from '@/lib/session/civicS
 import { getStoredWalletIdentity } from '@/lib/session/walletMode';
 import type { CivicIssue } from '@/lib/types';
 import { shortText } from '@/lib/ui/format';
+import { showcaseReadOnly } from '@/lib/deployment';
 
 type VerifyPayload = {
   ok: boolean;
@@ -27,7 +28,9 @@ function readableReason(reason: string | undefined) {
 export function VerifyButton({ issue }: { issue: CivicIssue }) {
   const router = useRouter();
   const [message, setMessage] = useState(
-    issue.proof.proofStatus === 'seeded_demo'
+    showcaseReadOnly
+      ? 'Citizen signals are disabled in this read-only Vercel showcase. The independent Solana proof check below remains live.'
+      : issue.proof.proofStatus === 'seeded_demo'
       ? 'Seeded demo issues cannot create live Verification PDAs.'
       : 'Ready to create one verification for your civic session.'
   );
@@ -67,7 +70,7 @@ export function VerifyButton({ issue }: { issue: CivicIssue }) {
   }
 
   const closed = issue.status === 'resolved' || issue.status === 'rejected';
-  const disabled = busy || issue.proof.proofStatus === 'seeded_demo' || closed;
+  const disabled = showcaseReadOnly || busy || issue.proof.proofStatus === 'seeded_demo' || closed;
 
   return (
     <section className="panel pad">

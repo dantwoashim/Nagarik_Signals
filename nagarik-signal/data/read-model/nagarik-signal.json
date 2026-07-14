@@ -1,7 +1,7 @@
 {
   "version": 1,
   "storage": "local_json",
-  "updatedAt": "2026-07-07T17:06:55.413Z",
+  "updatedAt": "2026-07-14T03:53:17.606Z",
   "issues": [
     {
       "id": "4",
@@ -334,1806 +334,6 @@
       ]
     },
     {
-      "id": "seeded-demo-910001",
-      "issueId": 910001,
-      "title": "Broken drain cover beside public bus stop",
-      "description": "A damaged public drain cover is forcing pedestrians into the road near a busy bus stop.",
-      "category": "water",
-      "wardId": "kathmandu-12",
-      "locality": "Kathmandu Ward 12",
-      "status": "verified",
-      "geohash": "27.70:85.30",
-      "firstObservedAt": "2026-06-09T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-10T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910001",
-      "verificationCount": 4,
-      "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.696,
-      "lngDisplay": 85.299,
-      "proof": {
-        "issuePda": "DemoIssuePda910001",
-        "metadataHash": "73714988375d442dc99463cc69abe95337727392622b01ade6225374084c7772",
-        "evidenceHash": "6bf51525fc61d056d9c6026c620420d4e70d6efd449fe8ba326dd0c6f0fee7cc",
-        "locationHash": "4b8409af05f18544087462943a85c40f3acc5aec502439d3c72c6d49c59d46d8",
-        "timelineHash": "bab437ee77cc4660f2f99aabc0d6fb577d1c534a9c41256b283a9a2c1aad92de",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "84526160dd5056ab12ae21bedd9b983b37922ad72f14bb61ef40bcb7111add15",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-09T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "4 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "3c264b88fd9eec022dc0c1f6d160425643a15cd2977ac0bbbc50e3631d9a3b62",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-11T08:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910002",
-      "issueId": 910002,
-      "title": "Streetlight outage on public footpath",
-      "description": "The streetlight along a public footpath has been out for several nights and needs repair follow-up.",
-      "category": "electricity_lighting",
-      "wardId": "lalitpur-03",
-      "locality": "Lalitpur Ward 3",
-      "status": "in_progress",
-      "geohash": "27.68:85.31",
-      "firstObservedAt": "2026-06-16T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-17T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910002",
-      "verificationCount": 3,
-      "updateCount": 1,
-      "photoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.676,
-      "lngDisplay": 85.313,
-      "proof": {
-        "issuePda": "DemoIssuePda910002",
-        "metadataHash": "7e474cde12ae0c875f4354212605bbb543ed5bf4113f0ce363a0f1dabd35bcf0",
-        "evidenceHash": "8fa1ceb7e4d54639a0ba8b9f4ea75bcffd0f060e12b8c5c920b2a81a57340d7a",
-        "locationHash": "ebadf98e8859f30d3fdcc659ff2fa038e67f8c4f589294354e1102e422385f9f",
-        "timelineHash": "70d83944a68a028c8596e84144b0830dd2b66f189d7782c5bfa2416a327fc5f9",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "ba29d58b33046bb638556db1b1fbb3d0fbf2895fac85db000c4feb06989269a0",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-16T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "00b52b2d9d08801c94c5a0a51aa8628215e068b2d8e012bb7a57416f25ecd993",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-18T08:00:00.000Z"
-        },
-        {
-          "seq": 1,
-          "status": "in_progress",
-          "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "10a74a97a80070afced145ca61ba79aaf224b4cd89c3dd93b3f922943dd6d4e3",
-          "txSig": null,
-          "statusUpdatePda": "DemoStatusUpdatePda910002_1",
-          "createdAt": "2026-06-22T09:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910003",
-      "issueId": 910003,
-      "title": "Waste pile blocking community tap access",
-      "description": "Uncollected public waste is blocking safe access to the community water tap area.",
-      "category": "waste",
-      "wardId": "bhaktapur-02",
-      "locality": "Bhaktapur Ward 2",
-      "status": "resolved",
-      "geohash": "27.67:85.43",
-      "firstObservedAt": "2026-06-05T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-06T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910003",
-      "verificationCount": 5,
-      "updateCount": 2,
-      "photoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": "07d667411196f06e56dbaa30b6e18fc362c40ce7129a6dae7724c0be2237414a",
-      "resolutionPhotoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.672,
-      "lngDisplay": 85.427,
-      "proof": {
-        "issuePda": "DemoIssuePda910003",
-        "metadataHash": "2471e7ced07936f90f883f033c6a4eb118ec654acd13a5b5fb7c543210a30590",
-        "evidenceHash": "a67a261258d589f037b636501d1fc0c70b7e3b05dd37ba06e3f87212bd7fb23c",
-        "locationHash": "202b0c2da9b7e306ecfe2a4e6959a23de574424f526b5709bd7a50322d40a5a7",
-        "timelineHash": "e691821dc9f48b5dfdb461d041c5b9df7eb1d82c994747ddd5af52f197edbf0b",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "b77e32ecec6ec40ce3c1f842ba692386efecefbb148d8d3eca98ad5ca0c50d1d",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-05T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "5 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "20def188f724357ecde6ac5733650fee98f975d793561495ffa9f6a719669324",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-07T08:00:00.000Z"
-        },
-        {
-          "seq": 1,
-          "status": "in_progress",
-          "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "f70accb67f70ddceac22d3147ab48168f9d0e11d5c9e48f16cfb743ac2a6c337",
-          "txSig": null,
-          "statusUpdatePda": "DemoStatusUpdatePda910003_1",
-          "createdAt": "2026-06-11T09:00:00.000Z"
-        },
-        {
-          "seq": 2,
-          "status": "resolved",
-          "label": "resolved",
-          "note": "Seeded steward attached after-state resolution proof for the public asset.",
-          "proofHash": "07d667411196f06e56dbaa30b6e18fc362c40ce7129a6dae7724c0be2237414a",
-          "txSig": null,
-          "statusUpdatePda": "DemoStatusUpdatePda910003_2",
-          "createdAt": "2026-06-19T10:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910004",
-      "issueId": 910004,
-      "title": "Pothole near public school crossing",
-      "description": "A pothole on the public school crossing route is collecting rainwater and slowing traffic.",
-      "category": "road",
-      "wardId": "kathmandu-10",
-      "locality": "Kathmandu Ward 10",
-      "status": "verified",
-      "geohash": "27.69:85.34",
-      "firstObservedAt": "2026-06-18T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-19T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910004",
-      "verificationCount": 3,
-      "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.694,
-      "lngDisplay": 85.336,
-      "proof": {
-        "issuePda": "DemoIssuePda910004",
-        "metadataHash": "7878a9e566fb1d96b4f8885f7ea37920d05abb11451ff8bfdc38fd3f022c6dba",
-        "evidenceHash": "c5dcd0a12a5d0d3d2a42c8144cabf0e8002ad6d7867adcd9a98420898cc2d59b",
-        "locationHash": "2e8b2044a8ad5eb4183bad80fbcc64222607878e7b106c07a34ece5531749509",
-        "timelineHash": "a0a52692db1de05913480f113ff3d03edfb57d3bc15da02f42043fc0285448b5",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "f071d34f8621444af167e054b822633551a2526840895413649354b40523d15c",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-18T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "3c2fb2a9d948245f444e23788ecedf5a62994ddbcdac4b43ced19e7563592d9f",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-20T08:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910005",
-      "issueId": 910005,
-      "title": "Loose railing on public bridge approach",
-      "description": "The pedestrian railing near a public bridge approach is loose and needs safety review.",
-      "category": "public_safety_hazard",
-      "wardId": "pokhara-08",
-      "locality": "Pokhara Ward 8",
-      "status": "in_progress",
-      "geohash": "28.21:83.99",
-      "firstObservedAt": "2026-06-22T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-23T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910005",
-      "verificationCount": 2,
-      "updateCount": 1,
-      "photoUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 28.213,
-      "lngDisplay": 83.987,
-      "proof": {
-        "issuePda": "DemoIssuePda910005",
-        "metadataHash": "f74fdfe6e16b6ef14c37cdd8151b9f3f3b47d49ffab0ae8ab2b41d00e6237c42",
-        "evidenceHash": "670395eb1d81ea40c3b88f93bda8d93a894837b7f86b96257e5c0f7382b75bac",
-        "locationHash": "fd8957f628f86793180160d04bfc8cfcee915988ba5caa167568c1d742ed4ebf",
-        "timelineHash": "3694c2d56b22dba020b670e4fc2b44eb1779073d2bb72e6afb129e5a3c68f99b",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "ae62ca4d777bc2a205860dcf075a3d5b5cb0613fda2423ffdd8595571a135b02",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-22T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "139e35300609a92a76a95343d7fe1cd9d6270f21e1b993545769f5d389c21318",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-24T08:00:00.000Z"
-        },
-        {
-          "seq": 1,
-          "status": "in_progress",
-          "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "c68947e9135f1245b0ea10cf53ddd21c41ea415b47a57a0aff01f1649a3be165",
-          "txSig": null,
-          "statusUpdatePda": "DemoStatusUpdatePda910005_1",
-          "createdAt": "2026-06-28T09:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910006",
-      "issueId": 910006,
-      "title": "Damaged bench at public waiting area",
-      "description": "A bench in a public waiting area is damaged and difficult for older residents to use safely.",
-      "category": "public_facility",
-      "wardId": "kathmandu-12",
-      "locality": "Kathmandu Ward 12",
-      "status": "submitted",
-      "geohash": "27.70:85.31",
-      "firstObservedAt": "2026-06-29T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-30T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910006",
-      "verificationCount": 0,
-      "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1523419409543-a5e549c1faa8?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.696,
-      "lngDisplay": 85.309,
-      "proof": {
-        "issuePda": "DemoIssuePda910006",
-        "metadataHash": "ffd119b17b1f27afdbb7ccff9036015c6c456d1c9cdbc85ffd1638b00b11a6e6",
-        "evidenceHash": "7e6440aed9234ef0a0c41272d0cfcb77d3b363251df4d380383ad0c873e33d0e",
-        "locationHash": "eff7fb84b9554bde400d1be040f76a86705a1a540e05d8821e8abb6dae7a57cd",
-        "timelineHash": "f0d52f625d6d4e9f868bb79f1d64f160205dad85d137750f82312e19ec021201",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "5646f2c494a2aa96183aac36ff99d285376d5247fa2e6640b5b6770ff6e12db3",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-29T08:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910007",
-      "issueId": 910007,
-      "title": "Blocked roadside drain after rainfall",
-      "description": "A roadside drain is blocked and overflow is spreading across the public walking lane.",
-      "category": "water",
-      "wardId": "lalitpur-03",
-      "locality": "Lalitpur Ward 3",
-      "status": "verified",
-      "geohash": "27.68:85.32",
-      "firstObservedAt": "2026-06-13T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-14T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910007",
-      "verificationCount": 3,
-      "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.676,
-      "lngDisplay": 85.323,
-      "proof": {
-        "issuePda": "DemoIssuePda910007",
-        "metadataHash": "a96efa8e9793415cb59568eb577211ebac5d63200a8f1f1fd6ba6e59e9e88439",
-        "evidenceHash": "2225a692afb37f6812cf0280ff1aebe2f3c27474f6bb4851d61df7b4ee6ef973",
-        "locationHash": "e4111507c35b1dbc7e334dfb94150284c5c51c2237ae481e801d6ec4ecb3b6ac",
-        "timelineHash": "65fa6dec08c59280c419ff50c001621e8bac0b7ec23f0ccc1218235c1171db6c",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "b36cde8e1405cc694ce69e93a182aa6b74a19dc92966d80c99524347d495a71c",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-13T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "3bff03e25eae9a5f157a232e3b2461b53163e7e2e01971fa30de3c432e911305",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-15T08:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910008",
-      "issueId": 910008,
-      "title": "Public park tap leaking continuously",
-      "description": "A public park tap is leaking continuously and wasting water near the shared path.",
-      "category": "water",
-      "wardId": "pokhara-08",
-      "locality": "Pokhara Ward 8",
-      "status": "resolved",
-      "geohash": "28.21:83.98",
-      "firstObservedAt": "2026-06-11T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-12T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910008",
-      "verificationCount": 2,
-      "updateCount": 2,
-      "photoUrl": "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": "f8609244d98f1606a05593d601b87aa8cec3e49f92dd4e7e577b9a8ceeacb340",
-      "resolutionPhotoUrl": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=70",
-      "safetyReviewStatus": "visible",
-      "latDisplay": 28.209,
-      "lngDisplay": 83.979,
-      "proof": {
-        "issuePda": "DemoIssuePda910008",
-        "metadataHash": "6aa295302b8898f4edcd1a97aa03dcbef122214b6e654a82ed99f38df39839da",
-        "evidenceHash": "6cb2fce62eb4eae80e601457c24e71f5bda82f4595ef79439074ba038b23dd33",
-        "locationHash": "716307fdbfb3bd519d2e6e8c80e975ff076b988480a00ecdcae4d00dd1adac7a",
-        "timelineHash": "7c7552c2c8dd9d052ef3ee217ce7b5775366597e9a6b739fecc775da84e077c2",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "16bcc9491755056711b4a26b401ac62696dcd2d94364230f10721523bf78b31b",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-11T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "5689a8e5aa554c5bf8fedd90e9fcc1a83bc0ead237db40fabc97246a942f284f",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-13T08:00:00.000Z"
-        },
-        {
-          "seq": 1,
-          "status": "in_progress",
-          "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "1a15b545ed16271d29b3042d7229524da0f2ea82ec51a8b6be11eeaa0e75276b",
-          "txSig": null,
-          "statusUpdatePda": "DemoStatusUpdatePda910008_1",
-          "createdAt": "2026-06-17T09:00:00.000Z"
-        },
-        {
-          "seq": 2,
-          "status": "resolved",
-          "label": "resolved",
-          "note": "Seeded steward attached after-state resolution proof for the public asset.",
-          "proofHash": "f8609244d98f1606a05593d601b87aa8cec3e49f92dd4e7e577b9a8ceeacb340",
-          "txSig": null,
-          "statusUpdatePda": "DemoStatusUpdatePda910008_2",
-          "createdAt": "2026-06-25T10:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910009",
-      "issueId": 910009,
-      "title": "Overflowing public bin near market lane",
-      "description": "An overflowing public waste bin is spilling into the market lane and needs collection.",
-      "category": "waste",
-      "wardId": "kathmandu-10",
-      "locality": "Kathmandu Ward 10",
-      "status": "in_progress",
-      "geohash": "27.69:85.33",
-      "firstObservedAt": "2026-06-24T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-25T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910009",
-      "verificationCount": 2,
-      "updateCount": 1,
-      "photoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.694,
-      "lngDisplay": 85.332,
-      "proof": {
-        "issuePda": "DemoIssuePda910009",
-        "metadataHash": "933c65e5409c3030f8f94c84f999b36c5a44f60323b2e8c75d3d34fe611fe261",
-        "evidenceHash": "17d98699ab09e5f38c69ce5e272a75f0b970525218d83d52e29d0468b93ca776",
-        "locationHash": "4739039d8eeeeda67787f086213e97b85ea9f836a13aabd118e1c352f2da53aa",
-        "timelineHash": "0e82f6f1b58f6e4ac1d7e81182d697af200719436c249cf00ee525d699dc8951",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "b147822055b9a44c641e255d69f1748f974e4c2667e6482cf28b8c0f32fd2f30",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-24T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "8924099221aad931688aef8ba9fd80045d2e3678de2ac67910287b86347b1e40",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-26T08:00:00.000Z"
-        },
-        {
-          "seq": 1,
-          "status": "in_progress",
-          "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "be73e989bac334690a7e12e42bea8cf4fdf555fb1b03d31ed16228314996c0b3",
-          "txSig": null,
-          "statusUpdatePda": "DemoStatusUpdatePda910009_1",
-          "createdAt": "2026-06-30T09:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910010",
-      "issueId": 910010,
-      "title": "Cracked sidewalk slab beside clinic",
-      "description": "A cracked public sidewalk slab beside a clinic creates a trip hazard for pedestrians.",
-      "category": "road",
-      "wardId": "bhaktapur-02",
-      "locality": "Bhaktapur Ward 2",
-      "status": "verified",
-      "geohash": "27.68:85.43",
-      "firstObservedAt": "2026-06-20T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-21T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910010",
-      "verificationCount": 3,
-      "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.676,
-      "lngDisplay": 85.427,
-      "proof": {
-        "issuePda": "DemoIssuePda910010",
-        "metadataHash": "8e59f0c3012bdad1b2084800c8bd8683082ea299a8019b378599ea6ac191beab",
-        "evidenceHash": "8f6b6b741d3be0a4b9a62785fbc370f5eaf7dc4b00dfcb8cbf0f6ff1bdad2d12",
-        "locationHash": "99058a58ce0ae83fb8a15d7b0ec30f605df30c344de41f8ea19dc8d9c6144200",
-        "timelineHash": "3d61f4c498606348162ac03b3e7c8c5bb27d7c17b18cf6ccf580debf8aecec2a",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "7325298517f9267ef399973deac892b627824fe6a513dda1c48268385d1cc559",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-20T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "f6b4cd39fb9cc6b8f5e33dae2045d292128715ed082cb08750b595daa1742cc7",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-22T08:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910011",
-      "issueId": 910011,
-      "title": "Missing cover on public cable junction",
-      "description": "A public cable junction cover is missing beside the road and should be secured.",
-      "category": "electricity_lighting",
-      "wardId": "kathmandu-12",
-      "locality": "Kathmandu Ward 12",
-      "status": "disputed",
-      "geohash": "27.70:85.31",
-      "firstObservedAt": "2026-06-27T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-28T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910011",
-      "verificationCount": 1,
-      "updateCount": 1,
-      "photoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.696,
-      "lngDisplay": 85.305,
-      "proof": {
-        "issuePda": "DemoIssuePda910011",
-        "metadataHash": "0c96fd733790238b8c61b5b651fb2a8a483481f3e32367e99a70e66db6e27bbf",
-        "evidenceHash": "659a695e542a0fd38af2d05e9a689ab874a29140cec015336f242f70234719c9",
-        "locationHash": "eff7fb84b9554bde400d1be040f76a86705a1a540e05d8821e8abb6dae7a57cd",
-        "timelineHash": "e50218ce334de0e0e30108d62a3fe72e1915e8baa83c6a46ecde8c039eb7b6df",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "75832d18506c9f01c2337156d87da9710a96c24945296c5f9cd9b4671d43ca4e",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-27T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "1 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "818d40f7d2ce51e96b56ce0d9fc90f744e57914918626dcd86987babdb06c0f1",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-29T08:00:00.000Z"
-        },
-        {
-          "seq": 1,
-          "status": "disputed",
-          "label": "disputed",
-          "note": "Seeded steward marked this issue for review because location details need confirmation.",
-          "proofHash": "c1e9e09c673cb0958120fa28f1b5cdccd71d0ba5601bde1a6c997145a9c9a423",
-          "txSig": null,
-          "statusUpdatePda": "DemoStatusUpdatePda910011_1",
-          "createdAt": "2026-07-03T09:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910012",
-      "issueId": 910012,
-      "title": "Damaged public notice board frame",
-      "description": "The public notice board frame is broken and notices are falling onto the walkway.",
-      "category": "public_facility",
-      "wardId": "lalitpur-03",
-      "locality": "Lalitpur Ward 3",
-      "status": "submitted",
-      "geohash": "27.68:85.32",
-      "firstObservedAt": "2026-07-01T06:00:00.000Z",
-      "proofAnchoredAt": "2026-07-02T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910012",
-      "verificationCount": 0,
-      "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1523419409543-a5e549c1faa8?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.676,
-      "lngDisplay": 85.319,
-      "proof": {
-        "issuePda": "DemoIssuePda910012",
-        "metadataHash": "5e1a224c5347b66c45d09663bbb54e4082d035d9a0d46f674e5d4ff523fc74ab",
-        "evidenceHash": "69450eeb98e921e176605f5c580b2961de795533d2be3190d09628d8084ee84d",
-        "locationHash": "e4111507c35b1dbc7e334dfb94150284c5c51c2237ae481e801d6ec4ecb3b6ac",
-        "timelineHash": "16e304796ea9280280ea92ab276e3f98c05057c58bc2ad079a1d90d4b22258c0",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "350c9271782f2bace4c7a4ac19eb4bc047b87bbc446ceafebd5b201eacc96907",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-07-01T08:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910013",
-      "issueId": 910013,
-      "title": "Open manhole warning barrier missing",
-      "description": "A public manhole area lacks a clear warning barrier and requires quick steward review.",
-      "category": "public_safety_hazard",
-      "wardId": "kathmandu-10",
-      "locality": "Kathmandu Ward 10",
-      "status": "verified",
-      "geohash": "27.69:85.34",
-      "firstObservedAt": "2026-06-25T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-26T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910013",
-      "verificationCount": 3,
-      "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.692,
-      "lngDisplay": 85.34,
-      "proof": {
-        "issuePda": "DemoIssuePda910013",
-        "metadataHash": "9b96ea4fb984a2fcd607962566dc584e386444013627171fcd72ca66364bfec4",
-        "evidenceHash": "269514f5103cbbfe1b194d490b7adea43ff6fb6a82e6e0e3c3af63dd051c486c",
-        "locationHash": "2e8b2044a8ad5eb4183bad80fbcc64222607878e7b106c07a34ece5531749509",
-        "timelineHash": "f6405f8e728570d450a0c8959ad2bd50d0f4c467a838596a403efc78238e5eea",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "a49cb95ee619c2474a25429f24a75ca5ac39fc0d7acb6f9fb8930e61e77e2ce9",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-25T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "9d9da397f675771d011273b87db8d0504d09806fe09c2f9ec7ab71b8812e4ee7",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-27T08:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910014",
-      "issueId": 910014,
-      "title": "Road edge erosion near shared stop",
-      "description": "The road edge beside a shared public transport stop is eroding after repeated rain.",
-      "category": "road",
-      "wardId": "pokhara-08",
-      "locality": "Pokhara Ward 8",
-      "status": "in_progress",
-      "geohash": "28.21:83.99",
-      "firstObservedAt": "2026-06-14T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-15T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910014",
-      "verificationCount": 2,
-      "updateCount": 1,
-      "photoUrl": "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 28.211,
-      "lngDisplay": 83.991,
-      "proof": {
-        "issuePda": "DemoIssuePda910014",
-        "metadataHash": "afaa5689675bd4514918b69c3f53675c39c72cd6f899b6bc6b2e296783ed01e9",
-        "evidenceHash": "3ac2962a6cfc4971d221938d5d754fe311efb6a85d4957866877e7bdbec1a97d",
-        "locationHash": "fd8957f628f86793180160d04bfc8cfcee915988ba5caa167568c1d742ed4ebf",
-        "timelineHash": "683305d13782cf8f319b044ae384a2a7574fd3bb7d3256f32e6d77843b760a80",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "0fcc7dd225f4e556d85dadd62c219e70206106df1ee19124bbebdb054e9b911e",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-14T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "4b0757e72df0eb0088538a1bdfd9c02fed1dd87c4c5a734b27daaf0ec7cad0e7",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-16T08:00:00.000Z"
-        },
-        {
-          "seq": 1,
-          "status": "in_progress",
-          "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "546b6aa9ae6a35f9a44f5126317d77c48c9584c42d864476119fa8ea0f997f67",
-          "txSig": null,
-          "statusUpdatePda": "DemoStatusUpdatePda910014_1",
-          "createdAt": "2026-06-20T09:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910015",
-      "issueId": 910015,
-      "title": "Public staircase light not working",
-      "description": "Lighting on a public staircase has stopped working and residents now avoid the path at night.",
-      "category": "electricity_lighting",
-      "wardId": "bhaktapur-02",
-      "locality": "Bhaktapur Ward 2",
-      "status": "verified",
-      "geohash": "27.68:85.42",
-      "firstObservedAt": "2026-06-17T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-18T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910015",
-      "verificationCount": 2,
-      "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.676,
-      "lngDisplay": 85.423,
-      "proof": {
-        "issuePda": "DemoIssuePda910015",
-        "metadataHash": "777815fb36dcbf3a51366b09ee2d29126ea6e6ef2d32747556cef13b306e2b60",
-        "evidenceHash": "dcc2f8ef84072afa0b0b92fab915e0dd6cc8d903c130bab5b1bc4bab3d324b0d",
-        "locationHash": "d9abca13e06eecd561845515e30953a1c029d1c74705e5d8f370ba886b11f785",
-        "timelineHash": "6e07b806dd51a1d029d6dcf0956cdf59f1854d36bc7a9e08ad27cf49e204eb67",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "434b89c256a2bc2518419bc2aa31c66566f699e0e53545f7884131f8c703c70a",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-17T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "625cd35eec35724995a6f4b4079f30ccecd0a3d9e3ae5327aa20074e68b0e50f",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-19T08:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910016",
-      "issueId": 910016,
-      "title": "Water pooling at zebra crossing",
-      "description": "Water pools at a public zebra crossing after rain and blocks safe pedestrian movement.",
-      "category": "water",
-      "wardId": "kathmandu-10",
-      "locality": "Kathmandu Ward 10",
-      "status": "submitted",
-      "geohash": "27.69:85.33",
-      "firstObservedAt": "2026-06-28T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-29T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910016",
-      "verificationCount": 0,
-      "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.688,
-      "lngDisplay": 85.332,
-      "proof": {
-        "issuePda": "DemoIssuePda910016",
-        "metadataHash": "69a256363bb65644dea19856f6fa9011df4a3b667032dd9bd9d761c2da31950c",
-        "evidenceHash": "8c4bfde11be3f0bdc53c0824ea9ae044e9d6f75900f91c1cb37c07a67ad10876",
-        "locationHash": "4739039d8eeeeda67787f086213e97b85ea9f836a13aabd118e1c352f2da53aa",
-        "timelineHash": "4e818920e15622503686e89506910716e5bd069feddc5ff19b68a86c49c2c2e1",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "5631fbe67f71779a046ce420d9d7035b7c0251d9e00d9b5498935d9204fe1811",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-28T08:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910017",
-      "issueId": 910017,
-      "title": "Public footpath narrowed by debris",
-      "description": "Construction debris has narrowed a public footpath and should be cleared from the walkway.",
-      "category": "other_public_infrastructure",
-      "wardId": "kathmandu-12",
-      "locality": "Kathmandu Ward 12",
-      "status": "verified",
-      "geohash": "27.70:85.30",
-      "firstObservedAt": "2026-06-23T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-24T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910017",
-      "verificationCount": 2,
-      "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1517394834181-95ed159986c7?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.698,
-      "lngDisplay": 85.303,
-      "proof": {
-        "issuePda": "DemoIssuePda910017",
-        "metadataHash": "863414e9371a6600841cf6cd2d7c5d6f6ce52b852cbae7e468ea588a2d74965c",
-        "evidenceHash": "9467b17267f247ff5ca2bf898fd3d0fae83452c4827b70d82f25f8f99fffe81b",
-        "locationHash": "4b8409af05f18544087462943a85c40f3acc5aec502439d3c72c6d49c59d46d8",
-        "timelineHash": "fa174be4620d5bba8219ea60e1a8ae5477d7c194d43fc716c34a8394e4765e9e",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "d295b5fe2f368ba8311d07d86109427b9c34b4095a9db93d0d31a5b15cb5ea57",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-23T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "61a092005f6d76776e8cf9e96ab058c6cd80ebcb94cb1211f76113cc5cb2e358",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-25T08:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910018",
-      "issueId": 910018,
-      "title": "Community park gate hinge broken",
-      "description": "A gate hinge at the public community park entrance is broken and difficult to close.",
-      "category": "public_facility",
-      "wardId": "pokhara-08",
-      "locality": "Pokhara Ward 8",
-      "status": "resolved",
-      "geohash": "28.21:83.98",
-      "firstObservedAt": "2026-06-07T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-08T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910018",
-      "verificationCount": 3,
-      "updateCount": 2,
-      "photoUrl": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": "331e70b33e55b89e97134972763ccd2db4ba3978d55bd3857e7468bb46c42b9a",
-      "resolutionPhotoUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=70",
-      "safetyReviewStatus": "visible",
-      "latDisplay": 28.209,
-      "lngDisplay": 83.985,
-      "proof": {
-        "issuePda": "DemoIssuePda910018",
-        "metadataHash": "f753d72ac4016ea7eb8102997eeca085398023a39710d65fc7e7b408caeb7c2c",
-        "evidenceHash": "526d3c4258c15189190c96bbd2f09f61bc9b6e3f4388cf713f00494d70516331",
-        "locationHash": "716307fdbfb3bd519d2e6e8c80e975ff076b988480a00ecdcae4d00dd1adac7a",
-        "timelineHash": "4a88f41f4950bf2633972d3b2ef9ddd0dd315f2c954a13b85e51309292f19eb5",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "215fe6b3c3b6380339d29693690a34a6c333b6b74b3a736e7f97659f6f1e268c",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-07T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "49417bd5c8f7bd39469b6aaaf22568d3fa76962433fb76040b651d0ee0d1bef2",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-09T08:00:00.000Z"
-        },
-        {
-          "seq": 1,
-          "status": "in_progress",
-          "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "8412c98f87cc49f4af60be61d9d401336b1a5b76dbe17fa929af00f0f917a834",
-          "txSig": null,
-          "statusUpdatePda": "DemoStatusUpdatePda910018_1",
-          "createdAt": "2026-06-13T09:00:00.000Z"
-        },
-        {
-          "seq": 2,
-          "status": "resolved",
-          "label": "resolved",
-          "note": "Seeded steward attached after-state resolution proof for the public asset.",
-          "proofHash": "331e70b33e55b89e97134972763ccd2db4ba3978d55bd3857e7468bb46c42b9a",
-          "txSig": null,
-          "statusUpdatePda": "DemoStatusUpdatePda910018_2",
-          "createdAt": "2026-06-21T10:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910019",
-      "issueId": 910019,
-      "title": "Storm drain grate partly collapsed",
-      "description": "A storm drain grate on a public lane is partly collapsed and needs repair tracking.",
-      "category": "water",
-      "wardId": "lalitpur-03",
-      "locality": "Lalitpur Ward 3",
-      "status": "in_progress",
-      "geohash": "27.68:85.32",
-      "firstObservedAt": "2026-06-12T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-13T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910019",
-      "verificationCount": 3,
-      "updateCount": 1,
-      "photoUrl": "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.68,
-      "lngDisplay": 85.319,
-      "proof": {
-        "issuePda": "DemoIssuePda910019",
-        "metadataHash": "7603b3385422bc84123d11733b83550dc845ce06f9704780d77e85305674fba6",
-        "evidenceHash": "62f0cd6dc717934a186fdfc11f40dd29f53ff5fee248d6cf3025534809fd9183",
-        "locationHash": "e4111507c35b1dbc7e334dfb94150284c5c51c2237ae481e801d6ec4ecb3b6ac",
-        "timelineHash": "6eb1f7838cc5d56f3a61d84b762336bf224213d94948247b0f3a2efd54be3873",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "7c5ba0d4e1d6b769634a199ebd866a4179e2f8bc1e9390ba8772d7b08a3a98c3",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-12T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "1c79482954cf1cc2366717667918e4cc6f12de4f14b94cda5ddd12f773d37bca",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-14T08:00:00.000Z"
-        },
-        {
-          "seq": 1,
-          "status": "in_progress",
-          "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "28f5be756a48e5258de678f809b289a171078de6471f8c2afc2e01c4467e253a",
-          "txSig": null,
-          "statusUpdatePda": "DemoStatusUpdatePda910019_1",
-          "createdAt": "2026-06-18T09:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910020",
-      "issueId": 910020,
-      "title": "Damaged tactile paving near crossing",
-      "description": "Tactile paving near a public crossing is damaged, making navigation harder for pedestrians.",
-      "category": "road",
-      "wardId": "bhaktapur-02",
-      "locality": "Bhaktapur Ward 2",
-      "status": "verified",
-      "geohash": "27.68:85.43",
-      "firstObservedAt": "2026-06-21T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-22T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910020",
-      "verificationCount": 2,
-      "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.676,
-      "lngDisplay": 85.433,
-      "proof": {
-        "issuePda": "DemoIssuePda910020",
-        "metadataHash": "bca8e0cb5b114d68ceeb7f3114e86741027432589143f9e1560c2eddb85d4b97",
-        "evidenceHash": "adeeb9c4e2c00a4d898ee5e9c3c204791d1be864ed66943a4530dad5dd4ef120",
-        "locationHash": "99058a58ce0ae83fb8a15d7b0ec30f605df30c344de41f8ea19dc8d9c6144200",
-        "timelineHash": "31657c22963703c208811ef7c7b8fda98789f3fcb64fb58bf6657aaa5eb85bb9",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "4aa5d009e48ceab04e54824fd988560972ad90ab0e67ee9f1c20491e63e94949",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-21T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "8cc4f4114009d2559e738a3ab6dc9f2173c4e3967268d1ebf16e96d71a7458b1",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-23T08:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910021",
-      "issueId": 910021,
-      "title": "Public bin missing from bus bay",
-      "description": "A public bin is missing from the bus bay and litter is collecting near the waiting area.",
-      "category": "waste",
-      "wardId": "pokhara-08",
-      "locality": "Pokhara Ward 8",
-      "status": "submitted",
-      "geohash": "28.20:83.99",
-      "firstObservedAt": "2026-06-30T06:00:00.000Z",
-      "proofAnchoredAt": "2026-07-01T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910021",
-      "verificationCount": 0,
-      "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 28.205,
-      "lngDisplay": 83.991,
-      "proof": {
-        "issuePda": "DemoIssuePda910021",
-        "metadataHash": "41ecb67be3342a237874e00b55c85f866f1a977b90a49129d9d4ef8ff12ed415",
-        "evidenceHash": "07873df7eaa37606d91fa70c771a3b31031eaa2c78931a4836baa9ea28686afc",
-        "locationHash": "cddb7bad15be04d9f38594fe90d702ae1c350b3e5496d7f61584829065c895cc",
-        "timelineHash": "9ade0c469a913d9a5bd606bc679d5b7c33081b9532fb06fd8b188f747bd3fe96",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "5141e6b6029d98aab96b59a6887cdecda048ce62cc281cd5fe7b245cc0118dd4",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-30T08:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910022",
-      "issueId": 910022,
-      "title": "Drain smell near public walkway",
-      "description": "A drain near the public walkway has an ongoing overflow smell and visible stagnant water.",
-      "category": "water",
-      "wardId": "kathmandu-12",
-      "locality": "Kathmandu Ward 12",
-      "status": "verified",
-      "geohash": "27.70:85.30",
-      "firstObservedAt": "2026-06-19T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-20T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910022",
-      "verificationCount": 2,
-      "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.698,
-      "lngDisplay": 85.299,
-      "proof": {
-        "issuePda": "DemoIssuePda910022",
-        "metadataHash": "19ff02129e29135eee16eb10e6e14ad402c79406e465cacfdf54e33c9432856d",
-        "evidenceHash": "3ccf43fe20b8214c1118d19a8069ca5694f96e036a96ea4c74fddf387d8975eb",
-        "locationHash": "4b8409af05f18544087462943a85c40f3acc5aec502439d3c72c6d49c59d46d8",
-        "timelineHash": "75b0cfd0580f2d96d83cac037fbd63e19b595d20893061f5a24cb05af0ac2fac",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "d1a552c9a56994da92ce23f526bedc91862229f8d6feef72999068406ef8b82e",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-19T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "8df1b06b5a3bcc08d08a7baabc08290747cda7c9990b4cca4fd3583a8cecd67f",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-21T08:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910023",
-      "issueId": 910023,
-      "title": "Uneven public ramp at ward office lane",
-      "description": "The public ramp surface near the ward office lane is uneven and difficult for wheelchair users.",
-      "category": "public_facility",
-      "wardId": "kathmandu-10",
-      "locality": "Kathmandu Ward 10",
-      "status": "in_progress",
-      "geohash": "27.69:85.33",
-      "firstObservedAt": "2026-06-10T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-11T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910023",
-      "verificationCount": 2,
-      "updateCount": 1,
-      "photoUrl": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.692,
-      "lngDisplay": 85.332,
-      "proof": {
-        "issuePda": "DemoIssuePda910023",
-        "metadataHash": "109f1cd5f26659ff7531fe7f65568828cf9f90a059a5bf76ba1598ea141797a1",
-        "evidenceHash": "319bd0de339729819a15e080463cb6a460a2321c5267ad35940e693ad958ab3d",
-        "locationHash": "4739039d8eeeeda67787f086213e97b85ea9f836a13aabd118e1c352f2da53aa",
-        "timelineHash": "3a9f8b61c97cd616bc0fbb8e8010ff29eebd994701488f5a0f5795cc1c726ebb",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "6eb915565b8e9ab23951c275f6263331c8bd6527efe55b5e8451ae7ec13d68ab",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-10T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "2 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "b1524f9221c6db9fef8b6e10b8a24a6b49da6805b0e26e38b8024ef1dc325317",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-12T08:00:00.000Z"
-        },
-        {
-          "seq": 1,
-          "status": "in_progress",
-          "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "7b2b48053cc3928268aa543a3c3ecc9f555f09838a5375cdb2672a919898c395",
-          "txSig": null,
-          "statusUpdatePda": "DemoStatusUpdatePda910023_1",
-          "createdAt": "2026-06-16T09:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910024",
-      "issueId": 910024,
-      "title": "Streetlight pole access panel open",
-      "description": "A streetlight pole access panel is open along a public sidewalk and needs securing.",
-      "category": "electricity_lighting",
-      "wardId": "lalitpur-03",
-      "locality": "Lalitpur Ward 3",
-      "status": "verified",
-      "geohash": "27.68:85.31",
-      "firstObservedAt": "2026-06-26T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-27T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910024",
-      "verificationCount": 1,
-      "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.68,
-      "lngDisplay": 85.315,
-      "proof": {
-        "issuePda": "DemoIssuePda910024",
-        "metadataHash": "f7d19e515443e12d5c7d2161de682d5cd7f22e406a516e86bcca8ccbb9194260",
-        "evidenceHash": "f9e3380a6f88e09501dda3caef5e70f6d7e4ee70fd3b0d78a714dc1e534ddec5",
-        "locationHash": "ebadf98e8859f30d3fdcc659ff2fa038e67f8c4f589294354e1102e422385f9f",
-        "timelineHash": "ebb1adf8b29523d7e4faefdc22c3e1cb2a7599f4eddc11aa8c0b44f0f54121d9",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "2e883f6460cee92ff814c00cec35937e465bc42cc55909b9e2023514408b6945",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-26T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "1 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "7eec12b0b5b29e6f5c432c51a5a783a8732a0bb89473df3f9adfc6501b725ae1",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-28T08:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910025",
-      "issueId": 910025,
-      "title": "Public lane pothole near health post",
-      "description": "A pothole near a public health post lane has grown wider after recent rain.",
-      "category": "road",
-      "wardId": "kathmandu-12",
-      "locality": "Kathmandu Ward 12",
-      "status": "submitted",
-      "geohash": "27.70:85.31",
-      "firstObservedAt": "2026-07-02T06:00:00.000Z",
-      "proofAnchoredAt": "2026-07-03T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910025",
-      "verificationCount": 0,
-      "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.704,
-      "lngDisplay": 85.305,
-      "proof": {
-        "issuePda": "DemoIssuePda910025",
-        "metadataHash": "48f0d587a38cca0925d7770582d5c269feb57a6bd146ae2fd860a5c388abc9a5",
-        "evidenceHash": "5a2dad52f91e0f90595a0c78cfc7b5ef8acce26a73c5ede270874244bdf0fc4f",
-        "locationHash": "eff7fb84b9554bde400d1be040f76a86705a1a540e05d8821e8abb6dae7a57cd",
-        "timelineHash": "60e966bfc63b60bdbe33c27134a6849910409fbc61eab930b68be64d457f0481",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "140b1fb470476b4e7c0982afa370df8ab6d3fa022d820f4d1fbd76b36f2ce71d",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-07-02T08:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910026",
-      "issueId": 910026,
-      "title": "Overflowing drain beside shared courtyard",
-      "description": "An overflowing public drain is affecting a shared courtyard path used by nearby residents.",
-      "category": "water",
-      "wardId": "bhaktapur-02",
-      "locality": "Bhaktapur Ward 2",
-      "status": "verified",
-      "geohash": "27.67:85.43",
-      "firstObservedAt": "2026-06-15T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-16T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910026",
-      "verificationCount": 3,
-      "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.668,
-      "lngDisplay": 85.431,
-      "proof": {
-        "issuePda": "DemoIssuePda910026",
-        "metadataHash": "5cd3cedcafcf37beb7043ad31ce1ba9b60f46a8b1cddc5669facefc5b9bfd89e",
-        "evidenceHash": "93bd60ea4428cfaaa85790769c19b51bcaf9b6918169bea92bce061311bc15f0",
-        "locationHash": "202b0c2da9b7e306ecfe2a4e6959a23de574424f526b5709bd7a50322d40a5a7",
-        "timelineHash": "b9cb3aca3c75d49dfec9bd0502cf96b585ac119ed505443a098ff8195d98b025",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "504b0b98b763bb0fd693eab80b5be2d70d8c101be5a2e60434814b3c5594d83d",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-15T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "c985f8d684cfd029eb45266b4faa5385fca3a63ce8e83cf57767ba351fce9e5f",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-17T08:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910027",
-      "issueId": 910027,
-      "title": "Public waiting shelter roof leak",
-      "description": "The roof of a public waiting shelter leaks during rain and leaves the seating area wet.",
-      "category": "public_facility",
-      "wardId": "pokhara-08",
-      "locality": "Pokhara Ward 8",
-      "status": "resolved",
-      "geohash": "28.21:83.99",
-      "firstObservedAt": "2026-06-03T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-04T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910027",
-      "verificationCount": 4,
-      "updateCount": 2,
-      "photoUrl": "https://images.unsplash.com/photo-1523419409543-a5e549c1faa8?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": "4daf968acd42e301e7b8cc3287ad9090de47f6692c8263a5ead78c535b9ae9a3",
-      "resolutionPhotoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
-      "safetyReviewStatus": "visible",
-      "latDisplay": 28.207,
-      "lngDisplay": 83.989,
-      "proof": {
-        "issuePda": "DemoIssuePda910027",
-        "metadataHash": "acfdc22536e115bc6ef7c0c04d0c160dc107d92ebc3b9eee42f0a09a2cf348fc",
-        "evidenceHash": "30d98480524a039c4013687b6b7a0eeca0f95bac715bda86b6a0a3fc9dde6f3a",
-        "locationHash": "fd8957f628f86793180160d04bfc8cfcee915988ba5caa167568c1d742ed4ebf",
-        "timelineHash": "02e8c8c389c303d3d3eea052ccce940ca5f2b00efd5f1c335cf274a209dcc232",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "3893098319abac266bd6ce984b9b20aaa10b8c5a2458edcd2002079244fb36d7",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-03T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "4 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "dff8221417b12cb9b1a4511e314cb8eb58284f513c9821ee3a1c41ce1b7ecd95",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-05T08:00:00.000Z"
-        },
-        {
-          "seq": 1,
-          "status": "in_progress",
-          "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "c05965ee235300d5b44c33ba0544f4d3c25f59ee88e0b4de5ce822f1f2b08cc2",
-          "txSig": null,
-          "statusUpdatePda": "DemoStatusUpdatePda910027_1",
-          "createdAt": "2026-06-09T09:00:00.000Z"
-        },
-        {
-          "seq": 2,
-          "status": "resolved",
-          "label": "resolved",
-          "note": "Seeded steward attached after-state resolution proof for the public asset.",
-          "proofHash": "4daf968acd42e301e7b8cc3287ad9090de47f6692c8263a5ead78c535b9ae9a3",
-          "txSig": null,
-          "statusUpdatePda": "DemoStatusUpdatePda910027_2",
-          "createdAt": "2026-06-17T10:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910028",
-      "issueId": 910028,
-      "title": "Waste scattered near public footbridge",
-      "description": "Waste is scattered near a public footbridge entrance and should be cleaned up safely.",
-      "category": "waste",
-      "wardId": "lalitpur-03",
-      "locality": "Lalitpur Ward 3",
-      "status": "rejected",
-      "geohash": "27.68:85.32",
-      "firstObservedAt": "2026-07-01T06:00:00.000Z",
-      "proofAnchoredAt": "2026-07-02T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910028",
-      "verificationCount": 1,
-      "updateCount": 1,
-      "photoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "rejected",
-      "latDisplay": 27.678,
-      "lngDisplay": 85.323,
-      "proof": {
-        "issuePda": "DemoIssuePda910028",
-        "metadataHash": "27c672e4b4a0541253e6239ee995f3b459019e1498f88b5a175ae2397ac378d3",
-        "evidenceHash": "dca3d1e57f28447cd3c1088646083de05b86c203f297b8f71540d1f337965ac3",
-        "locationHash": "e4111507c35b1dbc7e334dfb94150284c5c51c2237ae481e801d6ec4ecb3b6ac",
-        "timelineHash": "30698e88e718a475f8c138804c9b3a21ef6bede8b4fdc0fb91ce35f28f5025ed",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "716e2ae295f7aba5f08f4a27a2df882ab3d9d12dc0eaa4c872b7ef1d90378e20",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-07-01T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "1 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "8db3a6f9e823dfc319072ce8247e60442eaddcf5aa2fb2299a5896c757c24451",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-07-03T08:00:00.000Z"
-        },
-        {
-          "seq": 1,
-          "status": "rejected",
-          "label": "rejected",
-          "note": "Seeded steward hid this item from the active queue after safety review.",
-          "proofHash": "727fef5cf4090aba0baf279cd53512c15706915084b0a71c9f50525097069066",
-          "txSig": null,
-          "statusUpdatePda": "DemoStatusUpdatePda910028_1",
-          "createdAt": "2026-07-06T09:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910029",
-      "issueId": 910029,
-      "title": "Loose paving stone near temple square",
-      "description": "A loose paving stone in a public square creates a visible trip hazard for pedestrians.",
-      "category": "public_safety_hazard",
-      "wardId": "bhaktapur-02",
-      "locality": "Bhaktapur Ward 2",
-      "status": "verified",
-      "geohash": "27.67:85.42",
-      "firstObservedAt": "2026-06-08T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-09T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910029",
-      "verificationCount": 4,
-      "updateCount": 0,
-      "photoUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.674,
-      "lngDisplay": 85.423,
-      "proof": {
-        "issuePda": "DemoIssuePda910029",
-        "metadataHash": "482af8e9eb784760a30dea4a8c1b90a2a7534968b02151ac7c9a5bf62f03fec6",
-        "evidenceHash": "dc868e6a0ecf2662e5fb9e9f3e5904bda3c6f96748fad206ae4f125d535de76c",
-        "locationHash": "1226a106477406d57ec02ba05eb61fba3687297082eb6c393cb20a8bb0789ed6",
-        "timelineHash": "8616dfaa61f5d6446af85b0bdbf3bebd1f4b522f344443aedf8951b5db662ed8",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "018267a6a581dd856e23c0666fb71a5aa0388fb9daa76bef0a425ce08dc382ac",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-08T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "4 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "a7c5335cd36bc5fced31fc477379fa17c3b4daa913499b95a4eb47e6565ed43a",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-10T08:00:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "seeded-demo-910030",
-      "issueId": 910030,
-      "title": "Public drainage channel needs clearing",
-      "description": "A public drainage channel has visible blockage and should be cleared before heavier rainfall.",
-      "category": "water",
-      "wardId": "kathmandu-10",
-      "locality": "Kathmandu Ward 10",
-      "status": "in_progress",
-      "geohash": "27.70:85.33",
-      "firstObservedAt": "2026-06-06T06:00:00.000Z",
-      "proofAnchoredAt": "2026-06-07T07:00:00.000Z",
-      "reporterMode": "session",
-      "reporterPubkey": "DemoReporterPubkey910030",
-      "verificationCount": 3,
-      "updateCount": 1,
-      "photoUrl": "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=1200&q=70",
-      "resolutionHash": null,
-      "resolutionPhotoUrl": null,
-      "safetyReviewStatus": "visible",
-      "latDisplay": 27.696,
-      "lngDisplay": 85.332,
-      "proof": {
-        "issuePda": "DemoIssuePda910030",
-        "metadataHash": "ed94907ca33b1a21da89c86fab88c9b3c4a4a7ae5c9c661ab845713f7782c70b",
-        "evidenceHash": "a7eb87617f87ecfc39a21ea552ccef7b04ab2abc63398e62e80f62b386c14e11",
-        "locationHash": "251068345c9c5a55d5e99da53ed321465c7b610cf477b0a63b460a8cfb274e84",
-        "timelineHash": "d0975da4c62637c22d120c2cc46149362dd67d68f6eaa776cc3f9f2f29a73074",
-        "proofStatus": "seeded_demo",
-        "createTxSig": null,
-        "latestTxSig": null,
-        "explorerUrl": null
-      },
-      "timeline": [
-        {
-          "seq": 0,
-          "status": "submitted",
-          "label": "submitted",
-          "note": "Seeded demo public infrastructure report accepted after safety screen.",
-          "proofHash": "1c9a747822d9567b5d505ff7d84ce68a626a40ca513bad2352c2d38fadfd508f",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-06T08:00:00.000Z"
-        },
-        {
-          "seq": 0.5,
-          "status": "verified",
-          "label": "verified",
-          "note": "3 seeded citizen verifications reached the demo threshold.",
-          "proofHash": "2856d96376e46c2c5e8327c13f3d16a687ccf854a4ebc14ad67b10e8436f78f2",
-          "txSig": null,
-          "statusUpdatePda": null,
-          "createdAt": "2026-06-08T08:00:00.000Z"
-        },
-        {
-          "seq": 1,
-          "status": "in_progress",
-          "label": "in progress",
-          "note": "Seeded steward marked repair follow-up in progress.",
-          "proofHash": "b53f1ff98e14988408a2b637db42206dfcb9f0afbaec4d50a6d8506de0b31bf1",
-          "txSig": null,
-          "statusUpdatePda": "DemoStatusUpdatePda910030_1",
-          "createdAt": "2026-06-12T09:00:00.000Z"
-        }
-      ]
-    },
-    {
       "id": "10",
       "issueId": 10,
       "title": "Phase 2 API smoke issue mra7pf0d",
@@ -2264,6 +464,1806 @@
           "createdAt": "2026-07-07T17:06:50.000Z"
         }
       ]
+    },
+    {
+      "id": "seeded-demo-910001",
+      "issueId": 910001,
+      "title": "Broken drain cover beside public bus stop",
+      "description": "A damaged public drain cover is forcing pedestrians into the road near a busy bus stop.",
+      "category": "water",
+      "wardId": "kathmandu-12",
+      "locality": "Kathmandu Ward 12",
+      "status": "verified",
+      "geohash": "27.70:85.30",
+      "firstObservedAt": "2026-06-16T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-17T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910001",
+      "verificationCount": 4,
+      "updateCount": 0,
+      "photoUrl": "/demo/storm-drain.jpg",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.696,
+      "lngDisplay": 85.299,
+      "proof": {
+        "issuePda": "DemoIssuePda910001",
+        "metadataHash": "f2777350787f948c9fd58bb90e4eb2cb84b5097245c77b28808b065922c12a2c",
+        "evidenceHash": "6bf51525fc61d056d9c6026c620420d4e70d6efd449fe8ba326dd0c6f0fee7cc",
+        "locationHash": "4b8409af05f18544087462943a85c40f3acc5aec502439d3c72c6d49c59d46d8",
+        "timelineHash": "de6a1b01f214de7c8d331ecb7c29de0977ea35cb27722fbfb486890d998454b6",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "84526160dd5056ab12ae21bedd9b983b37922ad72f14bb61ef40bcb7111add15",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-16T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "4 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "3c264b88fd9eec022dc0c1f6d160425643a15cd2977ac0bbbc50e3631d9a3b62",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-18T08:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910002",
+      "issueId": 910002,
+      "title": "Streetlight outage on public footpath",
+      "description": "The streetlight along a public footpath has been out for several nights and needs repair follow-up.",
+      "category": "electricity_lighting",
+      "wardId": "lalitpur-03",
+      "locality": "Lalitpur Ward 3",
+      "status": "in_progress",
+      "geohash": "27.68:85.31",
+      "firstObservedAt": "2026-06-23T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-24T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910002",
+      "verificationCount": 3,
+      "updateCount": 1,
+      "photoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.676,
+      "lngDisplay": 85.313,
+      "proof": {
+        "issuePda": "DemoIssuePda910002",
+        "metadataHash": "c604d554aa9b2491c415dbefa4f3e120f8b15d4579c1454c242af9e97aea39ab",
+        "evidenceHash": "8fa1ceb7e4d54639a0ba8b9f4ea75bcffd0f060e12b8c5c920b2a81a57340d7a",
+        "locationHash": "ebadf98e8859f30d3fdcc659ff2fa038e67f8c4f589294354e1102e422385f9f",
+        "timelineHash": "428dcefd0b4ed7208f7e28e24a06b3f386d6a346c8db058ecaf78f2fc30ad4dc",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "ba29d58b33046bb638556db1b1fbb3d0fbf2895fac85db000c4feb06989269a0",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-23T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "3 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "00b52b2d9d08801c94c5a0a51aa8628215e068b2d8e012bb7a57416f25ecd993",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-25T08:00:00.000Z"
+        },
+        {
+          "seq": 1,
+          "status": "in_progress",
+          "label": "in progress",
+          "note": "Seeded steward marked repair follow-up in progress.",
+          "proofHash": "10a74a97a80070afced145ca61ba79aaf224b4cd89c3dd93b3f922943dd6d4e3",
+          "txSig": null,
+          "statusUpdatePda": "DemoStatusUpdatePda910002_1",
+          "createdAt": "2026-06-29T09:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910003",
+      "issueId": 910003,
+      "title": "Waste pile blocking community tap access",
+      "description": "Uncollected public waste is blocking safe access to the community water tap area.",
+      "category": "waste",
+      "wardId": "bhaktapur-02",
+      "locality": "Bhaktapur Ward 2",
+      "status": "resolved",
+      "geohash": "27.67:85.43",
+      "firstObservedAt": "2026-06-12T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-13T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910003",
+      "verificationCount": 5,
+      "updateCount": 2,
+      "photoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
+      "resolutionHash": "07d667411196f06e56dbaa30b6e18fc362c40ce7129a6dae7724c0be2237414a",
+      "resolutionPhotoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.672,
+      "lngDisplay": 85.427,
+      "proof": {
+        "issuePda": "DemoIssuePda910003",
+        "metadataHash": "b3e05e5fe522b969490fab0922a72cd349646aa87b10b3047a4e0acb234b4006",
+        "evidenceHash": "a67a261258d589f037b636501d1fc0c70b7e3b05dd37ba06e3f87212bd7fb23c",
+        "locationHash": "202b0c2da9b7e306ecfe2a4e6959a23de574424f526b5709bd7a50322d40a5a7",
+        "timelineHash": "3ad7448aa22613011403e75894543cec89f1703e82ca782badc59f907321d5a1",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "b77e32ecec6ec40ce3c1f842ba692386efecefbb148d8d3eca98ad5ca0c50d1d",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-12T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "5 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "20def188f724357ecde6ac5733650fee98f975d793561495ffa9f6a719669324",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-14T08:00:00.000Z"
+        },
+        {
+          "seq": 1,
+          "status": "in_progress",
+          "label": "in progress",
+          "note": "Seeded steward marked repair follow-up in progress.",
+          "proofHash": "f70accb67f70ddceac22d3147ab48168f9d0e11d5c9e48f16cfb743ac2a6c337",
+          "txSig": null,
+          "statusUpdatePda": "DemoStatusUpdatePda910003_1",
+          "createdAt": "2026-06-18T09:00:00.000Z"
+        },
+        {
+          "seq": 2,
+          "status": "resolved",
+          "label": "resolved",
+          "note": "Seeded steward attached after-state resolution proof for the public asset.",
+          "proofHash": "07d667411196f06e56dbaa30b6e18fc362c40ce7129a6dae7724c0be2237414a",
+          "txSig": null,
+          "statusUpdatePda": "DemoStatusUpdatePda910003_2",
+          "createdAt": "2026-06-26T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910004",
+      "issueId": 910004,
+      "title": "Pothole near public school crossing",
+      "description": "A pothole on the public school crossing route is collecting rainwater and slowing traffic.",
+      "category": "road",
+      "wardId": "kathmandu-10",
+      "locality": "Kathmandu Ward 10",
+      "status": "verified",
+      "geohash": "27.69:85.34",
+      "firstObservedAt": "2026-06-25T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-26T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910004",
+      "verificationCount": 3,
+      "updateCount": 0,
+      "photoUrl": "/demo/pothole-road.jpg",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.694,
+      "lngDisplay": 85.336,
+      "proof": {
+        "issuePda": "DemoIssuePda910004",
+        "metadataHash": "980408c3d7ea7ba57742291cf99703831ad528abfd21b40bc3de224fcb3b4c92",
+        "evidenceHash": "c5dcd0a12a5d0d3d2a42c8144cabf0e8002ad6d7867adcd9a98420898cc2d59b",
+        "locationHash": "2e8b2044a8ad5eb4183bad80fbcc64222607878e7b106c07a34ece5531749509",
+        "timelineHash": "778ca107bbc06b5ba89e0779eb27c01d5f4e9b537fdeb23066f7cc809e797881",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "f071d34f8621444af167e054b822633551a2526840895413649354b40523d15c",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-25T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "3 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "3c2fb2a9d948245f444e23788ecedf5a62994ddbcdac4b43ced19e7563592d9f",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-27T08:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910005",
+      "issueId": 910005,
+      "title": "Loose railing on public bridge approach",
+      "description": "The pedestrian railing near a public bridge approach is loose and needs safety review.",
+      "category": "public_safety_hazard",
+      "wardId": "pokhara-08",
+      "locality": "Pokhara Ward 8",
+      "status": "in_progress",
+      "geohash": "28.21:83.99",
+      "firstObservedAt": "2026-06-29T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-30T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910005",
+      "verificationCount": 2,
+      "updateCount": 1,
+      "photoUrl": "/demo/pothole-road.jpg",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 28.213,
+      "lngDisplay": 83.987,
+      "proof": {
+        "issuePda": "DemoIssuePda910005",
+        "metadataHash": "5b4ebd3a4c48343d10f6642c8dc05c7405872c2f3f389243e6f25333bbef8982",
+        "evidenceHash": "670395eb1d81ea40c3b88f93bda8d93a894837b7f86b96257e5c0f7382b75bac",
+        "locationHash": "fd8957f628f86793180160d04bfc8cfcee915988ba5caa167568c1d742ed4ebf",
+        "timelineHash": "d96910c5cd8821587c7d95923e5f09dbc59415f56247b5ee67c0012db82ef108",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "ae62ca4d777bc2a205860dcf075a3d5b5cb0613fda2423ffdd8595571a135b02",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-29T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "2 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "139e35300609a92a76a95343d7fe1cd9d6270f21e1b993545769f5d389c21318",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-07-01T08:00:00.000Z"
+        },
+        {
+          "seq": 1,
+          "status": "in_progress",
+          "label": "in progress",
+          "note": "Seeded steward marked repair follow-up in progress.",
+          "proofHash": "c68947e9135f1245b0ea10cf53ddd21c41ea415b47a57a0aff01f1649a3be165",
+          "txSig": null,
+          "statusUpdatePda": "DemoStatusUpdatePda910005_1",
+          "createdAt": "2026-07-05T09:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910006",
+      "issueId": 910006,
+      "title": "Damaged bench at public waiting area",
+      "description": "A bench in a public waiting area is damaged and difficult for older residents to use safely.",
+      "category": "public_facility",
+      "wardId": "kathmandu-12",
+      "locality": "Kathmandu Ward 12",
+      "status": "submitted",
+      "geohash": "27.70:85.31",
+      "firstObservedAt": "2026-07-06T06:00:00.000Z",
+      "proofAnchoredAt": "2026-07-07T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910006",
+      "verificationCount": 0,
+      "updateCount": 0,
+      "photoUrl": "https://images.unsplash.com/photo-1523419409543-a5e549c1faa8?auto=format&fit=crop&w=1200&q=70",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.696,
+      "lngDisplay": 85.309,
+      "proof": {
+        "issuePda": "DemoIssuePda910006",
+        "metadataHash": "2bb058612c33df1d0bfc69437fc2afe3872a95618589c0a5d33fd8644520442e",
+        "evidenceHash": "7e6440aed9234ef0a0c41272d0cfcb77d3b363251df4d380383ad0c873e33d0e",
+        "locationHash": "eff7fb84b9554bde400d1be040f76a86705a1a540e05d8821e8abb6dae7a57cd",
+        "timelineHash": "6e08c7f1a03dcad152d1f61df631d4177ee8ba71f37fbd5ef69eb8144dd16d37",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "5646f2c494a2aa96183aac36ff99d285376d5247fa2e6640b5b6770ff6e12db3",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-07-06T08:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910007",
+      "issueId": 910007,
+      "title": "Blocked roadside drain after rainfall",
+      "description": "A roadside drain is blocked and overflow is spreading across the public walking lane.",
+      "category": "water",
+      "wardId": "lalitpur-03",
+      "locality": "Lalitpur Ward 3",
+      "status": "verified",
+      "geohash": "27.68:85.32",
+      "firstObservedAt": "2026-06-20T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-21T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910007",
+      "verificationCount": 3,
+      "updateCount": 0,
+      "photoUrl": "/demo/storm-drain.jpg",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.676,
+      "lngDisplay": 85.323,
+      "proof": {
+        "issuePda": "DemoIssuePda910007",
+        "metadataHash": "788e0de0b009aa725bcc8bc0bb1a242bf5df12f1b3942efc0c88cd3a833e096a",
+        "evidenceHash": "2225a692afb37f6812cf0280ff1aebe2f3c27474f6bb4851d61df7b4ee6ef973",
+        "locationHash": "e4111507c35b1dbc7e334dfb94150284c5c51c2237ae481e801d6ec4ecb3b6ac",
+        "timelineHash": "2275b73787bed1bf29064a7251d4526140d201c3809c74b2d769ffb0cd01f71a",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "b36cde8e1405cc694ce69e93a182aa6b74a19dc92966d80c99524347d495a71c",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-20T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "3 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "3bff03e25eae9a5f157a232e3b2461b53163e7e2e01971fa30de3c432e911305",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-22T08:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910008",
+      "issueId": 910008,
+      "title": "Public park tap leaking continuously",
+      "description": "A public park tap is leaking continuously and wasting water near the shared path.",
+      "category": "water",
+      "wardId": "pokhara-08",
+      "locality": "Pokhara Ward 8",
+      "status": "resolved",
+      "geohash": "28.21:83.98",
+      "firstObservedAt": "2026-06-18T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-19T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910008",
+      "verificationCount": 2,
+      "updateCount": 2,
+      "photoUrl": "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1200&q=70",
+      "resolutionHash": "f8609244d98f1606a05593d601b87aa8cec3e49f92dd4e7e577b9a8ceeacb340",
+      "resolutionPhotoUrl": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=70",
+      "safetyReviewStatus": "visible",
+      "latDisplay": 28.209,
+      "lngDisplay": 83.979,
+      "proof": {
+        "issuePda": "DemoIssuePda910008",
+        "metadataHash": "45ac37f5cacd8db8bbbed8ad662517ee8a8c3fbb1e7800925ad1c9423dce3a44",
+        "evidenceHash": "6cb2fce62eb4eae80e601457c24e71f5bda82f4595ef79439074ba038b23dd33",
+        "locationHash": "716307fdbfb3bd519d2e6e8c80e975ff076b988480a00ecdcae4d00dd1adac7a",
+        "timelineHash": "a675592f35f488fa030bb235f376b2856fd65e4c01413e6cbf810cb0817bb405",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "16bcc9491755056711b4a26b401ac62696dcd2d94364230f10721523bf78b31b",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-18T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "2 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "5689a8e5aa554c5bf8fedd90e9fcc1a83bc0ead237db40fabc97246a942f284f",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-20T08:00:00.000Z"
+        },
+        {
+          "seq": 1,
+          "status": "in_progress",
+          "label": "in progress",
+          "note": "Seeded steward marked repair follow-up in progress.",
+          "proofHash": "1a15b545ed16271d29b3042d7229524da0f2ea82ec51a8b6be11eeaa0e75276b",
+          "txSig": null,
+          "statusUpdatePda": "DemoStatusUpdatePda910008_1",
+          "createdAt": "2026-06-24T09:00:00.000Z"
+        },
+        {
+          "seq": 2,
+          "status": "resolved",
+          "label": "resolved",
+          "note": "Seeded steward attached after-state resolution proof for the public asset.",
+          "proofHash": "f8609244d98f1606a05593d601b87aa8cec3e49f92dd4e7e577b9a8ceeacb340",
+          "txSig": null,
+          "statusUpdatePda": "DemoStatusUpdatePda910008_2",
+          "createdAt": "2026-07-02T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910009",
+      "issueId": 910009,
+      "title": "Overflowing public bin near market lane",
+      "description": "An overflowing public waste bin is spilling into the market lane and needs collection.",
+      "category": "waste",
+      "wardId": "kathmandu-10",
+      "locality": "Kathmandu Ward 10",
+      "status": "in_progress",
+      "geohash": "27.69:85.33",
+      "firstObservedAt": "2026-07-01T06:00:00.000Z",
+      "proofAnchoredAt": "2026-07-02T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910009",
+      "verificationCount": 2,
+      "updateCount": 1,
+      "photoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.694,
+      "lngDisplay": 85.332,
+      "proof": {
+        "issuePda": "DemoIssuePda910009",
+        "metadataHash": "af0a616056794081eba25f686514b11036d9a15ebe49b0920d44ee027d623e09",
+        "evidenceHash": "17d98699ab09e5f38c69ce5e272a75f0b970525218d83d52e29d0468b93ca776",
+        "locationHash": "4739039d8eeeeda67787f086213e97b85ea9f836a13aabd118e1c352f2da53aa",
+        "timelineHash": "213a86a4627dd276ae6549a4a0c7acbcab98a91b6c9babc406628b795e6ff37d",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "b147822055b9a44c641e255d69f1748f974e4c2667e6482cf28b8c0f32fd2f30",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-07-01T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "2 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "8924099221aad931688aef8ba9fd80045d2e3678de2ac67910287b86347b1e40",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-07-03T08:00:00.000Z"
+        },
+        {
+          "seq": 1,
+          "status": "in_progress",
+          "label": "in progress",
+          "note": "Seeded steward marked repair follow-up in progress.",
+          "proofHash": "be73e989bac334690a7e12e42bea8cf4fdf555fb1b03d31ed16228314996c0b3",
+          "txSig": null,
+          "statusUpdatePda": "DemoStatusUpdatePda910009_1",
+          "createdAt": "2026-07-07T09:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910010",
+      "issueId": 910010,
+      "title": "Cracked sidewalk slab beside clinic",
+      "description": "A cracked public sidewalk slab beside a clinic creates a trip hazard for pedestrians.",
+      "category": "road",
+      "wardId": "bhaktapur-02",
+      "locality": "Bhaktapur Ward 2",
+      "status": "verified",
+      "geohash": "27.68:85.43",
+      "firstObservedAt": "2026-06-27T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-28T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910010",
+      "verificationCount": 3,
+      "updateCount": 0,
+      "photoUrl": "/demo/pothole-road.jpg",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.676,
+      "lngDisplay": 85.427,
+      "proof": {
+        "issuePda": "DemoIssuePda910010",
+        "metadataHash": "4096e229e3bb0570a50441bc21e621f281ddc9402f31953f31d558d6356560a7",
+        "evidenceHash": "8f6b6b741d3be0a4b9a62785fbc370f5eaf7dc4b00dfcb8cbf0f6ff1bdad2d12",
+        "locationHash": "99058a58ce0ae83fb8a15d7b0ec30f605df30c344de41f8ea19dc8d9c6144200",
+        "timelineHash": "ee1ef4dafa0f2304600d42b04314d1a9608b70a102a2531ad6e9780361c9c66b",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "7325298517f9267ef399973deac892b627824fe6a513dda1c48268385d1cc559",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-27T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "3 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "f6b4cd39fb9cc6b8f5e33dae2045d292128715ed082cb08750b595daa1742cc7",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-29T08:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910011",
+      "issueId": 910011,
+      "title": "Missing cover on public cable junction",
+      "description": "A public cable junction cover is missing beside the road and should be secured.",
+      "category": "electricity_lighting",
+      "wardId": "kathmandu-12",
+      "locality": "Kathmandu Ward 12",
+      "status": "disputed",
+      "geohash": "27.70:85.31",
+      "firstObservedAt": "2026-07-04T06:00:00.000Z",
+      "proofAnchoredAt": "2026-07-05T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910011",
+      "verificationCount": 1,
+      "updateCount": 1,
+      "photoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.696,
+      "lngDisplay": 85.305,
+      "proof": {
+        "issuePda": "DemoIssuePda910011",
+        "metadataHash": "666c5da8c5bcf0e95b4fdd17d2984f090290f7626e2439a0a959ddee0499c723",
+        "evidenceHash": "659a695e542a0fd38af2d05e9a689ab874a29140cec015336f242f70234719c9",
+        "locationHash": "eff7fb84b9554bde400d1be040f76a86705a1a540e05d8821e8abb6dae7a57cd",
+        "timelineHash": "1cf8b3d3fd3f374321406096e0cf1a8ce3c940c7eee8b749f9e5ea180fff15b4",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "75832d18506c9f01c2337156d87da9710a96c24945296c5f9cd9b4671d43ca4e",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-07-04T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "1 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "818d40f7d2ce51e96b56ce0d9fc90f744e57914918626dcd86987babdb06c0f1",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-07-06T08:00:00.000Z"
+        },
+        {
+          "seq": 1,
+          "status": "disputed",
+          "label": "disputed",
+          "note": "Seeded steward marked this issue for review because location details need confirmation.",
+          "proofHash": "c1e9e09c673cb0958120fa28f1b5cdccd71d0ba5601bde1a6c997145a9c9a423",
+          "txSig": null,
+          "statusUpdatePda": "DemoStatusUpdatePda910011_1",
+          "createdAt": "2026-07-10T09:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910012",
+      "issueId": 910012,
+      "title": "Damaged public notice board frame",
+      "description": "The public notice board frame is broken and notices are falling onto the walkway.",
+      "category": "public_facility",
+      "wardId": "lalitpur-03",
+      "locality": "Lalitpur Ward 3",
+      "status": "submitted",
+      "geohash": "27.68:85.32",
+      "firstObservedAt": "2026-07-08T06:00:00.000Z",
+      "proofAnchoredAt": "2026-07-09T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910012",
+      "verificationCount": 0,
+      "updateCount": 0,
+      "photoUrl": "https://images.unsplash.com/photo-1523419409543-a5e549c1faa8?auto=format&fit=crop&w=1200&q=70",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.676,
+      "lngDisplay": 85.319,
+      "proof": {
+        "issuePda": "DemoIssuePda910012",
+        "metadataHash": "7a68565701e7c24192478ea73cee3091fe5522fa312214aae59a68f1296250ca",
+        "evidenceHash": "69450eeb98e921e176605f5c580b2961de795533d2be3190d09628d8084ee84d",
+        "locationHash": "e4111507c35b1dbc7e334dfb94150284c5c51c2237ae481e801d6ec4ecb3b6ac",
+        "timelineHash": "c612b8616070658163cb7c3a45b2bf2440e1d6aaa5c3f4e99e9958b138373b9f",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "350c9271782f2bace4c7a4ac19eb4bc047b87bbc446ceafebd5b201eacc96907",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-07-08T08:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910013",
+      "issueId": 910013,
+      "title": "Open manhole warning barrier missing",
+      "description": "A public manhole area lacks a clear warning barrier and requires quick steward review.",
+      "category": "public_safety_hazard",
+      "wardId": "kathmandu-10",
+      "locality": "Kathmandu Ward 10",
+      "status": "verified",
+      "geohash": "27.69:85.34",
+      "firstObservedAt": "2026-07-02T06:00:00.000Z",
+      "proofAnchoredAt": "2026-07-03T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910013",
+      "verificationCount": 3,
+      "updateCount": 0,
+      "photoUrl": "/demo/pothole-road.jpg",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.692,
+      "lngDisplay": 85.34,
+      "proof": {
+        "issuePda": "DemoIssuePda910013",
+        "metadataHash": "0b47a3fc53b7bf211f8bfe79f5c9f81e17d00ebcf6e01ca6f521eac8098829ac",
+        "evidenceHash": "269514f5103cbbfe1b194d490b7adea43ff6fb6a82e6e0e3c3af63dd051c486c",
+        "locationHash": "2e8b2044a8ad5eb4183bad80fbcc64222607878e7b106c07a34ece5531749509",
+        "timelineHash": "5755715cdd0195fd4b2eb5a016ba72f8d36204943453b71f88ea75795d3cf722",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "a49cb95ee619c2474a25429f24a75ca5ac39fc0d7acb6f9fb8930e61e77e2ce9",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-07-02T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "3 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "9d9da397f675771d011273b87db8d0504d09806fe09c2f9ec7ab71b8812e4ee7",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-07-04T08:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910014",
+      "issueId": 910014,
+      "title": "Road edge erosion near shared stop",
+      "description": "The road edge beside a shared public transport stop is eroding after repeated rain.",
+      "category": "road",
+      "wardId": "pokhara-08",
+      "locality": "Pokhara Ward 8",
+      "status": "in_progress",
+      "geohash": "28.21:83.99",
+      "firstObservedAt": "2026-06-21T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-22T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910014",
+      "verificationCount": 2,
+      "updateCount": 1,
+      "photoUrl": "/demo/pothole-road.jpg",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 28.211,
+      "lngDisplay": 83.991,
+      "proof": {
+        "issuePda": "DemoIssuePda910014",
+        "metadataHash": "ee6b40f364493c0ed5d510f791c3d7f46ae286fe0440f0596c4e24ee1e84df6f",
+        "evidenceHash": "3ac2962a6cfc4971d221938d5d754fe311efb6a85d4957866877e7bdbec1a97d",
+        "locationHash": "fd8957f628f86793180160d04bfc8cfcee915988ba5caa167568c1d742ed4ebf",
+        "timelineHash": "b5fac81c8a6d641e6bc2050ca489964f0a2196d5d920f96d3e042fbfa02df960",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "0fcc7dd225f4e556d85dadd62c219e70206106df1ee19124bbebdb054e9b911e",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-21T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "2 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "4b0757e72df0eb0088538a1bdfd9c02fed1dd87c4c5a734b27daaf0ec7cad0e7",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-23T08:00:00.000Z"
+        },
+        {
+          "seq": 1,
+          "status": "in_progress",
+          "label": "in progress",
+          "note": "Seeded steward marked repair follow-up in progress.",
+          "proofHash": "546b6aa9ae6a35f9a44f5126317d77c48c9584c42d864476119fa8ea0f997f67",
+          "txSig": null,
+          "statusUpdatePda": "DemoStatusUpdatePda910014_1",
+          "createdAt": "2026-06-27T09:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910015",
+      "issueId": 910015,
+      "title": "Public staircase light not working",
+      "description": "Lighting on a public staircase has stopped working and residents now avoid the path at night.",
+      "category": "electricity_lighting",
+      "wardId": "bhaktapur-02",
+      "locality": "Bhaktapur Ward 2",
+      "status": "verified",
+      "geohash": "27.68:85.42",
+      "firstObservedAt": "2026-06-24T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-25T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910015",
+      "verificationCount": 2,
+      "updateCount": 0,
+      "photoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.676,
+      "lngDisplay": 85.423,
+      "proof": {
+        "issuePda": "DemoIssuePda910015",
+        "metadataHash": "3824dad1690fd2256e64c9384952fe0b6b80c6bc4a30af27c07132f8f2b0b4af",
+        "evidenceHash": "dcc2f8ef84072afa0b0b92fab915e0dd6cc8d903c130bab5b1bc4bab3d324b0d",
+        "locationHash": "d9abca13e06eecd561845515e30953a1c029d1c74705e5d8f370ba886b11f785",
+        "timelineHash": "12065a9ce104addbf907085bb13718f3000ac06d9301ad034d2ee36e5c34f4ad",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "434b89c256a2bc2518419bc2aa31c66566f699e0e53545f7884131f8c703c70a",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-24T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "2 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "625cd35eec35724995a6f4b4079f30ccecd0a3d9e3ae5327aa20074e68b0e50f",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-26T08:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910016",
+      "issueId": 910016,
+      "title": "Water pooling at zebra crossing",
+      "description": "Water pools at a public zebra crossing after rain and blocks safe pedestrian movement.",
+      "category": "water",
+      "wardId": "kathmandu-10",
+      "locality": "Kathmandu Ward 10",
+      "status": "submitted",
+      "geohash": "27.69:85.33",
+      "firstObservedAt": "2026-07-05T06:00:00.000Z",
+      "proofAnchoredAt": "2026-07-06T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910016",
+      "verificationCount": 0,
+      "updateCount": 0,
+      "photoUrl": "/demo/storm-drain.jpg",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.688,
+      "lngDisplay": 85.332,
+      "proof": {
+        "issuePda": "DemoIssuePda910016",
+        "metadataHash": "cec9e9bb0a1737b651a3f2e897e3115d910b4e675aad289c0115c1c16322d866",
+        "evidenceHash": "8c4bfde11be3f0bdc53c0824ea9ae044e9d6f75900f91c1cb37c07a67ad10876",
+        "locationHash": "4739039d8eeeeda67787f086213e97b85ea9f836a13aabd118e1c352f2da53aa",
+        "timelineHash": "e1afd0ba1431584cd3377ae842b8310daec7144da3dcec1638eaea699ac6a3f5",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "5631fbe67f71779a046ce420d9d7035b7c0251d9e00d9b5498935d9204fe1811",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-07-05T08:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910017",
+      "issueId": 910017,
+      "title": "Public footpath narrowed by debris",
+      "description": "Construction debris has narrowed a public footpath and should be cleared from the walkway.",
+      "category": "other_public_infrastructure",
+      "wardId": "kathmandu-12",
+      "locality": "Kathmandu Ward 12",
+      "status": "verified",
+      "geohash": "27.70:85.30",
+      "firstObservedAt": "2026-06-30T06:00:00.000Z",
+      "proofAnchoredAt": "2026-07-01T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910017",
+      "verificationCount": 2,
+      "updateCount": 0,
+      "photoUrl": "https://images.unsplash.com/photo-1517394834181-95ed159986c7?auto=format&fit=crop&w=1200&q=70",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.698,
+      "lngDisplay": 85.303,
+      "proof": {
+        "issuePda": "DemoIssuePda910017",
+        "metadataHash": "323b5f18a594b7232e51e4f100f65774bd222a2dbaae3b2bf84bd7e56635a49b",
+        "evidenceHash": "9467b17267f247ff5ca2bf898fd3d0fae83452c4827b70d82f25f8f99fffe81b",
+        "locationHash": "4b8409af05f18544087462943a85c40f3acc5aec502439d3c72c6d49c59d46d8",
+        "timelineHash": "8cb2b30ae2ab82d70ced5af3f1f241cfec4e46b45408753866b7038e4b1a21e8",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "d295b5fe2f368ba8311d07d86109427b9c34b4095a9db93d0d31a5b15cb5ea57",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-30T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "2 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "61a092005f6d76776e8cf9e96ab058c6cd80ebcb94cb1211f76113cc5cb2e358",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-07-02T08:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910018",
+      "issueId": 910018,
+      "title": "Community park gate hinge broken",
+      "description": "A gate hinge at the public community park entrance is broken and difficult to close.",
+      "category": "public_facility",
+      "wardId": "pokhara-08",
+      "locality": "Pokhara Ward 8",
+      "status": "resolved",
+      "geohash": "28.21:83.98",
+      "firstObservedAt": "2026-06-14T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-15T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910018",
+      "verificationCount": 3,
+      "updateCount": 2,
+      "photoUrl": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=70",
+      "resolutionHash": "331e70b33e55b89e97134972763ccd2db4ba3978d55bd3857e7468bb46c42b9a",
+      "resolutionPhotoUrl": "/demo/pothole-road.jpg",
+      "safetyReviewStatus": "visible",
+      "latDisplay": 28.209,
+      "lngDisplay": 83.985,
+      "proof": {
+        "issuePda": "DemoIssuePda910018",
+        "metadataHash": "dcd480ba3514b54fc8f19f68646455433fd0e769f178beb65125a2af745c4416",
+        "evidenceHash": "526d3c4258c15189190c96bbd2f09f61bc9b6e3f4388cf713f00494d70516331",
+        "locationHash": "716307fdbfb3bd519d2e6e8c80e975ff076b988480a00ecdcae4d00dd1adac7a",
+        "timelineHash": "97e80c39e6216c6097e25699f495811eb99ba3441d2c3a50f171f1dd90357172",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "215fe6b3c3b6380339d29693690a34a6c333b6b74b3a736e7f97659f6f1e268c",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-14T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "3 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "49417bd5c8f7bd39469b6aaaf22568d3fa76962433fb76040b651d0ee0d1bef2",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-16T08:00:00.000Z"
+        },
+        {
+          "seq": 1,
+          "status": "in_progress",
+          "label": "in progress",
+          "note": "Seeded steward marked repair follow-up in progress.",
+          "proofHash": "8412c98f87cc49f4af60be61d9d401336b1a5b76dbe17fa929af00f0f917a834",
+          "txSig": null,
+          "statusUpdatePda": "DemoStatusUpdatePda910018_1",
+          "createdAt": "2026-06-20T09:00:00.000Z"
+        },
+        {
+          "seq": 2,
+          "status": "resolved",
+          "label": "resolved",
+          "note": "Seeded steward attached after-state resolution proof for the public asset.",
+          "proofHash": "331e70b33e55b89e97134972763ccd2db4ba3978d55bd3857e7468bb46c42b9a",
+          "txSig": null,
+          "statusUpdatePda": "DemoStatusUpdatePda910018_2",
+          "createdAt": "2026-06-28T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910019",
+      "issueId": 910019,
+      "title": "Storm drain grate partly collapsed",
+      "description": "A storm drain grate on a public lane is partly collapsed and needs repair tracking.",
+      "category": "water",
+      "wardId": "lalitpur-03",
+      "locality": "Lalitpur Ward 3",
+      "status": "in_progress",
+      "geohash": "27.68:85.32",
+      "firstObservedAt": "2026-06-19T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-20T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910019",
+      "verificationCount": 3,
+      "updateCount": 1,
+      "photoUrl": "/demo/storm-drain.jpg",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.68,
+      "lngDisplay": 85.319,
+      "proof": {
+        "issuePda": "DemoIssuePda910019",
+        "metadataHash": "38b55ba3d181e7de39be693708b004a4578c186d45132aea827e0f7e3bc885e6",
+        "evidenceHash": "62f0cd6dc717934a186fdfc11f40dd29f53ff5fee248d6cf3025534809fd9183",
+        "locationHash": "e4111507c35b1dbc7e334dfb94150284c5c51c2237ae481e801d6ec4ecb3b6ac",
+        "timelineHash": "809e9c8274ff70574520a107672249e8a913af921894d8e13822264bf739bd62",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "7c5ba0d4e1d6b769634a199ebd866a4179e2f8bc1e9390ba8772d7b08a3a98c3",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-19T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "3 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "1c79482954cf1cc2366717667918e4cc6f12de4f14b94cda5ddd12f773d37bca",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-21T08:00:00.000Z"
+        },
+        {
+          "seq": 1,
+          "status": "in_progress",
+          "label": "in progress",
+          "note": "Seeded steward marked repair follow-up in progress.",
+          "proofHash": "28f5be756a48e5258de678f809b289a171078de6471f8c2afc2e01c4467e253a",
+          "txSig": null,
+          "statusUpdatePda": "DemoStatusUpdatePda910019_1",
+          "createdAt": "2026-06-25T09:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910020",
+      "issueId": 910020,
+      "title": "Damaged tactile paving near crossing",
+      "description": "Tactile paving near a public crossing is damaged, making navigation harder for pedestrians.",
+      "category": "road",
+      "wardId": "bhaktapur-02",
+      "locality": "Bhaktapur Ward 2",
+      "status": "verified",
+      "geohash": "27.68:85.43",
+      "firstObservedAt": "2026-06-28T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-29T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910020",
+      "verificationCount": 2,
+      "updateCount": 0,
+      "photoUrl": "/demo/pothole-road.jpg",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.676,
+      "lngDisplay": 85.433,
+      "proof": {
+        "issuePda": "DemoIssuePda910020",
+        "metadataHash": "4ad7f310bb7566a6e06ddbc29326871f7b0d5fb0e146e04e49a1be32d1a9dee2",
+        "evidenceHash": "adeeb9c4e2c00a4d898ee5e9c3c204791d1be864ed66943a4530dad5dd4ef120",
+        "locationHash": "99058a58ce0ae83fb8a15d7b0ec30f605df30c344de41f8ea19dc8d9c6144200",
+        "timelineHash": "1b416bfd8e10459281ecf93a41ccd27142c6b2cc0fd512bc550942f5205c2071",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "4aa5d009e48ceab04e54824fd988560972ad90ab0e67ee9f1c20491e63e94949",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-28T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "2 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "8cc4f4114009d2559e738a3ab6dc9f2173c4e3967268d1ebf16e96d71a7458b1",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-30T08:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910021",
+      "issueId": 910021,
+      "title": "Public bin missing from bus bay",
+      "description": "A public bin is missing from the bus bay and litter is collecting near the waiting area.",
+      "category": "waste",
+      "wardId": "pokhara-08",
+      "locality": "Pokhara Ward 8",
+      "status": "submitted",
+      "geohash": "28.20:83.99",
+      "firstObservedAt": "2026-07-07T06:00:00.000Z",
+      "proofAnchoredAt": "2026-07-08T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910021",
+      "verificationCount": 0,
+      "updateCount": 0,
+      "photoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 28.205,
+      "lngDisplay": 83.991,
+      "proof": {
+        "issuePda": "DemoIssuePda910021",
+        "metadataHash": "4e04a623517a4f67c95875ddf3c12d7e9d9a0ea4664573356a44ea204661cc79",
+        "evidenceHash": "07873df7eaa37606d91fa70c771a3b31031eaa2c78931a4836baa9ea28686afc",
+        "locationHash": "cddb7bad15be04d9f38594fe90d702ae1c350b3e5496d7f61584829065c895cc",
+        "timelineHash": "64018f3cb24bfa2c8a6b1f2a37c5a9809ccf00c87a270cdb1fbc540958106237",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "5141e6b6029d98aab96b59a6887cdecda048ce62cc281cd5fe7b245cc0118dd4",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-07-07T08:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910022",
+      "issueId": 910022,
+      "title": "Drain smell near public walkway",
+      "description": "A drain near the public walkway has an ongoing overflow smell and visible stagnant water.",
+      "category": "water",
+      "wardId": "kathmandu-12",
+      "locality": "Kathmandu Ward 12",
+      "status": "verified",
+      "geohash": "27.70:85.30",
+      "firstObservedAt": "2026-06-26T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-27T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910022",
+      "verificationCount": 2,
+      "updateCount": 0,
+      "photoUrl": "/demo/storm-drain.jpg",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.698,
+      "lngDisplay": 85.299,
+      "proof": {
+        "issuePda": "DemoIssuePda910022",
+        "metadataHash": "5c13c64253d44e6bf0913eafafc663b9b44dc7c4a5ee4de045cea3acbd6377db",
+        "evidenceHash": "3ccf43fe20b8214c1118d19a8069ca5694f96e036a96ea4c74fddf387d8975eb",
+        "locationHash": "4b8409af05f18544087462943a85c40f3acc5aec502439d3c72c6d49c59d46d8",
+        "timelineHash": "2d231f0dbf0067e92071570a13a1da3594d7968e3be441316b740722fbde5fb8",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "d1a552c9a56994da92ce23f526bedc91862229f8d6feef72999068406ef8b82e",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-26T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "2 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "8df1b06b5a3bcc08d08a7baabc08290747cda7c9990b4cca4fd3583a8cecd67f",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-28T08:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910023",
+      "issueId": 910023,
+      "title": "Uneven public ramp at ward office lane",
+      "description": "The public ramp surface near the ward office lane is uneven and difficult for wheelchair users.",
+      "category": "public_facility",
+      "wardId": "kathmandu-10",
+      "locality": "Kathmandu Ward 10",
+      "status": "in_progress",
+      "geohash": "27.69:85.33",
+      "firstObservedAt": "2026-06-17T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-18T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910023",
+      "verificationCount": 2,
+      "updateCount": 1,
+      "photoUrl": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=70",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.692,
+      "lngDisplay": 85.332,
+      "proof": {
+        "issuePda": "DemoIssuePda910023",
+        "metadataHash": "f3e2a271a72ab079383dd2c9d9aff15b7d3e3c5567e00001ba6ff7895817f2cf",
+        "evidenceHash": "319bd0de339729819a15e080463cb6a460a2321c5267ad35940e693ad958ab3d",
+        "locationHash": "4739039d8eeeeda67787f086213e97b85ea9f836a13aabd118e1c352f2da53aa",
+        "timelineHash": "928e87022d46ee5d70b8c4f9915007a80d2958757ccccffbb673b29fb1a730c2",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "6eb915565b8e9ab23951c275f6263331c8bd6527efe55b5e8451ae7ec13d68ab",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-17T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "2 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "b1524f9221c6db9fef8b6e10b8a24a6b49da6805b0e26e38b8024ef1dc325317",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-19T08:00:00.000Z"
+        },
+        {
+          "seq": 1,
+          "status": "in_progress",
+          "label": "in progress",
+          "note": "Seeded steward marked repair follow-up in progress.",
+          "proofHash": "7b2b48053cc3928268aa543a3c3ecc9f555f09838a5375cdb2672a919898c395",
+          "txSig": null,
+          "statusUpdatePda": "DemoStatusUpdatePda910023_1",
+          "createdAt": "2026-06-23T09:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910024",
+      "issueId": 910024,
+      "title": "Streetlight pole access panel open",
+      "description": "A streetlight pole access panel is open along a public sidewalk and needs securing.",
+      "category": "electricity_lighting",
+      "wardId": "lalitpur-03",
+      "locality": "Lalitpur Ward 3",
+      "status": "verified",
+      "geohash": "27.68:85.31",
+      "firstObservedAt": "2026-07-03T06:00:00.000Z",
+      "proofAnchoredAt": "2026-07-04T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910024",
+      "verificationCount": 1,
+      "updateCount": 0,
+      "photoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.68,
+      "lngDisplay": 85.315,
+      "proof": {
+        "issuePda": "DemoIssuePda910024",
+        "metadataHash": "8cf4a6797cbcd1b204681051767e8b2f5417c32572bfd69d5c9db5c150fcb4dc",
+        "evidenceHash": "f9e3380a6f88e09501dda3caef5e70f6d7e4ee70fd3b0d78a714dc1e534ddec5",
+        "locationHash": "ebadf98e8859f30d3fdcc659ff2fa038e67f8c4f589294354e1102e422385f9f",
+        "timelineHash": "49d7da0bfd361e981df041ace39fff371c75d258ffebd0ba4f5077d52a871e76",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "2e883f6460cee92ff814c00cec35937e465bc42cc55909b9e2023514408b6945",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-07-03T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "1 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "7eec12b0b5b29e6f5c432c51a5a783a8732a0bb89473df3f9adfc6501b725ae1",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-07-05T08:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910025",
+      "issueId": 910025,
+      "title": "Public lane pothole near health post",
+      "description": "A pothole near a public health post lane has grown wider after recent rain.",
+      "category": "road",
+      "wardId": "kathmandu-12",
+      "locality": "Kathmandu Ward 12",
+      "status": "submitted",
+      "geohash": "27.70:85.31",
+      "firstObservedAt": "2026-07-09T06:00:00.000Z",
+      "proofAnchoredAt": "2026-07-10T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910025",
+      "verificationCount": 0,
+      "updateCount": 0,
+      "photoUrl": "/demo/pothole-road.jpg",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.704,
+      "lngDisplay": 85.305,
+      "proof": {
+        "issuePda": "DemoIssuePda910025",
+        "metadataHash": "a6fde9c9b6a1fde1032fbe83c6d0e48406b319e21e3e3974e36200dd6f898e83",
+        "evidenceHash": "5a2dad52f91e0f90595a0c78cfc7b5ef8acce26a73c5ede270874244bdf0fc4f",
+        "locationHash": "eff7fb84b9554bde400d1be040f76a86705a1a540e05d8821e8abb6dae7a57cd",
+        "timelineHash": "611ef1366d6c750dd7efc24e86c375b534c15a5744174705594d5b4ba3912256",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "140b1fb470476b4e7c0982afa370df8ab6d3fa022d820f4d1fbd76b36f2ce71d",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-07-09T08:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910026",
+      "issueId": 910026,
+      "title": "Overflowing drain beside shared courtyard",
+      "description": "An overflowing public drain is affecting a shared courtyard path used by nearby residents.",
+      "category": "water",
+      "wardId": "bhaktapur-02",
+      "locality": "Bhaktapur Ward 2",
+      "status": "verified",
+      "geohash": "27.67:85.43",
+      "firstObservedAt": "2026-06-22T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-23T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910026",
+      "verificationCount": 3,
+      "updateCount": 0,
+      "photoUrl": "/demo/storm-drain.jpg",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.668,
+      "lngDisplay": 85.431,
+      "proof": {
+        "issuePda": "DemoIssuePda910026",
+        "metadataHash": "8a6ac64cf25188eb5a7c02dd599ebc1768b458c3b2cfbba4d4db15b8f108dc5e",
+        "evidenceHash": "93bd60ea4428cfaaa85790769c19b51bcaf9b6918169bea92bce061311bc15f0",
+        "locationHash": "202b0c2da9b7e306ecfe2a4e6959a23de574424f526b5709bd7a50322d40a5a7",
+        "timelineHash": "57b3bb93294f21b3daebbeb6d83f1293b24bead896c1d263b6334a33b269c5f0",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "504b0b98b763bb0fd693eab80b5be2d70d8c101be5a2e60434814b3c5594d83d",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-22T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "3 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "c985f8d684cfd029eb45266b4faa5385fca3a63ce8e83cf57767ba351fce9e5f",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-24T08:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910027",
+      "issueId": 910027,
+      "title": "Public waiting shelter roof leak",
+      "description": "The roof of a public waiting shelter leaks during rain and leaves the seating area wet.",
+      "category": "public_facility",
+      "wardId": "pokhara-08",
+      "locality": "Pokhara Ward 8",
+      "status": "resolved",
+      "geohash": "28.21:83.99",
+      "firstObservedAt": "2026-06-10T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-11T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910027",
+      "verificationCount": 4,
+      "updateCount": 2,
+      "photoUrl": "https://images.unsplash.com/photo-1523419409543-a5e549c1faa8?auto=format&fit=crop&w=1200&q=70",
+      "resolutionHash": "4daf968acd42e301e7b8cc3287ad9090de47f6692c8263a5ead78c535b9ae9a3",
+      "resolutionPhotoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
+      "safetyReviewStatus": "visible",
+      "latDisplay": 28.207,
+      "lngDisplay": 83.989,
+      "proof": {
+        "issuePda": "DemoIssuePda910027",
+        "metadataHash": "f9390af72eaea61c308c39c18b562178161ede79c6fb2122978ae5bbbad45bc6",
+        "evidenceHash": "30d98480524a039c4013687b6b7a0eeca0f95bac715bda86b6a0a3fc9dde6f3a",
+        "locationHash": "fd8957f628f86793180160d04bfc8cfcee915988ba5caa167568c1d742ed4ebf",
+        "timelineHash": "18ea85281230b6a5db0344046c02f92664b991f53504800b3a7b75e0c532f180",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "3893098319abac266bd6ce984b9b20aaa10b8c5a2458edcd2002079244fb36d7",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-10T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "4 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "dff8221417b12cb9b1a4511e314cb8eb58284f513c9821ee3a1c41ce1b7ecd95",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-12T08:00:00.000Z"
+        },
+        {
+          "seq": 1,
+          "status": "in_progress",
+          "label": "in progress",
+          "note": "Seeded steward marked repair follow-up in progress.",
+          "proofHash": "c05965ee235300d5b44c33ba0544f4d3c25f59ee88e0b4de5ce822f1f2b08cc2",
+          "txSig": null,
+          "statusUpdatePda": "DemoStatusUpdatePda910027_1",
+          "createdAt": "2026-06-16T09:00:00.000Z"
+        },
+        {
+          "seq": 2,
+          "status": "resolved",
+          "label": "resolved",
+          "note": "Seeded steward attached after-state resolution proof for the public asset.",
+          "proofHash": "4daf968acd42e301e7b8cc3287ad9090de47f6692c8263a5ead78c535b9ae9a3",
+          "txSig": null,
+          "statusUpdatePda": "DemoStatusUpdatePda910027_2",
+          "createdAt": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910028",
+      "issueId": 910028,
+      "title": "Waste scattered near public footbridge",
+      "description": "Waste is scattered near a public footbridge entrance and should be cleaned up safely.",
+      "category": "waste",
+      "wardId": "lalitpur-03",
+      "locality": "Lalitpur Ward 3",
+      "status": "rejected",
+      "geohash": "27.68:85.32",
+      "firstObservedAt": "2026-07-08T06:00:00.000Z",
+      "proofAnchoredAt": "2026-07-09T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910028",
+      "verificationCount": 1,
+      "updateCount": 1,
+      "photoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "rejected",
+      "latDisplay": 27.678,
+      "lngDisplay": 85.323,
+      "proof": {
+        "issuePda": "DemoIssuePda910028",
+        "metadataHash": "e3cab542a77851fd2f57ed538f1909b1c1c32b28366774f58a156fae7ea5c7ca",
+        "evidenceHash": "dca3d1e57f28447cd3c1088646083de05b86c203f297b8f71540d1f337965ac3",
+        "locationHash": "e4111507c35b1dbc7e334dfb94150284c5c51c2237ae481e801d6ec4ecb3b6ac",
+        "timelineHash": "183f934be87366b6bf5315d9fe4db1a28baf35f1de05f645321ef130bcab29e1",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "716e2ae295f7aba5f08f4a27a2df882ab3d9d12dc0eaa4c872b7ef1d90378e20",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-07-08T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "1 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "8db3a6f9e823dfc319072ce8247e60442eaddcf5aa2fb2299a5896c757c24451",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-07-10T08:00:00.000Z"
+        },
+        {
+          "seq": 1,
+          "status": "rejected",
+          "label": "rejected",
+          "note": "Seeded steward hid this item from the active queue after safety review.",
+          "proofHash": "727fef5cf4090aba0baf279cd53512c15706915084b0a71c9f50525097069066",
+          "txSig": null,
+          "statusUpdatePda": "DemoStatusUpdatePda910028_1",
+          "createdAt": "2026-07-13T09:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910029",
+      "issueId": 910029,
+      "title": "Loose paving stone near temple square",
+      "description": "A loose paving stone in a public square creates a visible trip hazard for pedestrians.",
+      "category": "public_safety_hazard",
+      "wardId": "bhaktapur-02",
+      "locality": "Bhaktapur Ward 2",
+      "status": "verified",
+      "geohash": "27.67:85.42",
+      "firstObservedAt": "2026-06-15T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-16T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910029",
+      "verificationCount": 4,
+      "updateCount": 0,
+      "photoUrl": "/demo/pothole-road.jpg",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.674,
+      "lngDisplay": 85.423,
+      "proof": {
+        "issuePda": "DemoIssuePda910029",
+        "metadataHash": "3ce8204dd300024863d5da3b30f9e74282ab1819819956a9710fc533c314d2c0",
+        "evidenceHash": "dc868e6a0ecf2662e5fb9e9f3e5904bda3c6f96748fad206ae4f125d535de76c",
+        "locationHash": "1226a106477406d57ec02ba05eb61fba3687297082eb6c393cb20a8bb0789ed6",
+        "timelineHash": "05c41c76c5279de7dddf266a5e0a7c44974e5b3fb693f9b7e32ec4481bf6673f",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "018267a6a581dd856e23c0666fb71a5aa0388fb9daa76bef0a425ce08dc382ac",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-15T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "4 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "a7c5335cd36bc5fced31fc477379fa17c3b4daa913499b95a4eb47e6565ed43a",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-17T08:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "seeded-demo-910030",
+      "issueId": 910030,
+      "title": "Public drainage channel needs clearing",
+      "description": "A public drainage channel has visible blockage and should be cleared before heavier rainfall.",
+      "category": "water",
+      "wardId": "kathmandu-10",
+      "locality": "Kathmandu Ward 10",
+      "status": "in_progress",
+      "geohash": "27.70:85.33",
+      "firstObservedAt": "2026-06-13T06:00:00.000Z",
+      "proofAnchoredAt": "2026-06-14T07:00:00.000Z",
+      "reporterMode": "session",
+      "reporterPubkey": "DemoReporterPubkey910030",
+      "verificationCount": 3,
+      "updateCount": 1,
+      "photoUrl": "/demo/storm-drain.jpg",
+      "resolutionHash": null,
+      "resolutionPhotoUrl": null,
+      "safetyReviewStatus": "visible",
+      "latDisplay": 27.696,
+      "lngDisplay": 85.332,
+      "proof": {
+        "issuePda": "DemoIssuePda910030",
+        "metadataHash": "ba02bca7ddda244feadb3c8055df165eb1c4257f216af666e4d1ab050dcf57e8",
+        "evidenceHash": "a7eb87617f87ecfc39a21ea552ccef7b04ab2abc63398e62e80f62b386c14e11",
+        "locationHash": "251068345c9c5a55d5e99da53ed321465c7b610cf477b0a63b460a8cfb274e84",
+        "timelineHash": "722ec26c278b4d2fed2f7beea9148ab1731ca51bfae79140df4598e6ff0cd032",
+        "proofStatus": "seeded_demo",
+        "createTxSig": null,
+        "latestTxSig": null,
+        "explorerUrl": null
+      },
+      "timeline": [
+        {
+          "seq": 0,
+          "status": "submitted",
+          "label": "submitted",
+          "note": "Seeded demo public infrastructure report accepted after safety screen.",
+          "proofHash": "1c9a747822d9567b5d505ff7d84ce68a626a40ca513bad2352c2d38fadfd508f",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-13T08:00:00.000Z"
+        },
+        {
+          "seq": 0.5,
+          "status": "verified",
+          "label": "verified",
+          "note": "3 seeded citizen verifications reached the demo threshold.",
+          "proofHash": "2856d96376e46c2c5e8327c13f3d16a687ccf854a4ebc14ad67b10e8436f78f2",
+          "txSig": null,
+          "statusUpdatePda": null,
+          "createdAt": "2026-06-15T08:00:00.000Z"
+        },
+        {
+          "seq": 1,
+          "status": "in_progress",
+          "label": "in progress",
+          "note": "Seeded steward marked repair follow-up in progress.",
+          "proofHash": "b53f1ff98e14988408a2b637db42206dfcb9f0afbaec4d50a6d8506de0b31bf1",
+          "txSig": null,
+          "statusUpdatePda": "DemoStatusUpdatePda910030_1",
+          "createdAt": "2026-06-19T09:00:00.000Z"
+        }
+      ]
     }
   ],
   "verifications": [
@@ -2273,7 +2273,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910001_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-10T10:00:00.000Z"
+      "createdAt": "2026-06-18T10:00:00.000Z"
     },
     {
       "issueId": 910001,
@@ -2281,7 +2281,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910001_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-11T10:00:00.000Z"
+      "createdAt": "2026-06-19T10:00:00.000Z"
     },
     {
       "issueId": 910001,
@@ -2289,7 +2289,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910001_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-12T10:00:00.000Z"
+      "createdAt": "2026-06-20T10:00:00.000Z"
     },
     {
       "issueId": 910001,
@@ -2297,7 +2297,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910001_4",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-13T10:00:00.000Z"
+      "createdAt": "2026-06-21T10:00:00.000Z"
     },
     {
       "issueId": 910002,
@@ -2305,7 +2305,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910002_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-17T10:00:00.000Z"
+      "createdAt": "2026-06-25T10:00:00.000Z"
     },
     {
       "issueId": 910002,
@@ -2313,7 +2313,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910002_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-18T10:00:00.000Z"
+      "createdAt": "2026-06-26T10:00:00.000Z"
     },
     {
       "issueId": 910002,
@@ -2321,7 +2321,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910002_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-19T10:00:00.000Z"
+      "createdAt": "2026-06-27T10:00:00.000Z"
     },
     {
       "issueId": 910003,
@@ -2329,7 +2329,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910003_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-06T10:00:00.000Z"
+      "createdAt": "2026-06-14T10:00:00.000Z"
     },
     {
       "issueId": 910003,
@@ -2337,7 +2337,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910003_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-07T10:00:00.000Z"
+      "createdAt": "2026-06-15T10:00:00.000Z"
     },
     {
       "issueId": 910003,
@@ -2345,7 +2345,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910003_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-08T10:00:00.000Z"
+      "createdAt": "2026-06-16T10:00:00.000Z"
     },
     {
       "issueId": 910003,
@@ -2353,7 +2353,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910003_4",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-09T10:00:00.000Z"
+      "createdAt": "2026-06-17T10:00:00.000Z"
     },
     {
       "issueId": 910003,
@@ -2361,7 +2361,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910003_5",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-10T10:00:00.000Z"
+      "createdAt": "2026-06-18T10:00:00.000Z"
     },
     {
       "issueId": 910004,
@@ -2369,7 +2369,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910004_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-19T10:00:00.000Z"
+      "createdAt": "2026-06-27T10:00:00.000Z"
     },
     {
       "issueId": 910004,
@@ -2377,7 +2377,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910004_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-20T10:00:00.000Z"
+      "createdAt": "2026-06-28T10:00:00.000Z"
     },
     {
       "issueId": 910004,
@@ -2385,7 +2385,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910004_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-21T10:00:00.000Z"
+      "createdAt": "2026-06-29T10:00:00.000Z"
     },
     {
       "issueId": 910005,
@@ -2393,7 +2393,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910005_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-23T10:00:00.000Z"
+      "createdAt": "2026-07-01T10:00:00.000Z"
     },
     {
       "issueId": 910005,
@@ -2401,7 +2401,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910005_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-24T10:00:00.000Z"
+      "createdAt": "2026-07-02T10:00:00.000Z"
     },
     {
       "issueId": 910007,
@@ -2409,7 +2409,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910007_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-14T10:00:00.000Z"
+      "createdAt": "2026-06-22T10:00:00.000Z"
     },
     {
       "issueId": 910007,
@@ -2417,7 +2417,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910007_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-15T10:00:00.000Z"
+      "createdAt": "2026-06-23T10:00:00.000Z"
     },
     {
       "issueId": 910007,
@@ -2425,7 +2425,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910007_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-16T10:00:00.000Z"
+      "createdAt": "2026-06-24T10:00:00.000Z"
     },
     {
       "issueId": 910008,
@@ -2433,7 +2433,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910008_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-12T10:00:00.000Z"
+      "createdAt": "2026-06-20T10:00:00.000Z"
     },
     {
       "issueId": 910008,
@@ -2441,7 +2441,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910008_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-13T10:00:00.000Z"
+      "createdAt": "2026-06-21T10:00:00.000Z"
     },
     {
       "issueId": 910009,
@@ -2449,7 +2449,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910009_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-25T10:00:00.000Z"
+      "createdAt": "2026-07-03T10:00:00.000Z"
     },
     {
       "issueId": 910009,
@@ -2457,7 +2457,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910009_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-26T10:00:00.000Z"
+      "createdAt": "2026-07-04T10:00:00.000Z"
     },
     {
       "issueId": 910010,
@@ -2465,7 +2465,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910010_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-21T10:00:00.000Z"
+      "createdAt": "2026-06-29T10:00:00.000Z"
     },
     {
       "issueId": 910010,
@@ -2473,7 +2473,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910010_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-22T10:00:00.000Z"
+      "createdAt": "2026-06-30T10:00:00.000Z"
     },
     {
       "issueId": 910010,
@@ -2481,7 +2481,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910010_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-23T10:00:00.000Z"
+      "createdAt": "2026-07-01T10:00:00.000Z"
     },
     {
       "issueId": 910011,
@@ -2489,7 +2489,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910011_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-28T10:00:00.000Z"
+      "createdAt": "2026-07-06T10:00:00.000Z"
     },
     {
       "issueId": 910013,
@@ -2497,7 +2497,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910013_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-26T10:00:00.000Z"
+      "createdAt": "2026-07-04T10:00:00.000Z"
     },
     {
       "issueId": 910013,
@@ -2505,7 +2505,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910013_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-27T10:00:00.000Z"
+      "createdAt": "2026-07-05T10:00:00.000Z"
     },
     {
       "issueId": 910013,
@@ -2513,7 +2513,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910013_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-28T10:00:00.000Z"
+      "createdAt": "2026-07-06T10:00:00.000Z"
     },
     {
       "issueId": 910014,
@@ -2521,7 +2521,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910014_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-15T10:00:00.000Z"
+      "createdAt": "2026-06-23T10:00:00.000Z"
     },
     {
       "issueId": 910014,
@@ -2529,7 +2529,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910014_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-16T10:00:00.000Z"
+      "createdAt": "2026-06-24T10:00:00.000Z"
     },
     {
       "issueId": 910015,
@@ -2537,7 +2537,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910015_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-18T10:00:00.000Z"
+      "createdAt": "2026-06-26T10:00:00.000Z"
     },
     {
       "issueId": 910015,
@@ -2545,7 +2545,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910015_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-19T10:00:00.000Z"
+      "createdAt": "2026-06-27T10:00:00.000Z"
     },
     {
       "issueId": 910017,
@@ -2553,7 +2553,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910017_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-24T10:00:00.000Z"
+      "createdAt": "2026-07-02T10:00:00.000Z"
     },
     {
       "issueId": 910017,
@@ -2561,7 +2561,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910017_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-25T10:00:00.000Z"
+      "createdAt": "2026-07-03T10:00:00.000Z"
     },
     {
       "issueId": 910018,
@@ -2569,7 +2569,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910018_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-08T10:00:00.000Z"
+      "createdAt": "2026-06-16T10:00:00.000Z"
     },
     {
       "issueId": 910018,
@@ -2577,7 +2577,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910018_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-09T10:00:00.000Z"
+      "createdAt": "2026-06-17T10:00:00.000Z"
     },
     {
       "issueId": 910018,
@@ -2585,7 +2585,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910018_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-10T10:00:00.000Z"
+      "createdAt": "2026-06-18T10:00:00.000Z"
     },
     {
       "issueId": 910019,
@@ -2593,7 +2593,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910019_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-13T10:00:00.000Z"
+      "createdAt": "2026-06-21T10:00:00.000Z"
     },
     {
       "issueId": 910019,
@@ -2601,7 +2601,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910019_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-14T10:00:00.000Z"
+      "createdAt": "2026-06-22T10:00:00.000Z"
     },
     {
       "issueId": 910019,
@@ -2609,7 +2609,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910019_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-15T10:00:00.000Z"
+      "createdAt": "2026-06-23T10:00:00.000Z"
     },
     {
       "issueId": 910020,
@@ -2617,7 +2617,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910020_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-22T10:00:00.000Z"
+      "createdAt": "2026-06-30T10:00:00.000Z"
     },
     {
       "issueId": 910020,
@@ -2625,7 +2625,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910020_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-23T10:00:00.000Z"
+      "createdAt": "2026-07-01T10:00:00.000Z"
     },
     {
       "issueId": 910022,
@@ -2633,7 +2633,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910022_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-20T10:00:00.000Z"
+      "createdAt": "2026-06-28T10:00:00.000Z"
     },
     {
       "issueId": 910022,
@@ -2641,7 +2641,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910022_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-21T10:00:00.000Z"
+      "createdAt": "2026-06-29T10:00:00.000Z"
     },
     {
       "issueId": 910023,
@@ -2649,7 +2649,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910023_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-11T10:00:00.000Z"
+      "createdAt": "2026-06-19T10:00:00.000Z"
     },
     {
       "issueId": 910023,
@@ -2657,7 +2657,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910023_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-12T10:00:00.000Z"
+      "createdAt": "2026-06-20T10:00:00.000Z"
     },
     {
       "issueId": 910024,
@@ -2665,7 +2665,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910024_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-27T10:00:00.000Z"
+      "createdAt": "2026-07-05T10:00:00.000Z"
     },
     {
       "issueId": 910026,
@@ -2673,7 +2673,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910026_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-16T10:00:00.000Z"
+      "createdAt": "2026-06-24T10:00:00.000Z"
     },
     {
       "issueId": 910026,
@@ -2681,7 +2681,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910026_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-17T10:00:00.000Z"
+      "createdAt": "2026-06-25T10:00:00.000Z"
     },
     {
       "issueId": 910026,
@@ -2689,7 +2689,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910026_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-18T10:00:00.000Z"
+      "createdAt": "2026-06-26T10:00:00.000Z"
     },
     {
       "issueId": 910027,
@@ -2697,7 +2697,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910027_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-04T10:00:00.000Z"
+      "createdAt": "2026-06-12T10:00:00.000Z"
     },
     {
       "issueId": 910027,
@@ -2705,7 +2705,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910027_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-05T10:00:00.000Z"
+      "createdAt": "2026-06-13T10:00:00.000Z"
     },
     {
       "issueId": 910027,
@@ -2713,7 +2713,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910027_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-06T10:00:00.000Z"
+      "createdAt": "2026-06-14T10:00:00.000Z"
     },
     {
       "issueId": 910027,
@@ -2721,7 +2721,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910027_4",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-07T10:00:00.000Z"
+      "createdAt": "2026-06-15T10:00:00.000Z"
     },
     {
       "issueId": 910028,
@@ -2729,7 +2729,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910028_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-07-02T10:00:00.000Z"
+      "createdAt": "2026-07-10T10:00:00.000Z"
     },
     {
       "issueId": 910029,
@@ -2737,7 +2737,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910029_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-09T10:00:00.000Z"
+      "createdAt": "2026-06-17T10:00:00.000Z"
     },
     {
       "issueId": 910029,
@@ -2745,7 +2745,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910029_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-10T10:00:00.000Z"
+      "createdAt": "2026-06-18T10:00:00.000Z"
     },
     {
       "issueId": 910029,
@@ -2753,7 +2753,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910029_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-11T10:00:00.000Z"
+      "createdAt": "2026-06-19T10:00:00.000Z"
     },
     {
       "issueId": 910029,
@@ -2761,7 +2761,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910029_4",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-12T10:00:00.000Z"
+      "createdAt": "2026-06-20T10:00:00.000Z"
     },
     {
       "issueId": 910030,
@@ -2769,7 +2769,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910030_1",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-07T10:00:00.000Z"
+      "createdAt": "2026-06-15T10:00:00.000Z"
     },
     {
       "issueId": 910030,
@@ -2777,7 +2777,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910030_2",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-08T10:00:00.000Z"
+      "createdAt": "2026-06-16T10:00:00.000Z"
     },
     {
       "issueId": 910030,
@@ -2785,7 +2785,7 @@
       "verifierMode": "session",
       "verificationPda": "DemoVerificationPda910030_3",
       "txSig": "seeded_demo_no_tx",
-      "createdAt": "2026-06-09T10:00:00.000Z"
+      "createdAt": "2026-06-17T10:00:00.000Z"
     },
     {
       "issueId": 4,
@@ -2877,6 +2877,261 @@
     }
   ],
   "statusUpdates": [
+    {
+      "issueId": 910002,
+      "seq": 1,
+      "updaterPubkey": "DemoStewardPubkey",
+      "oldStatus": "submitted",
+      "newStatus": "in_progress",
+      "proofHash": "10a74a97a80070afced145ca61ba79aaf224b4cd89c3dd93b3f922943dd6d4e3",
+      "previousTimelineHash": "3ee1985773ae47f41aaa375dbe59cd76b1100afe2f7bc7a56437ffbc152f584c",
+      "newTimelineHash": "9c46f575e564230b8a1ec021d5f6fdba3849ba27f1978906d32ce3eecd6fd500",
+      "statusUpdatePda": "DemoStatusUpdatePda910002_1",
+      "txSig": "seeded_demo_no_tx",
+      "note": "Seeded steward marked repair follow-up in progress.",
+      "proofPhotoUrl": null,
+      "createdAt": "2026-06-29T09:00:00.000Z"
+    },
+    {
+      "issueId": 910003,
+      "seq": 1,
+      "updaterPubkey": "DemoStewardPubkey",
+      "oldStatus": "submitted",
+      "newStatus": "in_progress",
+      "proofHash": "f70accb67f70ddceac22d3147ab48168f9d0e11d5c9e48f16cfb743ac2a6c337",
+      "previousTimelineHash": "812476297115d416de8173f8c6ad02a3225f10b44cd1a981ec9077609914a38c",
+      "newTimelineHash": "3d0d540b5f9caec2426b8dc4cd4da30cfa01a1a2e2ff01bc0799fe3ee58acfe3",
+      "statusUpdatePda": "DemoStatusUpdatePda910003_1",
+      "txSig": "seeded_demo_no_tx",
+      "note": "Seeded steward marked repair follow-up in progress.",
+      "proofPhotoUrl": null,
+      "createdAt": "2026-06-18T09:00:00.000Z"
+    },
+    {
+      "issueId": 910003,
+      "seq": 2,
+      "updaterPubkey": "DemoStewardPubkey",
+      "oldStatus": "submitted",
+      "newStatus": "resolved",
+      "proofHash": "07d667411196f06e56dbaa30b6e18fc362c40ce7129a6dae7724c0be2237414a",
+      "previousTimelineHash": "42f728c4b4bdfc9befe27621634c0e41a5cdae0f9b02b92a1aeca38194324525",
+      "newTimelineHash": "45ddc2899472fc3088681b103ff6bca44b750c35f593acd6e6c05abb97acf94a",
+      "statusUpdatePda": "DemoStatusUpdatePda910003_2",
+      "txSig": "seeded_demo_no_tx",
+      "note": "Seeded steward attached after-state resolution proof for the public asset.",
+      "proofPhotoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
+      "createdAt": "2026-06-26T10:00:00.000Z"
+    },
+    {
+      "issueId": 910005,
+      "seq": 1,
+      "updaterPubkey": "DemoStewardPubkey",
+      "oldStatus": "submitted",
+      "newStatus": "in_progress",
+      "proofHash": "c68947e9135f1245b0ea10cf53ddd21c41ea415b47a57a0aff01f1649a3be165",
+      "previousTimelineHash": "3f2215e2acaf9439a3a55502fc4fbf51628de7e4f4e7ba4e74fcb8d6569f08ee",
+      "newTimelineHash": "8bb7b6c7c6b3bb053a4256db565ae2eb8dd92affcbb266fe00792b52baa501f3",
+      "statusUpdatePda": "DemoStatusUpdatePda910005_1",
+      "txSig": "seeded_demo_no_tx",
+      "note": "Seeded steward marked repair follow-up in progress.",
+      "proofPhotoUrl": null,
+      "createdAt": "2026-07-05T09:00:00.000Z"
+    },
+    {
+      "issueId": 910008,
+      "seq": 1,
+      "updaterPubkey": "DemoStewardPubkey",
+      "oldStatus": "submitted",
+      "newStatus": "in_progress",
+      "proofHash": "1a15b545ed16271d29b3042d7229524da0f2ea82ec51a8b6be11eeaa0e75276b",
+      "previousTimelineHash": "90cfb2db2a8dd6afc20bfc53a246599af19d45cd89178e76cac63c7981f54c2b",
+      "newTimelineHash": "473a8a26f3f0c73a0ef03afa6c028b57519b073bd8498330743580a15421ea0e",
+      "statusUpdatePda": "DemoStatusUpdatePda910008_1",
+      "txSig": "seeded_demo_no_tx",
+      "note": "Seeded steward marked repair follow-up in progress.",
+      "proofPhotoUrl": null,
+      "createdAt": "2026-06-24T09:00:00.000Z"
+    },
+    {
+      "issueId": 910008,
+      "seq": 2,
+      "updaterPubkey": "DemoStewardPubkey",
+      "oldStatus": "submitted",
+      "newStatus": "resolved",
+      "proofHash": "f8609244d98f1606a05593d601b87aa8cec3e49f92dd4e7e577b9a8ceeacb340",
+      "previousTimelineHash": "bc4faea2cb848d723f4bdf01555fab0bf0c6a77d8910e17660c6d8281bd1780a",
+      "newTimelineHash": "ac38add3548f23dd1b9f82bb6eeae8a8cae5727c055f4040003b8d63125524af",
+      "statusUpdatePda": "DemoStatusUpdatePda910008_2",
+      "txSig": "seeded_demo_no_tx",
+      "note": "Seeded steward attached after-state resolution proof for the public asset.",
+      "proofPhotoUrl": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=70",
+      "createdAt": "2026-07-02T10:00:00.000Z"
+    },
+    {
+      "issueId": 910009,
+      "seq": 1,
+      "updaterPubkey": "DemoStewardPubkey",
+      "oldStatus": "submitted",
+      "newStatus": "in_progress",
+      "proofHash": "be73e989bac334690a7e12e42bea8cf4fdf555fb1b03d31ed16228314996c0b3",
+      "previousTimelineHash": "fe91f11a59a18b12a6d97791fc4d451b53cc1defefc33ff9c7ed3d37cefe1c45",
+      "newTimelineHash": "d591d3997fba5f8363f606ffeaefa82210a6b235e8a84e4aec29b31db5ed22d6",
+      "statusUpdatePda": "DemoStatusUpdatePda910009_1",
+      "txSig": "seeded_demo_no_tx",
+      "note": "Seeded steward marked repair follow-up in progress.",
+      "proofPhotoUrl": null,
+      "createdAt": "2026-07-07T09:00:00.000Z"
+    },
+    {
+      "issueId": 910011,
+      "seq": 1,
+      "updaterPubkey": "DemoStewardPubkey",
+      "oldStatus": "submitted",
+      "newStatus": "disputed",
+      "proofHash": "c1e9e09c673cb0958120fa28f1b5cdccd71d0ba5601bde1a6c997145a9c9a423",
+      "previousTimelineHash": "eb195fb0291610004f7398c161e1a54e28d47de764ec0ba2e14bf0cf7868d8af",
+      "newTimelineHash": "f3d9290c12703c652a92a6c1b1498902b297d20c2e20bef9b64589d43f30340b",
+      "statusUpdatePda": "DemoStatusUpdatePda910011_1",
+      "txSig": "seeded_demo_no_tx",
+      "note": "Seeded steward marked this issue for review because location details need confirmation.",
+      "proofPhotoUrl": null,
+      "createdAt": "2026-07-10T09:00:00.000Z"
+    },
+    {
+      "issueId": 910014,
+      "seq": 1,
+      "updaterPubkey": "DemoStewardPubkey",
+      "oldStatus": "submitted",
+      "newStatus": "in_progress",
+      "proofHash": "546b6aa9ae6a35f9a44f5126317d77c48c9584c42d864476119fa8ea0f997f67",
+      "previousTimelineHash": "e8aee6c1cab37fb192d99b43647c2cf4c2b1960de035df58e345967f92644dd1",
+      "newTimelineHash": "2c459e14da90b3646e501300d52d3e693b8794fd25e547e5e91c9bcaf5cf74ff",
+      "statusUpdatePda": "DemoStatusUpdatePda910014_1",
+      "txSig": "seeded_demo_no_tx",
+      "note": "Seeded steward marked repair follow-up in progress.",
+      "proofPhotoUrl": null,
+      "createdAt": "2026-06-27T09:00:00.000Z"
+    },
+    {
+      "issueId": 910018,
+      "seq": 1,
+      "updaterPubkey": "DemoStewardPubkey",
+      "oldStatus": "submitted",
+      "newStatus": "in_progress",
+      "proofHash": "8412c98f87cc49f4af60be61d9d401336b1a5b76dbe17fa929af00f0f917a834",
+      "previousTimelineHash": "e768d543afc16e4df5d3742aec8211c01075c7aa54942b88074140887399e359",
+      "newTimelineHash": "8ee8c11a15d312f156059f0f4a51a462fcf3d54f66f624b012e7b59132a8adc2",
+      "statusUpdatePda": "DemoStatusUpdatePda910018_1",
+      "txSig": "seeded_demo_no_tx",
+      "note": "Seeded steward marked repair follow-up in progress.",
+      "proofPhotoUrl": null,
+      "createdAt": "2026-06-20T09:00:00.000Z"
+    },
+    {
+      "issueId": 910018,
+      "seq": 2,
+      "updaterPubkey": "DemoStewardPubkey",
+      "oldStatus": "submitted",
+      "newStatus": "resolved",
+      "proofHash": "331e70b33e55b89e97134972763ccd2db4ba3978d55bd3857e7468bb46c42b9a",
+      "previousTimelineHash": "4f9c3edcf36c976b3005b48aa422d8bd0729917e69823859702eb965c0e7d7e0",
+      "newTimelineHash": "9f2ab4e0b527302c32d54cc89ccc46ccb1645565e7f84d139502a6ec31aecbe5",
+      "statusUpdatePda": "DemoStatusUpdatePda910018_2",
+      "txSig": "seeded_demo_no_tx",
+      "note": "Seeded steward attached after-state resolution proof for the public asset.",
+      "proofPhotoUrl": "/demo/pothole-road.jpg",
+      "createdAt": "2026-06-28T10:00:00.000Z"
+    },
+    {
+      "issueId": 910019,
+      "seq": 1,
+      "updaterPubkey": "DemoStewardPubkey",
+      "oldStatus": "submitted",
+      "newStatus": "in_progress",
+      "proofHash": "28f5be756a48e5258de678f809b289a171078de6471f8c2afc2e01c4467e253a",
+      "previousTimelineHash": "b8113598ae7694426a1b4e6969283216ab8f1d26f99949de8ba3504378051c4f",
+      "newTimelineHash": "182342393b0f64e4521deef640ca7d71a83e1e63f124156433778e070d5a9dec",
+      "statusUpdatePda": "DemoStatusUpdatePda910019_1",
+      "txSig": "seeded_demo_no_tx",
+      "note": "Seeded steward marked repair follow-up in progress.",
+      "proofPhotoUrl": null,
+      "createdAt": "2026-06-25T09:00:00.000Z"
+    },
+    {
+      "issueId": 910023,
+      "seq": 1,
+      "updaterPubkey": "DemoStewardPubkey",
+      "oldStatus": "submitted",
+      "newStatus": "in_progress",
+      "proofHash": "7b2b48053cc3928268aa543a3c3ecc9f555f09838a5375cdb2672a919898c395",
+      "previousTimelineHash": "0721fd0058451d83f97e82800d4126a1e36ee7ee1f3f9f2539670fd8d82ae389",
+      "newTimelineHash": "c12cb6507b15722b3d6c705156f44e4781f0b9bd60de849cc58ec991b46d3552",
+      "statusUpdatePda": "DemoStatusUpdatePda910023_1",
+      "txSig": "seeded_demo_no_tx",
+      "note": "Seeded steward marked repair follow-up in progress.",
+      "proofPhotoUrl": null,
+      "createdAt": "2026-06-23T09:00:00.000Z"
+    },
+    {
+      "issueId": 910027,
+      "seq": 1,
+      "updaterPubkey": "DemoStewardPubkey",
+      "oldStatus": "submitted",
+      "newStatus": "in_progress",
+      "proofHash": "c05965ee235300d5b44c33ba0544f4d3c25f59ee88e0b4de5ce822f1f2b08cc2",
+      "previousTimelineHash": "29ca8bcfb0321e6c3d934b76fde79c12dc68be05d7c5ca28cff057a196a8240d",
+      "newTimelineHash": "9e9626550750021c9fc1d471387827cecd0fe0f94847cc4e266efa74d8c28707",
+      "statusUpdatePda": "DemoStatusUpdatePda910027_1",
+      "txSig": "seeded_demo_no_tx",
+      "note": "Seeded steward marked repair follow-up in progress.",
+      "proofPhotoUrl": null,
+      "createdAt": "2026-06-16T09:00:00.000Z"
+    },
+    {
+      "issueId": 910027,
+      "seq": 2,
+      "updaterPubkey": "DemoStewardPubkey",
+      "oldStatus": "submitted",
+      "newStatus": "resolved",
+      "proofHash": "4daf968acd42e301e7b8cc3287ad9090de47f6692c8263a5ead78c535b9ae9a3",
+      "previousTimelineHash": "2823f411dd660c07f0159185230928fcd11b3c9a190014c56c8358119b22af6d",
+      "newTimelineHash": "76acc651835a52c60f98d99b3058df9ffe55d75a42ecedccabd5993377e86ea3",
+      "statusUpdatePda": "DemoStatusUpdatePda910027_2",
+      "txSig": "seeded_demo_no_tx",
+      "note": "Seeded steward attached after-state resolution proof for the public asset.",
+      "proofPhotoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
+      "createdAt": "2026-06-24T10:00:00.000Z"
+    },
+    {
+      "issueId": 910028,
+      "seq": 1,
+      "updaterPubkey": "DemoStewardPubkey",
+      "oldStatus": "submitted",
+      "newStatus": "rejected",
+      "proofHash": "727fef5cf4090aba0baf279cd53512c15706915084b0a71c9f50525097069066",
+      "previousTimelineHash": "83a17184b3c9695a3b2e5d83e71fac21be090bc2121ae65bccbc8276c2ef1eba",
+      "newTimelineHash": "44b66a43e01b45e0fdfd5ca4b7219a0f49a43e6394285c8f693f46c93dd72372",
+      "statusUpdatePda": "DemoStatusUpdatePda910028_1",
+      "txSig": "seeded_demo_no_tx",
+      "note": "Seeded steward hid this item from the active queue after safety review.",
+      "proofPhotoUrl": null,
+      "createdAt": "2026-07-13T09:00:00.000Z"
+    },
+    {
+      "issueId": 910030,
+      "seq": 1,
+      "updaterPubkey": "DemoStewardPubkey",
+      "oldStatus": "submitted",
+      "newStatus": "in_progress",
+      "proofHash": "b53f1ff98e14988408a2b637db42206dfcb9f0afbaec4d50a6d8506de0b31bf1",
+      "previousTimelineHash": "ae0b0f4c6727cce6f93434f738fa7fac7d6b522a8ab4362fd0a979ec82ddc7b0",
+      "newTimelineHash": "b4bc65658d310aebc3ce9fb8c49a1795c22848bc68924b54620140ad434610b4",
+      "statusUpdatePda": "DemoStatusUpdatePda910030_1",
+      "txSig": "seeded_demo_no_tx",
+      "note": "Seeded steward marked repair follow-up in progress.",
+      "proofPhotoUrl": null,
+      "createdAt": "2026-06-19T09:00:00.000Z"
+    },
     {
       "issueId": 4,
       "seq": 1,
@@ -3026,261 +3281,6 @@
       "note": "Phase 5 smoke: steward attached after-photo resolution proof for the public asset.",
       "proofPhotoUrl": "/uploads/18b77c4f62aa2776.png",
       "createdAt": "2026-07-07T17:06:50.000Z"
-    },
-    {
-      "issueId": 910002,
-      "seq": 1,
-      "updaterPubkey": "DemoStewardPubkey",
-      "oldStatus": "submitted",
-      "newStatus": "in_progress",
-      "proofHash": "10a74a97a80070afced145ca61ba79aaf224b4cd89c3dd93b3f922943dd6d4e3",
-      "previousTimelineHash": "3ee1985773ae47f41aaa375dbe59cd76b1100afe2f7bc7a56437ffbc152f584c",
-      "newTimelineHash": "9c46f575e564230b8a1ec021d5f6fdba3849ba27f1978906d32ce3eecd6fd500",
-      "statusUpdatePda": "DemoStatusUpdatePda910002_1",
-      "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
-      "proofPhotoUrl": null,
-      "createdAt": "2026-06-22T09:00:00.000Z"
-    },
-    {
-      "issueId": 910003,
-      "seq": 1,
-      "updaterPubkey": "DemoStewardPubkey",
-      "oldStatus": "submitted",
-      "newStatus": "in_progress",
-      "proofHash": "f70accb67f70ddceac22d3147ab48168f9d0e11d5c9e48f16cfb743ac2a6c337",
-      "previousTimelineHash": "812476297115d416de8173f8c6ad02a3225f10b44cd1a981ec9077609914a38c",
-      "newTimelineHash": "3d0d540b5f9caec2426b8dc4cd4da30cfa01a1a2e2ff01bc0799fe3ee58acfe3",
-      "statusUpdatePda": "DemoStatusUpdatePda910003_1",
-      "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
-      "proofPhotoUrl": null,
-      "createdAt": "2026-06-11T09:00:00.000Z"
-    },
-    {
-      "issueId": 910003,
-      "seq": 2,
-      "updaterPubkey": "DemoStewardPubkey",
-      "oldStatus": "submitted",
-      "newStatus": "resolved",
-      "proofHash": "07d667411196f06e56dbaa30b6e18fc362c40ce7129a6dae7724c0be2237414a",
-      "previousTimelineHash": "42f728c4b4bdfc9befe27621634c0e41a5cdae0f9b02b92a1aeca38194324525",
-      "newTimelineHash": "45ddc2899472fc3088681b103ff6bca44b750c35f593acd6e6c05abb97acf94a",
-      "statusUpdatePda": "DemoStatusUpdatePda910003_2",
-      "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward attached after-state resolution proof for the public asset.",
-      "proofPhotoUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=70",
-      "createdAt": "2026-06-19T10:00:00.000Z"
-    },
-    {
-      "issueId": 910005,
-      "seq": 1,
-      "updaterPubkey": "DemoStewardPubkey",
-      "oldStatus": "submitted",
-      "newStatus": "in_progress",
-      "proofHash": "c68947e9135f1245b0ea10cf53ddd21c41ea415b47a57a0aff01f1649a3be165",
-      "previousTimelineHash": "3f2215e2acaf9439a3a55502fc4fbf51628de7e4f4e7ba4e74fcb8d6569f08ee",
-      "newTimelineHash": "8bb7b6c7c6b3bb053a4256db565ae2eb8dd92affcbb266fe00792b52baa501f3",
-      "statusUpdatePda": "DemoStatusUpdatePda910005_1",
-      "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
-      "proofPhotoUrl": null,
-      "createdAt": "2026-06-28T09:00:00.000Z"
-    },
-    {
-      "issueId": 910008,
-      "seq": 1,
-      "updaterPubkey": "DemoStewardPubkey",
-      "oldStatus": "submitted",
-      "newStatus": "in_progress",
-      "proofHash": "1a15b545ed16271d29b3042d7229524da0f2ea82ec51a8b6be11eeaa0e75276b",
-      "previousTimelineHash": "90cfb2db2a8dd6afc20bfc53a246599af19d45cd89178e76cac63c7981f54c2b",
-      "newTimelineHash": "473a8a26f3f0c73a0ef03afa6c028b57519b073bd8498330743580a15421ea0e",
-      "statusUpdatePda": "DemoStatusUpdatePda910008_1",
-      "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
-      "proofPhotoUrl": null,
-      "createdAt": "2026-06-17T09:00:00.000Z"
-    },
-    {
-      "issueId": 910008,
-      "seq": 2,
-      "updaterPubkey": "DemoStewardPubkey",
-      "oldStatus": "submitted",
-      "newStatus": "resolved",
-      "proofHash": "f8609244d98f1606a05593d601b87aa8cec3e49f92dd4e7e577b9a8ceeacb340",
-      "previousTimelineHash": "bc4faea2cb848d723f4bdf01555fab0bf0c6a77d8910e17660c6d8281bd1780a",
-      "newTimelineHash": "ac38add3548f23dd1b9f82bb6eeae8a8cae5727c055f4040003b8d63125524af",
-      "statusUpdatePda": "DemoStatusUpdatePda910008_2",
-      "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward attached after-state resolution proof for the public asset.",
-      "proofPhotoUrl": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=70",
-      "createdAt": "2026-06-25T10:00:00.000Z"
-    },
-    {
-      "issueId": 910009,
-      "seq": 1,
-      "updaterPubkey": "DemoStewardPubkey",
-      "oldStatus": "submitted",
-      "newStatus": "in_progress",
-      "proofHash": "be73e989bac334690a7e12e42bea8cf4fdf555fb1b03d31ed16228314996c0b3",
-      "previousTimelineHash": "fe91f11a59a18b12a6d97791fc4d451b53cc1defefc33ff9c7ed3d37cefe1c45",
-      "newTimelineHash": "d591d3997fba5f8363f606ffeaefa82210a6b235e8a84e4aec29b31db5ed22d6",
-      "statusUpdatePda": "DemoStatusUpdatePda910009_1",
-      "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
-      "proofPhotoUrl": null,
-      "createdAt": "2026-06-30T09:00:00.000Z"
-    },
-    {
-      "issueId": 910011,
-      "seq": 1,
-      "updaterPubkey": "DemoStewardPubkey",
-      "oldStatus": "submitted",
-      "newStatus": "disputed",
-      "proofHash": "c1e9e09c673cb0958120fa28f1b5cdccd71d0ba5601bde1a6c997145a9c9a423",
-      "previousTimelineHash": "eb195fb0291610004f7398c161e1a54e28d47de764ec0ba2e14bf0cf7868d8af",
-      "newTimelineHash": "f3d9290c12703c652a92a6c1b1498902b297d20c2e20bef9b64589d43f30340b",
-      "statusUpdatePda": "DemoStatusUpdatePda910011_1",
-      "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked this issue for review because location details need confirmation.",
-      "proofPhotoUrl": null,
-      "createdAt": "2026-07-03T09:00:00.000Z"
-    },
-    {
-      "issueId": 910014,
-      "seq": 1,
-      "updaterPubkey": "DemoStewardPubkey",
-      "oldStatus": "submitted",
-      "newStatus": "in_progress",
-      "proofHash": "546b6aa9ae6a35f9a44f5126317d77c48c9584c42d864476119fa8ea0f997f67",
-      "previousTimelineHash": "e8aee6c1cab37fb192d99b43647c2cf4c2b1960de035df58e345967f92644dd1",
-      "newTimelineHash": "2c459e14da90b3646e501300d52d3e693b8794fd25e547e5e91c9bcaf5cf74ff",
-      "statusUpdatePda": "DemoStatusUpdatePda910014_1",
-      "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
-      "proofPhotoUrl": null,
-      "createdAt": "2026-06-20T09:00:00.000Z"
-    },
-    {
-      "issueId": 910018,
-      "seq": 1,
-      "updaterPubkey": "DemoStewardPubkey",
-      "oldStatus": "submitted",
-      "newStatus": "in_progress",
-      "proofHash": "8412c98f87cc49f4af60be61d9d401336b1a5b76dbe17fa929af00f0f917a834",
-      "previousTimelineHash": "e768d543afc16e4df5d3742aec8211c01075c7aa54942b88074140887399e359",
-      "newTimelineHash": "8ee8c11a15d312f156059f0f4a51a462fcf3d54f66f624b012e7b59132a8adc2",
-      "statusUpdatePda": "DemoStatusUpdatePda910018_1",
-      "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
-      "proofPhotoUrl": null,
-      "createdAt": "2026-06-13T09:00:00.000Z"
-    },
-    {
-      "issueId": 910018,
-      "seq": 2,
-      "updaterPubkey": "DemoStewardPubkey",
-      "oldStatus": "submitted",
-      "newStatus": "resolved",
-      "proofHash": "331e70b33e55b89e97134972763ccd2db4ba3978d55bd3857e7468bb46c42b9a",
-      "previousTimelineHash": "4f9c3edcf36c976b3005b48aa422d8bd0729917e69823859702eb965c0e7d7e0",
-      "newTimelineHash": "9f2ab4e0b527302c32d54cc89ccc46ccb1645565e7f84d139502a6ec31aecbe5",
-      "statusUpdatePda": "DemoStatusUpdatePda910018_2",
-      "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward attached after-state resolution proof for the public asset.",
-      "proofPhotoUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=70",
-      "createdAt": "2026-06-21T10:00:00.000Z"
-    },
-    {
-      "issueId": 910019,
-      "seq": 1,
-      "updaterPubkey": "DemoStewardPubkey",
-      "oldStatus": "submitted",
-      "newStatus": "in_progress",
-      "proofHash": "28f5be756a48e5258de678f809b289a171078de6471f8c2afc2e01c4467e253a",
-      "previousTimelineHash": "b8113598ae7694426a1b4e6969283216ab8f1d26f99949de8ba3504378051c4f",
-      "newTimelineHash": "182342393b0f64e4521deef640ca7d71a83e1e63f124156433778e070d5a9dec",
-      "statusUpdatePda": "DemoStatusUpdatePda910019_1",
-      "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
-      "proofPhotoUrl": null,
-      "createdAt": "2026-06-18T09:00:00.000Z"
-    },
-    {
-      "issueId": 910023,
-      "seq": 1,
-      "updaterPubkey": "DemoStewardPubkey",
-      "oldStatus": "submitted",
-      "newStatus": "in_progress",
-      "proofHash": "7b2b48053cc3928268aa543a3c3ecc9f555f09838a5375cdb2672a919898c395",
-      "previousTimelineHash": "0721fd0058451d83f97e82800d4126a1e36ee7ee1f3f9f2539670fd8d82ae389",
-      "newTimelineHash": "c12cb6507b15722b3d6c705156f44e4781f0b9bd60de849cc58ec991b46d3552",
-      "statusUpdatePda": "DemoStatusUpdatePda910023_1",
-      "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
-      "proofPhotoUrl": null,
-      "createdAt": "2026-06-16T09:00:00.000Z"
-    },
-    {
-      "issueId": 910027,
-      "seq": 1,
-      "updaterPubkey": "DemoStewardPubkey",
-      "oldStatus": "submitted",
-      "newStatus": "in_progress",
-      "proofHash": "c05965ee235300d5b44c33ba0544f4d3c25f59ee88e0b4de5ce822f1f2b08cc2",
-      "previousTimelineHash": "29ca8bcfb0321e6c3d934b76fde79c12dc68be05d7c5ca28cff057a196a8240d",
-      "newTimelineHash": "9e9626550750021c9fc1d471387827cecd0fe0f94847cc4e266efa74d8c28707",
-      "statusUpdatePda": "DemoStatusUpdatePda910027_1",
-      "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
-      "proofPhotoUrl": null,
-      "createdAt": "2026-06-09T09:00:00.000Z"
-    },
-    {
-      "issueId": 910027,
-      "seq": 2,
-      "updaterPubkey": "DemoStewardPubkey",
-      "oldStatus": "submitted",
-      "newStatus": "resolved",
-      "proofHash": "4daf968acd42e301e7b8cc3287ad9090de47f6692c8263a5ead78c535b9ae9a3",
-      "previousTimelineHash": "2823f411dd660c07f0159185230928fcd11b3c9a190014c56c8358119b22af6d",
-      "newTimelineHash": "76acc651835a52c60f98d99b3058df9ffe55d75a42ecedccabd5993377e86ea3",
-      "statusUpdatePda": "DemoStatusUpdatePda910027_2",
-      "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward attached after-state resolution proof for the public asset.",
-      "proofPhotoUrl": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=70",
-      "createdAt": "2026-06-17T10:00:00.000Z"
-    },
-    {
-      "issueId": 910028,
-      "seq": 1,
-      "updaterPubkey": "DemoStewardPubkey",
-      "oldStatus": "submitted",
-      "newStatus": "rejected",
-      "proofHash": "727fef5cf4090aba0baf279cd53512c15706915084b0a71c9f50525097069066",
-      "previousTimelineHash": "83a17184b3c9695a3b2e5d83e71fac21be090bc2121ae65bccbc8276c2ef1eba",
-      "newTimelineHash": "44b66a43e01b45e0fdfd5ca4b7219a0f49a43e6394285c8f693f46c93dd72372",
-      "statusUpdatePda": "DemoStatusUpdatePda910028_1",
-      "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward hid this item from the active queue after safety review.",
-      "proofPhotoUrl": null,
-      "createdAt": "2026-07-06T09:00:00.000Z"
-    },
-    {
-      "issueId": 910030,
-      "seq": 1,
-      "updaterPubkey": "DemoStewardPubkey",
-      "oldStatus": "submitted",
-      "newStatus": "in_progress",
-      "proofHash": "b53f1ff98e14988408a2b637db42206dfcb9f0afbaec4d50a6d8506de0b31bf1",
-      "previousTimelineHash": "ae0b0f4c6727cce6f93434f738fa7fac7d6b522a8ab4362fd0a979ec82ddc7b0",
-      "newTimelineHash": "b4bc65658d310aebc3ce9fb8c49a1795c22848bc68924b54620140ad434610b4",
-      "statusUpdatePda": "DemoStatusUpdatePda910030_1",
-      "txSig": "seeded_demo_no_tx",
-      "note": "Seeded steward marked repair follow-up in progress.",
-      "proofPhotoUrl": null,
-      "createdAt": "2026-06-12T09:00:00.000Z"
     }
   ],
   "sessions": [
@@ -3394,7 +3394,7 @@
       "walletPubkey": "DemoStewardPubkey",
       "displayName": "Seeded demo steward",
       "active": true,
-      "createdAt": "2026-06-02T06:00:00.000Z",
+      "createdAt": "2026-06-09T06:00:00.000Z",
       "revokedAt": null
     },
     {

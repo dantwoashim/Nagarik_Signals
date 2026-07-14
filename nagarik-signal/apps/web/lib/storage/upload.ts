@@ -21,8 +21,10 @@ export async function prepareUpload(file: File) {
     width: sanitized.width,
     height: sanitized.height,
     evidenceHash: sanitized.evidenceHash,
-    photoUrl: `/uploads/${fileName}`,
-    storageMode: 'local_public_uploads',
+    photoUrl: `/api/media/${fileName}`,
+    storageMode: process.env.NAGARIK_DATA_DIR || process.env.NAGARIK_UPLOAD_DIR
+      ? 'persistent_data_directory'
+      : 'local_public_uploads',
     exifStripped: sanitized.exifStripped,
     compressed: sanitized.compressed,
   };

@@ -131,7 +131,7 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
               <LockKey size={15} weight="bold" />
               Steward auth
             </span>
-            <span className="pill">{secret ? 'secret ready' : 'dev open if server secret is unset'}</span>
+            <span className="pill">{secret ? 'secret ready' : 'secret required in production'}</span>
           </div>
           <label className="field" style={{ marginTop: 14 }}>
             <span>Steward secret</span>
@@ -143,7 +143,7 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
             />
           </label>
           <p className="helper">
-            The API sends this as x-nagarik-steward-secret. If the server has no secret configured, local dev mode remains open and the response says so.
+            The API sends this as x-nagarik-steward-secret. Local development can remain open; production refuses every steward write until a server secret is configured.
           </p>
         </section>
 
@@ -186,6 +186,7 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
                 className="table-row"
                 key={issue.id}
                 onClick={() => setSelectedId(issue.id)}
+                aria-pressed={issue.id === selected.id}
                 style={{
                   textAlign: 'left',
                   borderInline: 0,
@@ -203,6 +204,12 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
                 <span className={`pill status-${issue.status}`}>{statusLabel(issue.status)}</span>
               </button>
             ))}
+            {!filteredIssues.length ? (
+              <div className="empty-state compact">
+                <strong>No issues match this queue.</strong>
+                <span>Change the status, proof mode, or search text.</span>
+              </div>
+            ) : null}
           </div>
         </section>
       </div>

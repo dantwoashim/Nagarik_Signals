@@ -27,7 +27,12 @@ export function SubmitProgress({ current }: { current: SubmitStep }) {
             : index === currentIndex
               ? 'active'
               : '';
-        return <li key={step.id} className={className}>{className === 'done' ? '[x]' : '-'} {step.label}</li>;
+        return (
+          <li key={step.id} className={className} aria-current={className === 'active' ? 'step' : undefined}>
+            <span className="mono" aria-hidden="true">{className === 'done' ? '[x]' : '-'}</span>
+            {step.label}
+          </li>
+        );
       })}
     </ol>
   );

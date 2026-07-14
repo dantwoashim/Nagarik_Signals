@@ -73,6 +73,7 @@ export function ProofPanel({ issue }: { issue: CivicIssue }) {
   const createTx = txUrl(issue.proof.createTxSig);
   const latestTx = txUrl(issue.proof.latestTxSig);
   const rawJsonUrl = `/api/verify-proof/${encodeURIComponent(issue.id)}`;
+  const demo = issue.proof.proofStatus === 'seeded_demo';
   const rows = [
     ['Issue PDA', issue.proof.issuePda],
     ['Metadata hash', issue.proof.metadataHash],
@@ -114,74 +115,71 @@ export function ProofPanel({ issue }: { issue: CivicIssue }) {
   }
 
   return (
-    <section className="panel pad">
-      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center' }}>
-        <h2 style={{ margin: 0 }}>ProofPanel</h2>
+    <section className="panel pad proof-panel">
+      <div className="proof-panel-heading">
+        <div>
+          <span className="proof-kicker">{demo ? 'Demo integrity' : 'Independent verification'}</span>
+          <h2>Verify this record</h2>
+        </div>
         <span className={`pill ${resultClass(result, issue)}`}>{resultLabel(result, checking, issue)}</span>
       </div>
-      <p className="muted" style={{ lineHeight: 1.6 }}>
-        This panel exposes the committed hashes, account links, and an explicit live verification action for judges.
+      <p className="proof-explainer">
+        {demo
+          ? 'This record is part of the judge-facing demo dataset. Check that its displayed evidence and metadata still match the stored hashes.'
+          : 'Recompute the displayed record, then compare its hashes and current status with the indexed Solana devnet account.'}
       </p>
-      <div style={{ display: 'grid', gap: 8 }}>
-        {rows.map(([label, value]) => (
-          <div className="hash-row" key={label}>
-            <span className="muted">{label}</span>
-            <code className="mono">{label === 'Proof anchored' ? value : shortText(value, 14, 14)}</code>
-          </div>
-        ))}
-      </div>
-      <div className="row-actions" style={{ marginTop: 16 }}>
+      <div className="row-actions proof-actions">
         <button type="button" className="button green" onClick={verifyProof} disabled={checking}>
           {checking ? <WarningCircle size={17} weight="bold" /> : <CheckCircle size={17} weight="bold" />}
-          {checking ? 'Checking proof...' : 'Verify on-chain now'}
+          {checking ? 'Checking record...' : demo ? 'Check demo integrity' : 'Verify against Solana'}
         </button>
-        <a className="button secondary" href={rawJsonUrl} target="_blank" rel="noreferrer">
-          <FileJs size={17} weight="bold" />
-          Raw JSON
-        </a>
-        {issueAddress ? (
-          <a className="button secondary" href={issueAddress} target="_blank" rel="noreferrer">
-            <ArrowSquareOut size={17} weight="bold" />
-            Issue account
-          </a>
-        ) : null}
-        {createTx ? (
-          <a className="button secondary" href={createTx} target="_blank" rel="noreferrer">
-            Create tx
-          </a>
-        ) : null}
-        {latestTx ? (
-          <a className="button secondary" href={latestTx} target="_blank" rel="noreferrer">
-            Latest tx
-          </a>
-        ) : null}
       </div>
-      <p className={result?.ok ? 'proof-ok' : result ? 'proof-bad' : 'muted'} role="status" style={{ lineHeight: 1.55 }}>
+      <p className={result?.ok ? 'proof-verdict proof-ok' : result ? 'proof-verdict proof-bad' : 'proof-verdict'} role="status" aria-live="polite">
         {message}
       </p>
       {result?.onChain ? (
-        <div className="notice" style={{ display: 'grid', gap: 10 }}>
-          <div>
-            On-chain status: {String(result.onChain.status ?? 'unknown').replaceAll('_', ' ')}. Verifications:{' '}
-            {result.onChain.verificationCount ?? 0}. Updates: {result.onChain.updateCount ?? 0}.
-          </div>
-          <div className="badge-row">
+        <div className="proof-result">
+          <strong>On-chain record: {String(result.onChain.status ?? 'unknown').replaceAll('_', ' ')}</strong>
+          <span>{result.onChain.verificationCount ?? 0} verifications / {result.onChain.updateCount ?? 0} updates</span>
+          <div className="proof-checks">
             {checks.map(([label, ok]) => (
-              <span key={String(label)} className={`pill ${ok ? 'proof-ok' : 'proof-bad'}`}>
-                {label}: {ok ? 'match' : 'mismatch'}
+              <span key={String(label)} className={ok ? 'proof-ok' : 'proof-bad'}>
+                {ok ? <CheckCircle size={15} weight="fill" /> : <WarningCircle size={15} weight="fill" />}
+                {label} {ok ? 'matches' : 'mismatch'}
               </span>
             ))}
           </div>
-          <div className="hash-row">
-            <span className="muted">On-chain timeline</span>
-            <code className="mono">{shortText(result.onChain.timelineHash, 14, 14)}</code>
-          </div>
-          <div className="hash-row">
-            <span className="muted">On-chain resolution</span>
-            <code className="mono">{shortText(result.onChain.resolutionHash, 14, 14)}</code>
-          </div>
         </div>
       ) : null}
+      <details className="proof-details">
+        <summary>Technical proof details</summary>
+        <div className="proof-detail-body">
+          {rows.map(([label, value]) => (
+            <div className="hash-row" key={label}>
+              <span className="muted">{label}</span>
+              <code className="mono">{label === 'Proof anchored' ? value : shortText(value, 14, 14)}</code>
+            </div>
+          ))}
+          {result?.onChain ? (
+            <>
+              <div className="hash-row">
+                <span className="muted">On-chain timeline</span>
+                <code className="mono">{shortText(result.onChain.timelineHash, 14, 14)}</code>
+              </div>
+              <div className="hash-row">
+                <span className="muted">On-chain resolution</span>
+                <code className="mono">{shortText(result.onChain.resolutionHash, 14, 14)}</code>
+              </div>
+            </>
+          ) : null}
+          <div className="row-actions technical-actions">
+            <a className="button secondary" href={rawJsonUrl} target="_blank" rel="noreferrer"><FileJs size={17} weight="bold" />Raw JSON</a>
+            {issueAddress ? <a className="button secondary" href={issueAddress} target="_blank" rel="noreferrer"><ArrowSquareOut size={17} weight="bold" />Issue account</a> : null}
+            {createTx ? <a className="button secondary" href={createTx} target="_blank" rel="noreferrer">Create tx</a> : null}
+            {latestTx ? <a className="button secondary" href={latestTx} target="_blank" rel="noreferrer">Latest tx</a> : null}
+          </div>
+        </div>
+      </details>
     </section>
   );
 }

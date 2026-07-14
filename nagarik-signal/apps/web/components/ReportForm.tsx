@@ -149,42 +149,57 @@ export function ReportForm() {
   }
 
   return (
-    <form action={submit} className="panel pad form-grid">
-      <SessionChoice onSession={handleSession} />
-      <label className="field">
-        <span>Title</span>
-        <input name="title" required minLength={8} placeholder="Broken drain near public bus stop" />
-      </label>
-      <label className="field">
-        <span>Description</span>
-        <textarea name="description" required minLength={20} rows={5} placeholder="Describe the public infrastructure issue safely." />
-      </label>
-      <CategoryPicker />
-      <WardSelect />
-      <label className="field">
-        <span>First observed</span>
-        <input name="firstObservedAt" type="datetime-local" required />
-        <span className="helper">This date is committed through the metadata hash. It cannot be more than 180 days old.</span>
-      </label>
-      <PhotoUpload />
-      <ApproxLocationPicker />
-      <ProofPreview {...preview} />
-      <section className="panel pad">
-        <h2 style={{ marginTop: 0 }}>Submit progress</h2>
-        <SubmitProgress current={step} />
+    <form action={submit} className="report-workflow" aria-busy={busy}>
+      <section className="report-step">
+        <div className="report-step-heading"><span className="mono">01</span><div><h2>Add safe evidence</h2><p>Use one clear photo of the public asset. Image metadata is stripped before upload.</p></div></div>
+        <PhotoUpload />
       </section>
-      <button className="button crimson" type="submit" disabled={busy}>
-        {busy ? <WarningCircle size={17} weight="bold" /> : <ArrowRight size={17} weight="bold" />}
-        {busy ? 'Creating proof...' : 'Create public proof'}
-      </button>
-      <p className={step === 'failed' ? 'proof-bad' : 'muted'} role="status" style={{ margin: 0, lineHeight: 1.55 }}>
-        {step === 'indexed' ? <CheckCircle size={16} weight="bold" /> : null} {message}
-      </p>
-      {created ? (
-        <div className="notice">
-          Issue #{created.issueId} is indexed. <Link href={created.url}>Open public issue page</Link>
+
+      <section className="report-step">
+        <div className="report-step-heading"><span className="mono">02</span><div><h2>Describe the issue</h2><p>Write only what another person can safely observe in public.</p></div></div>
+        <div className="form-grid">
+          <label className="field">
+            <span>Title</span>
+            <input name="title" required minLength={8} placeholder="Broken drain near public bus stop" />
+          </label>
+          <label className="field">
+            <span>Description</span>
+            <textarea name="description" required minLength={20} rows={5} placeholder="Describe the visible public infrastructure issue." />
+          </label>
+          <CategoryPicker />
         </div>
-      ) : null}
+      </section>
+
+      <section className="report-step">
+        <div className="report-step-heading"><span className="mono">03</span><div><h2>Place it approximately</h2><p>Ward-level context is useful. Exact reporter coordinates are not.</p></div></div>
+        <div className="form-grid">
+          <WardSelect />
+          <label className="field">
+            <span>First observed</span>
+            <input name="firstObservedAt" type="datetime-local" required />
+            <span className="helper">Committed in the metadata hash. The API rejects dates more than 180 days old.</span>
+          </label>
+          <ApproxLocationPicker />
+        </div>
+      </section>
+
+      <section className="report-step final-step">
+        <div className="report-step-heading"><span className="mono">04</span><div><h2>Review and anchor</h2><p>Use a gasless civic session or optional wallet identity, then inspect the hashes before submission.</p></div></div>
+        <SessionChoice onSession={handleSession} />
+        <ProofPreview {...preview} />
+        <div className="submit-progress-block">
+          <h3>Submission progress</h3>
+          <SubmitProgress current={step} />
+        </div>
+        <button className="button primary submit-proof" type="submit" disabled={busy}>
+          {busy ? <WarningCircle size={17} weight="bold" /> : <ArrowRight size={17} weight="bold" />}
+          {busy ? 'Creating proof...' : 'Create public proof'}
+        </button>
+        <p className={step === 'failed' ? 'proof-bad form-status' : 'form-status'} role={step === 'failed' ? 'alert' : 'status'} aria-live="polite">
+          {step === 'indexed' ? <CheckCircle size={16} weight="bold" /> : null} {message}
+        </p>
+        {created ? <div className="notice">Issue #{created.issueId} is indexed. <Link href={created.url}>Open public issue page</Link></div> : null}
+      </section>
     </form>
   );
 }

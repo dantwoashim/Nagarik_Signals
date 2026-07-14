@@ -15,6 +15,9 @@ import {
 import { formatDateTime, shortText } from '@/lib/ui/format';
 
 export default function DashboardPage() {
+  const allIssues = listIssues({ sort: 'most_ignored', limit: 100 });
+  const liveCount = allIssues.filter((issue) => issue.proof.proofStatus !== 'seeded_demo').length;
+  const demoCount = allIssues.length - liveCount;
   const categories = categoryBreakdown();
   const ignoredIssues = mostIgnoredIssues(5);
   const resolvedIssues = recentResolvedIssues(5);
@@ -26,13 +29,11 @@ export default function DashboardPage() {
   return (
     <section className="container page-section page-stack">
       <div className="page-heading">
-        <span className="eyebrow">Accountability dashboard</span>
-        <h1>Ignored issues by ward</h1>
-        <p className="muted" style={{ lineHeight: 1.65 }}>
-          A public operational dashboard for unresolved problems, verification velocity, category pressure, and steward resolution proof.
-        </p>
+        <span className="eyebrow">Accountability index</span>
+        <h1>Where public problems wait longest</h1>
+        <p>A ward-level view of unresolved records, citizen verification, category pressure, and resolution evidence. Counts include the clearly marked demo dataset; live devnet scope is shown separately.</p>
       </div>
-      <DashboardStats stats={dashboardStats()} />
+      <DashboardStats stats={dashboardStats()} liveCount={liveCount} demoCount={demoCount} />
       <WardLeaderboard />
       <div className="dashboard-band">
         <section className="panel pad">
@@ -98,7 +99,7 @@ export default function DashboardPage() {
           </div>
         </section>
       </div>
-      <div className="grid-auto">
+      <div className="issue-grid">
         {visibleIssues.map((issue) => <IssueCard key={issue.id} issue={issue} />)}
       </div>
     </section>

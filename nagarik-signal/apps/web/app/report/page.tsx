@@ -1,19 +1,34 @@
 import { ReportForm } from '@/components/ReportForm';
 import { SafetyModal } from '@/components/SafetyModal';
+import Link from 'next/link';
+import { showcaseReadOnly, showcaseUnavailableReason } from '@/lib/deployment';
 
 export default function ReportPage() {
+  if (showcaseReadOnly) {
+    return (
+      <section className="container page-section page-stack">
+        <div className="page-heading">
+          <span className="eyebrow">Read-only judge showcase</span>
+          <h1>Report creation runs on the stateful build</h1>
+          <p>{showcaseUnavailableReason}</p>
+        </div>
+        <div className="row-actions">
+          <Link className="button primary" href="/explore">Inspect public records</Link>
+          <Link className="button secondary" href="/about">Review the proof model</Link>
+        </div>
+      </section>
+    );
+  }
   return (
     <section className="container page-section page-stack">
       <div className="page-heading">
-        <span className="eyebrow">Create Signal</span>
-        <h1>Report a public infrastructure issue</h1>
-        <p className="muted" style={{ lineHeight: 1.65 }}>
-          Upload first, strip metadata, commit evidence and location hashes, then anchor the issue as a public proof object.
-        </p>
+        <span className="eyebrow">Create a signal</span>
+        <h1>Put a public problem on the record</h1>
+        <p>Add one safe image and the minimum civic context. The app removes image metadata, stores only an approximate location, and shows exactly what will be committed.</p>
       </div>
-      <div className="two-col">
-        <SafetyModal />
+      <div className="report-layout">
         <ReportForm />
+        <SafetyModal />
       </div>
     </section>
   );

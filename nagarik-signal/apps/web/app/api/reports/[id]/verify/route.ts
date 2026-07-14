@@ -4,10 +4,14 @@ import { isClosedStatus } from '@/lib/constants/statuses';
 import { sha256Hex } from '@/lib/proof/hash';
 import { verifyIssueOnChain } from '@/lib/solana/actions';
 import { explorerTxUrl, loadOrCreateSessionKeypair } from '@/lib/solana/server';
+import { showcaseReadOnly } from '@/lib/deployment';
 
 export const runtime = 'nodejs';
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  if (showcaseReadOnly) {
+    return NextResponse.json({ ok: false, status: 'rejected', reason: 'showcase_read_only' }, { status: 503 });
+  }
   const { id } = await params;
   const issue = getIssue(id);
   if (!issue) return NextResponse.json({ ok: false, status: 'rejected', reason: 'issue_not_found', issueId: id }, { status: 404 });

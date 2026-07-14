@@ -7,6 +7,7 @@ import { listIssues, recordSession, upsertIssue } from '@/lib/db/queries';
 import { createIssueOnChain } from '@/lib/solana/actions';
 import { explorerAddressUrl, explorerTxUrl, loadOrCreateSessionKeypair } from '@/lib/solana/server';
 import type { CivicIssue, IssueCategory } from '@/lib/types';
+import { showcaseReadOnly } from '@/lib/deployment';
 
 export const runtime = 'nodejs';
 
@@ -35,6 +36,9 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  if (showcaseReadOnly) {
+    return NextResponse.json({ ok: false, error: 'showcase_read_only' }, { status: 503 });
+  }
   const body = await request.json().catch(() => null) as Record<string, unknown> | null;
   if (!body) return NextResponse.json({ ok: false, error: 'invalid_json' }, { status: 400 });
   const title = String(body.title ?? '').trim();

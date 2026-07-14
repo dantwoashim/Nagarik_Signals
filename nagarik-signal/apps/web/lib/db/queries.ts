@@ -7,6 +7,8 @@ import { isClosedStatus } from '../constants/statuses';
 import { readModelPath } from '../server/paths';
 import { explorerUrl } from '../solana/explorer';
 import { createSeededDemoReadModel } from './demoSeed';
+import { showcaseReadOnly } from '../deployment';
+import bundledShowcaseModel from '../../../../data/read-model/nagarik-signal.json';
 
 export type VerificationRecord = {
   issueId: number;
@@ -75,10 +77,14 @@ function initialModel(): ReadModel {
 }
 
 export function readModelExists() {
+  if (showcaseReadOnly) return true;
   return existsSync(readModelPath());
 }
 
 export function readModel(): ReadModel {
+  if (showcaseReadOnly) {
+    return structuredClone(bundledShowcaseModel) as ReadModel;
+  }
   const path = readModelPath();
   if (!existsSync(path)) {
     const model = initialModel();
@@ -98,6 +104,7 @@ export function readModel(): ReadModel {
 }
 
 export function writeModel(model: ReadModel) {
+  if (showcaseReadOnly) throw new Error('showcase_read_only');
   const path = readModelPath();
   mkdirSync(dirname(path), { recursive: true });
   writeFileSync(path, `${JSON.stringify({ ...model, updatedAt: new Date().toISOString() }, null, 2)}\n`, 'utf8');

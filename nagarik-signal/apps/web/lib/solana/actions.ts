@@ -148,19 +148,20 @@ export async function updateStatusOnChain(issueId: number, newStatus: IssueStatu
   };
 }
 
-export async function chainHealth() {
+export async function chainHealth(options: { includeRelayer?: boolean } = {}) {
   const connection = getConnection();
+  const relayer = options.includeRelayer === false ? null : loadKeypair();
   const [blockhash, balance, programAccount] = await Promise.all([
     connection.getLatestBlockhash('confirmed'),
-    connection.getBalance(loadKeypair().publicKey),
+    relayer ? connection.getBalance(relayer.publicKey) : Promise.resolve(null),
     connection.getAccountInfo(PROGRAM_ID),
   ]);
   return {
     ok: Boolean(blockhash.blockhash && programAccount),
     blockhash: blockhash.blockhash,
     lastValidBlockHeight: blockhash.lastValidBlockHeight,
-    relayerPubkey: loadKeypair().publicKey.toBase58(),
-    relayerBalanceSol: balance / 1_000_000_000,
+    relayerPubkey: relayer?.publicKey.toBase58() ?? null,
+    relayerBalanceSol: balance === null ? null : balance / 1_000_000_000,
     programDeployed: Boolean(programAccount?.executable),
   };
 }

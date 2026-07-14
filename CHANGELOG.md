@@ -2,9 +2,12 @@
 
 ## Unreleased
 
-- Root GitHub README and repository health files.
-- CI workflow for the active Next.js workspace.
-- Issue and pull request templates.
+- Rebuilt the public interface around report, explore, proof, dashboard, and steward workflows.
+- Added responsive navigation, loading/error states, safe media delivery, and browser-level submission checks.
+- Added stateful Docker deployment support through `NAGARIK_DATA_DIR`.
+- Hardened production steward writes to fail closed when no secret is configured.
+- Reworked the repository presentation, submission package, and short-form demo plan.
+- Expanded CI to seed the demo model, build the app, and run Playwright checks.
 
 ## 0.1.0
 

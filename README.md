@@ -1,163 +1,156 @@
 # Nagarik Signal
 
 [![CI](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/ci.yml/badge.svg)](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/ci.yml)
-![Solana](https://img.shields.io/badge/Solana-devnet-16324a)
-![License](https://img.shields.io/badge/license-MIT-b71f2d)
+[![Solana Devnet](https://img.shields.io/badge/Solana-devnet-14F195?logo=solana&logoColor=111)](https://explorer.solana.com/address/76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY?cluster=devnet)
+[![Next.js](https://img.shields.io/badge/Next.js-16-111?logo=next.js)](nagarik-signal/apps/web)
+[![License: MIT](https://img.shields.io/badge/license-MIT-b71f2d)](LICENSE)
 
-Public proof for public problems.
+**Public proof for public problems.**
 
-Nagarik Signal is a Solana-backed civic proof layer for ignored public infrastructure issues in Nepal. It does not try to become another complaint portal. It creates public records that prove when an issue was reported, what evidence was committed, who verified it once, how the status changed, and whether resolution proof was attached.
+Nagarik Signal turns a safe public-infrastructure report into an inspectable civic record. Evidence, metadata, and approximate-location commitments are anchored to Solana devnet; citizens can verify an issue once; steward updates remain attached to a public timeline.
 
-> Janamat shows what citizens think. Nagarik Signal shows what citizens proved.
+It is deliberately not a token product and not another private complaint queue.
 
-## Why This Exists
+[**Open live showcase**](https://nagarik-signal.vercel.app) · [**Verify a live devnet issue**](https://nagarik-signal.vercel.app/issues/11) · [**Inspect the Solana program**](https://explorer.solana.com/address/76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY?cluster=devnet)
 
-Nepal already has complaint channels: ward offices, government portals, Facebook groups, civic apps, local media, and private messages. The missing piece is public memory.
+The Vercel link is an explicit read-only judge showcase. Public records, dashboards, and independent Solana proof checks are live; durable writes remain on the stateful deployment path described below.
 
-If a broken drain, unsafe footpath, overflowing waste point, or damaged public facility stays unresolved for weeks, people need more than a post. They need a tamper-evident record that can be checked later without trusting the platform operator.
+![Nagarik Signal product overview](nagarik-signal/docs/assets/product-overview.png)
 
-Nagarik Signal turns civic issues into proof objects:
+## The Problem
 
-- sanitized evidence hash;
-- canonical metadata hash;
-- approximate location commitment;
-- Solana Issue PDA;
-- one-verification-per-session/wallet Verification PDA;
-- steward StatusUpdate PDA;
-- public timeline hash;
-- live ProofPanel comparison;
-- ward/locality accountability dashboard.
+A complaint can be acknowledged, moved between offices, edited, or quietly forgotten. Citizens usually cannot prove what was originally submitted, how long it remained open, or whether the visible record changed.
 
-## Repository Map
+Nagarik Signal makes that history independently checkable:
 
 ```text
-.
-├── nagarik-signal/                 Active product: Next.js app, API routes, Anchor program, scripts, docs
-├── nagarik_signal_master_plan.md   Controlling architecture and execution plan
-├── viral_sync_reuse/               Reference material copied from Viral Sync for proof/safety patterns
-├── .github/                        CI, issue templates, pull request template
-└── README.md                       This file
+Report -> sanitize -> hash -> anchor -> witness -> track -> resolve
 ```
 
-The production work lives in [`nagarik-signal/`](nagarik-signal/). The [`viral_sync_reuse/`](viral_sync_reuse/) folder is intentionally kept as reference material. It is not the app entry point and its artifacts are not Nagarik issue proof.
+- The original evidence is sanitized before storage and committed by hash.
+- Only an approximate location is published.
+- Each issue receives an on-chain Issue PDA.
+- Each accepted citizen signal receives a Verification PDA.
+- Steward changes receive StatusUpdate PDAs and extend the timeline hash.
+- The proof panel recomputes the displayed record and compares it with Solana.
 
-## Current Status
+## Judge Path
 
-| Area | Status |
-|---|---|
-| Web app | Next.js app with landing, report, explore, issue, dashboard, steward, and about pages |
-| Solana program | Anchor proof core deployed on devnet |
-| Devnet program ID | `76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY` |
-| Proof lifecycle | Issue PDA, Verification PDA, StatusUpdate PDA, timeline hash, resolution hash |
-| Demo data | 30 safe seeded demo issues plus preserved live devnet rows |
-| Storage/read model | Local JSON MVP read model, with Supabase schema prepared |
-| Product boundary | Devnet-only MVP. No tokens, payments, rewards, comments, or official government claims |
+The shortest useful review takes about ninety seconds:
 
-## Product Flow
+1. Open an issue marked `indexed_devnet`.
+2. Inspect its evidence, age, status history, and citizen signals.
+3. Run **Verify against Solana** in the proof panel.
+4. Compare the recomputed hashes with the Issue PDA.
+5. Open the accountability dashboard to see unresolved age by ward.
 
-```text
-Report
-  -> strip metadata
-  -> hash evidence
-  -> hash canonical metadata
-  -> commit approximate location
-  -> create Issue PDA
-  -> citizen verifies once
-  -> steward updates status
-  -> judge verifies hashes live
-```
+Seeded examples and live devnet records are labeled separately throughout the product. A demo row is never presented as on-chain proof.
 
-## Why Solana Is Used
+## Why Solana
 
-| Need | Database-only system | Nagarik Signal on Solana |
+| Question | Application database | Nagarik Signal proof layer |
 |---|---|---|
-| Issue creation time | Operator-controlled timestamp | Public transaction timestamp |
-| Evidence commitment | Media can be replaced silently | Evidence hash committed to Issue PDA |
-| Duplicate verification | App logic can be edited later | Verification PDA prevents duplicate signer/session verification |
-| Status timeline | Admin history can be rewritten | StatusUpdate PDA and timeline hash create an audit trail |
-| Public verification | Trust screenshots or exports | Recompute displayed hashes and compare them with chain state |
+| When was this issue created? | Operator-controlled timestamp | Public transaction timestamp |
+| Was the evidence replaced? | Requires trusting the operator | Evidence hash is committed to the Issue PDA |
+| Can one signer verify repeatedly? | Mutable application rule | Verification PDA rejects a duplicate signer/session |
+| Can status history be rewritten? | Admin history can change | StatusUpdate PDAs extend an inspectable timeline |
+| Can a judge check the record? | Trust an export or screenshot | Recompute hashes and compare with chain state |
 
-This is not a token product. Solana is used as public proof infrastructure.
+Solana is used as public proof infrastructure. Nagarik Signal has no token, rewards, payments, betting, or speculative mechanism.
 
-## Quick Start
+## Architecture
+
+```mermaid
+flowchart LR
+    A[Next.js civic interface] --> B[Safety and canonicalization]
+    B --> C[JSON read model]
+    B --> D[Solana devnet relayer]
+    D --> E[Issue PDA]
+    D --> F[Verification PDA]
+    D --> G[StatusUpdate PDA]
+    E --> H[Public proof panel]
+    F --> H
+    G --> H
+    C --> H
+```
+
+The read model serves searchable civic context. Solana stores the public commitments and lifecycle proof. The two are compared in the product instead of being treated as interchangeable.
+
+| Component | Location |
+|---|---|
+| Next.js application and API | [`nagarik-signal/apps/web`](nagarik-signal/apps/web) |
+| Anchor program | [`nagarik-signal/programs/nagarik_signal`](nagarik-signal/programs/nagarik_signal) |
+| Proof and indexing scripts | [`nagarik-signal/scripts`](nagarik-signal/scripts) |
+| Schema and read model | [`nagarik-signal/supabase`](nagarik-signal/supabase), [`nagarik-signal/data`](nagarik-signal/data) |
+| Product and judge documentation | [`nagarik-signal/docs`](nagarik-signal/docs) |
+
+Devnet program: [`76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY`](https://explorer.solana.com/address/76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY?cluster=devnet)
+
+## Run Locally
+
+Requirements: Node.js 22+, npm, and a modern browser.
 
 ```bash
-cd nagarik-signal
-npm install
+git clone https://github.com/dantwoashim/Nagarik_Signals.git
+cd Nagarik_Signals/nagarik-signal
+npm ci
 npm run seed:demo
 npm run dev
 ```
 
-Open:
+Open `http://127.0.0.1:3001`.
 
-```text
-http://127.0.0.1:3001
-```
+The seeded read model is safe for demonstration and remains explicitly labeled `seeded_demo`. Live write operations require the Solana relayer configuration documented in [`.env.example`](nagarik-signal/.env.example).
 
-The app can also run on another free Next.js port if `3001` is occupied.
-
-## Local Verification
-
-From `nagarik-signal/`:
+## Verify the Build
 
 ```bash
-npm run seed:demo
-npm run typecheck
-npm run lint
+cd nagarik-signal
+npm run verify
 npm run build
+npm run test:e2e
+npm run anchor:build
+```
+
+For a running app:
+
+```bash
 npm run final:preflight
 ```
 
-Solana proof-core checks:
+`anchor:test:devnet`, `phase2:smoke`, and `phase5:smoke` execute funded devnet writes and therefore require a configured relayer wallet with devnet SOL.
 
-```bash
-npm run anchor:build
-npm run anchor:test:devnet
-```
+## Deployment Boundary
 
-`anchor:test:devnet` needs devnet SOL in the configured relayer wallet. If the faucet is rate-limited, the code can still build locally, but live devnet lifecycle tests will fail at funding time.
+The current MVP stores its read model, session keys, and sanitized uploads on disk. Full report and steward flows therefore require a stateful Node host with a persistent volume mounted through `NAGARIK_DATA_DIR`; the included [`Dockerfile`](nagarik-signal/Dockerfile) provides that path.
 
-## Demo Path
-
-1. Start on `/dashboard`.
-2. Open an ignored issue and show Days Ignored.
-3. Create a public infrastructure report.
-4. Open the issue page.
-5. Run ProofPanel.
-6. Verify once from a different civic session.
-7. Show duplicate verification rejection.
-8. Use `/steward` to move the issue to `in_progress`.
-9. Resolve with after-photo proof.
-10. Return to the dashboard and show the ward/locality leaderboard.
+The live [Vercel judge showcase](https://nagarik-signal.vercel.app) serves the public read and proof surfaces with write controls disabled. It is not presented as a durable write deployment. See the [product README](nagarik-signal/README.md#deployment) for the complete environment and storage contract.
 
 ## Safety Boundary
 
-Nagarik Signal is deliberately narrow:
+- Public infrastructure only.
+- Approximate location only.
+- EXIF metadata is stripped before evidence is stored.
+- No faces, license plates, private homes, personal accusations, comments, or emergency reporting.
+- A steward resolution update is evidence attached to a public record, not an official government completion certificate.
+- MVP verification is duplicate-resistant per signer/session; it is not proof of personhood.
 
-- public infrastructure only;
-- approximate location only;
-- EXIF metadata stripped before storage;
-- no faces, license plates, private homes, named officials, or personal accusations;
-- no comments;
-- no emergency reporting;
-- no claim that a government agency resolved an issue unless an official source is integrated.
-
-Resolution proof means a steward attached an after-state record to a status update. It is public evidence of a steward update, not an official completion certificate.
+Read the complete [safety policy](nagarik-signal/SAFETY.md) and [privacy notes](nagarik-signal/docs/privacy-and-safety.md).
 
 ## Documentation
 
 - [Product README](nagarik-signal/README.md)
 - [Architecture](nagarik-signal/ARCHITECTURE.md)
-- [Safety](nagarik-signal/SAFETY.md)
-- [Demo script](nagarik-signal/DEMO_SCRIPT.md)
 - [Judge FAQ](nagarik-signal/docs/judge-faq.md)
 - [Why Solana](nagarik-signal/docs/why-solana.md)
+- [Demo script](nagarik-signal/DEMO_SCRIPT.md)
+- [72-second video plan](nagarik-signal/docs/submission-video.md)
 - [Submission package](nagarik-signal/docs/submission-package.md)
-- [Master plan](nagarik_signal_master_plan.md)
+- [Roadmap](nagarik-signal/ROADMAP.md)
 
-## Contributing
+## Contributing and Security
 
-Start with [`CONTRIBUTING.md`](CONTRIBUTING.md). Keep changes proof-first, safety-aware, and honest about what the MVP does and does not prove.
+Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before opening a pull request. Report security issues through [`SECURITY.md`](SECURITY.md), not a public issue.
 
 ## License
 

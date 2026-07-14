@@ -1,52 +1,55 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { WalletButton } from '@/components/WalletButton';
+import { SiteNavigation } from '@/components/SiteNavigation';
+import { showcaseReadOnly } from '@/lib/deployment';
 import '../styles/globals.css';
 
 export const metadata: Metadata = {
-  title: 'Nagarik Signal',
-  description: 'Public proof for public problems.',
+  title: {
+    default: 'Nagarik Signal | Public proof for public problems',
+    template: '%s | Nagarik Signal',
+  },
+  description: 'A public proof layer for civic infrastructure issues in Nepal, anchored on Solana devnet.',
 };
-
-const nav = [
-  ['Explore', '/explore'],
-  ['Report', '/report'],
-  ['Dashboard', '/dashboard'],
-  ['Steward', '/steward'],
-  ['About', '/about'],
-] as const;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <main className="shell">
+        <a className="skip-link" href="#main-content">Skip to content</a>
+        <div className="shell">
           <header className="site-header">
             <div className="container site-header-inner">
-              <Link href="/" className="brand">
-                <span className="brand-mark">NS</span>
-                <span>
-                  <span style={{ display: 'block' }}>Nagarik Signal</span>
-                  <span className="brand-kicker">Public civic proof</span>
+              <Link href="/" className="brand" aria-label="Nagarik Signal home">
+                <span className="brand-mark" aria-hidden="true"><span /> <span /> <span /></span>
+                <span className="brand-copy">
+                  <strong>Nagarik Signal</strong>
+                  <span>Public civic proof</span>
                 </span>
               </Link>
-              <nav className="nav" aria-label="Main navigation">
-                {nav.map(([label, href]) => (
-                  <Link key={href} href={href} className="pill">
-                    {label}
-                  </Link>
-                ))}
-                <WalletButton />
-              </nav>
+              <SiteNavigation />
             </div>
           </header>
-          {children}
+          {showcaseReadOnly ? (
+            <div className="showcase-banner" role="status">
+              <div className="container">Judge showcase: public records and Solana proof checks are live; state-changing actions are disabled on Vercel.</div>
+            </div>
+          ) : null}
+          <main id="main-content">{children}</main>
           <footer className="site-footer">
-            <div className="container">
-              Public proof for public problems. Devnet-only MVP. No tokens, rewards, payments, comments, or personal accusation flow.
+            <div className="container footer-grid">
+              <div>
+                <strong>Nagarik Signal</strong>
+                <p>Public proof for public problems.</p>
+              </div>
+              <p>Devnet MVP. No tokens, rewards, payments, comments, personal accusations, or emergency reporting.</p>
+              <div className="footer-links">
+                <Link href="/about">How proof works</Link>
+                <Link href="/explore">Public records</Link>
+              </div>
             </div>
           </footer>
-        </main>
+        </div>
       </body>
     </html>
   );

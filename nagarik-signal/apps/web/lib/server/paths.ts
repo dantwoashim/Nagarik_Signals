@@ -30,14 +30,19 @@ export function repoRoot() {
 }
 
 export function readModelPath() {
+  if (process.env.NAGARIK_READ_MODEL_PATH) return resolve(process.env.NAGARIK_READ_MODEL_PATH);
+  if (process.env.NAGARIK_DATA_DIR) return resolve(process.env.NAGARIK_DATA_DIR, 'read-model', 'nagarik-signal.json');
   return resolve(repoRoot(), 'data', 'read-model', 'nagarik-signal.json');
 }
 
 export function sessionKeypairDir() {
+  if (process.env.NAGARIK_DATA_DIR) return resolve(process.env.NAGARIK_DATA_DIR, 'session-keypairs');
   return resolve(repoRoot(), 'data', 'session-keypairs');
 }
 
 export function uploadDir() {
+  if (process.env.NAGARIK_UPLOAD_DIR) return resolve(process.env.NAGARIK_UPLOAD_DIR);
+  if (process.env.NAGARIK_DATA_DIR) return resolve(process.env.NAGARIK_DATA_DIR, 'uploads');
   return resolve(repoRoot(), 'apps', 'web', 'public', 'uploads');
 }
 

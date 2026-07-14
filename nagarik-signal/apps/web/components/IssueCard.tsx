@@ -17,7 +17,7 @@ export function IssueCard({ issue }: { issue: CivicIssue }) {
       <article className="issue-card">
         <div className="issue-card-media">
           <Image src={issue.photoUrl} alt={`${issue.title} evidence`} fill sizes="(max-width: 620px) 100vw, (max-width: 1080px) 50vw, 260px" />
-          <span className={live ? 'proof-origin live' : 'proof-origin demo'}>{live ? 'Live devnet proof' : 'Demo record'}</span>
+          <span className={live ? 'proof-origin live' : 'proof-origin sample'}>{live ? 'Live devnet proof' : 'Sample record'}</span>
         </div>
         <div className="issue-card-body">
           <div className="issue-card-count">

@@ -13,7 +13,7 @@ Nagarik Signal is a Solana-backed public proof layer for ignored civic issues in
 | Local app | `http://127.0.0.1:3001` after `npm run dev` |
 | Devnet program | `76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY` |
 | Cluster | Solana devnet |
-| Live judge showcase | `https://nagarik-signal.vercel.app` (read-only; proof checks are live) |
+| Live public preview | `https://nagarik-signal.vercel.app` (read-only; proof checks are available) |
 
 ## What It Does
 
@@ -44,7 +44,7 @@ Report -> Hash -> Anchor -> Verify -> Track -> Resolve
 | Evidence commitment | Can be replaced silently | Hash committed on-chain |
 | Duplicate verification | Application rule can be rewritten | Verification PDA prevents duplicate signer/session verification |
 | Status timeline | Admin history can be edited | StatusUpdate PDAs and timeline hash create an audit trail |
-| Judge verification | Trust the platform export | Recompute display hashes and compare with chain state |
+| Independent verification | Trust the platform export | Recompute display hashes and compare with chain state |
 
 Solana is used only for public proof. There are no tokens, rewards, or payments.
 
@@ -57,7 +57,7 @@ Next.js app
 
 Local JSON read model for MVP display
   - issue text, image URLs, rounded location, sessions, dashboard data
-  - seeded demo rows are labeled seeded_demo
+  - sample rows use the internal status seeded_demo
 
 Solana devnet proof layer
   - Registry PDA
@@ -92,7 +92,7 @@ Implemented lifecycle checks:
 
 The program is deployed on devnet. The funded lifecycle suite is available through `npm run anchor:test:devnet`; publishing a program ID alone is not treated as proof that every physical-world claim is true.
 
-## Demo Data
+## Sample Data
 
 Run:
 
@@ -100,7 +100,7 @@ Run:
 npm run seed:demo
 ```
 
-This regenerates a safe synthetic/staged demo dataset while preserving existing live devnet rows. The current generator verifies:
+This regenerates a safe synthetic/staged sample dataset while preserving existing live devnet rows. The current generator verifies:
 
 - at least 30 visible issues;
 - at least 5 wards/localities;
@@ -147,7 +147,7 @@ npm run proof:read -- --issue-id 1
 npm run verify:proof -- --issue-id 1
 ```
 
-## Demo Flow
+## Product Walkthrough
 
 1. Start on `/dashboard`.
 2. Open an ignored issue and show Days Ignored.
@@ -172,7 +172,7 @@ npm run verify:proof -- --issue-id 1
 
 ## Deployment
 
-The current MVP writes its read model, session keys, and sanitized uploads to disk. Deploy the full workflow on a stateful Node host with a persistent volume. The Vercel deployment is intentionally configured as a read-only judge showcase: it bundles the public read model, keeps live Solana proof verification available, and fails every state-changing route closed.
+The current MVP writes its read model, session keys, and sanitized uploads to disk. Deploy the full workflow on a stateful Node host with a persistent volume. The Vercel deployment is configured as a read-only public preview: it bundles the public read model, keeps live Solana proof verification available, and fails every state-changing route closed.
 
 Recommended production path:
 
@@ -189,7 +189,7 @@ Recommended production path:
 - MVP is devnet-only.
 - The MVP uses a JSON read model and filesystem uploads. Hosted write flows require a persistent volume through `NAGARIK_DATA_DIR`; Supabase remains a future adapter.
 - Wallet identity can be connected in the browser, but the current live transaction path is still sponsored devnet signing for accessibility.
-- Seeded demo rows are synthetic/staged examples and intentionally marked `seeded_demo`.
+- Sample rows are synthetic/staged examples and intentionally use the internal status `seeded_demo`.
 - Verification is duplicate-resistant per session/signer, not proof-of-personhood.
 - Official government response is not claimed.
 
@@ -200,9 +200,8 @@ Recommended production path:
 - [Competitors](docs/competitors.md)
 - [Why Solana](docs/why-solana.md)
 - [Privacy and safety](docs/privacy-and-safety.md)
-- [Judge FAQ](docs/judge-faq.md)
+- [Product FAQ](docs/product-faq.md)
 - [Public posts](docs/public-posts.md)
-- [Submission package](docs/submission-package.md)
 - [Roadmap](ROADMAP.md)
 
 ## License

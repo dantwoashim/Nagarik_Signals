@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Seed demo read model
+      - name: Seed sample read model
         run: npm run seed:demo
 
       - name: Typecheck
@@ -42,8 +42,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Install browser for submission checks
+      - name: Install browser for experience checks
         run: npx playwright install --with-deps chromium
 
-      - name: Browser submission checks
+      - name: Browser experience checks
         run: npm run test:e2e

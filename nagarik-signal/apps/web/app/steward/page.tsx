@@ -1,16 +1,16 @@
 import { listIssues } from '@/lib/db/queries';
 import { StewardConsole } from '@/components/StewardConsole';
 import Link from 'next/link';
-import { showcaseReadOnly, showcaseUnavailableReason } from '@/lib/deployment';
+import { publicPreviewReadOnly, publicPreviewUnavailableReason } from '@/lib/deployment';
 
 export default function StewardPage() {
-  if (showcaseReadOnly) {
+  if (publicPreviewReadOnly) {
     return (
       <section className="container page-section page-stack">
         <div className="page-heading">
-          <span className="eyebrow">Read-only judge showcase</span>
-          <h1>Steward writes are disabled on Vercel</h1>
-          <p>{showcaseUnavailableReason}</p>
+          <span className="eyebrow">Public preview</span>
+          <h1>Status updates are temporarily paused</h1>
+          <p>{publicPreviewUnavailableReason}</p>
         </div>
         <Link className="button primary" href="/dashboard">Open accountability dashboard</Link>
       </section>

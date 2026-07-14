@@ -37,7 +37,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
       <div className="page-heading">
         <span className="eyebrow">Public record</span>
         <h1>See what is still waiting</h1>
-        <p>Filter safe civic infrastructure records by place, category, status, and time ignored. Live devnet proof and demo data stay visibly separate.</p>
+        <p>Filter safe civic infrastructure records by place, category, status, and time ignored. Live devnet proof and sample records stay visibly separate.</p>
       </div>
       <form className="panel filter-bar">
         <label className="field">

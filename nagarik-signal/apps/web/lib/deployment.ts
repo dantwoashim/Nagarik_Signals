@@ -1,4 +1,4 @@
-export const showcaseReadOnly = process.env.NEXT_PUBLIC_NAGARIK_SHOWCASE_READ_ONLY === '1';
+export const publicPreviewReadOnly = process.env.NEXT_PUBLIC_NAGARIK_PUBLIC_PREVIEW === '1';
 
-export const showcaseUnavailableReason =
-  'This Vercel deployment is a read-only judge showcase. Run the stateful build for reports, citizen signals, uploads, and steward updates.';
+export const publicPreviewUnavailableReason =
+  'This public preview is read-only. Existing records and proof checks remain available while new reports, citizen signals, uploads, and status updates are temporarily paused.';

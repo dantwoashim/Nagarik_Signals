@@ -30,7 +30,7 @@ type UploadResult = {
 };
 
 type QueueStatus = 'open' | 'all' | IssueStatus;
-type ProofFilter = 'indexed' | 'demo' | 'all';
+type ProofFilter = 'indexed' | 'sample' | 'all';
 
 function statusMatches(issue: CivicIssue, filter: QueueStatus) {
   if (filter === 'all') return true;
@@ -174,7 +174,7 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
               <span>Proof mode</span>
               <select value={proofFilter} onChange={(event) => setProofFilter(event.target.value as ProofFilter)}>
                 <option value="indexed">Indexed devnet</option>
-                <option value="demo">Seeded demo</option>
+                <option value="sample">Sample records</option>
                 <option value="all">All proof modes</option>
               </select>
             </label>
@@ -285,12 +285,12 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
           </div>
           {selectedSeeded ? (
             <div className="notice" style={{ marginTop: 14 }}>
-              Seeded demo issues are visible for judging but cannot create live status PDAs.
+              Sample records are illustrative and cannot create live status PDAs.
             </div>
           ) : null}
           {selectedClosed ? (
             <div className="notice" style={{ marginTop: 14 }}>
-              Closed issues freeze the ignored counter and are not updated again in the demo flow.
+              Closed issues freeze the ignored counter and cannot be updated again.
             </div>
           ) : null}
           {result?.ok ? (

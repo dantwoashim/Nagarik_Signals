@@ -15,14 +15,14 @@ const solanaRows = [
   ['Evidence commitment', 'Can be replaced silently by operator', 'Evidence hash committed to Issue PDA'],
   ['Duplicate verification', 'Application rule can be changed later', 'Verification PDA prevents duplicate signer/session verification'],
   ['Status timeline', 'Admin history can be rewritten', 'StatusUpdate PDA and timeline hash create an audit trail'],
-  ['Judge verification', 'Trust the platform export', 'Recompute displayed hashes and compare with chain state'],
+  ['Independent verification', 'Trust the platform export', 'Recompute displayed hashes and compare with chain state'],
 ] as const;
 
 export default function AboutPage() {
   return (
     <section className="container page-section page-stack">
       <div className="page-heading">
-        <span className="eyebrow">Judge notes</span>
+        <span className="eyebrow">How it works</span>
         <h1>Public proof, not another complaint portal</h1>
         <p className="muted" style={{ lineHeight: 1.65 }}>
           {appConfig.name} turns safe public infrastructure reports into proof objects: evidence hash, metadata hash,

@@ -4,14 +4,14 @@ import { latestIndexedIssue, readModel, readModelExists } from '@/lib/db/queries
 import { getSupabaseConfig } from '@/lib/db/supabase';
 import { chainHealth } from '@/lib/solana/actions';
 import { readModelPath } from '@/lib/server/paths';
-import { showcaseReadOnly } from '@/lib/deployment';
+import { publicPreviewReadOnly } from '@/lib/deployment';
 
 export const runtime = 'nodejs';
 
 export async function GET() {
   let rpc: Awaited<ReturnType<typeof chainHealth>> | { ok: false; error: string };
   try {
-    rpc = await chainHealth({ includeRelayer: !showcaseReadOnly });
+    rpc = await chainHealth({ includeRelayer: !publicPreviewReadOnly });
   } catch (error) {
     rpc = { ok: false, error: error instanceof Error ? error.message : 'rpc_health_failed' };
   }
@@ -25,9 +25,9 @@ export async function GET() {
     programId: appConfig.programId,
     rpc,
     db: {
-      mode: showcaseReadOnly ? 'bundled_showcase_snapshot' : 'local_json_read_model',
+      mode: publicPreviewReadOnly ? 'bundled_public_snapshot' : 'local_json_read_model',
       ok: readModelExists(),
-      path: showcaseReadOnly ? null : readModelPath(),
+      path: publicPreviewReadOnly ? null : readModelPath(),
       issueCount: model.issues.length,
       verificationCount: model.verifications.length,
       statusUpdateCount: model.statusUpdates.length,

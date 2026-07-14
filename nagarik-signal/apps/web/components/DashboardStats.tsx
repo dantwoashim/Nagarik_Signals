@@ -3,11 +3,11 @@ import type { DashboardStats as DashboardStatsType } from '@/lib/types';
 export function DashboardStats({
   stats,
   liveCount,
-  demoCount,
+  sampleCount,
 }: {
   stats: DashboardStatsType;
   liveCount?: number;
-  demoCount?: number;
+  sampleCount?: number;
 }) {
   const rows = [
     ['Public records', stats.totalIssues],
@@ -26,8 +26,8 @@ export function DashboardStats({
           </div>
         ))}
       </div>
-      {typeof liveCount === 'number' && typeof demoCount === 'number' ? (
-        <p className="proof-scope"><strong>{liveCount} live devnet</strong><span aria-hidden="true">/</span>{demoCount} clearly marked demo records</p>
+      {typeof liveCount === 'number' && typeof sampleCount === 'number' ? (
+        <p className="proof-scope"><strong>{liveCount} live devnet</strong><span aria-hidden="true">/</span>{sampleCount} clearly marked sample records</p>
       ) : null}
     </section>
   );

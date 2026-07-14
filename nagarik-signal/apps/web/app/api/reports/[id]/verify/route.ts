@@ -4,19 +4,19 @@ import { isClosedStatus } from '@/lib/constants/statuses';
 import { sha256Hex } from '@/lib/proof/hash';
 import { verifyIssueOnChain } from '@/lib/solana/actions';
 import { explorerTxUrl, loadOrCreateSessionKeypair } from '@/lib/solana/server';
-import { showcaseReadOnly } from '@/lib/deployment';
+import { publicPreviewReadOnly } from '@/lib/deployment';
 
 export const runtime = 'nodejs';
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
-  if (showcaseReadOnly) {
-    return NextResponse.json({ ok: false, status: 'rejected', reason: 'showcase_read_only' }, { status: 503 });
+  if (publicPreviewReadOnly) {
+    return NextResponse.json({ ok: false, status: 'rejected', reason: 'public_preview_read_only' }, { status: 503 });
   }
   const { id } = await params;
   const issue = getIssue(id);
   if (!issue) return NextResponse.json({ ok: false, status: 'rejected', reason: 'issue_not_found', issueId: id }, { status: 404 });
   if (issue.proof.proofStatus === 'seeded_demo') {
-    return NextResponse.json({ ok: false, status: 'rejected', reason: 'seeded_demo_not_on_chain', issueId: id }, { status: 409 });
+    return NextResponse.json({ ok: false, status: 'rejected', reason: 'sample_record_not_on_chain', issueId: id }, { status: 409 });
   }
   if (isClosedStatus(issue.status)) {
     return NextResponse.json({ ok: false, status: 'rejected', reason: 'issue_closed', issueId: id }, { status: 409 });

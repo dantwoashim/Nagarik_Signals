@@ -31,7 +31,7 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
             <Image src={issue.photoUrl} alt={`Evidence for ${issue.title}`} fill priority sizes="(max-width: 900px) 100vw, 66vw" />
           </div>
           <figcaption>
-            <span>{issue.proof.proofStatus === 'seeded_demo' ? 'Illustrative demo evidence' : 'Sanitized public evidence'}</span>
+            <span>{issue.proof.proofStatus === 'seeded_demo' ? 'Illustrative sample evidence' : 'Sanitized public evidence'}</span>
             <span>Approximate location · {issue.locality}</span>
           </figcaption>
         </figure>

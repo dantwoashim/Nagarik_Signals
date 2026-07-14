@@ -5,12 +5,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { List, Plus, X } from '@phosphor-icons/react';
 import { WalletButton } from './WalletButton';
-import { showcaseReadOnly } from '@/lib/deployment';
+import { publicPreviewReadOnly } from '@/lib/deployment';
 
 const nav = [
   ['Explore', '/explore'],
   ['Dashboard', '/dashboard'],
-  ...(showcaseReadOnly ? [] : [['Steward', '/steward']] as const),
+  ...(publicPreviewReadOnly ? [] : [['Steward', '/steward']] as const),
   ['About', '/about'],
 ] as const;
 
@@ -26,17 +26,17 @@ export function SiteNavigation() {
             {label}
           </Link>
         ))}
-        <Link className="button primary nav-report" href={showcaseReadOnly ? '/explore' : '/report'}>
+        <Link className="button primary nav-report" href={publicPreviewReadOnly ? '/explore' : '/report'}>
           <Plus size={16} weight="bold" />
-          {showcaseReadOnly ? 'Browse proof' : 'Report issue'}
+          {publicPreviewReadOnly ? 'Browse proof' : 'Report issue'}
         </Link>
         <WalletButton />
       </nav>
 
       <div className="mobile-nav-shell">
-        <Link className="button primary mobile-report" href={showcaseReadOnly ? '/explore' : '/report'}>
+        <Link className="button primary mobile-report" href={publicPreviewReadOnly ? '/explore' : '/report'}>
           <Plus size={17} weight="bold" />
-          {showcaseReadOnly ? 'Proofs' : 'Report'}
+          {publicPreviewReadOnly ? 'Proofs' : 'Report'}
         </Link>
         <button
           type="button"

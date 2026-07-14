@@ -377,7 +377,7 @@ function timelineFor(spec: DemoSpec, issueId: number) {
       issueId,
       seq: 0,
       status: 'submitted',
-      note: 'Seeded demo public infrastructure report accepted after safety screen.',
+      note: 'Sample public infrastructure record accepted after safety screen.',
       daysAgo: spec.daysAgo,
     }),
   ];
@@ -553,7 +553,7 @@ export function createSeededDemoReadModel(existing?: ReadModel): ReadModel {
     stewards: [
       {
         walletPubkey: 'DemoStewardPubkey',
-        displayName: 'Seeded demo steward',
+        displayName: 'Sample data steward',
         active: true,
         createdAt: isoDaysAgo(35),
         revokedAt: null,

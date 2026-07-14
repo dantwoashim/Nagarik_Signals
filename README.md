@@ -11,9 +11,9 @@ Nagarik Signal turns a safe public-infrastructure report into an inspectable civ
 
 It is deliberately not a token product and not another private complaint queue.
 
-[**Open live showcase**](https://nagarik-signal.vercel.app) · [**Verify a live devnet issue**](https://nagarik-signal.vercel.app/issues/11) · [**Inspect the Solana program**](https://explorer.solana.com/address/76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY?cluster=devnet)
+[**Open the public preview**](https://nagarik-signal.vercel.app) | [**Verify a live devnet issue**](https://nagarik-signal.vercel.app/issues/11) | [**Inspect the Solana program**](https://explorer.solana.com/address/76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY?cluster=devnet)
 
-The Vercel link is an explicit read-only judge showcase. Public records, dashboards, and independent Solana proof checks are live; durable writes remain on the stateful deployment path described below.
+The live site is currently a read-only public preview. Public records, dashboards, and independent Solana proof checks remain available while durable writes stay on the stateful deployment path described below.
 
 ![Nagarik Signal product overview](nagarik-signal/docs/assets/product-overview.png)
 
@@ -34,9 +34,9 @@ Report -> sanitize -> hash -> anchor -> witness -> track -> resolve
 - Steward changes receive StatusUpdate PDAs and extend the timeline hash.
 - The proof panel recomputes the displayed record and compares it with Solana.
 
-## Judge Path
+## Verify A Public Record
 
-The shortest useful review takes about ninety seconds:
+The proof trail can be checked directly:
 
 1. Open an issue marked `indexed_devnet`.
 2. Inspect its evidence, age, status history, and citizen signals.
@@ -44,7 +44,7 @@ The shortest useful review takes about ninety seconds:
 4. Compare the recomputed hashes with the Issue PDA.
 5. Open the accountability dashboard to see unresolved age by ward.
 
-Seeded examples and live devnet records are labeled separately throughout the product. A demo row is never presented as on-chain proof.
+Sample records and live devnet records are labeled separately throughout the product. A sample record is never presented as on-chain proof.
 
 ## Why Solana
 
@@ -54,7 +54,7 @@ Seeded examples and live devnet records are labeled separately throughout the pr
 | Was the evidence replaced? | Requires trusting the operator | Evidence hash is committed to the Issue PDA |
 | Can one signer verify repeatedly? | Mutable application rule | Verification PDA rejects a duplicate signer/session |
 | Can status history be rewritten? | Admin history can change | StatusUpdate PDAs extend an inspectable timeline |
-| Can a judge check the record? | Trust an export or screenshot | Recompute hashes and compare with chain state |
+| Can anyone check the record? | Trust an export or screenshot | Recompute hashes and compare with chain state |
 
 Solana is used as public proof infrastructure. Nagarik Signal has no token, rewards, payments, betting, or speculative mechanism.
 
@@ -82,7 +82,7 @@ The read model serves searchable civic context. Solana stores the public commitm
 | Anchor program | [`nagarik-signal/programs/nagarik_signal`](nagarik-signal/programs/nagarik_signal) |
 | Proof and indexing scripts | [`nagarik-signal/scripts`](nagarik-signal/scripts) |
 | Schema and read model | [`nagarik-signal/supabase`](nagarik-signal/supabase), [`nagarik-signal/data`](nagarik-signal/data) |
-| Product and judge documentation | [`nagarik-signal/docs`](nagarik-signal/docs) |
+| Product documentation | [`nagarik-signal/docs`](nagarik-signal/docs) |
 
 Devnet program: [`76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY`](https://explorer.solana.com/address/76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY?cluster=devnet)
 
@@ -100,7 +100,7 @@ npm run dev
 
 Open `http://127.0.0.1:3001`.
 
-The seeded read model is safe for demonstration and remains explicitly labeled `seeded_demo`. Live write operations require the Solana relayer configuration documented in [`.env.example`](nagarik-signal/.env.example).
+The seeded read model contains safe sample records and remains explicitly labeled `seeded_demo` at the data-contract level. Live write operations require the Solana relayer configuration documented in [`.env.example`](nagarik-signal/.env.example).
 
 ## Verify the Build
 
@@ -124,7 +124,7 @@ npm run final:preflight
 
 The current MVP stores its read model, session keys, and sanitized uploads on disk. Full report and steward flows therefore require a stateful Node host with a persistent volume mounted through `NAGARIK_DATA_DIR`; the included [`Dockerfile`](nagarik-signal/Dockerfile) provides that path.
 
-The live [Vercel judge showcase](https://nagarik-signal.vercel.app) serves the public read and proof surfaces with write controls disabled. It is not presented as a durable write deployment. See the [product README](nagarik-signal/README.md#deployment) for the complete environment and storage contract.
+The live [Vercel public preview](https://nagarik-signal.vercel.app) serves the public read and proof surfaces with write controls disabled. It is not presented as a durable write deployment. See the [product README](nagarik-signal/README.md#deployment) for the complete environment and storage contract.
 
 ## Safety Boundary
 
@@ -141,9 +141,8 @@ Read the complete [safety policy](nagarik-signal/SAFETY.md) and [privacy notes](
 
 - [Product README](nagarik-signal/README.md)
 - [Architecture](nagarik-signal/ARCHITECTURE.md)
-- [Judge FAQ](nagarik-signal/docs/judge-faq.md)
+- [Product FAQ](nagarik-signal/docs/product-faq.md)
 - [Why Solana](nagarik-signal/docs/why-solana.md)
-- [Submission package](nagarik-signal/docs/submission-package.md)
 - [Roadmap](nagarik-signal/ROADMAP.md)
 
 ## Contributing and Security

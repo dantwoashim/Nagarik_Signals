@@ -7,7 +7,7 @@ Nagarik Signal has three layers.
 The web app lets people browse, report, verify, and inspect public
 infrastructure issues. Browsing requires no wallet. Report and verification
 flows support civic-session mode first. The browser can connect a wallet as an
-optional judge/crypto identity, while the current live transaction path remains
+optional public identity, while the current live transaction path remains
 sponsored devnet signing for accessibility.
 
 ## 2. Read Model

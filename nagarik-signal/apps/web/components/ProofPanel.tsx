@@ -49,8 +49,8 @@ type ProofResponse = {
 
 function resultLabel(result: ProofResponse | null, checking: boolean, issue: CivicIssue) {
   if (checking) return 'checking devnet';
-  if (!result) return issue.proof.proofStatus === 'seeded_demo' ? 'seeded demo' : 'ready to verify';
-  if (result.ok) return result.mode === 'seeded_demo' ? 'local demo match' : 'on-chain match';
+  if (!result) return issue.proof.proofStatus === 'seeded_demo' ? 'sample record' : 'ready to verify';
+  if (result.ok) return result.mode === 'seeded_demo' ? 'local sample match' : 'on-chain match';
   if (result.error) return 'proof unavailable';
   return 'proof mismatch';
 }
@@ -66,14 +66,14 @@ export function ProofPanel({ issue }: { issue: CivicIssue }) {
   const [result, setResult] = useState<ProofResponse | null>(null);
   const [message, setMessage] = useState(
     issue.proof.proofStatus === 'seeded_demo'
-      ? 'Seeded demo rows are hash-checked locally and do not claim live Solana proof.'
+      ? 'Sample records are hash-checked locally and do not claim live Solana proof.'
       : 'Run an explicit live proof check against the indexed devnet account.'
   );
   const issueAddress = addressUrl(issue.proof.issuePda);
   const createTx = txUrl(issue.proof.createTxSig);
   const latestTx = txUrl(issue.proof.latestTxSig);
   const rawJsonUrl = `/api/verify-proof/${encodeURIComponent(issue.id)}`;
-  const demo = issue.proof.proofStatus === 'seeded_demo';
+  const sample = issue.proof.proofStatus === 'seeded_demo';
   const rows = [
     ['Issue PDA', issue.proof.issuePda],
     ['Metadata hash', issue.proof.metadataHash],
@@ -118,20 +118,20 @@ export function ProofPanel({ issue }: { issue: CivicIssue }) {
     <section className="panel pad proof-panel">
       <div className="proof-panel-heading">
         <div>
-          <span className="proof-kicker">{demo ? 'Demo integrity' : 'Independent verification'}</span>
+          <span className="proof-kicker">{sample ? 'Sample integrity' : 'Independent verification'}</span>
           <h2>Verify this record</h2>
         </div>
         <span className={`pill ${resultClass(result, issue)}`}>{resultLabel(result, checking, issue)}</span>
       </div>
       <p className="proof-explainer">
-        {demo
-          ? 'This record is part of the judge-facing demo dataset. Check that its displayed evidence and metadata still match the stored hashes.'
+        {sample
+          ? 'This is an illustrative public record. Check that its displayed evidence and metadata still match the stored hashes.'
           : 'Recompute the displayed record, then compare its hashes and current status with the indexed Solana devnet account.'}
       </p>
       <div className="row-actions proof-actions">
         <button type="button" className="button green" onClick={verifyProof} disabled={checking}>
           {checking ? <WarningCircle size={17} weight="bold" /> : <CheckCircle size={17} weight="bold" />}
-          {checking ? 'Checking record...' : demo ? 'Check demo integrity' : 'Verify against Solana'}
+          {checking ? 'Checking record...' : sample ? 'Check sample integrity' : 'Verify against Solana'}
         </button>
       </div>
       <p className={result?.ok ? 'proof-verdict proof-ok' : result ? 'proof-verdict proof-bad' : 'proof-verdict'} role="status" aria-live="polite">

@@ -52,7 +52,7 @@ export function SessionChoice({ onSession }: { onSession?: (session: CivicSessio
         <span className="pill">{session?.mode === 'wallet' ? 'Wallet identity' : 'Gasless civic session'}</span>
       </div>
       <p className="muted" style={{ lineHeight: 1.55 }}>
-        Use a walletless civic session for accessibility or connect Phantom as an optional judge/crypto identity. Live MVP transactions are sponsored on devnet so normal users do not need SOL.
+        Use a walletless civic session for accessibility or connect Phantom as an optional public identity. Transactions are sponsored on devnet, so residents do not need SOL.
       </p>
       <div className="hash-row">
         <span className="muted">{session?.mode === 'wallet' ? 'Wallet' : 'Session id'}</span>

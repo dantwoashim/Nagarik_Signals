@@ -56,7 +56,7 @@ npm run anchor:test:devnet
 - Better hash verification and mismatch reporting.
 - Stronger demo preflight checks.
 - Safer upload/moderation behavior.
-- Better docs for judges, civic groups, and maintainers.
+- Better docs for residents, civic groups, and maintainers.
 
 ## Commit Style
 

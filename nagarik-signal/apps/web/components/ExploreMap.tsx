@@ -22,7 +22,7 @@ export function ExploreMap({ issues }: { issues: CivicIssue[] }) {
         <p>Pins are deliberately coarse. Nagarik Signal never displays the reporter&apos;s exact location.</p>
         <div className="map-key">
           <span><i className="map-key-dot live" />Live devnet</span>
-          <span><i className="map-key-dot demo" />Demo record</span>
+          <span><i className="map-key-dot sample" />Sample record</span>
         </div>
         <div className="map-list">
           {visible.slice(0, 4).map((issue) => (
@@ -46,9 +46,9 @@ export function ExploreMap({ issues }: { issues: CivicIssue[] }) {
             <Link
               key={issue.id}
               href={`/issues/${issue.id}`}
-              className={live ? 'map-marker live' : 'map-marker demo'}
+              className={live ? 'map-marker live' : 'map-marker sample'}
               style={{ left: `${Math.min(88, Math.max(8, left))}%`, top: `${Math.min(84, Math.max(8, top))}%`, '--marker-index': index } as React.CSSProperties}
-              aria-label={`${issue.title}, ${issue.locality}, ${live ? 'live devnet proof' : 'demo record'}`}
+              aria-label={`${issue.title}, ${issue.locality}, ${live ? 'live devnet proof' : 'sample record'}`}
               title={`${issue.locality}: ${issue.title}`}
             >
               <MapPin size={18} weight="fill" aria-hidden="true" />

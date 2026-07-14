@@ -184,11 +184,11 @@ export function ReportForm() {
       </section>
 
       <section className="report-step final-step">
-        <div className="report-step-heading"><span className="mono">04</span><div><h2>Review and anchor</h2><p>Use a gasless civic session or optional wallet identity, then inspect the hashes before submission.</p></div></div>
+        <div className="report-step-heading"><span className="mono">04</span><div><h2>Review and anchor</h2><p>Use a gasless civic session or optional wallet identity, then inspect the hashes before publishing.</p></div></div>
         <SessionChoice onSession={handleSession} />
         <ProofPreview {...preview} />
         <div className="submit-progress-block">
-          <h3>Submission progress</h3>
+          <h3>Publishing progress</h3>
           <SubmitProgress current={step} />
         </div>
         <button className="button primary submit-proof" type="submit" disabled={busy}>

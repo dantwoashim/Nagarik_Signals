@@ -6,7 +6,7 @@ import { dashboardStats, daysIgnored, listIssues, mostIgnoredIssues } from '@/li
 import { appConfig } from '@/lib/constants/config';
 import { categoryLabel } from '@/lib/constants/categories';
 import { isClosedStatus, statusLabel } from '@/lib/constants/statuses';
-import { showcaseReadOnly } from '@/lib/deployment';
+import { publicPreviewReadOnly } from '@/lib/deployment';
 
 export default function HomePage() {
   const stats = dashboardStats();
@@ -15,7 +15,7 @@ export default function HomePage() {
   const issues = ignoredIssues.length ? ignoredIssues : allIssues.slice(0, 4);
   const spotlight = issues[0];
   const liveCount = allIssues.filter((issue) => issue.proof.proofStatus !== 'seeded_demo').length;
-  const demoCount = allIssues.length - liveCount;
+  const sampleCount = allIssues.length - liveCount;
   const spotlightDays = spotlight ? daysIgnored(spotlight) : 0;
   const spotlightClosed = spotlight ? isClosedStatus(spotlight.status) : false;
   return (
@@ -27,14 +27,14 @@ export default function HomePage() {
             <h1>{appConfig.tagline}</h1>
             <p>{appConfig.positioning}</p>
             <div className="hero-actions">
-              <Link className="button primary" href={showcaseReadOnly ? '/explore' : '/report'}>{showcaseReadOnly ? 'Inspect public proof' : 'Report an issue'} <ArrowRight size={17} weight="bold" /></Link>
+              <Link className="button primary" href={publicPreviewReadOnly ? '/explore' : '/report'}>{publicPreviewReadOnly ? 'Inspect public proof' : 'Report an issue'} <ArrowRight size={17} weight="bold" /></Link>
               <Link className="button light" href="/explore">Explore public records</Link>
             </div>
           </div>
           {spotlight ? (
             <Link className="hero-record" href={`/issues/${spotlight.id}`} aria-label={`Open ${spotlight.title}`}>
               <div className="hero-record-topline">
-                <span>{spotlight.proof.proofStatus === 'seeded_demo' ? 'Clearly marked demo record' : 'Live devnet proof'}</span>
+                <span>{spotlight.proof.proofStatus === 'seeded_demo' ? 'Clearly marked sample record' : 'Live devnet proof'}</span>
                 <span>#{spotlight.issueId}</span>
               </div>
               <div className="hero-day-count">
@@ -56,7 +56,7 @@ export default function HomePage() {
       </section>
 
       <section className="home-metrics">
-        <div className="container"><DashboardStats stats={stats} liveCount={liveCount} demoCount={demoCount} /></div>
+        <div className="container"><DashboardStats stats={stats} liveCount={liveCount} sampleCount={sampleCount} /></div>
       </section>
 
       <section className="container home-story">
@@ -93,7 +93,7 @@ export default function HomePage() {
             <div className="section-heading compact">
               <span className="eyebrow">Longest waiting</span>
               <h2>What the city is still carrying</h2>
-              <p>Live and demo records are never presented as the same kind of proof.</p>
+              <p>Live and sample records are never presented as the same kind of proof.</p>
             </div>
             <Link className="text-link" href="/explore">See every record <ArrowRight size={16} weight="bold" /></Link>
           </div>
@@ -103,9 +103,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="container judge-path">
+      <section className="container verification-path">
         <div>
-          <span className="eyebrow">For judges and skeptics</span>
+          <span className="eyebrow">Independent verification</span>
           <h2>Do not trust the interface. Verify the record.</h2>
           <p>Open a live issue, recompute its proof, and compare the stored hashes with the Solana devnet account.</p>
         </div>

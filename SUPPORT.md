@@ -6,7 +6,7 @@ For setup help, open a GitHub issue with:
 - Node version;
 - command you ran;
 - full error output;
-- whether you are running local demo mode or devnet proof flows.
+- whether you are running local sample data or devnet proof flows.
 
 For security-sensitive reports, use `SECURITY.md` instead of a public issue.
 

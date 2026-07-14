@@ -6,7 +6,7 @@ import { sha256Hex } from '@/lib/proof/hash';
 import { updateStatusOnChain } from '@/lib/solana/actions';
 import { explorerTxUrl } from '@/lib/solana/server';
 import type { IssueStatus } from '@/lib/types';
-import { showcaseReadOnly } from '@/lib/deployment';
+import { publicPreviewReadOnly } from '@/lib/deployment';
 
 export const runtime = 'nodejs';
 
@@ -15,14 +15,14 @@ function isHex32(value: string) {
 }
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
-  if (showcaseReadOnly) {
-    return NextResponse.json({ ok: false, reason: 'showcase_read_only' }, { status: 503 });
+  if (publicPreviewReadOnly) {
+    return NextResponse.json({ ok: false, reason: 'public_preview_read_only' }, { status: 503 });
   }
   const { id } = await params;
   const issue = getIssue(id);
   if (!issue) return NextResponse.json({ ok: false, reason: 'issue_not_found' }, { status: 404 });
   if (issue.proof.proofStatus === 'seeded_demo') {
-    return NextResponse.json({ ok: false, reason: 'seeded_demo_not_on_chain' }, { status: 409 });
+    return NextResponse.json({ ok: false, reason: 'sample_record_not_on_chain' }, { status: 409 });
   }
   const requiredSecret = process.env.NAGARIK_STEWARD_SECRET;
   const providedSecret = request.headers.get('x-nagarik-steward-secret');

@@ -1,9 +1,9 @@
 # Public Posts
 
-## Post 1 - Start
+## Post 1 - Introduction
 
 ```text
-Building Nagarik Signal for Superteam Nepal.
+Introducing Nagarik Signal.
 
 Not another complaint app.
 
@@ -15,7 +15,7 @@ A public proof layer for ignored civic issues:
 - proof anchored on Solana
 
 Public proof for public problems.
-#Solana #SuperteamNepal
+#Solana #CivicTech #Nepal
 ```
 
 ## Post 2 - Problem
@@ -78,10 +78,10 @@ Nagarik Signal MVP only supports public infrastructure categories:
 No personal accusations. No private homes. Approximate locations only.
 ```
 
-## Post 6 - Demo
+## Post 6 - Product Flow
 
 ```text
-Demo flow ready:
+The public record flow:
 
 1. Create a civic Signal
 2. Upload evidence
@@ -95,14 +95,13 @@ Demo flow ready:
 Public proof for public problems.
 ```
 
-## Post 7 - Submission
+## Post 7 - Public Preview
 
 ```text
-Submitted Nagarik Signal to Superteam Nepal.
+Nagarik Signal is now available as a public read-only preview.
 
 Competitors collect complaints.
 Nagarik Signal creates public civic proof and an accountability timeline.
 
-Janamat shows what citizens think.
-Nagarik Signal shows what citizens proved.
+Explore civic records, inspect how long issues have remained open, and verify live proof against Solana devnet.
 ```

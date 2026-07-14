@@ -1,16 +1,16 @@
 import { ReportForm } from '@/components/ReportForm';
 import { SafetyModal } from '@/components/SafetyModal';
 import Link from 'next/link';
-import { showcaseReadOnly, showcaseUnavailableReason } from '@/lib/deployment';
+import { publicPreviewReadOnly, publicPreviewUnavailableReason } from '@/lib/deployment';
 
 export default function ReportPage() {
-  if (showcaseReadOnly) {
+  if (publicPreviewReadOnly) {
     return (
       <section className="container page-section page-stack">
         <div className="page-heading">
-          <span className="eyebrow">Read-only judge showcase</span>
-          <h1>Report creation runs on the stateful build</h1>
-          <p>{showcaseUnavailableReason}</p>
+          <span className="eyebrow">Public preview</span>
+          <h1>New reports are temporarily paused</h1>
+          <p>{publicPreviewUnavailableReason}</p>
         </div>
         <div className="row-actions">
           <Link className="button primary" href="/explore">Inspect public records</Link>

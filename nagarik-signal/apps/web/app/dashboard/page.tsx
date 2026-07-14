@@ -17,7 +17,7 @@ import { formatDateTime, shortText } from '@/lib/ui/format';
 export default function DashboardPage() {
   const allIssues = listIssues({ sort: 'most_ignored', limit: 100 });
   const liveCount = allIssues.filter((issue) => issue.proof.proofStatus !== 'seeded_demo').length;
-  const demoCount = allIssues.length - liveCount;
+  const sampleCount = allIssues.length - liveCount;
   const categories = categoryBreakdown();
   const ignoredIssues = mostIgnoredIssues(5);
   const resolvedIssues = recentResolvedIssues(5);
@@ -31,9 +31,9 @@ export default function DashboardPage() {
       <div className="page-heading">
         <span className="eyebrow">Accountability index</span>
         <h1>Where public problems wait longest</h1>
-        <p>A ward-level view of unresolved records, citizen verification, category pressure, and resolution evidence. Counts include the clearly marked demo dataset; live devnet scope is shown separately.</p>
+        <p>A ward-level view of unresolved records, citizen verification, category pressure, and resolution evidence. Counts include clearly marked sample records; live devnet scope is shown separately.</p>
       </div>
-      <DashboardStats stats={dashboardStats()} liveCount={liveCount} demoCount={demoCount} />
+      <DashboardStats stats={dashboardStats()} liveCount={liveCount} sampleCount={sampleCount} />
       <WardLeaderboard />
       <div className="dashboard-band">
         <section className="panel pad">

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SiteNavigation } from '@/components/SiteNavigation';
-import { showcaseReadOnly } from '@/lib/deployment';
+import { publicPreviewReadOnly } from '@/lib/deployment';
 import '../styles/globals.css';
 
 export const metadata: Metadata = {
@@ -30,9 +30,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <SiteNavigation />
             </div>
           </header>
-          {showcaseReadOnly ? (
-            <div className="showcase-banner" role="status">
-              <div className="container">Judge showcase: public records and Solana proof checks are live; state-changing actions are disabled on Vercel.</div>
+          {publicPreviewReadOnly ? (
+            <div className="public-preview-banner" role="status">
+              <div className="container">Public preview: existing records and proof checks are available. New reports and status changes are temporarily paused.</div>
             </div>
           ) : null}
           <main id="main-content">{children}</main>

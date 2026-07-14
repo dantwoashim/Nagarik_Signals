@@ -7,7 +7,7 @@ import { getOrCreateCivicSession, type CivicSession } from '@/lib/session/civicS
 import { getStoredWalletIdentity } from '@/lib/session/walletMode';
 import type { CivicIssue } from '@/lib/types';
 import { shortText } from '@/lib/ui/format';
-import { showcaseReadOnly } from '@/lib/deployment';
+import { publicPreviewReadOnly } from '@/lib/deployment';
 
 type VerifyPayload = {
   ok: boolean;
@@ -28,10 +28,10 @@ function readableReason(reason: string | undefined) {
 export function VerifyButton({ issue }: { issue: CivicIssue }) {
   const router = useRouter();
   const [message, setMessage] = useState(
-    showcaseReadOnly
-      ? 'Citizen signals are disabled in this read-only Vercel showcase. The independent Solana proof check below remains live.'
+    publicPreviewReadOnly
+      ? 'Citizen signals are temporarily paused in this public preview. The independent Solana proof check below remains available.'
       : issue.proof.proofStatus === 'seeded_demo'
-      ? 'Seeded demo issues cannot create live Verification PDAs.'
+      ? 'Sample records cannot create live Verification PDAs.'
       : 'Ready to create one verification for your civic session.'
   );
   const [session, setSession] = useState<CivicSession | null>(null);
@@ -70,7 +70,7 @@ export function VerifyButton({ issue }: { issue: CivicIssue }) {
   }
 
   const closed = issue.status === 'resolved' || issue.status === 'rejected';
-  const disabled = showcaseReadOnly || busy || issue.proof.proofStatus === 'seeded_demo' || closed;
+  const disabled = publicPreviewReadOnly || busy || issue.proof.proofStatus === 'seeded_demo' || closed;
 
   return (
     <section className="panel pad">
@@ -81,7 +81,7 @@ export function VerifyButton({ issue }: { issue: CivicIssue }) {
         </span>
       </div>
       <p className="muted" style={{ lineHeight: 1.6 }}>
-        One civic session can verify an indexed open issue once. Duplicate, self, closed, and demo-only cases return explicit reasons.
+        One civic session can verify an indexed open issue once. Duplicate, self, closed, and sample-record cases return explicit reasons.
       </p>
       {session ? (
         <p className="mono muted" style={{ fontSize: 12 }}>

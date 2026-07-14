@@ -170,7 +170,7 @@ h3 {
   backdrop-filter: blur(16px);
 }
 
-.showcase-banner {
+.public-preview-banner {
   border-bottom: 1px solid #e2d5b4;
   background: #fff8df;
   color: #423b2b;
@@ -764,7 +764,7 @@ h3 {
   font-weight: 720;
 }
 
-.judge-path {
+.verification-path {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 42px;
@@ -773,13 +773,13 @@ h3 {
   padding-bottom: 94px;
 }
 
-.judge-path h2 {
+.verification-path h2 {
   max-width: 700px;
   margin: 14px 0 12px;
   font-size: 38px;
 }
 
-.judge-path p { max-width: 700px; margin: 0; color: var(--muted); }
+.verification-path p { max-width: 700px; margin: 0; color: var(--muted); }
 
 /* Issue cards */
 .issue-card-link {
@@ -846,8 +846,8 @@ h3 {
   background: #58a67a;
 }
 
-.proof-origin.demo::before,
-.map-key-dot.demo {
+.proof-origin.sample::before,
+.map-key-dot.sample {
   background: #d6a952;
 }
 
@@ -1354,7 +1354,7 @@ h3 {
 
 .map-marker:hover { transform: translate(-50%, -50%) scale(1.12); }
 .map-marker.live { background: var(--green); }
-.map-marker.demo { background: var(--amber); }
+.map-marker.sample { background: var(--amber); }
 
 .map-panel { min-height: 260px; border: 1px solid var(--line); border-radius: 8px; }
 .map-panel-inner { min-height: 260px; display: grid; place-items: center; padding: 24px; text-align: center; }
@@ -1510,7 +1510,7 @@ a.table-row:hover strong { color: var(--crimson); }
     padding: 86px 0 36px;
   }
   .home-hero-inner,
-  .judge-path,
+  .verification-path,
   .coarse-map,
   .issue-layout,
   .report-layout,
@@ -1585,9 +1585,9 @@ a.table-row:hover strong { color: var(--crimson); }
   .section-heading.compact h2 { font-size: 31px; }
   .proof-sequence { margin-top: 44px; }
   .home-records { padding: 64px 0 72px; }
-  .judge-path { gap: 28px; padding-top: 66px; padding-bottom: 72px; }
-  .judge-path h2 { font-size: 32px; }
-  .judge-path .button { width: 100%; }
+  .verification-path { gap: 28px; padding-top: 66px; padding-bottom: 72px; }
+  .verification-path h2 { font-size: 32px; }
+  .verification-path .button { width: 100%; }
   .issue-card { grid-template-columns: 1fr; }
   .issue-card-media { min-height: 210px; }
   .issue-card-body { grid-template-columns: 62px minmax(0, 1fr) 18px; gap: 12px; padding: 17px; }

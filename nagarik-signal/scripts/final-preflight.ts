@@ -17,10 +17,9 @@ const requiredFiles = [
   'docs/competitors.md',
   'docs/why-solana.md',
   'docs/privacy-and-safety.md',
-  'docs/demo-plan.md',
-  'docs/judge-faq.md',
+  'docs/product-walkthrough.md',
+  'docs/product-faq.md',
   'docs/public-posts.md',
-  'docs/submission-package.md',
   'apps/web/app/about/page.tsx',
   'apps/web/app/steward/page.tsx',
   'scripts/phase2-api-smoke.ts',
@@ -52,8 +51,8 @@ function assertDocs() {
   ];
   const missing = requiredReadmeText.filter((text) => !readmeLower.includes(text.toLowerCase()));
   if (missing.length) fail(`README is missing required text: ${missing.join(', ')}`);
-  if (!publicPosts.includes('Submitted Nagarik Signal to Superteam Nepal')) {
-    fail('Public posts file is missing the submission post.');
+  if (!publicPosts.includes('Nagarik Signal is now available as a public read-only preview.')) {
+    fail('Public posts file is missing the public preview announcement.');
   }
 }
 
@@ -70,7 +69,7 @@ function assertReadModel() {
     summary.unresolved >= 10 ? null : `unresolved ${summary.unresolved} < 10`,
     summary.maxVerifications >= 3 ? null : `max verifications ${summary.maxVerifications} < 3`,
   ].filter(Boolean);
-  if (failures.length) fail(`Seeded data is not demo-ready: ${failures.join('; ')}`);
+  if (failures.length) fail(`Seeded data is not sample-ready: ${failures.join('; ')}`);
   const live = model.issues.filter((issue) => issue.proof.proofStatus === 'indexed_devnet');
   if (!live.length) fail('No indexed_devnet issue exists for live ProofPanel verification.');
   return { model, summary, liveIssueId: live.sort((a, b) => b.issueId - a.issueId)[0].issueId };
@@ -120,7 +119,7 @@ async function assertApp(liveIssueId: number) {
     fail(`Health endpoint returned unexpected program ID: ${String(health.programId)}`);
   }
   const stats = dashboard.stats as JsonObject | undefined;
-  if (!stats || Number(stats.totalIssues ?? 0) < 30) fail('Dashboard API does not show the seeded demo dataset.');
+  if (!stats || Number(stats.totalIssues ?? 0) < 30) fail('Dashboard API does not show the seeded sample dataset.');
   if (proof.matches !== true) fail(`ProofPanel API did not return a green match for issue ${liveIssueId}.`);
   await Promise.all([
     assertPage('/'),

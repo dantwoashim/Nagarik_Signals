@@ -9,7 +9,7 @@ test('homepage establishes the civic record and honest proof scope', async ({ pa
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Public proof for public problems.');
   await expect(page.getByText(/live devnet/).first()).toBeVisible();
-  await expect(page.getByText(/clearly marked demo records/)).toBeVisible();
+  await expect(page.getByText(/clearly marked sample records/)).toBeVisible();
   await expect(page.locator('img:not([alt])')).toHaveCount(0);
   await expectNoHorizontalOverflow(page);
 });
@@ -47,8 +47,16 @@ test('mobile issue flow puts action and verdict before technical history', async
   expect(verification!.y).toBeLessThan(proof!.y);
   expect(proof!.y).toBeLessThan(timeline!.y);
 
-  await page.getByRole('button', { name: 'Check demo integrity' }).click();
-  await expect(page.getByText('local demo match')).toBeVisible();
+  await page.getByRole('button', { name: 'Check sample integrity' }).click();
+  await expect(page.getByText('local sample match')).toBeVisible();
   await expect(page.locator('img:not([alt])')).toHaveCount(0);
   await expectNoHorizontalOverflow(page);
+});
+
+test('public pages avoid event-facing language', async ({ page }) => {
+  for (const path of ['/', '/about', '/explore', '/dashboard', '/report', '/steward']) {
+    await page.goto(path);
+    const text = await page.locator('body').innerText();
+    expect(text).not.toMatch(/\b(judge|judges|submission|hackathon|bounty|showcase)\b/i);
+  }
 });

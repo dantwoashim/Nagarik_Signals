@@ -1,4 +1,4 @@
-# Judge FAQ
+# Product FAQ
 
 ## Why blockchain?
 

@@ -50,7 +50,7 @@ export async function verifyIssueProof(issue: CivicIssue) {
       resolutionMatches: true,
       statusMatches: true,
       countMatches: true,
-      boundary: 'Seeded demo rows do not claim live Solana proof.',
+      boundary: 'Sample records do not claim live Solana proof.',
     };
   }
 

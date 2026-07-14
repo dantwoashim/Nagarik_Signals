@@ -1,14 +1,14 @@
 # Roadmap
 
-## v0.1 - Bounty MVP
+## v0.1 - Public Proof MVP
 
-- Issue report flow with seeded/demo storage fallback.
+- Issue report flow with a seeded sample-data fallback.
 - Evidence, metadata, and location hashing.
 - Issue, Verification, and StatusUpdate Anchor program.
 - Public issue page with ProofPanel.
 - Dashboard with ward/locality accountability.
 - Steward status update flow.
-- Safe demo data.
+- Safe sample data.
 
 ## v0.2 - Public Pilot
 

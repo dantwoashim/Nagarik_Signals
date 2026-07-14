@@ -62,21 +62,21 @@ export function VerifyButton({ issue }: { issue: CivicIssue }) {
   const disabled = publicPreviewReadOnly || busy || kind === 'illustrative_sample' || kind === 'qa_fixture' || closed;
 
   return (
-    <section className="panel pad">
-      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center' }}>
-        <h2 style={{ margin: 0 }}>Public corroboration</h2>
+    <section className="panel pad corroboration-panel">
+      <div className="panel-heading-row">
+        <h2>Public corroboration</h2>
         <span className={`pill ${payload?.ok ? 'proof-ok' : ''}`}>
           {payload?.ok ? 'verified' : issue.verificationCount} signal{issue.verificationCount === 1 ? '' : 's'}
         </span>
       </div>
-      <p className="muted" style={{ lineHeight: 1.6 }}>
+      <p className="muted panel-copy">
         One server-minted civic session can signal once. This is a rate-limited corroboration signal, not proof of a unique person or an official acknowledgement.
       </p>
       <button type="button" onClick={verify} className="button green" disabled={disabled}>
         {busy ? <WarningCircle size={17} weight="bold" /> : <CheckCircle size={17} weight="bold" />}
         {busy ? 'Anchoring signal...' : kind === 'public_source' ? 'This still needs follow-up' : 'I can corroborate this'}
       </button>
-      <p className={payload && !payload.ok ? 'proof-bad' : 'muted'} role="status" style={{ lineHeight: 1.55 }}>
+      <p className={payload && !payload.ok ? 'proof-bad panel-status' : 'muted panel-status'} role="status">
         {message}
       </p>
       {payload?.ok ? (

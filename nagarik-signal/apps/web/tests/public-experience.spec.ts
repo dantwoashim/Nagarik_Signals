@@ -31,7 +31,9 @@ test('homepage leads with sourced public records and honest totals', async ({ pa
 
 test('source record exposes provenance, official handoff, and live proof', async ({ page }) => {
   test.slow();
-  await page.goto('/issues/15');
+  await page.goto('/issues/15#proof');
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+  await expect.poll(() => page.locator('#proof').evaluate((element) => element.getBoundingClientRect().top)).toBeLessThan(250);
   await expect(page.getByRole('heading', { name: 'What this record can prove' })).toBeVisible();
   await expect(page.getByText('The Kathmandu Post', { exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: /Read original source/ })).toHaveAttribute('href', /kathmandupost\.com/);
@@ -50,7 +52,7 @@ test('explore keeps real records, samples, and map state separate', async ({ pag
   await expect(page.getByText('Broken drain cover beside public bus stop')).toHaveCount(0);
 
   await page.getByRole('link', { name: 'Illustrative samples' }).click();
-  await expect(page.getByRole('status')).toContainText('30 illustrative samples');
+  await expect(page.getByRole('status')).toContainText('30 illustrative samples', { timeout: 15_000 });
   await expect(page.locator('.issue-card')).toHaveCount(12);
   await expect(page.getByText('Public drainage channel needs clearing')).toBeVisible();
 
@@ -72,8 +74,13 @@ test('mobile navigation, report flow, and issue hierarchy remain usable', async 
 
   await page.goto('/report');
   await expect(page.getByRole('heading', { name: 'Put a public problem on the record' })).toBeVisible();
-  await expect(page.getByLabel('Title')).toBeVisible();
   await expect(page.getByLabel('Safe public photo')).toBeVisible();
+  await expect(page.getByLabel('Title')).toBeHidden();
+  await page.getByLabel('Safe public photo').setInputFiles('public/demo/pothole-road.jpg');
+  await expect(page.getByRole('img', { name: /Selected evidence preview/ })).toBeVisible();
+  await page.getByRole('button', { name: /Continue to details/ }).click();
+  await expect(page.getByLabel('Title')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Photo' })).toHaveClass(/complete/);
   await expectNoHorizontalOverflow(page);
 
   const samplesResponse = await request.get('/api/reports?scope=samples&limit=1');

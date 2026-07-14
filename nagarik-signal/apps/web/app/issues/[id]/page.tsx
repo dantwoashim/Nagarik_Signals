@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { ArrowSquareOut, Clock, Newspaper, ShieldWarning } from '@phosphor-icons/react/dist/ssr';
+import { ArrowSquareOut, Clock, ImageSquare, Newspaper, Pulse, ShieldCheck, ShieldWarning } from '@phosphor-icons/react/dist/ssr';
 import { DaysIgnoredBadge } from '@/components/DaysIgnoredBadge';
 import { IssueMap } from '@/components/IssueMap';
 import { ProofPanel } from '@/components/ProofPanel';
@@ -21,7 +21,7 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
   const mediaVisible = issue.safetyReviewStatus !== 'hidden_media' && issue.safetyReviewStatus !== 'rejected';
 
   const evidence = (
-    <figure className={`issue-evidence ${kind === 'public_source' ? 'source-dossier' : ''}`}>
+    <figure id="evidence" className={`issue-evidence ${kind === 'public_source' ? 'source-dossier' : ''}`}>
       {mediaVisible ? (
         <div className="issue-evidence-media">
           <Image
@@ -47,7 +47,7 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
   );
 
   const provenance = issue.provenance ? (
-    <section className="panel pad issue-provenance" aria-labelledby="source-heading">
+    <section id="source" className="panel pad issue-provenance" aria-labelledby="source-heading">
       <div className="provenance-heading">
         <div>
           <span className="eyebrow"><Newspaper size={15} weight="bold" /> Public-source record</span>
@@ -104,9 +104,15 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
           <span className={`pill status-${issue.status}`}>{statusLabel(issue.status)}</span>
           <DaysIgnoredBadge issue={issue} />
         </div>
-        <h1 className="issue-title" style={{ maxWidth: 920, marginBottom: 8 }}>{issue.title}</h1>
+        <h1 className="issue-title">{issue.title}</h1>
         <p>{issue.description}</p>
       </div>
+
+      <nav className="issue-jump-nav" aria-label="Issue page sections">
+        <a href="#evidence"><ImageSquare size={17} weight="bold" />Evidence</a>
+        <a href="#activity"><Pulse size={17} weight="bold" />Activity</a>
+        <a href="#proof"><ShieldCheck size={17} weight="bold" />Verify proof</a>
+      </nav>
 
       {kind === 'qa_fixture' ? (
         <div className="fixture-boundary" role="note">
@@ -126,8 +132,8 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
         <div className="issue-lower-grid">
           <div className="issue-history-stack">
             {resolution}
-            <div className="issue-timeline"><StatusTimeline issue={issue} /></div>
-            <div className="issue-map"><IssueMap issue={issue} /></div>
+            <div id="activity" className="issue-timeline"><StatusTimeline issue={issue} /></div>
+            <div id="location" className="issue-map"><IssueMap issue={issue} /></div>
           </div>
           <div className="issue-context-stack">
             <div className="issue-proof"><ProofPanel issue={issue} /></div>

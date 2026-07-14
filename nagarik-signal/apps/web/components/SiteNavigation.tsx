@@ -59,13 +59,36 @@ export function SiteNavigation() {
       </div>
 
       {open ? (
-        <nav id="mobile-navigation" className="mobile-nav" aria-label="Mobile navigation">
-          {nav.map(([label, href]) => (
-            <Link key={href} href={href} className={pathname.startsWith(href) ? 'mobile-nav-link active' : 'mobile-nav-link'} aria-current={pathname.startsWith(href) ? 'page' : undefined} onClick={() => setOpen(false)}>
-              {label}
-            </Link>
-          ))}
-        </nav>
+        <>
+          <button
+            type="button"
+            className="mobile-nav-backdrop"
+            aria-label="Close navigation"
+            onClick={() => setOpen(false)}
+          />
+          <nav id="mobile-navigation" className="mobile-nav" aria-label="Mobile navigation">
+            <div className="mobile-nav-heading">
+              <span>Navigate</span>
+              <small>Public records, proof, and follow-up</small>
+            </div>
+            {nav.map(([label, href], index) => (
+              <Link
+                key={href}
+                href={href}
+                className={pathname.startsWith(href) ? 'mobile-nav-link active' : 'mobile-nav-link'}
+                aria-current={pathname.startsWith(href) ? 'page' : undefined}
+                onClick={() => setOpen(false)}
+              >
+                <span className="mono">0{index + 1}</span>
+                {label}
+              </Link>
+            ))}
+            <div className="mobile-nav-status">
+              <span className="status-dot" aria-hidden="true" />
+              Solana devnet proof is online
+            </div>
+          </nav>
+        </>
       ) : null}
     </>
   );

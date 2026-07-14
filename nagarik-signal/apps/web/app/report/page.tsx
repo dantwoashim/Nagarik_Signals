@@ -20,8 +20,8 @@ export default function ReportPage() {
     );
   }
   return (
-    <section className="container page-section page-stack">
-      <div className="page-heading">
+    <section className="container page-section page-stack report-page">
+      <div className="page-heading report-page-heading">
         <span className="eyebrow">Create a signal</span>
         <h1>Put a public problem on the record</h1>
         <p>Add one safe image and the minimum civic context. The app removes image metadata, stores only an approximate location, and shows exactly what will be committed.</p>

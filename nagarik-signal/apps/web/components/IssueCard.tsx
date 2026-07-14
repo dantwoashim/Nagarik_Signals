@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowUpRight, ShieldWarning } from '@phosphor-icons/react/dist/ssr';
+import { ArrowUpRight, Eye, MapPin, ShieldWarning } from '@phosphor-icons/react/dist/ssr';
 import { categoryLabel } from '@/lib/constants/categories';
 import { statusLabel } from '@/lib/constants/statuses';
 import { daysIgnored } from '@/lib/db/queries';
@@ -8,7 +8,7 @@ import { isClosedStatus } from '@/lib/constants/statuses';
 import type { CivicIssue } from '@/lib/types';
 import { inferredRecordKind, recordKindLabel, sourceFreshness } from '@/lib/issues/recordKind';
 
-export function IssueCard({ issue }: { issue: CivicIssue }) {
+export function IssueCard({ issue, variant = 'grid', priority = false }: { issue: CivicIssue; variant?: 'grid' | 'ledger'; priority?: boolean }) {
   const dayCount = daysIgnored(issue);
   const closed = isClosedStatus(issue.status);
   const kind = inferredRecordKind(issue);
@@ -23,14 +23,15 @@ export function IssueCard({ issue }: { issue: CivicIssue }) {
 
   return (
     <Link href={`/issues/${issue.id}`} className="issue-card-link" aria-label={`Open ${issue.title}`}>
-      <article className="issue-card">
+      <article className={`issue-card issue-card-${variant}`}>
         <div className={`issue-card-media ${kind === 'public_source' ? 'source-dossier-media' : ''}`}>
           {mediaVisible ? (
             <Image
               src={issue.photoUrl}
               alt={kind === 'public_source' ? `Source dossier for ${issue.title}` : kind === 'illustrative_sample' ? `Illustrative sample for ${issue.title}` : `Evidence for ${issue.title}`}
               fill
-              sizes="(max-width: 620px) 100vw, (max-width: 1080px) 50vw, 260px"
+              sizes={variant === 'ledger' ? '(max-width: 620px) 100vw, (max-width: 1080px) 42vw, 360px' : '(max-width: 620px) 100vw, (max-width: 1080px) 50vw, 260px'}
+              priority={priority}
             />
           ) : (
             <div className="card-media-withheld" role="img" aria-label="Evidence media withheld after safety review">
@@ -53,8 +54,8 @@ export function IssueCard({ issue }: { issue: CivicIssue }) {
             <h3>{issue.title}</h3>
             <p>{issue.description}</p>
             <div className="issue-card-meta">
-              <span>#{issue.issueId} / {issue.locality}</span>
-              <span>{issue.verificationCount} public signal{issue.verificationCount === 1 ? '' : 's'}</span>
+              <span><MapPin size={14} weight="bold" />{issue.locality}</span>
+              <span><Eye size={14} weight="bold" />{issue.verificationCount} public signal{issue.verificationCount === 1 ? '' : 's'}</span>
             </div>
             {kind === 'public_source' ? (
               <div className={`source-review-state ${sourceState === 'recheck_due' ? 'due' : ''}`}>
@@ -62,7 +63,10 @@ export function IssueCard({ issue }: { issue: CivicIssue }) {
               </div>
             ) : null}
           </div>
-          <ArrowUpRight className="issue-card-arrow" size={21} weight="bold" aria-hidden="true" />
+          <div className="issue-card-open">
+            <span className="mono">#{issue.issueId}</span>
+            <ArrowUpRight className="issue-card-arrow" size={21} weight="bold" aria-hidden="true" />
+          </div>
         </div>
       </article>
     </Link>

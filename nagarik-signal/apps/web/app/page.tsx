@@ -56,7 +56,7 @@ export default async function HomePage() {
           {spotlight ? (
             <Link className="hero-record" href={`/issues/${spotlight.id}`} aria-label={`Open ${spotlight.title}`}>
               <div className="hero-record-topline">
-                <span>{recordKindLabel(spotlight)}</span>
+                <span><i className="status-dot" aria-hidden="true" />{recordKindLabel(spotlight)}</span>
                 <span>#{spotlight.issueId}</span>
               </div>
               <div className="hero-day-count">
@@ -83,7 +83,7 @@ export default async function HomePage() {
 
       <section className="container home-story">
         <div className="section-heading">
-          <span className="eyebrow">The public record</span>
+          <div className="section-heading-kicker"><span className="eyebrow">The public record</span><span className="mono">01 / 03</span></div>
           <h2>Evidence can leave a feed. Its anchored fingerprint stays inspectable.</h2>
           <p>Nagarik Signal preserves a safe civic report or checked public-source dossier as a timestamped record people can track, recheck, and independently inspect.</p>
         </div>
@@ -113,13 +113,13 @@ export default async function HomePage() {
         <div className="container page-stack">
           <div className="section-heading-row">
             <div className="section-heading compact">
-              <span className="eyebrow">Source-backed watchlist</span>
+              <div className="section-heading-kicker"><span className="eyebrow">Source-backed watchlist</span><span className="mono">02 / 03</span></div>
               <h2>Documented issues that still need a current answer</h2>
               <p>Each dossier links to its publisher, records when the source was checked, and expires into a visible recheck state.</p>
             </div>
             <Link className="text-link" href="/explore">See every public record <ArrowRight size={16} weight="bold" /></Link>
           </div>
-          {issues.length ? <div className="issue-grid">{issues.map((issue) => <IssueCard key={issue.id} issue={issue} />)}</div> : (
+          {issues.length ? <div className="issue-grid home-issue-grid">{issues.map((issue) => <IssueCard key={issue.id} issue={issue} />)}</div> : (
             <div className="empty-state"><strong>No public civic records yet.</strong><span>Illustrative samples remain available separately in Explore.</span></div>
           )}
         </div>
@@ -127,7 +127,7 @@ export default async function HomePage() {
 
       <section className="container verification-path">
         <div>
-          <span className="eyebrow">Independent verification</span>
+          <div className="section-heading-kicker"><span className="eyebrow">Independent verification</span><span className="mono">03 / 03</span></div>
           <h2>Do not trust a green badge. Recompute the record.</h2>
           <p>Open an indexed issue, fetch the delivered evidence bytes, recompute its metadata, and compare every committed field with the Solana devnet account.</p>
         </div>

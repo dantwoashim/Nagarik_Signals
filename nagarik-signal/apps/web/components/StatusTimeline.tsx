@@ -7,12 +7,12 @@ export function StatusTimeline({ issue }: { issue: CivicIssue }) {
     (left, right) => Date.parse(left.createdAt) - Date.parse(right.createdAt) || left.seq - right.seq
   );
   return (
-    <section className="panel pad">
-      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center' }}>
-        <h2 style={{ margin: 0 }}>Status timeline</h2>
+    <section className="panel pad timeline-panel">
+      <div className="panel-heading-row">
+        <h2>Status timeline</h2>
         <span className="pill">{issue.updateCount} update{issue.updateCount === 1 ? '' : 's'}</span>
       </div>
-      <div className="timeline" style={{ marginTop: 12 }}>
+      <div className="timeline">
         {timeline.map((entry, index) => {
           const transactionUrl = txUrl(entry.txSig);
           const statusUpdateUrl = addressUrl(entry.statusUpdatePda);
@@ -27,13 +27,13 @@ export function StatusTimeline({ issue }: { issue: CivicIssue }) {
                 <strong>{index + 1}. {statusLabel(entry.status)}</strong>
                 <span className="muted">{formatDateTime(entry.createdAt)}</span>
               </div>
-              <span className="pill" style={{ marginTop: 8 }}>{stepLabel}</span>
-              <p className="muted" style={{ lineHeight: 1.6 }}>{entry.note}</p>
+              <span className="pill timeline-step-label">{stepLabel}</span>
+              <p className="muted timeline-note">{entry.note}</p>
               <div className="hash-row">
                 <span className="muted">Proof hash</span>
                 <code className="mono">{shortText(entry.proofHash, 14, 14)}</code>
               </div>
-              <div className="row-actions" style={{ marginTop: 10 }}>
+              <div className="row-actions timeline-actions">
                 {transactionUrl ? (
                   <a className="button secondary" href={transactionUrl} target="_blank" rel="noreferrer">
                     Transaction
@@ -50,7 +50,7 @@ export function StatusTimeline({ issue }: { issue: CivicIssue }) {
         })}
       </div>
       {issue.resolutionPhotoUrl ? (
-        <div className="notice" style={{ marginTop: 14 }}>
+        <div className="notice timeline-resolution-note">
           A resolution artifact is attached to this issue. The elapsed counter is frozen at the final timeline update.
         </div>
       ) : null}

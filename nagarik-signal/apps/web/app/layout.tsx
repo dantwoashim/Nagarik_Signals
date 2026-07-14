@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { HashScrollRestorer } from '@/components/HashScrollRestorer';
 import { SiteNavigation } from '@/components/SiteNavigation';
 import { publicPreviewReadOnly } from '@/lib/deployment';
 import '../styles/globals.css';
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body>
         <a className="skip-link" href="#main-content">Skip to content</a>
         <div className="shell">
@@ -35,17 +36,33 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <div className="container">Public preview: existing records and proof checks are available. New reports and status changes are temporarily paused.</div>
             </div>
           ) : null}
-          <main id="main-content">{children}</main>
+          <HashScrollRestorer />
+          <main id="main-content" tabIndex={-1}>{children}</main>
           <footer className="site-footer">
             <div className="container footer-grid">
-              <div>
-                <strong>Nagarik Signal</strong>
-                <p>Public proof for public problems.</p>
+              <div className="footer-brand">
+                <span className="brand-mark footer-mark" aria-hidden="true"><span /> <span /> <span /></span>
+                <div>
+                  <strong>Nagarik Signal</strong>
+                  <p>Public proof for public problems.</p>
+                </div>
               </div>
-              <p>Devnet MVP. No tokens, rewards, payments, comments, personal accusations, or emergency reporting.</p>
-              <div className="footer-links">
-                <Link href="/about">How proof works</Link>
-                <Link href="/explore">Public records</Link>
+              <div className="footer-boundary">
+                <span><i className="status-dot" aria-hidden="true" />Solana devnet proof online</span>
+                <p>No tokens, rewards, payments, comments, personal accusations, or emergency reporting.</p>
+              </div>
+              <div className="footer-nav" aria-label="Footer navigation">
+                <div className="footer-links">
+                  <strong>Use Nagarik</strong>
+                  <Link href="/explore">Public records</Link>
+                  <Link href="/dashboard">Accountability index</Link>
+                  {!publicPreviewReadOnly ? <Link href="/report">Create a signal</Link> : null}
+                </div>
+                <div className="footer-links">
+                  <strong>Trust</strong>
+                  <Link href="/about">How proof works</Link>
+                  <Link href="/about#safety">Safety boundary</Link>
+                </div>
               </div>
             </div>
           </footer>

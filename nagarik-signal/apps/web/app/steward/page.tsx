@@ -18,7 +18,7 @@ export default async function StewardPage() {
   }
   const issues = await listModerationIssues();
   return (
-    <section className="container page-section page-stack">
+    <section className="container page-section page-stack steward-page">
       <div className="page-heading">
         <span className="eyebrow">Steward console</span>
         <h1>Moderate and update public status</h1>

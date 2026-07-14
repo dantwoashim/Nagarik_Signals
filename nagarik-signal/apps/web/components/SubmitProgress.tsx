@@ -29,7 +29,15 @@ export function SubmitProgress({ current }: { current: SubmitStep }) {
               : '';
         return (
           <li key={step.id} className={className} aria-current={className === 'active' ? 'step' : undefined}>
-            <span className="mono" aria-hidden="true">{className === 'done' ? '[x]' : '-'}</span>
+            <span className="progress-icon" aria-hidden="true">
+              {current === 'failed' && index === Math.max(0, currentIndex)
+                ? <WarningCircle size={16} weight="fill" />
+                : className === 'done'
+                  ? <CheckCircle size={16} weight="fill" />
+                  : className === 'active'
+                    ? <SpinnerGap className="progress-spinner" size={16} weight="bold" />
+                    : <Circle size={16} weight="regular" />}
+            </span>
             {step.label}
           </li>
         );
@@ -37,3 +45,4 @@ export function SubmitProgress({ current }: { current: SubmitStep }) {
     </ol>
   );
 }
+import { CheckCircle, Circle, SpinnerGap, WarningCircle } from '@phosphor-icons/react';

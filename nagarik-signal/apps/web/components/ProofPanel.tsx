@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowSquareOut, CheckCircle, FileJs, WarningCircle } from '@phosphor-icons/react';
+import { ArrowSquareOut, CheckCircle, Cube, FileJs, Fingerprint, WarningCircle } from '@phosphor-icons/react';
 import type { CivicIssue } from '@/lib/types';
 import { addressUrl, formatDateTime, shortText, txUrl } from '@/lib/ui/format';
 
@@ -125,7 +125,7 @@ export function ProofPanel({ issue }: { issue: CivicIssue }) {
   }
 
   return (
-    <section id="proof" className="panel pad proof-panel">
+    <section id="proof" className="panel pad proof-panel" aria-busy={checking}>
       <div className="proof-panel-heading">
         <div>
           <span className="proof-kicker">{sample ? 'Sample integrity' : 'Independent verification'}</span>
@@ -138,6 +138,12 @@ export function ProofPanel({ issue }: { issue: CivicIssue }) {
           ? 'This is an illustrative public record. Check that its displayed evidence and metadata still match the stored hashes.'
           : 'Fetch and hash the delivered artifact, recompute the displayed metadata, then compare both with the indexed Solana devnet account.'}
       </p>
+      <div className="proof-method" aria-label="Verification method">
+        <span><FileJs size={17} weight="bold" />Delivered bytes</span>
+        <span><Fingerprint size={17} weight="bold" />Displayed metadata</span>
+        <span><Cube size={17} weight="bold" />Solana account</span>
+      </div>
+      {checking ? <div className="verification-scan" role="status"><span />Recomputing the public record</div> : null}
       <div className="row-actions proof-actions">
         <button type="button" className="button green" onClick={verifyProof} disabled={checking}>
           {checking ? <WarningCircle size={17} weight="bold" /> : <CheckCircle size={17} weight="bold" />}

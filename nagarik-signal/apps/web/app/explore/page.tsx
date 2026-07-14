@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ListBullets, MagnifyingGlass, MapTrifold } from '@phosphor-icons/react/dist/ssr';
 import { ExploreMap } from '@/components/ExploreMap';
 import { IssueCard } from '@/components/IssueCard';
 import { categories } from '@/lib/constants/categories';
@@ -39,6 +40,12 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
   const pageCount = Math.max(1, Math.ceil(matches.length / pageSize));
   const currentPage = Math.min(requestedPage, pageCount);
   const issues = matches.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  const activeFilters = [
+    query ? `Search: ${query}` : null,
+    ward ? wards.find((item) => item.id === ward)?.label ?? ward : null,
+    category ? categories.find((item) => item.id === category)?.label ?? category : null,
+    status ? statuses.find((item) => item.id === status)?.label ?? status : null,
+  ].filter((item): item is string => Boolean(item));
 
   function href(overrides: Record<string, string | null>) {
     const next = new URLSearchParams();
@@ -65,18 +72,21 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
           <Link className={scope === 'samples' ? 'active' : ''} href={href({ scope: 'samples', page: null })}>Illustrative samples</Link>
         </nav>
         <nav className="scope-switch" aria-label="Explore view">
-          <Link className={view === 'list' ? 'active' : ''} href={href({ view: null, page: null })}>List</Link>
-          <Link className={view === 'map' ? 'active' : ''} href={href({ view: 'map', page: null })}>Map</Link>
+          <Link className={view === 'list' ? 'active' : ''} href={href({ view: null, page: null })}><ListBullets size={16} weight="bold" />List</Link>
+          <Link className={view === 'map' ? 'active' : ''} href={href({ view: 'map', page: null })}><MapTrifold size={16} weight="bold" />Map</Link>
         </nav>
       </div>
 
-      <form className="panel filter-bar">
+      <form className="filter-bar explore-filter-shell">
         <input type="hidden" name="scope" value={scope === 'samples' ? 'samples' : ''} />
         <input type="hidden" name="view" value={view === 'map' ? 'map' : ''} />
-        <label className="field">
-          <span>Search</span>
-          <input name="q" defaultValue={query} placeholder="drain, road, publisher, issue id" />
-        </label>
+        <div className="field search-field">
+          <label htmlFor="record-search">Search</label>
+          <div className="input-with-icon">
+            <MagnifyingGlass size={18} weight="bold" aria-hidden="true" />
+            <input id="record-search" name="q" defaultValue={query} placeholder="Drain, road, publisher, issue ID" />
+          </div>
+        </div>
         <label className="field">
           <span>Area</span>
           <select name="ward" defaultValue={ward}>
@@ -112,12 +122,19 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
         </div>
       </form>
 
-      <div className="result-count" role="status"><strong>{matches.length}</strong> {scope === 'samples' ? 'illustrative sample' : 'public civic record'}{matches.length === 1 ? '' : 's'}</div>
+      <div className="result-toolbar">
+        <div className="result-count" role="status"><strong>{matches.length}</strong> {scope === 'samples' ? 'illustrative sample' : 'public civic record'}{matches.length === 1 ? '' : 's'}</div>
+        {activeFilters.length ? (
+          <div className="active-filter-list" aria-label="Active filters">
+            {activeFilters.map((item) => <span className="pill" key={item}>{item}</span>)}
+          </div>
+        ) : <span className="result-context">Showing the complete {scope === 'samples' ? 'sample library' : 'public watchlist'}</span>}
+      </div>
 
       {issues.length ? (
         view === 'map'
           ? <ExploreMap issues={issues} />
-          : <div className="issue-grid">{issues.map((issue) => <IssueCard key={issue.id} issue={issue} />)}</div>
+          : <div className="issue-list">{issues.map((issue, index) => <IssueCard key={issue.id} issue={issue} variant="ledger" priority={index === 0} />)}</div>
       ) : (
         <div className="empty-state">
           <strong>No records match these filters.</strong>

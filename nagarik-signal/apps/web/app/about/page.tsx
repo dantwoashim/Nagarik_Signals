@@ -20,7 +20,7 @@ const solanaRows = [
 
 export default function AboutPage() {
   return (
-    <section className="container page-section page-stack">
+    <section className="container page-section page-stack about-page">
       <div className="page-heading">
         <span className="eyebrow">How it works</span>
         <h1>Public proof, not another complaint portal</h1>
@@ -30,8 +30,8 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <div className="dashboard-band">
-        <section className="panel pad">
+      <div className="dashboard-band about-principles">
+        <section className="panel pad about-principle">
           <h2 style={{ marginTop: 0 }}>What this is</h2>
           <div className="table-list">
             {[
@@ -47,7 +47,7 @@ export default function AboutPage() {
             ))}
           </div>
         </section>
-        <section className="panel pad">
+        <section className="panel pad about-principle">
           <h2 style={{ marginTop: 0 }}>What this is not</h2>
           <div className="table-list">
             {[
@@ -65,7 +65,7 @@ export default function AboutPage() {
         </section>
       </div>
 
-      <section className="panel pad">
+      <section className="panel pad about-data-table">
         <h2 style={{ marginTop: 0 }}>Why Solana, honestly</h2>
         <div className="table-list">
           {solanaRows.map(([need, database, solana]) => (
@@ -78,7 +78,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="panel pad official-routing">
+      <section className="panel pad official-routing about-highlight">
         <span className="eyebrow">From proof to action</span>
         <h2>Use the public record beside official channels</h2>
         <p className="muted" style={{ lineHeight: 1.65 }}>
@@ -97,7 +97,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="panel pad">
+      <section className="panel pad about-provenance">
         <span className="eyebrow">Record provenance</span>
         <h2>Four origins, never mixed</h2>
         <div className="provenance-levels">
@@ -108,7 +108,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="panel pad">
+      <section className="panel pad about-data-table">
         <h2 style={{ marginTop: 0 }}>Competitor comparison</h2>
         <div className="table-list">
           {competitors.map(([name, does, wedge]) => (
@@ -122,7 +122,7 @@ export default function AboutPage() {
       </section>
 
       <div className="dashboard-band">
-        <section className="panel pad">
+        <section id="safety" className="panel pad about-safety">
           <h2 style={{ marginTop: 0 }}>Safety boundary</h2>
           <p className="muted" style={{ lineHeight: 1.65 }}>
             The MVP only accepts public infrastructure categories and approximate locations. It has no comments, no people-focused categories, no personal accusations, and no emergency flow.

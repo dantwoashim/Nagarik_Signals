@@ -60,7 +60,7 @@ test('explore keeps real records, samples, and map state separate', async ({ pag
   await expectNoHorizontalOverflow(page);
 });
 
-test('mobile navigation, report flow, and issue hierarchy remain usable', async ({ page }) => {
+test('mobile navigation, report flow, and issue hierarchy remain usable', async ({ page, request }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await expect(page.getByRole('link', { name: 'Report', exact: true })).toBeVisible();
@@ -76,11 +76,23 @@ test('mobile navigation, report flow, and issue hierarchy remain usable', async 
   await expect(page.getByLabel('Safe public photo')).toBeVisible();
   await expectNoHorizontalOverflow(page);
 
-  await page.goto('/issues/seeded-demo-910030');
-  const evidence = await page.locator('.issue-evidence').boundingBox();
-  const provenanceOrVerify = await page.locator('.issue-verify').boundingBox();
-  const proof = await page.locator('.issue-proof').boundingBox();
-  const timeline = await page.locator('.issue-timeline').boundingBox();
+  const samplesResponse = await request.get('/api/reports?scope=samples&limit=1');
+  expect(samplesResponse.ok()).toBe(true);
+  const samples = await samplesResponse.json() as { issues: Array<{ id: string }> };
+  expect(samples.issues).not.toHaveLength(0);
+  await page.goto(`/issues/${samples.issues[0].id}`);
+  const evidencePanel = page.locator('.issue-evidence');
+  const verifyPanel = page.locator('.issue-verify');
+  const proofPanel = page.locator('.issue-proof');
+  const timelinePanel = page.locator('.issue-timeline');
+  await expect(evidencePanel).toBeVisible();
+  await expect(verifyPanel).toBeVisible();
+  await expect(proofPanel).toBeVisible();
+  await expect(timelinePanel).toBeVisible();
+  const evidence = await evidencePanel.boundingBox();
+  const provenanceOrVerify = await verifyPanel.boundingBox();
+  const proof = await proofPanel.boundingBox();
+  const timeline = await timelinePanel.boundingBox();
   expect(evidence && provenanceOrVerify && proof && timeline).toBeTruthy();
   expect(evidence!.y).toBeLessThan(provenanceOrVerify!.y);
   expect(provenanceOrVerify!.y).toBeLessThan(proof!.y);

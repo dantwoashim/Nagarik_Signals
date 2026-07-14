@@ -7,82 +7,77 @@
 
 **Public proof for public problems.**
 
-Nagarik Signal turns a safe public-infrastructure report into an inspectable civic record. Evidence, metadata, and approximate-location commitments are anchored to Solana devnet; citizens can verify an issue once; steward updates remain attached to a public timeline.
+Nagarik Signal preserves civic evidence as an inspectable public record. A report or checked public-source dossier receives a sanitized evidence artifact, explicit provenance, an approximate location commitment, and a Solana devnet proof account. Follow-up signals and steward updates remain attached to the same record.
 
-It is deliberately not a token product and not another private complaint queue.
+[Open Nagarik Signal](https://nagarik-signal.vercel.app) | [Explore public records](https://nagarik-signal.vercel.app/explore) | [Inspect the program](https://explorer.solana.com/address/76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY?cluster=devnet)
 
-[**Open the public preview**](https://nagarik-signal.vercel.app) | [**Verify a live devnet issue**](https://nagarik-signal.vercel.app/issues/11) | [**Inspect the Solana program**](https://explorer.solana.com/address/76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY?cluster=devnet)
+![Nagarik Signal public civic record](nagarik-signal/docs/assets/product-overview.png)
 
-The live site is currently a read-only public preview. Public records, dashboards, and independent Solana proof checks remain available while durable writes stay on the stateful deployment path described below.
+## Why This Exists
 
-![Nagarik Signal product overview](nagarik-signal/docs/assets/product-overview.png)
-
-## The Problem
-
-A complaint can be acknowledged, moved between offices, edited, or quietly forgotten. Citizens usually cannot prove what was originally submitted, how long it remained open, or whether the visible record changed.
-
-Nagarik Signal makes that history independently checkable:
+Nepal does not lack grievance channels. Hello Sarkar, Kathmandu Gunaso, Connect KMC, and agency-specific portals already accept reports. Nagarik Signal does a different job: it creates a public evidence commitment that civic groups, residents, newsrooms, and institutions can inspect before, during, and after an official grievance process.
 
 ```text
-Report -> sanitize -> hash -> anchor -> witness -> track -> resolve
+Observe -> sanitize -> hash -> anchor -> corroborate -> hand off -> track
 ```
 
-- The original evidence is sanitized before storage and committed by hash.
-- Only an approximate location is published.
-- Each issue receives an on-chain Issue PDA.
-- Each accepted citizen signal receives a Verification PDA.
-- Steward changes receive StatusUpdate PDAs and extend the timeline hash.
-- The proof panel recomputes the displayed record and compares it with Solana.
+The chain proves when a commitment was recorded and whether committed fields still match. It does not prove that every physical-world claim is true, that each signal is a unique person, or that a repair happened.
 
-## Verify A Public Record
+## Working Product
 
-The proof trail can be checked directly:
+- **Writable reporting:** JPEG, PNG, and WebP evidence is decoded, resized, metadata-stripped, re-encoded, hashed, and stored privately.
+- **Durable hosted state:** Vercel Blob stores the read model and media; fixed-path writes use ETag compare-and-swap with bounded retries.
+- **Server-owned identity:** signed, HttpOnly civic-session cookies derive deterministic Solana signers without exposing private keys to the browser.
+- **Public proof:** Issue, Verification, Steward, and StatusUpdate PDAs are deployed on Solana devnet.
+- **Delivered-byte verification:** the proof panel fetches the evidence a visitor actually receives and recomputes its SHA-256 hash before comparing it with the read model and chain.
+- **Provenance classes:** community reports, public-source dossiers, illustrative samples, and engineering fixtures are never mixed in public totals.
+- **Abuse controls:** trusted-origin checks, upload receipts, rate limits, duplicate-evidence rejection, relayer circuit breakers, and constant-time steward authentication.
+- **Moderation:** stewards can hide media while retaining proof, dispute a record, or remove a rejected record from discovery.
+- **Official handoff:** source-backed records link to the original publisher and the relevant government grievance channel.
 
-1. Open an issue marked `indexed_devnet`.
-2. Inspect its evidence, age, status history, and citizen signals.
-3. Run **Verify against Solana** in the proof panel.
-4. Compare the recomputed hashes with the Issue PDA.
-5. Open the accountability dashboard to see unresolved age by ward.
+## Public Data, Without Pretending
 
-Sample records and live devnet records are labeled separately throughout the product. A sample record is never presented as on-chain proof.
+The default public watchlist contains four checked source dossiers. Each one records its publisher, source date, check date, review expiry, evidence hash, and devnet receipt. It does not claim a live field inspection.
 
-## Why Solana
-
-| Question | Application database | Nagarik Signal proof layer |
+| Record | Source | Public proof |
 |---|---|---|
-| When was this issue created? | Operator-controlled timestamp | Public transaction timestamp |
-| Was the evidence replaced? | Requires trusting the operator | Evidence hash is committed to the Issue PDA |
-| Can one signer verify repeatedly? | Mutable application rule | Verification PDA rejects a duplicate signer/session |
-| Can status history be rewritten? | Admin history can change | StatusUpdate PDAs extend an inspectable timeline |
-| Can anyone check the record? | Trust an export or screenshot | Recompute hashes and compare with chain state |
+| Nagdhunga-Mugling utility-pole obstruction | [The Kathmandu Post](https://kathmandupost.com/national/2026/06/24/utility-pole-relocation-delays-hobble-road-widening-projects) | [Issue 12](https://nagarik-signal.vercel.app/issues/12) |
+| Central Kathmandu drainage follow-up | [Kathmandu Metropolitan City](https://metronews.kathmandu.gov.np/news/detail/0507389732) | [Issue 13](https://nagarik-signal.vercel.app/issues/13) |
+| Bancharedanda landfill service-life pressure | [Kathmandu Metropolitan City](https://metronews.kathmandu.gov.np/news/detail/0607285852) | [Issue 14](https://nagarik-signal.vercel.app/issues/14) |
+| Dhangadhi and Kailari groundwater shortage | [The Kathmandu Post](https://kathmandupost.com/national/2026/06/27/hand-pumps-are-dry-even-deep-borewells-no-longer-provide-enough-water) | [Issue 15](https://nagarik-signal.vercel.app/issues/15) |
 
-Solana is used as public proof infrastructure. Nagarik Signal has no token, rewards, payments, betting, or speculative mechanism.
+Thirty illustrative records are available under the separate **Samples** scope. Seven historical engineering fixtures remain addressable for audit work but are excluded from discovery, maps, dashboards, and public counts.
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-    A[Next.js civic interface] --> B[Safety and canonicalization]
-    B --> C[JSON read model]
-    B --> D[Solana devnet relayer]
-    D --> E[Issue PDA]
-    D --> F[Verification PDA]
-    D --> G[StatusUpdate PDA]
-    E --> H[Public proof panel]
-    F --> H
-    G --> H
-    C --> H
+    A[Resident or source curator] --> B[Next.js API]
+    B --> C[Image safety pipeline]
+    C --> D[Private Blob evidence]
+    B --> E[Canonical metadata]
+    E --> F[Solana devnet]
+    F --> G[Issue PDA]
+    F --> H[Verification PDA]
+    F --> I[StatusUpdate PDA]
+    B --> J[Durable Blob read model]
+    D --> K[Public media proxy]
+    G --> L[Proof verifier]
+    H --> L
+    I --> L
+    J --> L
+    K --> L
 ```
 
-The read model serves searchable civic context. Solana stores the public commitments and lifecycle proof. The two are compared in the product instead of being treated as interchangeable.
+The read model stores searchable civic context. Solana stores compact commitments and lifecycle accounts. Neither is silently treated as the other: the proof verifier recomputes the record and compares both.
 
 | Component | Location |
 |---|---|
 | Next.js application and API | [`nagarik-signal/apps/web`](nagarik-signal/apps/web) |
 | Anchor program | [`nagarik-signal/programs/nagarik_signal`](nagarik-signal/programs/nagarik_signal) |
-| Proof and indexing scripts | [`nagarik-signal/scripts`](nagarik-signal/scripts) |
-| Schema and read model | [`nagarik-signal/supabase`](nagarik-signal/supabase), [`nagarik-signal/data`](nagarik-signal/data) |
-| Product documentation | [`nagarik-signal/docs`](nagarik-signal/docs) |
+| Source and proof scripts | [`nagarik-signal/scripts`](nagarik-signal/scripts) |
+| Public source manifest | [`nagarik-signal/data/public-sources`](nagarik-signal/data/public-sources) |
+| Database adapter target | [`nagarik-signal/apps/web/lib/db/schema.sql`](nagarik-signal/apps/web/lib/db/schema.sql) |
 
 Devnet program: [`76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY`](https://explorer.solana.com/address/76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY?cluster=devnet)
 
@@ -100,54 +95,48 @@ npm run dev
 
 Open `http://127.0.0.1:3001`.
 
-The seeded read model contains safe sample records and remains explicitly labeled `seeded_demo` at the data-contract level. Live write operations require the Solana relayer configuration documented in [`.env.example`](nagarik-signal/.env.example).
+Local development uses an atomic JSON file by default. A writable hosted deployment sets `NAGARIK_STORAGE_MODE=blob`, a private `BLOB_READ_WRITE_TOKEN`, the relayer secret, and independent session/security secrets documented in [`.env.example`](nagarik-signal/.env.example).
 
-## Verify the Build
+## Verification
 
 ```bash
 cd nagarik-signal
-npm run verify
+npm run test:unit
+npm run typecheck
+npm run lint
 npm run build
 npm run test:e2e
 npm run anchor:build
-```
-
-For a running app:
-
-```bash
 npm run final:preflight
 ```
 
-`anchor:test:devnet`, `phase2:smoke`, and `phase5:smoke` execute funded devnet writes and therefore require a configured relayer wallet with devnet SOL.
+`anchor:test:devnet`, `phase2:smoke`, and `phase5:smoke` make funded devnet writes and require a configured relayer with devnet SOL.
 
-## Deployment Boundary
+## Trust Boundaries
 
-The current MVP stores its read model, session keys, and sanitized uploads on disk. Full report and steward flows therefore require a stateful Node host with a persistent volume mounted through `NAGARIK_DATA_DIR`; the included [`Dockerfile`](nagarik-signal/Dockerfile) provides that path.
+| Claim | What is checked | What is not claimed |
+|---|---|---|
+| Evidence integrity | Delivered bytes match the stored and on-chain hash | The image depicts the claimed place or date |
+| Record timestamp | A Solana transaction committed the issue | An authority accepted a legal complaint |
+| Public signal | One rate-limited session created one Verification PDA | One signal equals one unique person |
+| Status update | An authorized platform steward created a StatusUpdate PDA | A municipality authored or endorsed the update |
+| Source dossier | The cited article and summary were checked on a stated date | The source remains current after its review window |
 
-The live [Vercel public preview](https://nagarik-signal.vercel.app) serves the public read and proof surfaces with write controls disabled. It is not presented as a durable write deployment. See the [product README](nagarik-signal/README.md#deployment) for the complete environment and storage contract.
-
-## Safety Boundary
-
-- Public infrastructure only.
-- Approximate location only.
-- EXIF metadata is stripped before evidence is stored.
-- No faces, license plates, private homes, personal accusations, comments, or emergency reporting.
-- A steward resolution update is evidence attached to a public record, not an official government completion certificate.
-- MVP verification is duplicate-resistant per signer/session; it is not proof of personhood.
-
-Read the complete [safety policy](nagarik-signal/SAFETY.md) and [privacy notes](nagarik-signal/docs/privacy-and-safety.md).
+The program is on devnet and remains upgradeable by its authority. The relayer is a server-held hot key. Mainnet use requires an external program review, multisig governance, formal moderation operations, data-retention policy, and institutional agreements.
 
 ## Documentation
 
-- [Product README](nagarik-signal/README.md)
 - [Architecture](nagarik-signal/ARCHITECTURE.md)
-- [Product FAQ](nagarik-signal/docs/product-faq.md)
-- [Why Solana](nagarik-signal/docs/why-solana.md)
+- [Data provenance](nagarik-signal/docs/data-provenance.md)
+- [Security model](nagarik-signal/docs/security-model.md)
+- [Research notes](nagarik-signal/docs/research-notes.md)
+- [Safety policy](nagarik-signal/SAFETY.md)
+- [Operating model](nagarik-signal/docs/operating-model.md)
 - [Roadmap](nagarik-signal/ROADMAP.md)
 
 ## Contributing and Security
 
-Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before opening a pull request. Report security issues through [`SECURITY.md`](SECURITY.md), not a public issue.
+Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before opening a pull request. Report vulnerabilities through the private process in [`SECURITY.md`](SECURITY.md), not a public issue.
 
 ## License
 

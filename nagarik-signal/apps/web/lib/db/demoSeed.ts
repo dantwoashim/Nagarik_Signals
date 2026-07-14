@@ -1,4 +1,6 @@
 import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { categories } from '../constants/categories';
 import { statuses } from '../constants/statuses';
 import { coarseGeohash } from '../geo/geohash';
@@ -335,7 +337,7 @@ const specs: DemoSpec[] = [
   },
 ];
 
-function sha256Sync(input: string) {
+function sha256Sync(input: string | Buffer) {
   return createHash('sha256').update(input).digest('hex');
 }
 
@@ -441,7 +443,7 @@ function makeIssue(spec: DemoSpec, index: number): CivicIssue {
   const lngDisplay = Number((ward.lng + ((index % 7) - 3) * 0.002).toFixed(3));
   const geohash = coarseGeohash(latDisplay, lngDisplay);
   const photoUrl = demoPhotos[spec.photoIndex % demoPhotos.length];
-  const evidenceHash = sha256Sync(`${issueId}:${spec.title}:seeded-demo-evidence`);
+  const evidenceHash = sha256Sync(readFileSync(resolve(process.cwd(), 'apps', 'web', 'public', photoUrl.slice(1))));
   const metadata = buildProofMetadata({
     title: spec.title,
     description: spec.description,
@@ -474,6 +476,8 @@ function makeIssue(spec: DemoSpec, index: number): CivicIssue {
     proofAnchoredAt: isoDaysAgo(Math.max(0, spec.daysAgo - 1), 7),
     reporterMode: 'session',
     reporterPubkey: demoPda('DemoReporterPubkey', issueId),
+    recordKind: 'illustrative_sample',
+    provenance: null,
     verificationCount: spec.verificationCount,
     updateCount: timeline.filter((entry) => Number.isInteger(entry.seq) && entry.seq > 0).length,
     photoUrl,

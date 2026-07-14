@@ -1,14 +1,15 @@
 # Why Solana
 
-Nagarik Signal uses Solana for public proof, not money movement.
+Solana is used for the smallest part of the product that benefits from independent inspection:
 
-| Need | Database only | Solana proof |
-|---|---|---|
-| Issue creation time | Operator-controlled | Public transaction timestamp |
-| Evidence commitment | Can be changed silently | Hash committed publicly |
-| Duplicate verification | Database rule | PDA prevents duplicate account creation |
-| Status history | Admin can rewrite | StatusUpdate PDA timeline |
-| Public accountability | Platform-controlled | Independently verifiable |
+- a public issue timestamp;
+- evidence, metadata, location, and timeline hashes;
+- one Verification PDA per issue and signer;
+- one StatusUpdate PDA per sequence;
+- a public account that can be checked without trusting a Nagarik Signal export.
 
-The MVP remains devnet-only until security, legal, moderation, and operations
-work is complete.
+Images, descriptions, search, moderation, request limits, and provenance stay in application storage. Putting those fields directly on-chain would increase privacy risk and make moderation harder.
+
+The current deployment uses devnet because the operating model, moderation process, legal boundary, and program authority are not ready for mainnet. There is no token, reward, payment, betting, or speculative mechanism.
+
+Solana proves commitment consistency. It does not prove physical truth, unique human identity, official acknowledgement, or permanent hosted-media availability.

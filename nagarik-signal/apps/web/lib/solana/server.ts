@@ -15,6 +15,7 @@ import {
 } from '@solana/web3.js';
 import { appConfig } from '../constants/config';
 import { idlPathCandidates, sessionKeypairDir } from '../server/paths';
+import { deriveSessionKeypair, parseRelayerSecretKey } from './identity';
 
 export const PROGRAM_ID = new PublicKey(
   process.env.NAGARIK_PROGRAM_ID ??
@@ -38,6 +39,10 @@ export function defaultWalletPath() {
 }
 
 export function loadKeypair(path?: string | null) {
+  if (!path) {
+    const inlineSecret = process.env.NAGARIK_RELAYER_SECRET_KEY;
+    if (inlineSecret !== undefined) return parseRelayerSecretKey(inlineSecret);
+  }
   const rawPath = path || process.env.ANCHOR_WALLET || process.env.NAGARIK_RELAYER_KEYPAIR || defaultWalletPath();
   const keypairPath = expandHome(rawPath);
   if (!existsSync(/* turbopackIgnore: true */ keypairPath)) throw new Error(`Keypair not found at ${keypairPath}`);
@@ -264,15 +269,28 @@ export function sessionKeypairPath(sessionId: string) {
 }
 
 export function loadOrCreateSessionKeypair(sessionId: string) {
+  const derivationSecret = process.env.NAGARIK_SESSION_DERIVATION_SECRET;
+  if (derivationSecret !== undefined) {
+    return {
+      keypair: deriveSessionKeypair(sessionId, derivationSecret),
+      path: null,
+      created: false,
+      mode: 'deterministic_hmac' as const,
+    };
+  }
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('NAGARIK_SESSION_DERIVATION_SECRET_is_required_in_production');
+  }
+
   const path = sessionKeypairPath(sessionId);
   if (existsSync(path)) {
     const secret = JSON.parse(readFileSync(path, 'utf8')) as number[];
-    return { keypair: Keypair.fromSecretKey(Uint8Array.from(secret)), path, created: false };
+    return { keypair: Keypair.fromSecretKey(Uint8Array.from(secret)), path, created: false, mode: 'local_file' as const };
   }
   mkdirSync(dirname(path), { recursive: true });
   const keypair = Keypair.generate();
   writeFileSync(path, JSON.stringify(Array.from(keypair.secretKey)), 'utf8');
-  return { keypair, path, created: true };
+  return { keypair, path, created: true, mode: 'local_file' as const };
 }
 
 export function explorerAddressUrl(address: string) {

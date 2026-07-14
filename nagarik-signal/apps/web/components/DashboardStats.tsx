@@ -10,11 +10,11 @@ export function DashboardStats({
   sampleCount?: number;
 }) {
   const rows = [
-    ['Public records', stats.totalIssues],
-    ['Still open', stats.unresolvedIssues],
-    ['Citizen verified', stats.verifiedIssues],
-    ['Resolved with proof', stats.resolvedIssues],
-    ['Average days ignored', stats.averageDaysIgnored],
+    ['Tracked civic records', stats.totalIssues],
+    ['Need follow-up', stats.unresolvedIssues],
+    ['Reached signal threshold', stats.verifiedIssues],
+    ['Marked resolved', stats.resolvedIssues],
+    ['Average days observed', stats.averageDaysIgnored],
   ];
   return (
     <section className="metrics" aria-label="Civic record summary">
@@ -27,7 +27,7 @@ export function DashboardStats({
         ))}
       </div>
       {typeof liveCount === 'number' && typeof sampleCount === 'number' ? (
-        <p className="proof-scope"><strong>{liveCount} live devnet</strong><span aria-hidden="true">/</span>{sampleCount} clearly marked sample records</p>
+        <p className="proof-scope"><strong>{liveCount} public records anchored on devnet</strong><span aria-hidden="true">/</span>{sampleCount} illustrative samples kept outside these totals</p>
       ) : null}
     </section>
   );

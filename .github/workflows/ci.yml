@@ -36,11 +36,20 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      - name: Unit tests
+        run: npm run test:unit
+
+      - name: Verify public data and evidence artifacts
+        run: npm run verify:data
+
       - name: Lint
         run: npm run lint
 
       - name: Build
         run: npm run build
+
+      - name: Production dependency audit
+        run: npm audit --omit=dev --audit-level=moderate
 
       - name: Install browser for experience checks
         run: npx playwright install --with-deps chromium

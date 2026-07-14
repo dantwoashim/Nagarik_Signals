@@ -3,6 +3,9 @@ import { statusLabel } from '@/lib/constants/statuses';
 import { addressUrl, formatDateTime, shortText, txUrl } from '@/lib/ui/format';
 
 export function StatusTimeline({ issue }: { issue: CivicIssue }) {
+  const timeline = [...issue.timeline].sort(
+    (left, right) => Date.parse(left.createdAt) - Date.parse(right.createdAt) || left.seq - right.seq
+  );
   return (
     <section className="panel pad">
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center' }}>
@@ -10,7 +13,7 @@ export function StatusTimeline({ issue }: { issue: CivicIssue }) {
         <span className="pill">{issue.updateCount} update{issue.updateCount === 1 ? '' : 's'}</span>
       </div>
       <div className="timeline" style={{ marginTop: 12 }}>
-        {issue.timeline.map((entry, index) => {
+        {timeline.map((entry, index) => {
           const transactionUrl = txUrl(entry.txSig);
           const statusUpdateUrl = addressUrl(entry.statusUpdatePda);
           const stepLabel = entry.seq === 0
@@ -38,7 +41,7 @@ export function StatusTimeline({ issue }: { issue: CivicIssue }) {
                 ) : null}
                 {statusUpdateUrl ? (
                   <a className="button secondary" href={statusUpdateUrl} target="_blank" rel="noreferrer">
-                    Status PDA
+                    Status account
                   </a>
                 ) : null}
               </div>
@@ -48,7 +51,7 @@ export function StatusTimeline({ issue }: { issue: CivicIssue }) {
       </div>
       {issue.resolutionPhotoUrl ? (
         <div className="notice" style={{ marginTop: 14 }}>
-          Resolution proof is attached to this issue. The resolved counter is frozen at the final timeline update.
+          A resolution artifact is attached to this issue. The elapsed counter is frozen at the final timeline update.
         </div>
       ) : null}
     </section>

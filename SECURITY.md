@@ -1,6 +1,6 @@
 # Security Policy
 
-Nagarik Signal is a devnet MVP, but security reports are still welcome.
+Nagarik Signal is a public devnet system with a funded server relayer. Security reports are welcome and should be handled privately.
 
 ## Scope
 
@@ -12,6 +12,8 @@ In scope:
 - Unsafe upload handling.
 - Leaked secrets, session keypairs, or relayer credentials.
 - API paths that allow unauthorized status updates.
+- Origin, upload-receipt, rate-limit, or moderation bypasses.
+- Durable-state races that lose or overwrite a confirmed record.
 - Safety failures that expose people, license plates, private homes, or accusation flows.
 
 Out of scope:
@@ -36,5 +38,9 @@ Include:
 
 - The project is devnet-only.
 - No tokens, rewards, payments, or mainnet value are handled.
-- The default local read model is JSON-backed for the MVP.
+- Hosted state and evidence use private Vercel Blob objects; local development uses atomic JSON and local media.
+- Browser sessions are duplicate-resistant identities, not proof of personhood.
+- The relayer is a server-held hot key protected by scoped limits and a reserve circuit breaker.
 - Resolution proof is a steward-submitted record, not an official completion certificate.
+
+The detailed threat model and remaining risks are documented in [`nagarik-signal/docs/security-model.md`](nagarik-signal/docs/security-model.md).

@@ -5,12 +5,13 @@ export function formatDateTime(value: string | null | undefined) {
   return new Intl.DateTimeFormat('en', {
     dateStyle: 'medium',
     timeStyle: 'short',
+    timeZone: 'Asia/Kathmandu',
   }).format(new Date(value));
 }
 
 export function formatDate(value: string | null | undefined) {
   if (!value) return 'Not recorded';
-  return new Intl.DateTimeFormat('en', { dateStyle: 'medium' }).format(new Date(value));
+  return new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeZone: 'Asia/Kathmandu' }).format(new Date(value));
 }
 
 export function shortText(value: string | null | undefined, left = 8, right = 8) {

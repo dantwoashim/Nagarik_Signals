@@ -18,5 +18,18 @@ export default defineConfig({
     url: 'http://127.0.0.1:3001/api/health',
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
+    env: {
+      ...process.env,
+      NEXT_PUBLIC_APP_URL: 'http://127.0.0.1:3001',
+      NEXT_PUBLIC_NAGARIK_PUBLIC_PREVIEW: '0',
+      NAGARIK_ALLOWED_ORIGINS: 'http://127.0.0.1:3001',
+      NAGARIK_STORAGE_MODE: 'local',
+      NAGARIK_COOKIE_SECRET: 'nagarik-e2e-cookie-secret-0123456789',
+      NAGARIK_SESSION_DERIVATION_SECRET: 'nagarik-e2e-session-secret-0123456789',
+      NAGARIK_UPLOAD_RECEIPT_SECRET: 'nagarik-e2e-upload-secret-0123456789',
+      NAGARIK_RATE_LIMIT_SALT: 'nagarik-e2e-rate-salt-0123456789',
+      NAGARIK_RATE_LIMIT_PEPPER: 'nagarik-e2e-rate-pepper-0123456789',
+      NAGARIK_STEWARD_SECRET: 'nagarik-e2e-steward-secret-0123456789',
+    },
   },
 });

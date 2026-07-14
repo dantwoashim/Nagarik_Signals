@@ -17,6 +17,24 @@ export type IssueStatus =
 
 export type ProofStatus = 'seeded_demo' | 'ready_for_devnet' | 'indexed_devnet' | 'verified_devnet' | 'mismatch';
 
+export type RecordKind = 'community_report' | 'public_source' | 'illustrative_sample' | 'qa_fixture';
+
+export type SafetyReviewStatus = 'visible' | 'hidden_media' | 'disputed' | 'rejected' | 'resolved';
+
+export type IssueProvenance = {
+  publisher: string;
+  sourceTitle: string;
+  sourceUrl: string;
+  corroboratingUrls: string[];
+  sourceType: 'official' | 'public_broadcaster' | 'reputable_news';
+  publishedAt: string;
+  checkedAt: string;
+  expiresAt: string | null;
+  confidence: 'high' | 'medium';
+  statusAtCheck: 'reported_open' | 'time_bounded_notice' | 'needs_recheck';
+  escalationUrl: string | null;
+};
+
 export type Ward = {
   id: string;
   label: string;
@@ -62,12 +80,14 @@ export type CivicIssue = {
   proofAnchoredAt: string | null;
   reporterMode: 'session' | 'wallet';
   reporterPubkey: string;
+  recordKind: RecordKind;
+  provenance: IssueProvenance | null;
   verificationCount: number;
   updateCount: number;
   photoUrl: string;
   resolutionHash: string | null;
   resolutionPhotoUrl: string | null;
-  safetyReviewStatus: 'visible' | 'hidden_media' | 'disputed' | 'rejected' | 'resolved';
+  safetyReviewStatus: SafetyReviewStatus;
   latDisplay: number;
   lngDisplay: number;
   proof: IssueProof;
@@ -91,8 +111,7 @@ export type VerificationResult = {
   txSig?: string | null;
 };
 
-export type ProofMetadata = {
-  version: '1.0';
+type ProofMetadataBase = {
   title: string;
   description: string;
   category: IssueCategory;
@@ -108,3 +127,14 @@ export type ProofMetadata = {
   photoUrl: string;
   safetyDeclaration: true;
 };
+
+export type ProofMetadata =
+  | (ProofMetadataBase & { version: '1.0' })
+  | (ProofMetadataBase & {
+      version: '1.1';
+      recordKind: 'community_report' | 'public_source';
+      provenance: Pick<
+        IssueProvenance,
+        'publisher' | 'sourceTitle' | 'sourceUrl' | 'publishedAt' | 'checkedAt' | 'expiresAt' | 'statusAtCheck'
+      > | null;
+    });

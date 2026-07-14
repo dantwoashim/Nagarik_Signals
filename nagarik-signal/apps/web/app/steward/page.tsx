@@ -1,9 +1,9 @@
-import { listIssues } from '@/lib/db/queries';
+import { listModerationIssues } from '@/lib/db/queries';
 import { StewardConsole } from '@/components/StewardConsole';
 import Link from 'next/link';
 import { publicPreviewReadOnly, publicPreviewUnavailableReason } from '@/lib/deployment';
 
-export default function StewardPage() {
+export default async function StewardPage() {
   if (publicPreviewReadOnly) {
     return (
       <section className="container page-section page-stack">
@@ -16,11 +16,7 @@ export default function StewardPage() {
       </section>
     );
   }
-  const issues = listIssues({ sort: 'most_ignored', limit: 100 }).sort((a, b) => {
-    if (a.proof.proofStatus === 'seeded_demo' && b.proof.proofStatus !== 'seeded_demo') return 1;
-    if (a.proof.proofStatus !== 'seeded_demo' && b.proof.proofStatus === 'seeded_demo') return -1;
-    return b.issueId - a.issueId;
-  });
+  const issues = await listModerationIssues();
   return (
     <section className="container page-section page-stack">
       <div className="page-heading">

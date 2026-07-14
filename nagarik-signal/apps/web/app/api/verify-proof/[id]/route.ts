@@ -6,7 +6,7 @@ export const runtime = 'nodejs';
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const issue = getIssue(id);
+  const issue = await getIssue(id);
   if (!issue) return NextResponse.json({ ok: false, error: 'issue_not_found' }, { status: 404 });
   try {
     const result = await verifyIssueProof(issue);

@@ -28,6 +28,7 @@ dist/
 # Local/editor state
 .DS_Store
 Thumbs.db
+.vercel/
 .vscode/
 .idea/
 

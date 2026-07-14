@@ -13,7 +13,9 @@
     "lint": "npm run lint --workspace @nagarik-signal/web",
     "typecheck": "npm run typecheck --workspace @nagarik-signal/web",
     "verify": "npm run typecheck && npm run lint",
+    "verify:data": "tsx scripts/verify-public-data.ts",
     "test:e2e": "npm run test:e2e --workspace @nagarik-signal/web",
+    "test:unit": "tsx --test apps/web/lib/solana/identity.test.ts apps/web/lib/storage/media.test.ts apps/web/lib/proof/evidence.test.ts apps/web/lib/proof/metadata.test.ts",
     "anchor:prepare": "node scripts/prepare-anchor-test.mjs",
     "anchor:test": "npm run anchor:prepare && cd programs/nagarik_signal && anchor test --skip-build",
     "anchor:test:devnet": "npm run anchor:prepare && cd programs/nagarik_signal && anchor test --skip-build --skip-deploy --skip-local-validator --provider.cluster devnet",
@@ -24,6 +26,9 @@
     "proof:status": "tsx scripts/update-status.ts",
     "proof:read": "tsx scripts/read-proof.ts",
     "seed:demo": "tsx scripts/seed-demo-data.ts",
+    "sources:render": "tsx scripts/generate-source-dossiers.ts",
+    "sources:import": "tsx scripts/import-public-sources.ts",
+    "sessions:sweep": "tsx scripts/sweep-session-balances.ts",
     "verify:proof": "tsx scripts/verify-proof-cli.ts",
     "reindex": "tsx scripts/reindex.ts",
     "phase2:smoke": "tsx scripts/phase2-api-smoke.ts",
@@ -39,6 +44,9 @@
     "next": "16.2.10"
   },
   "overrides": {
+    "jayson": {
+      "uuid": "11.1.1"
+    },
     "next": {
       "postcss": "8.5.10"
     }

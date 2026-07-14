@@ -20,6 +20,11 @@ type ProofResponse = {
   resolutionMatches?: boolean;
   statusMatches?: boolean;
   countMatches?: boolean;
+  evidenceStatus?: 'match' | 'mismatch' | 'unavailable';
+  evidenceAvailable?: boolean;
+  evidenceError?: string | null;
+  evidenceByteLength?: number | null;
+  storedEvidenceMatchesOnChain?: boolean | null;
   computed?: {
     metadataHash?: string;
     evidenceHash?: string;
@@ -50,6 +55,7 @@ type ProofResponse = {
 function resultLabel(result: ProofResponse | null, checking: boolean, issue: CivicIssue) {
   if (checking) return 'checking devnet';
   if (!result) return issue.proof.proofStatus === 'seeded_demo' ? 'sample record' : 'ready to verify';
+  if (result.mode === 'evidence_unavailable') return 'evidence unavailable';
   if (result.ok) return result.mode === 'seeded_demo' ? 'local sample match' : 'on-chain match';
   if (result.error) return 'proof unavailable';
   return 'proof mismatch';
@@ -58,6 +64,7 @@ function resultLabel(result: ProofResponse | null, checking: boolean, issue: Civ
 function resultClass(result: ProofResponse | null, issue: CivicIssue) {
   if (!result) return issue.proof.proofStatus === 'seeded_demo' ? 'status-disputed' : 'status-submitted';
   if (result.ok) return 'proof-ok';
+  if (result.mode === 'evidence_unavailable') return 'status-disputed';
   return 'proof-bad';
 }
 
@@ -85,7 +92,10 @@ export function ProofPanel({ issue }: { issue: CivicIssue }) {
   const checks: Array<[string, boolean | undefined]> = result
     ? [
         ['Metadata', result.metadataMatches],
-        ['Evidence', result.evidenceMatches],
+        ['Delivered evidence bytes', result.evidenceMatches],
+        ...(typeof result.storedEvidenceMatchesOnChain === 'boolean'
+          ? [['Stored evidence hash', result.storedEvidenceMatchesOnChain] as [string, boolean]]
+          : []),
         ['Location', result.locationMatches],
         ['Status', result.statusMatches],
         ['Counts', result.countMatches],
@@ -96,13 +106,13 @@ export function ProofPanel({ issue }: { issue: CivicIssue }) {
 
   async function verifyProof() {
     setChecking(true);
-    setMessage('Checking stored hashes and Solana account state...');
+    setMessage('Fetching the displayed artifact, hashing its bytes, and checking the Solana account...');
     try {
       const response = await fetch(rawJsonUrl, { cache: 'no-store' });
       const payload = await response.json() as ProofResponse;
       setResult(payload);
       if (response.ok && payload.ok) {
-        setMessage(payload.boundary ?? 'Stored proof hashes match the live devnet account.');
+        setMessage(payload.boundary ?? 'Delivered evidence bytes, displayed metadata, and live devnet state all match.');
       } else {
         setMessage(payload.error ?? 'Proof check returned a mismatch. Inspect the raw JSON before trusting this issue.');
       }
@@ -126,7 +136,7 @@ export function ProofPanel({ issue }: { issue: CivicIssue }) {
       <p className="proof-explainer">
         {sample
           ? 'This is an illustrative public record. Check that its displayed evidence and metadata still match the stored hashes.'
-          : 'Recompute the displayed record, then compare its hashes and current status with the indexed Solana devnet account.'}
+          : 'Fetch and hash the delivered artifact, recompute the displayed metadata, then compare both with the indexed Solana devnet account.'}
       </p>
       <div className="row-actions proof-actions">
         <button type="button" className="button green" onClick={verifyProof} disabled={checking}>
@@ -140,7 +150,8 @@ export function ProofPanel({ issue }: { issue: CivicIssue }) {
       {result?.onChain ? (
         <div className="proof-result">
           <strong>On-chain record: {String(result.onChain.status ?? 'unknown').replaceAll('_', ' ')}</strong>
-          <span>{result.onChain.verificationCount ?? 0} verifications / {result.onChain.updateCount ?? 0} updates</span>
+          <span>{result.onChain.verificationCount ?? 0} verification signals / {result.onChain.updateCount ?? 0} status updates</span>
+          <span>{result.evidenceAvailable ? `${result.evidenceByteLength ?? 0} delivered evidence bytes checked` : `Delivered evidence unavailable: ${(result.evidenceError ?? 'unknown').replaceAll('_', ' ')}`}</span>
           <div className="proof-checks">
             {checks.map(([label, ok]) => (
               <span key={String(label)} className={ok ? 'proof-ok' : 'proof-bad'}>

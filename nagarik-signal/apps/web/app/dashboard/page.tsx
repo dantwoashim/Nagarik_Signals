@@ -14,26 +14,31 @@ import {
 } from '@/lib/db/queries';
 import { formatDateTime, shortText } from '@/lib/ui/format';
 
-export default function DashboardPage() {
-  const allIssues = listIssues({ sort: 'most_ignored', limit: 100 });
-  const liveCount = allIssues.filter((issue) => issue.proof.proofStatus !== 'seeded_demo').length;
-  const sampleCount = allIssues.length - liveCount;
-  const categories = categoryBreakdown();
-  const ignoredIssues = mostIgnoredIssues(5);
-  const resolvedIssues = recentResolvedIssues(5);
-  const verifications = listVerifications()
+export default async function DashboardPage() {
+  const [allIssues, samples, categories, ignoredIssues, resolvedIssues, allVerifications, stats] = await Promise.all([
+    listIssues({ scope: 'public', sort: 'most_ignored', limit: 100 }),
+    listIssues({ scope: 'samples', limit: 100 }),
+    categoryBreakdown(),
+    mostIgnoredIssues(5),
+    recentResolvedIssues(5),
+    listVerifications(),
+    dashboardStats(),
+  ]);
+  const publicIssueIds = new Set(allIssues.map((issue) => issue.issueId));
+  const verifications = allVerifications
+    .filter((row) => publicIssueIds.has(row.issueId))
     .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
     .slice(0, 5);
-  const visibleIssues = listIssues({ sort: 'most_ignored', limit: 6 });
+  const visibleIssues = allIssues.slice(0, 6);
 
   return (
     <section className="container page-section page-stack">
       <div className="page-heading">
         <span className="eyebrow">Accountability index</span>
-        <h1>Where public problems wait longest</h1>
-        <p>A ward-level view of unresolved records, citizen verification, category pressure, and resolution evidence. Counts include clearly marked sample records; live devnet scope is shown separately.</p>
+        <h1>Where public follow-up is accumulating</h1>
+        <p>An area-level view of current public records, verification signals, category pressure, source age, and status history. Samples and engineering fixtures are excluded from every number below.</p>
       </div>
-      <DashboardStats stats={dashboardStats()} liveCount={liveCount} sampleCount={sampleCount} />
+      <DashboardStats stats={stats} liveCount={allIssues.length} sampleCount={samples.length} />
       <WardLeaderboard />
       <div className="dashboard-band">
         <section className="panel pad">
@@ -52,7 +57,7 @@ export default function DashboardPage() {
           </div>
         </section>
         <section className="panel pad">
-          <h2 style={{ marginTop: 0 }}>Recent verifications</h2>
+          <h2 style={{ marginTop: 0 }}>Recent verification signals</h2>
           <div className="table-list">
             {verifications.length ? verifications.map((row, index) => (
               <div className="table-row" key={`${row.issueId}-${row.verifierPubkey}`}>
@@ -63,13 +68,13 @@ export default function DashboardPage() {
                 </span>
                 <span className="muted">{formatDateTime(row.createdAt)}</span>
               </div>
-            )) : <p className="muted">No citizen verification PDAs indexed yet.</p>}
+            )) : <p className="muted">No public verification signals indexed yet.</p>}
           </div>
         </section>
       </div>
       <div className="dashboard-band">
         <section className="panel pad">
-          <h2 style={{ marginTop: 0 }}>Most ignored open issues</h2>
+          <h2 style={{ marginTop: 0 }}>Longest-observed open records</h2>
           <div className="table-list">
             {ignoredIssues.map((issue, index) => (
               <Link className="table-row" key={issue.id} href={`/issues/${issue.id}`}>
@@ -95,7 +100,7 @@ export default function DashboardPage() {
                 </span>
                 <span className="pill status-resolved">resolved</span>
               </Link>
-            )) : <p className="muted">No resolved issue proof indexed yet.</p>}
+            )) : <p className="muted">No public record is currently marked resolved.</p>}
           </div>
         </section>
       </div>

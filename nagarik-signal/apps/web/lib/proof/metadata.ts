@@ -1,4 +1,4 @@
-import type { CivicIssue, IssueCategory, ProofMetadata } from '../types';
+import type { CivicIssue, IssueCategory, IssueProvenance, ProofMetadata, RecordKind } from '../types';
 import { coarseGeohash, roundedLocation } from '../geo/geohash';
 import { canonicalize } from './canonicalize';
 import { sha256Hex } from './hash';
@@ -15,11 +15,12 @@ export type ProofMetadataInput = {
   firstObservedAt: string;
   evidenceHash: string;
   photoUrl: string;
+  recordKind?: RecordKind;
+  provenance?: IssueProvenance | null;
 };
 
 export function buildProofMetadata(input: ProofMetadataInput): ProofMetadata {
-  return {
-    version: '1.0',
+  const base = {
     title: input.title,
     description: input.description,
     category: input.category,
@@ -30,8 +31,28 @@ export function buildProofMetadata(input: ProofMetadataInput): ProofMetadata {
     firstObservedAt: new Date(input.firstObservedAt).toISOString(),
     photoHash: input.evidenceHash,
     photoUrl: input.photoUrl,
-    safetyDeclaration: true,
+    safetyDeclaration: true as const,
   };
+  if (input.recordKind === 'community_report' || input.recordKind === 'public_source') {
+    const source = input.provenance;
+    return {
+      ...base,
+      version: '1.1',
+      recordKind: input.recordKind,
+      provenance: source
+        ? {
+            publisher: source.publisher,
+            sourceTitle: source.sourceTitle,
+            sourceUrl: source.sourceUrl,
+            publishedAt: source.publishedAt,
+            checkedAt: source.checkedAt,
+            expiresAt: source.expiresAt,
+            statusAtCheck: source.statusAtCheck,
+          }
+        : null,
+    };
+  }
+  return { ...base, version: '1.0' };
 }
 
 export function buildIssueProofMetadata(issue: CivicIssue) {
@@ -47,6 +68,8 @@ export function buildIssueProofMetadata(issue: CivicIssue) {
     firstObservedAt: issue.firstObservedAt,
     evidenceHash: issue.proof.evidenceHash,
     photoUrl: issue.photoUrl,
+    recordKind: issue.recordKind,
+    provenance: issue.provenance,
   });
 }
 

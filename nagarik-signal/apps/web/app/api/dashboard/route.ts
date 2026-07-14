@@ -3,6 +3,7 @@ import {
   categoryBreakdown,
   dashboardStats,
   listVerifications,
+  listIssues,
   mostIgnoredIssues,
   recentResolvedIssues,
   wardLeaderboard,
@@ -11,14 +12,27 @@ import {
 export const runtime = 'nodejs';
 
 export async function GET() {
+  const [stats, wards, categories, ignored, resolved, verifications, issues] = await Promise.all([
+    dashboardStats(),
+    wardLeaderboard(),
+    categoryBreakdown(),
+    mostIgnoredIssues(5),
+    recentResolvedIssues(5),
+    listVerifications(),
+    listIssues({ scope: 'public', limit: 100 }),
+  ]);
+  const publicIssueIds = new Set(issues.map((issue) => issue.issueId));
   return NextResponse.json({
     ok: true,
-    mode: 'local_json_read_model',
-    stats: dashboardStats(),
-    wardLeaderboard: wardLeaderboard(),
-    categoryBreakdown: categoryBreakdown(),
-    mostIgnoredIssues: mostIgnoredIssues(5),
-    recentResolvedIssues: recentResolvedIssues(5),
-    recentVerifications: listVerifications().sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)).slice(0, 10),
+    mode: 'durable_read_model',
+    stats,
+    wardLeaderboard: wards,
+    categoryBreakdown: categories,
+    mostIgnoredIssues: ignored,
+    recentResolvedIssues: resolved,
+    recentVerifications: verifications
+      .filter((row) => publicIssueIds.has(row.issueId))
+      .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+      .slice(0, 10),
   });
 }

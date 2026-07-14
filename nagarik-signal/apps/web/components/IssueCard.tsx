@@ -1,28 +1,49 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr';
+import { ArrowUpRight, ShieldWarning } from '@phosphor-icons/react/dist/ssr';
 import { categoryLabel } from '@/lib/constants/categories';
 import { statusLabel } from '@/lib/constants/statuses';
 import { daysIgnored } from '@/lib/db/queries';
 import { isClosedStatus } from '@/lib/constants/statuses';
 import type { CivicIssue } from '@/lib/types';
+import { inferredRecordKind, recordKindLabel, sourceFreshness } from '@/lib/issues/recordKind';
 
 export function IssueCard({ issue }: { issue: CivicIssue }) {
   const dayCount = daysIgnored(issue);
   const closed = isClosedStatus(issue.status);
-  const live = issue.proof.proofStatus !== 'seeded_demo';
+  const kind = inferredRecordKind(issue);
+  const sourceState = sourceFreshness(issue);
+  const dayLabel = kind === 'public_source'
+    ? 'days since source report'
+    : kind === 'illustrative_sample'
+      ? 'sample days observed'
+      : closed ? 'days to close' : 'days observed';
+  const originClass = kind === 'public_source' || kind === 'community_report' ? 'live' : 'sample';
+  const mediaVisible = issue.safetyReviewStatus !== 'hidden_media' && issue.safetyReviewStatus !== 'rejected';
 
   return (
     <Link href={`/issues/${issue.id}`} className="issue-card-link" aria-label={`Open ${issue.title}`}>
       <article className="issue-card">
-        <div className="issue-card-media">
-          <Image src={issue.photoUrl} alt={`${issue.title} evidence`} fill sizes="(max-width: 620px) 100vw, (max-width: 1080px) 50vw, 260px" />
-          <span className={live ? 'proof-origin live' : 'proof-origin sample'}>{live ? 'Live devnet proof' : 'Sample record'}</span>
+        <div className={`issue-card-media ${kind === 'public_source' ? 'source-dossier-media' : ''}`}>
+          {mediaVisible ? (
+            <Image
+              src={issue.photoUrl}
+              alt={kind === 'public_source' ? `Source dossier for ${issue.title}` : kind === 'illustrative_sample' ? `Illustrative sample for ${issue.title}` : `Evidence for ${issue.title}`}
+              fill
+              sizes="(max-width: 620px) 100vw, (max-width: 1080px) 50vw, 260px"
+            />
+          ) : (
+            <div className="card-media-withheld" role="img" aria-label="Evidence media withheld after safety review">
+              <ShieldWarning size={28} weight="regular" />
+              <span>Media withheld</span>
+            </div>
+          )}
+          <span className={`proof-origin ${originClass}`}>{recordKindLabel(issue)}</span>
         </div>
         <div className="issue-card-body">
           <div className="issue-card-count">
             <strong className="mono">{dayCount}</strong>
-            <span>{closed ? 'days to close' : 'days ignored'}</span>
+            <span>{dayLabel}</span>
           </div>
           <div className="issue-card-copy">
             <div className="badge-row">
@@ -33,8 +54,13 @@ export function IssueCard({ issue }: { issue: CivicIssue }) {
             <p>{issue.description}</p>
             <div className="issue-card-meta">
               <span>#{issue.issueId} / {issue.locality}</span>
-              <span>{issue.verificationCount} citizen signal{issue.verificationCount === 1 ? '' : 's'}</span>
+              <span>{issue.verificationCount} public signal{issue.verificationCount === 1 ? '' : 's'}</span>
             </div>
+            {kind === 'public_source' ? (
+              <div className={`source-review-state ${sourceState === 'recheck_due' ? 'due' : ''}`}>
+                {sourceState === 'recheck_due' ? 'Source review due' : `Source checked by ${issue.provenance?.publisher ?? 'publisher'}`}
+              </div>
+            ) : null}
           </div>
           <ArrowUpRight className="issue-card-arrow" size={21} weight="bold" aria-hidden="true" />
         </div>

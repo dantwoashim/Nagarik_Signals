@@ -1,10 +1,10 @@
 import { wardLeaderboard } from '@/lib/db/queries';
 
-export function WardLeaderboard() {
-  const rows = wardLeaderboard();
+export async function WardLeaderboard() {
+  const rows = await wardLeaderboard();
   return (
     <section className="panel pad">
-      <h2 style={{ marginTop: 0 }}>Ward leaderboard</h2>
+      <h2 style={{ marginTop: 0 }}>Area follow-up index</h2>
       <div className="table-list">
         {rows.map((row, index) => (
           <div key={row.wardId} className="table-row">
@@ -16,7 +16,7 @@ export function WardLeaderboard() {
               </span>
               {row.mostIgnoredIssue ? (
                 <span className="muted" style={{ display: 'block', fontSize: 13 }}>
-                  Longest ignored: {row.mostIgnoredIssue.title}
+                  Longest observed: {row.mostIgnoredIssue.title}
                 </span>
               ) : null}
             </span>

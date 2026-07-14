@@ -2,10 +2,10 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { FunnelSimple, LockKey, UploadSimple, WarningCircle } from '@phosphor-icons/react';
+import { EyeSlash, FunnelSimple, LockKey, UploadSimple, WarningCircle } from '@phosphor-icons/react';
 import { categoryLabel } from '@/lib/constants/categories';
 import { isClosedStatus, statuses, statusLabel } from '@/lib/constants/statuses';
-import type { CivicIssue, IssueStatus } from '@/lib/types';
+import type { CivicIssue, IssueStatus, SafetyReviewStatus } from '@/lib/types';
 import { formatDateTime, shortText } from '@/lib/ui/format';
 
 type StatusResult = {
@@ -26,7 +26,17 @@ type UploadResult = {
   ok: boolean;
   photoUrl: string;
   evidenceHash: string;
+  uploadReceipt: string;
   error?: string;
+};
+
+type ModerationResult = {
+  ok: boolean;
+  reason?: string;
+  oldSafetyReviewStatus?: SafetyReviewStatus;
+  safetyReviewStatus?: SafetyReviewStatus;
+  mediaPublic?: boolean;
+  discoverable?: boolean;
 };
 
 type QueueStatus = 'open' | 'all' | IssueStatus;
@@ -54,6 +64,9 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('Ready to update an indexed issue.');
   const [result, setResult] = useState<StatusResult | null>(null);
+  const [moderationBusy, setModerationBusy] = useState(false);
+  const [moderationMessage, setModerationMessage] = useState('No moderation change submitted.');
+  const [moderationResult, setModerationResult] = useState<ModerationResult | null>(null);
   const selected = useMemo(() => issues.find((issue) => issue.id === selectedId) ?? issues[0] ?? null, [issues, selectedId]);
   const filteredIssues = useMemo(() => {
     const text = query.trim().toLowerCase();
@@ -81,11 +94,13 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
       const proofFile = formData.get('proofPhoto');
       let resolutionPhotoUrl: string | null = null;
       let resolutionEvidenceHash: string | null = null;
+      let uploadReceipt: string | null = null;
       if (proofFile instanceof File && proofFile.size > 0) {
         setMessage('Uploading and sanitizing resolution proof...');
         const upload = await uploadProof(proofFile);
         resolutionPhotoUrl = upload.photoUrl;
         resolutionEvidenceHash = upload.evidenceHash;
+        uploadReceipt = upload.uploadReceipt;
       }
 
       setMessage('Creating StatusUpdate PDA...');
@@ -100,6 +115,7 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
           note: String(formData.get('note') ?? '').trim(),
           resolutionPhotoUrl,
           resolutionEvidenceHash,
+          uploadReceipt,
           proofHash,
         }),
       });
@@ -111,6 +127,35 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
       setMessage(error instanceof Error ? error.message.replaceAll('_', ' ') : 'status update failed');
     } finally {
       setBusy(false);
+    }
+  }
+
+  async function moderate(formData: FormData) {
+    if (!selected) return;
+    setModerationBusy(true);
+    setModerationResult(null);
+    setModerationMessage('Applying media and discovery policy...');
+    try {
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (secret) headers['x-nagarik-steward-secret'] = secret;
+      const response = await fetch(`/api/reports/${encodeURIComponent(selected.id)}/moderation`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          safetyReviewStatus: String(formData.get('safetyReviewStatus') ?? ''),
+          note: String(formData.get('moderationNote') ?? '').trim(),
+        }),
+      });
+      const payload = await response.json() as ModerationResult;
+      setModerationResult(payload);
+      setModerationMessage(payload.ok
+        ? `Safety review changed to ${payload.safetyReviewStatus?.replaceAll('_', ' ')}.`
+        : (payload.reason ?? 'moderation_failed').replaceAll('_', ' '));
+      if (payload.ok) router.refresh();
+    } catch (error) {
+      setModerationMessage(error instanceof Error ? error.message.replaceAll('_', ' ') : 'moderation failed');
+    } finally {
+      setModerationBusy(false);
     }
   }
 
@@ -245,11 +290,11 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
           <label className="field">
             <span>Resolution proof photo</span>
             <input name="proofPhoto" type="file" accept="image/png,image/jpeg,image/webp" />
-            <span className="helper">Required when resolving unless you provide a manual 64-character proof hash.</span>
+            <span className="helper">A different after-state image and a public note are required when marking a record resolved.</span>
           </label>
           <label className="field">
-            <span>Manual proof hash</span>
-            <input name="proofHash" placeholder="Optional 64-character sha256 hash" />
+            <span>Manual proof hash for non-resolution updates</span>
+            <input name="proofHash" placeholder="Optional 64-character SHA-256 hash" />
           </label>
           <button type="submit" className="button crimson" disabled={busy || selectedSeeded || selectedClosed}>
             {busy ? <WarningCircle size={17} weight="bold" /> : <UploadSimple size={17} weight="bold" />}
@@ -260,6 +305,45 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
           </p>
         </form>
 
+        <form action={moderate} className="panel pad form-grid">
+          <div>
+            <span className="eyebrow">Safety moderation</span>
+            <h2 style={{ marginBottom: 0 }}>Control media and discovery</h2>
+          </div>
+          <label className="field">
+            <span>Review outcome</span>
+            <select
+              key={`${selected.id}-${selected.safetyReviewStatus}`}
+              name="safetyReviewStatus"
+              defaultValue={selected.safetyReviewStatus}
+            >
+              <option value="visible">Visible</option>
+              <option value="hidden_media">Hide media, retain record</option>
+              <option value="disputed">Visible with disputed review</option>
+              <option value="rejected">Remove from public discovery</option>
+              <option value="resolved" disabled={selected.status !== 'resolved'}>Resolved safety review</option>
+            </select>
+          </label>
+          <label className="field">
+            <span>Moderation note</span>
+            <textarea
+              name="moderationNote"
+              rows={3}
+              required
+              minLength={8}
+              maxLength={500}
+              placeholder="State the observable safety reason without naming or accusing a person."
+            />
+          </label>
+          <button type="submit" className="button dark" disabled={moderationBusy || selectedSeeded}>
+            {moderationBusy ? <WarningCircle size={17} weight="bold" /> : <EyeSlash size={17} weight="bold" />}
+            {moderationBusy ? 'Applying review...' : 'Apply safety review'}
+          </button>
+          <p className={moderationResult && !moderationResult.ok ? 'proof-bad' : 'muted'} role="status" style={{ lineHeight: 1.55 }}>
+            {moderationMessage}
+          </p>
+        </form>
+
         <aside className="panel pad">
           <span className="eyebrow">Selected issue</span>
           <h2>{selected.title}</h2>
@@ -267,6 +351,7 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
             <span className="pill">{categoryLabel(selected.category)}</span>
             <span className={`pill status-${selected.status}`}>{statusLabel(selected.status)}</span>
             <span className="pill">{selected.locality}</span>
+            <span className="pill">{selected.safetyReviewStatus.replaceAll('_', ' ')}</span>
           </div>
           <p className="muted" style={{ lineHeight: 1.6 }}>{selected.description}</p>
           <div style={{ display: 'grid', gap: 8 }}>
@@ -290,7 +375,7 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
           ) : null}
           {selectedClosed ? (
             <div className="notice" style={{ marginTop: 14 }}>
-              Closed issues freeze the ignored counter and cannot be updated again.
+              Closed issues freeze the elapsed counter and cannot be updated again.
             </div>
           ) : null}
           {result?.ok ? (

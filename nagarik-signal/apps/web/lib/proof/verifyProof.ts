@@ -4,6 +4,7 @@ import { explorerUrl } from '../solana/explorer';
 import { buildIssueProofMetadata } from './metadata';
 import { sha256Hex } from './hash';
 import { canonicalize } from './canonicalize';
+import { verifyDeliveredEvidence } from './evidence';
 
 const ZERO_HASH = '0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -19,18 +20,29 @@ function normalizeResolutionHash(value: string | null | undefined) {
 export async function verifyIssueProof(issue: CivicIssue) {
   const computedMetadataHash = await sha256Hex(canonicalize(proofMetadata(issue)));
   const localMetadataMatches = computedMetadataHash === issue.proof.metadataHash;
+  const deliveredEvidence = await verifyDeliveredEvidence(issue.photoUrl, issue.proof.evidenceHash);
+  const deliveredEvidenceMatches = deliveredEvidence.status === 'match';
 
   if (issue.proof.proofStatus === 'seeded_demo') {
+    const matches = localMetadataMatches && deliveredEvidenceMatches;
+    const mode = !localMetadataMatches
+      ? 'mismatch'
+      : deliveredEvidence.status === 'unavailable'
+        ? 'evidence_unavailable'
+        : matches
+          ? 'seeded_demo'
+          : 'mismatch';
     return {
-      ok: localMetadataMatches,
-      matches: localMetadataMatches,
-      mode: 'seeded_demo',
+      ok: matches,
+      matches,
+      mode,
+      error: deliveredEvidence.status === 'unavailable' ? deliveredEvidence.error : undefined,
       issueId: issue.id,
       issuePda: issue.proof.issuePda,
       onChain: null,
       computed: {
         metadataHash: computedMetadataHash,
-        evidenceHash: issue.proof.evidenceHash,
+        evidenceHash: deliveredEvidence.computedHash,
         locationHash: issue.proof.locationHash,
         timelineHash: issue.proof.timelineHash,
         resolutionHash: issue.resolutionHash,
@@ -44,30 +56,48 @@ export async function verifyIssueProof(issue: CivicIssue) {
       },
       explorerUrl: null,
       metadataMatches: localMetadataMatches,
-      evidenceMatches: true,
+      evidenceMatches: deliveredEvidenceMatches,
+      evidenceStatus: deliveredEvidence.status,
+      evidenceAvailable: deliveredEvidence.available,
+      evidenceError: deliveredEvidence.error,
+      evidenceByteLength: deliveredEvidence.byteLength,
+      storedEvidenceMatchesOnChain: null,
       locationMatches: true,
       timelineMatches: true,
       resolutionMatches: true,
       statusMatches: true,
       countMatches: true,
-      boundary: 'Sample records do not claim live Solana proof.',
+      boundary: deliveredEvidence.status === 'unavailable'
+        ? 'Sample metadata is local-only and its delivered evidence is unavailable.'
+        : 'Sample records do not claim live Solana proof.',
     };
   }
 
   const onChain = await fetchIssueOnChain(issue.issueId);
   const metadataMatches = computedMetadataHash === onChain.metadataHash && issue.proof.metadataHash === onChain.metadataHash;
-  const evidenceMatches = issue.proof.evidenceHash === onChain.evidenceHash;
+  const storedEvidenceMatchesOnChain = issue.proof.evidenceHash === onChain.evidenceHash;
+  const evidenceMatches = deliveredEvidenceMatches && storedEvidenceMatchesOnChain;
   const locationMatches = issue.proof.locationHash === onChain.locationHash;
   const timelineMatches = issue.proof.timelineHash === onChain.timelineHash;
   const resolutionMatches = normalizeResolutionHash(issue.resolutionHash) === normalizeResolutionHash(onChain.resolutionHash);
   const statusMatches = issue.status === onChain.status;
   const countMatches = issue.verificationCount === onChain.verificationCount && issue.updateCount === onChain.updateCount;
   const matches = metadataMatches && evidenceMatches && locationMatches && timelineMatches && resolutionMatches && statusMatches && countMatches;
+  const nonEvidenceMatches = metadataMatches && locationMatches && timelineMatches && resolutionMatches && statusMatches && countMatches;
+
+  const mode = !nonEvidenceMatches || !storedEvidenceMatchesOnChain
+    ? 'mismatch'
+    : deliveredEvidence.status === 'unavailable'
+      ? 'evidence_unavailable'
+      : matches
+        ? 'verified_devnet'
+        : 'mismatch';
 
   return {
     ok: matches,
     matches,
-    mode: matches ? 'verified_devnet' : 'mismatch',
+    mode,
+    error: deliveredEvidence.status === 'unavailable' ? deliveredEvidence.error : undefined,
     issueId: issue.id,
     issuePda: issue.proof.issuePda,
     onChain: {
@@ -83,7 +113,7 @@ export async function verifyIssueProof(issue: CivicIssue) {
     },
     computed: {
       metadataHash: computedMetadataHash,
-      evidenceHash: issue.proof.evidenceHash,
+      evidenceHash: deliveredEvidence.computedHash,
       locationHash: issue.proof.locationHash,
       timelineHash: issue.proof.timelineHash,
       resolutionHash: normalizeResolutionHash(issue.resolutionHash),
@@ -98,10 +128,18 @@ export async function verifyIssueProof(issue: CivicIssue) {
     explorerUrl: explorerUrl(onChain.issuePda, 'address'),
     metadataMatches,
     evidenceMatches,
+    evidenceStatus: deliveredEvidence.status,
+    evidenceAvailable: deliveredEvidence.available,
+    evidenceError: deliveredEvidence.error,
+    evidenceByteLength: deliveredEvidence.byteLength,
+    storedEvidenceMatchesOnChain,
     locationMatches,
     timelineMatches,
     resolutionMatches,
     statusMatches,
     countMatches,
+    boundary: deliveredEvidence.status === 'unavailable'
+      ? 'On-chain fields were checked, but the delivered evidence bytes were unavailable.'
+      : undefined,
   };
 }

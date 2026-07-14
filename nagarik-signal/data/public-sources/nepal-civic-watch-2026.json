@@ -1,0 +1,98 @@
+[
+  {
+    "slug": "nagdhunga-mugling-utility-poles",
+    "title": "Utility poles still obstruct sections of the Nagdhunga-Mugling widening project",
+    "summary": "A June 2026 Kathmandu Post report, citing project and electricity-authority officials, said 75 poles remained on the eastern section and 107 on the western section of the 94.66 km corridor. This dossier records the published claim for public follow-up; it does not assert that the counts are unchanged today.",
+    "category": "road",
+    "wardId": "corridor-nagdhunga-mugling",
+    "locality": "Nagdhunga-Mugling corridor",
+    "latDisplay": 27.718,
+    "lngDisplay": 85.154,
+    "firstObservedAt": "2026-06-24T00:00:00.000+05:45",
+    "provenance": {
+      "publisher": "The Kathmandu Post",
+      "sourceTitle": "Utility pole relocation delays hobble road widening projects",
+      "sourceUrl": "https://kathmandupost.com/national/2026/06/24/utility-pole-relocation-delays-hobble-road-widening-projects",
+      "corroboratingUrls": [],
+      "sourceType": "reputable_news",
+      "publishedAt": "2026-06-24T00:00:00.000+05:45",
+      "checkedAt": "2026-07-14T12:00:00.000+05:45",
+      "expiresAt": "2026-07-28T12:00:00.000+05:45",
+      "confidence": "high",
+      "statusAtCheck": "needs_recheck",
+      "escalationUrl": "https://gunaso.opmcm.gov.np/"
+    }
+  },
+  {
+    "slug": "central-kathmandu-drainage-capacity",
+    "title": "Central Kathmandu drainage capacity remains a monsoon follow-up issue",
+    "summary": "Kathmandu Metropolitan City's public report said roads around Ganatantra Park, Jai Nepal Hall and Jamal were inundated during 2026 rains, and identified limited drainage capacity plus debris carried by runoff as contributing factors. This is an official-source dossier, not a firsthand field report.",
+    "category": "water",
+    "wardId": "kathmandu-central",
+    "locality": "Jamal and central Kathmandu",
+    "latDisplay": 27.708,
+    "lngDisplay": 85.316,
+    "firstObservedAt": "2026-07-05T00:00:00.000+05:45",
+    "provenance": {
+      "publisher": "Kathmandu Metropolitan City - Metro News",
+      "sourceTitle": "Municipal response after a Samakhushi river wall collapse reduced risk to eight homes",
+      "sourceUrl": "https://metronews.kathmandu.gov.np/news/detail/0507389732",
+      "corroboratingUrls": [],
+      "sourceType": "official",
+      "publishedAt": "2026-07-05T00:00:00.000+05:45",
+      "checkedAt": "2026-07-14T12:00:00.000+05:45",
+      "expiresAt": "2026-07-28T12:00:00.000+05:45",
+      "confidence": "high",
+      "statusAtCheck": "needs_recheck",
+      "escalationUrl": "https://gunaso.kathmandu.gov.np/register"
+    }
+  },
+  {
+    "slug": "bancharedanda-landfill-service-life",
+    "title": "Bancharedanda landfill service life is under documented pressure",
+    "summary": "Kathmandu Metropolitan City reported that waste volumes are shortening the planned service life of Bancharedanda and described source segregation, material-recovery centres and inter-municipal financing as needed responses. The record tracks the official statement and its follow-up window.",
+    "category": "waste",
+    "wardId": "kathmandu-valley-waste-system",
+    "locality": "Kathmandu Valley waste system",
+    "latDisplay": 27.717,
+    "lngDisplay": 85.324,
+    "firstObservedAt": "2026-07-06T00:00:00.000+05:45",
+    "provenance": {
+      "publisher": "Kathmandu Metropolitan City - Metro News",
+      "sourceTitle": "Measures to extend landfill life through source reduction, material recovery and financial partnership",
+      "sourceUrl": "https://metronews.kathmandu.gov.np/news/detail/0607285852",
+      "corroboratingUrls": [],
+      "sourceType": "official",
+      "publishedAt": "2026-07-06T00:00:00.000+05:45",
+      "checkedAt": "2026-07-14T12:00:00.000+05:45",
+      "expiresAt": "2026-08-13T12:00:00.000+05:45",
+      "confidence": "high",
+      "statusAtCheck": "needs_recheck",
+      "escalationUrl": "https://gunaso.kathmandu.gov.np/register"
+    }
+  },
+  {
+    "slug": "dhangadhi-groundwater-shortage",
+    "title": "Dhangadhi and nearby Kailari settlements face recurring groundwater shortages",
+    "summary": "A June 2026 Kathmandu Post report said Dhangadhi was distributing water by tanker in affected wards and cited municipal and WASH officials describing dry hand pumps, deeper borewells and weak groundwater recharge in nearby Kailari. The current field status still requires rechecking.",
+    "category": "water",
+    "wardId": "dhangadhi-kailari",
+    "locality": "Dhangadhi and Kailari",
+    "latDisplay": 28.704,
+    "lngDisplay": 80.589,
+    "firstObservedAt": "2026-06-27T00:00:00.000+05:45",
+    "provenance": {
+      "publisher": "The Kathmandu Post",
+      "sourceTitle": "Hand pumps are dry, even deep borewells no longer provide enough water",
+      "sourceUrl": "https://kathmandupost.com/national/2026/06/27/hand-pumps-are-dry-even-deep-borewells-no-longer-provide-enough-water",
+      "corroboratingUrls": [],
+      "sourceType": "reputable_news",
+      "publishedAt": "2026-06-27T00:00:00.000+05:45",
+      "checkedAt": "2026-07-14T12:00:00.000+05:45",
+      "expiresAt": "2026-07-28T12:00:00.000+05:45",
+      "confidence": "high",
+      "statusAtCheck": "needs_recheck",
+      "escalationUrl": "https://gunaso.opmcm.gov.np/"
+    }
+  }
+]

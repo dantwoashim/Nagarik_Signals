@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, CheckCircle, WarningCircle } from '@phosphor-icons/react';
@@ -13,12 +13,12 @@ import { SubmitProgress, type SubmitStep } from './SubmitProgress';
 import { WardSelect } from './WardSelect';
 import { getWard } from '@/lib/geo/wards';
 import { buildProofMetadata, computeLocationHash, computeMetadataHash, normalizeGeohash } from '@/lib/proof/metadata';
-import { getOrCreateCivicSession, type CivicSession } from '@/lib/session/civicSession';
 import type { IssueCategory } from '@/lib/types';
 
 type UploadResult = {
   photoUrl: string;
   evidenceHash: string;
+  uploadReceipt: string;
 };
 
 type CreatedReport = {
@@ -34,16 +34,11 @@ type CreatedReport = {
 
 export function ReportForm() {
   const router = useRouter();
-  const [session, setSession] = useState<CivicSession | null>(null);
   const [step, setStep] = useState<SubmitStep>('idle');
   const [message, setMessage] = useState('Ready to create a civic proof object.');
   const [preview, setPreview] = useState<{ evidenceHash?: string; metadataHash?: string; locationHash?: string; photoUrl?: string }>({});
   const [created, setCreated] = useState<CreatedReport | null>(null);
   const [busy, setBusy] = useState(false);
-
-  const handleSession = useCallback((current: CivicSession) => {
-    setSession(current);
-  }, []);
 
   async function uploadPhoto(file: File) {
     const uploadData = new FormData();
@@ -104,18 +99,10 @@ export function ReportForm() {
 
       setStep('anchoring');
       setMessage('Anchoring proof on Solana devnet...');
-      const currentSession = session ?? getOrCreateCivicSession('anonymous civic session');
-      const sessionId = currentSession.mode === 'wallet'
-        ? `wallet-relayed:${currentSession.publicKey}`
-        : currentSession.publicKey;
       const response = await fetch('/api/reports', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          sessionId,
-          identityMode: currentSession.mode,
-          walletPubkey: currentSession.mode === 'wallet' ? currentSession.publicKey : null,
-          displayName: currentSession.label,
           title,
           description,
           category,
@@ -127,6 +114,7 @@ export function ReportForm() {
           firstObservedAt,
           photoUrl: upload.photoUrl,
           evidenceHash: upload.evidenceHash,
+          uploadReceipt: upload.uploadReceipt,
         }),
       });
       const payload = await response.json();
@@ -184,8 +172,8 @@ export function ReportForm() {
       </section>
 
       <section className="report-step final-step">
-        <div className="report-step-heading"><span className="mono">04</span><div><h2>Review and anchor</h2><p>Use a gasless civic session or optional wallet identity, then inspect the hashes before publishing.</p></div></div>
-        <SessionChoice onSession={handleSession} />
+        <div className="report-step-heading"><span className="mono">04</span><div><h2>Review and anchor</h2><p>Use a secured gasless civic session, then inspect the hashes before publishing.</p></div></div>
+        <SessionChoice />
         <ProofPreview {...preview} />
         <div className="submit-progress-block">
           <h3>Publishing progress</h3>

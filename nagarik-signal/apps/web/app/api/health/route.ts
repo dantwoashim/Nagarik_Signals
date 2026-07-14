@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { appConfig } from '@/lib/constants/config';
-import { latestIndexedIssue, readModel, readModelExists } from '@/lib/db/queries';
+import { latestIndexedIssue, readModel, readModelExists, readModelStorageMode } from '@/lib/db/queries';
 import { getSupabaseConfig } from '@/lib/db/supabase';
 import { chainHealth } from '@/lib/solana/actions';
 import { readModelPath } from '@/lib/server/paths';
@@ -15,8 +15,7 @@ export async function GET() {
   } catch (error) {
     rpc = { ok: false, error: error instanceof Error ? error.message : 'rpc_health_failed' };
   }
-  const model = readModel();
-  const latest = latestIndexedIssue();
+  const [model, latest, modelExists] = await Promise.all([readModel(), latestIndexedIssue(), readModelExists()]);
   const supabase = getSupabaseConfig();
   return NextResponse.json({
     ok: Boolean(rpc.ok),
@@ -25,9 +24,9 @@ export async function GET() {
     programId: appConfig.programId,
     rpc,
     db: {
-      mode: publicPreviewReadOnly ? 'bundled_public_snapshot' : 'local_json_read_model',
-      ok: readModelExists(),
-      path: publicPreviewReadOnly ? null : readModelPath(),
+      mode: readModelStorageMode(),
+      ok: modelExists,
+      path: readModelStorageMode() === 'local_json' ? readModelPath() : null,
       issueCount: model.issues.length,
       verificationCount: model.verifications.length,
       statusUpdateCount: model.statusUpdates.length,

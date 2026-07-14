@@ -1,44 +1,35 @@
 # Roadmap
 
-## v0.1 - Public Proof MVP
+## Current Baseline
 
-- Issue report flow with a seeded sample-data fallback.
-- Evidence, metadata, and location hashing.
-- Issue, Verification, and StatusUpdate Anchor program.
-- Public issue page with ProofPanel.
-- Dashboard with ward/locality accountability.
-- Steward status update flow.
-- Safe sample data.
+- writable hosted report, signal, status, and moderation routes;
+- private durable evidence and read-model storage;
+- server-owned civic sessions and relayer limits;
+- live Solana devnet proof verification;
+- public-source provenance with review expiry;
+- strict separation of public records, samples, and QA fixtures;
+- official grievance-channel handoff.
 
-## v0.2 - Public Pilot
+## Next Operational Milestone
 
-- Supabase Postgres and Storage.
-- Stronger civic-session identity.
-- CSV export for journalists and civic groups.
-- Better moderation queues.
-- Duplicate issue detection.
+- run one locality for 90 days with a named moderation owner;
+- add Nepali-language report and proof surfaces;
+- record official complaint/ticket references without exposing complainant identity;
+- publish CSV and JSON exports for civic groups and newsrooms;
+- add duplicate-location and perceptual-image review tools;
+- move high-volume state to the PostgreSQL adapter;
+- define evidence retention, takedown, appeal, and steward rotation procedures.
 
-## v0.5 - Janamat-Adjacent Civic Stack
+Success is measured by source freshness, acknowledgement time, resolution time, duplicate rate, moderation turnaround, evidence availability, and proof-check success. No institutional pilot is claimed today.
 
-- Issue-to-poll or issue-to-petition export.
-- Verified civic group workspaces.
-- Public API.
-- Share cards.
+## Before Mainnet
 
-## v1.0 - Organization Dashboards
+- independent Anchor program review;
+- multisig upgrade authority and documented key rotation;
+- legal and data-protection review in Nepal;
+- tested incident response and relayer monitoring;
+- durable backups and restore drills;
+- stronger identity options without making public reporting inaccessible;
+- signed agreements for any official acknowledgement or status authorship.
 
-- NGO/campus/newsroom dashboards.
-- Issue collections.
-- Monthly ward accountability reports.
-
-## v2.0 - Identity And Reputation
-
-- Optional verified civic credentials.
-- Stronger uniqueness controls.
-- Reputation and steward roles.
-
-## v3.0 - Institutional Pilots
-
-- Municipality dashboards.
-- Media partnerships.
-- Low-bandwidth intake options.
+Tokens, rewards, payments, betting, and public accusation features are outside the roadmap.

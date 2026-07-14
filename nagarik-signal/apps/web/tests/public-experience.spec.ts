@@ -5,76 +5,114 @@ async function expectNoHorizontalOverflow(page: import('@playwright/test').Page)
   expect(overflow).toBeLessThanOrEqual(1);
 }
 
-test('homepage establishes the civic record and honest proof scope', async ({ page }) => {
+async function expectImagesLoaded(page: import('@playwright/test').Page, selector: string) {
+  const images = page.locator(selector);
+  await expect.poll(() => images.evaluateAll((rows) => rows.every((row) => (row as HTMLImageElement).complete))).toBe(true);
+  const broken = await images.evaluateAll((rows) => rows
+    .map((row) => row as HTMLImageElement)
+    .filter((row) => row.complete && row.naturalWidth === 0)
+    .map((row) => row.currentSrc || row.src));
+  expect(broken).toEqual([]);
+}
+
+test('homepage leads with sourced public records and honest totals', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Public proof for public problems.');
-  await expect(page.getByText(/live devnet/).first()).toBeVisible();
-  await expect(page.getByText(/clearly marked sample records/)).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Verify live devnet issue 11' })).toHaveAttribute('href', '/issues/11#proof');
-  await page.getByRole('heading', { name: 'What the city is still carrying' }).scrollIntoViewIfNeeded();
-  const evidenceImages = page.locator('.issue-card img');
-  await expect(evidenceImages).toHaveCount(4);
-  await expect.poll(() => evidenceImages.evaluateAll((images) => images.every((image) => (image as HTMLImageElement).complete))).toBe(true);
-  const brokenImages = await evidenceImages.evaluateAll((images) => images
-    .map((image) => image as HTMLImageElement)
-    .filter((image) => image.complete && image.naturalWidth === 0)
-    .map((image) => image.currentSrc || image.src));
-  expect(brokenImages).toEqual([]);
+  await expect(page.getByText('4 public records anchored on devnet')).toBeVisible();
+  await expect(page.locator('.proof-scope')).toContainText('30 illustrative samples kept outside these totals');
+  await expect(page.getByRole('link', { name: 'Verify public devnet record 15' })).toHaveAttribute('href', '/issues/15#proof');
+  await page.getByRole('heading', { name: 'Documented issues that still need a current answer' }).scrollIntoViewIfNeeded();
+  await expect(page.locator('.issue-card')).toHaveCount(4);
+  await expectImagesLoaded(page, '.issue-card img');
+  await expect(page.getByText('Phase 2 API smoke issue mra7pf0d')).toHaveCount(0);
   await expect(page.locator('img:not([alt])')).toHaveCount(0);
   await expectNoHorizontalOverflow(page);
 });
 
-test('live proof receipt opens the verifiable chain record', async ({ page }) => {
-  await page.goto('/');
-  await page.getByRole('link', { name: 'Verify live devnet issue 11' }).click();
-  await expect(page).toHaveURL(/\/issues\/11#proof$/);
-  await expect(page.locator('#proof')).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Verify this record' })).toBeVisible();
+test('source record exposes provenance, official handoff, and live proof', async ({ page }) => {
+  test.slow();
+  await page.goto('/issues/15');
+  await expect(page.getByRole('heading', { name: 'What this record can prove' })).toBeVisible();
+  await expect(page.getByText('The Kathmandu Post', { exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Read original source/ })).toHaveAttribute('href', /kathmandupost\.com/);
+  await expect(page.getByRole('link', { name: 'Open official grievance channel' })).toBeVisible();
+  await page.getByRole('button', { name: 'Verify against Solana' }).click();
+  await expect(page.getByText('on-chain match')).toBeVisible({ timeout: 45_000 });
+  await expect(page.getByText(/delivered evidence bytes checked/)).toBeVisible();
+  await expectNoHorizontalOverflow(page);
 });
 
-test('mobile navigation and core actions fit without overflow', async ({ page }) => {
+test('explore keeps real records, samples, and map state separate', async ({ page }) => {
+  await page.goto('/explore');
+  await expect(page.getByRole('heading', { name: 'See what still needs a current answer' })).toBeVisible();
+  await expect(page.getByRole('status')).toContainText('4 public civic records');
+  await expect(page.locator('.issue-card')).toHaveCount(4);
+  await expect(page.getByText('Broken drain cover beside public bus stop')).toHaveCount(0);
+
+  await page.getByRole('link', { name: 'Illustrative samples' }).click();
+  await expect(page.getByRole('status')).toContainText('30 illustrative samples');
+  await expect(page.locator('.issue-card')).toHaveCount(12);
+  await expect(page.getByText('Public drainage channel needs clearing')).toBeVisible();
+
+  await page.goto('/explore?view=map');
+  await expect(page.locator('.map-marker')).toHaveCount(4);
+  await expect(page.locator('img:not([alt])')).toHaveCount(0);
+  await expectNoHorizontalOverflow(page);
+});
+
+test('mobile navigation, report flow, and issue hierarchy remain usable', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await expect(page.getByRole('link', { name: 'Report', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Open navigation' }).click();
   await expect(page.getByRole('navigation', { name: 'Mobile navigation' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Dashboard', exact: true })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('navigation', { name: 'Mobile navigation' })).toHaveCount(0);
   await expectNoHorizontalOverflow(page);
-});
 
-test('explore provides a usable coarse map and public records', async ({ page }) => {
-  await page.goto('/explore');
-  await expect(page.getByRole('heading', { name: 'Where records are gathering' })).toBeVisible();
-  await expect(page.locator('.map-marker')).not.toHaveCount(0);
-  await expect(page.locator('.issue-card')).not.toHaveCount(0);
-  await expect(page.locator('img:not([alt])')).toHaveCount(0);
+  await page.goto('/report');
+  await expect(page.getByRole('heading', { name: 'Put a public problem on the record' })).toBeVisible();
+  await expect(page.getByLabel('Title')).toBeVisible();
+  await expect(page.getByLabel('Safe public photo')).toBeVisible();
   await expectNoHorizontalOverflow(page);
-});
 
-test('mobile issue flow puts action and verdict before technical history', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/issues/seeded-demo-910030');
-
   const evidence = await page.locator('.issue-evidence').boundingBox();
-  const verification = await page.locator('.issue-verify').boundingBox();
+  const provenanceOrVerify = await page.locator('.issue-verify').boundingBox();
   const proof = await page.locator('.issue-proof').boundingBox();
   const timeline = await page.locator('.issue-timeline').boundingBox();
-
-  expect(evidence && verification && proof && timeline).toBeTruthy();
-  expect(evidence!.y).toBeLessThan(verification!.y);
-  expect(verification!.y).toBeLessThan(proof!.y);
+  expect(evidence && provenanceOrVerify && proof && timeline).toBeTruthy();
+  expect(evidence!.y).toBeLessThan(provenanceOrVerify!.y);
+  expect(provenanceOrVerify!.y).toBeLessThan(proof!.y);
   expect(proof!.y).toBeLessThan(timeline!.y);
-
   await page.getByRole('button', { name: 'Check sample integrity' }).click();
   await expect(page.getByText('local sample match')).toBeVisible();
-  await expect(page.locator('img:not([alt])')).toHaveCount(0);
   await expectNoHorizontalOverflow(page);
 });
 
-test('public pages avoid event-facing language', async ({ page }) => {
-  for (const path of ['/', '/about', '/explore', '/dashboard', '/report', '/steward']) {
+test('steward console contains separate chain-status and media moderation controls', async ({ page }) => {
+  await page.goto('/steward');
+  await expect(page.getByRole('heading', { name: 'Moderate and update public status' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Create status proof' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Control media and discovery' })).toBeVisible();
+  await expect(page.getByLabel('Review outcome')).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+});
+
+test('mutation endpoints reject untrusted and malformed origins before parsing input', async ({ request }) => {
+  const untrusted = await request.post('/api/upload', { headers: { Origin: 'https://example.com' } });
+  expect(untrusted.status()).toBe(403);
+  expect(await untrusted.json()).toMatchObject({ ok: false, error: 'untrusted_origin' });
+
+  const malformed = await request.post('/api/upload', { headers: { Origin: 'not-a-url' } });
+  expect(malformed.status()).toBe(403);
+  expect(await malformed.json()).toMatchObject({ ok: false, error: 'invalid_origin' });
+});
+
+test('public pages avoid internal event-facing language', async ({ page }) => {
+  const forbidden = /\b(judge|judges|submission|hackathon|bounty|showcase)\b/i;
+  for (const path of ['/', '/about', '/explore', '/dashboard', '/report', '/steward', '/issues/15']) {
     await page.goto(path);
-    const text = await page.locator('body').innerText();
-    expect(text).not.toMatch(/\b(judge|judges|submission|hackathon|bounty|showcase)\b/i);
+    expect(await page.locator('body').innerText()).not.toMatch(forbidden);
   }
 });

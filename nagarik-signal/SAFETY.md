@@ -1,43 +1,57 @@
-# Safety
+# Safety Policy
 
-Nagarik Signal accepts public infrastructure issues only.
+Nagarik Signal is limited to observable public infrastructure. It is not an emergency service, accusation channel, or people-tracking system.
 
 ## Allowed
 
-- Roads and potholes
-- Waste and public sanitation
-- Water and drainage
-- Electricity and streetlights
-- Public facilities
-- Public safety hazards
+- roads, footpaths, potholes, and public crossings;
+- waste and public sanitation;
+- water supply, leakage, and drainage;
+- streetlights and exposed public electrical fixtures;
+- public facilities and accessibility barriers;
+- observable hazards on public infrastructure.
 
-## Not Allowed
+## Rejected
 
-- Faces
-- License plates
-- Private homes
-- Personal accusations
-- Political accusations
-- Emergency reporting
-- Sensitive locations
-- Open comments
+- identifiable faces or license plates;
+- private homes or private disputes;
+- names, accusations, or allegations about a person;
+- political persuasion or targeting;
+- health, identity, financial, or other sensitive personal data;
+- emergency scenes or requests for urgent response;
+- exact coordinates for a sensitive place;
+- open comments.
 
-## Proof Boundary
+Use local emergency services for immediate danger. Nagarik Signal does not dispatch responders.
 
-The chain proves that a hash commitment and status update were recorded. It does
-not independently prove that the physical-world issue is true or resolved.
+## Upload Controls
 
-Resolution proof means a steward attached an after-state record to a status
-update. It must not be phrased as an official government completion claim unless
-an official source is actually integrated.
+Community images are decoded rather than trusted by filename, limited by pixel count and output size, auto-rotated, resized, metadata-stripped, and re-encoded. The stored filename is the SHA-256 hash of the sanitized bytes. A short-lived signed upload receipt is required before those bytes can be attached to a report.
+
+Uploaded evidence is delivered through a private, no-store proxy. This prevents shared or browser caching from bypassing a later `hidden_media` or `rejected` moderation decision.
+
+Automated processing does not reliably detect every face, plate, address, or harmful scene. The reporter safety declaration and steward moderation remain necessary.
+
+## Moderation States
+
+- `visible`: record and media are publicly available.
+- `hidden_media`: the record and on-chain commitment remain, but the media proxy refuses delivery.
+- `disputed`: the record remains visible with a review warning.
+- `rejected`: the record leaves public lists, maps, and totals; media delivery is blocked.
+- `resolved`: safety review is complete after the chain status is resolved.
+
+Moderation does not erase the on-chain commitment. This is deliberate, but it also means a committed hash cannot be removed from Solana devnet.
 
 ## Location Policy
 
-Display approximate ward/locality. Commit a location hash. Do not publish exact
-GPS coordinates on-chain.
+The UI uses ward/locality as the primary location. Coordinates are rounded to three decimals before public storage, and only a coarse location hash is committed on-chain. Exact camera GPS is removed with the original metadata.
 
-## Steward Media Review
+## Source Dossiers
 
-Stewards can hide unsafe media display while preserving the public proof trail.
-Before/after proof must avoid people, license plates, private homes, political
-accusations, sensitive locations, and emergency scenes.
+Public-source records must include the original URL, publisher, publication time, check time, review expiry, confidence, and status at check. A dossier proves what was cited and committed, not that the underlying issue remains unchanged. Expired records visibly require rechecking.
+
+Social posts may identify a research question, but they do not become public civic records without a checkable primary, official, or reputable published source.
+
+## Status and Resolution
+
+A platform steward status update proves that the configured steward signer committed a new state and proof hash. A resolution image is an after-state artifact submitted by that steward. Neither is described as an official government action unless an official integration and authenticated author exist.

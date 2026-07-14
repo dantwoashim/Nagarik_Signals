@@ -18,36 +18,69 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
   const category = one(params.category) || '';
   const status = one(params.status) || '';
   const sort = one(params.sort) || 'newest';
+  const scope = one(params.scope) === 'samples' ? 'samples' : 'public';
+  const view = one(params.view) === 'map' ? 'map' : 'list';
   const query = (one(params.q) || '').trim().toLowerCase();
-  const rows = listIssues({
+  const requestedPage = Math.max(1, Number(one(params.page) || 1));
+  const pageSize = 12;
+  const rows = await listIssues({
+    scope,
     ward: ward || null,
     category: category || null,
     status: status || null,
     sort,
     limit: 100,
   });
-  const issues = query
+  const matches = query
     ? rows.filter((issue) =>
-        `${issue.title} ${issue.description} ${issue.locality} ${issue.issueId}`.toLowerCase().includes(query)
+        `${issue.title} ${issue.description} ${issue.locality} ${issue.issueId} ${issue.provenance?.publisher ?? ''}`.toLowerCase().includes(query)
       )
     : rows;
+  const pageCount = Math.max(1, Math.ceil(matches.length / pageSize));
+  const currentPage = Math.min(requestedPage, pageCount);
+  const issues = matches.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+
+  function href(overrides: Record<string, string | null>) {
+    const next = new URLSearchParams();
+    for (const [key, value] of Object.entries({ q: query, ward, category, status, sort, scope, view, ...overrides })) {
+      if (value && value !== 'newest' && value !== 'public' && value !== 'list') next.set(key, value);
+      if (key === 'scope' && value === 'samples') next.set(key, value);
+      if (key === 'view' && value === 'map') next.set(key, value);
+    }
+    const suffix = next.toString();
+    return suffix ? `/explore?${suffix}` : '/explore';
+  }
 
   return (
     <section className="container page-section page-stack">
       <div className="page-heading">
-        <span className="eyebrow">Public record</span>
-        <h1>See what is still waiting</h1>
-        <p>Filter safe civic infrastructure records by place, category, status, and time ignored. Live devnet proof and sample records stay visibly separate.</p>
+        <span className="eyebrow">Public civic record</span>
+        <h1>See what still needs a current answer</h1>
+        <p>Browse community reports and checked public-source dossiers. Illustrative samples stay in a separate view and never contribute to public totals.</p>
       </div>
+
+      <div className="explore-modes">
+        <nav className="scope-switch" aria-label="Record origin">
+          <Link className={scope === 'public' ? 'active' : ''} href={href({ scope: null, page: null })}>Public records</Link>
+          <Link className={scope === 'samples' ? 'active' : ''} href={href({ scope: 'samples', page: null })}>Illustrative samples</Link>
+        </nav>
+        <nav className="scope-switch" aria-label="Explore view">
+          <Link className={view === 'list' ? 'active' : ''} href={href({ view: null, page: null })}>List</Link>
+          <Link className={view === 'map' ? 'active' : ''} href={href({ view: 'map', page: null })}>Map</Link>
+        </nav>
+      </div>
+
       <form className="panel filter-bar">
+        <input type="hidden" name="scope" value={scope === 'samples' ? 'samples' : ''} />
+        <input type="hidden" name="view" value={view === 'map' ? 'map' : ''} />
         <label className="field">
           <span>Search</span>
-          <input name="q" defaultValue={query} placeholder="drain, light, waste, issue id" />
+          <input name="q" defaultValue={query} placeholder="drain, road, publisher, issue id" />
         </label>
         <label className="field">
-          <span>Ward</span>
+          <span>Area</span>
           <select name="ward" defaultValue={ward}>
-            <option value="">All wards</option>
+            <option value="">All areas</option>
             {wards.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
           </select>
         </label>
@@ -69,26 +102,37 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
           <span>Sort</span>
           <select name="sort" defaultValue={sort}>
             <option value="newest">Newest</option>
-            <option value="most_ignored">Most ignored</option>
-            <option value="most_verified">Most verified</option>
+            <option value="most_ignored">Longest observed</option>
+            <option value="most_verified">Most signals</option>
           </select>
         </label>
         <div className="row-actions">
           <button className="button crimson" type="submit">Apply</button>
-          <Link className="button secondary" href="/explore">Reset</Link>
+          <Link className="button secondary" href={scope === 'samples' ? '/explore?scope=samples' : '/explore'}>Reset</Link>
         </div>
       </form>
-      <ExploreMap issues={issues} />
-      <div className="result-count" role="status"><strong>{issues.length}</strong> visible record{issues.length === 1 ? '' : 's'}</div>
+
+      <div className="result-count" role="status"><strong>{matches.length}</strong> {scope === 'samples' ? 'illustrative sample' : 'public civic record'}{matches.length === 1 ? '' : 's'}</div>
+
       {issues.length ? (
-        <div className="issue-grid">{issues.map((issue) => <IssueCard key={issue.id} issue={issue} />)}</div>
+        view === 'map'
+          ? <ExploreMap issues={issues} />
+          : <div className="issue-grid">{issues.map((issue) => <IssueCard key={issue.id} issue={issue} />)}</div>
       ) : (
         <div className="empty-state">
-          <strong>No civic records match these filters.</strong>
+          <strong>No records match these filters.</strong>
           <span>Try a wider area or reset the current filter set.</span>
           <Link className="button secondary" href="/explore">Reset filters</Link>
         </div>
       )}
+
+      {pageCount > 1 ? (
+        <nav className="pagination" aria-label="Explore pages">
+          {currentPage > 1 ? <Link className="button secondary" href={href({ page: String(currentPage - 1) })}>Previous</Link> : <span />}
+          <span>Page {currentPage} of {pageCount}</span>
+          {currentPage < pageCount ? <Link className="button secondary" href={href({ page: String(currentPage + 1) })}>Next</Link> : <span />}
+        </nav>
+      ) : null}
     </section>
   );
 }

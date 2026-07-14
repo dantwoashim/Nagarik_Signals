@@ -5,7 +5,7 @@ export const runtime = 'nodejs';
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const issue = getIssue(id);
+  const issue = await getIssue(id);
   if (!issue) return NextResponse.json({ ok: false, error: 'issue_not_found' }, { status: 404 });
   return NextResponse.json({
     ok: true,
@@ -13,7 +13,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
     issue: {
       ...issue,
       daysIgnored: daysIgnored(issue),
-      verifications: listVerifications(issue.issueId),
+      verifications: await listVerifications(issue.issueId),
       proofData: issue.proof,
     },
   });

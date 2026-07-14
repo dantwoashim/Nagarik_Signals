@@ -12,3 +12,7 @@ data/session-keypairs/
 apps/web/public/uploads/
 apps/web/test-results/
 apps/web/playwright-report/
+
+.env
+.env.*
+!.env.example

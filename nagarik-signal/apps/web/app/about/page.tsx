@@ -4,16 +4,16 @@ import { categories } from '@/lib/constants/categories';
 
 const competitors = [
   ['Hello Sarkar', 'Government grievance intake', 'Nagarik Signal is a public proof layer civic groups can reference before or beside official systems.'],
-  ['FixMyStreet', 'Public issue reporting and routing', 'Nagarik Signal adds Solana proof, duplicate-resistant verification, and an auditable status timeline.'],
-  ['SeeClickFix', 'Municipal service requests', 'Nagarik Signal works without municipal adoption and focuses on public memory.'],
-  ['Ushahidi', 'Crowdsourced mapping', 'Nagarik Signal is narrower: civic infrastructure proof, hashes, PDAs, and status history.'],
-  ['Janamat', 'Verified civic opinion', 'Complementary: Janamat shows what citizens think; Nagarik Signal shows what citizens proved.'],
+  ['Kathmandu Gunaso', 'Municipal grievance routing and tracking', 'Nagarik Signal preserves a separately inspectable evidence commitment and source history.'],
+  ['Connect KMC', 'Official maps, services, emergencies, and Public Eye reports', 'Nagarik Signal is the narrow public-proof record beside official intake.'],
+  ['Local Pulse Nepal', 'City ratings, issue pins, and affected signals', 'Nagarik Signal verifies delivered evidence bytes and keeps origin classes separate.'],
+  ['DevTrack', 'Projects, officials, and a public accountability forum', 'Nagarik Signal avoids comments and people-focused claims while committing infrastructure evidence.'],
 ] as const;
 
 const solanaRows = [
   ['Issue creation timestamp', 'Operator-controlled timestamp', 'Public devnet transaction timestamp'],
   ['Evidence commitment', 'Can be replaced silently by operator', 'Evidence hash committed to Issue PDA'],
-  ['Duplicate verification', 'Application rule can be changed later', 'Verification PDA prevents duplicate signer/session verification'],
+  ['Duplicate verification', 'Application rule can be changed later', 'Verification PDA prevents a chain signer from signaling twice'],
   ['Status timeline', 'Admin history can be rewritten', 'StatusUpdate PDA and timeline hash create an audit trail'],
   ['Independent verification', 'Trust the platform export', 'Recompute displayed hashes and compare with chain state'],
 ] as const;
@@ -78,6 +78,36 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <section className="panel pad official-routing">
+        <span className="eyebrow">From proof to action</span>
+        <h2>Use the public record beside official channels</h2>
+        <p className="muted" style={{ lineHeight: 1.65 }}>
+          Nagarik Signal does not replace grievance intake. A resident or civic group can preserve an inspectable record here, then submit its public URL through the appropriate government channel and retain both references.
+        </p>
+        <div className="official-channel-grid">
+          <a href="https://gunaso.opmcm.gov.np/" target="_blank" rel="noreferrer">
+            <strong>Hello Sarkar</strong><span>Federal grievance portal and 1111 service</span>
+          </a>
+          <a href="https://gunaso.kathmandu.gov.np/register" target="_blank" rel="noreferrer">
+            <strong>Kathmandu Gunaso</strong><span>Municipal grievance registration for Kathmandu</span>
+          </a>
+          <a href="https://apps.apple.com/np/app/connect-kmc/id6767496815" target="_blank" rel="noreferrer">
+            <strong>Connect KMC</strong><span>Official KMC Public Eye reports, city services, and emergency routing</span>
+          </a>
+        </div>
+      </section>
+
+      <section className="panel pad">
+        <span className="eyebrow">Record provenance</span>
+        <h2>Four origins, never mixed</h2>
+        <div className="provenance-levels">
+          <div><strong>Community report</strong><span>Sanitized resident evidence with approximate location and a secured civic session.</span></div>
+          <div><strong>Public-source dossier</strong><span>A cited official or reputable public report, with publisher, checked date, expiry, and an explicit recheck boundary.</span></div>
+          <div><strong>Illustrative sample</strong><span>Interface data used to show possible workflows. It never contributes to civic totals.</span></div>
+          <div><strong>Technical fixture</strong><span>Smoke-test chain activity retained for engineering audit only and excluded from public discovery.</span></div>
+        </div>
+      </section>
+
       <section className="panel pad">
         <h2 style={{ marginTop: 0 }}>Competitor comparison</h2>
         <div className="table-list">
@@ -112,6 +142,23 @@ export default function AboutPage() {
             <Link className="button secondary" href="/dashboard">View dashboard</Link>
           </div>
         </section>
+      </div>
+
+      <section className="panel pad operating-model">
+        <span className="eyebrow">Operating model</span>
+        <h2>Free public records, paid institutional workflow</h2>
+        <div className="table-list">
+          <div className="table-row" style={{ gridTemplateColumns: '0.8fr 2.2fr' }}><strong>Residents</strong><span>Free reporting, browsing, proof checks, public links, and official-channel handoff.</span></div>
+          <div className="table-row" style={{ gridTemplateColumns: '0.8fr 2.2fr' }}><strong>Civic groups and newsrooms</strong><span>Moderation queues, assignment, exports, watchlists, source rechecks, delivery receipts, and verification APIs.</span></div>
+          <div className="table-row" style={{ gridTemplateColumns: '0.8fr 2.2fr' }}><strong>Municipal teams</strong><span>Optional triage and acknowledgement workflow without controlling or deleting the public proof record.</span></div>
+        </div>
+        <p className="muted" style={{ lineHeight: 1.65 }}>
+          The first responsible pilot is one locality, three categories, and a 90-day review window measured by acknowledgement time, resolution time, duplicate rate, source freshness, and proof availability. No pilot or institutional adoption is claimed yet.
+        </p>
+      </section>
+
+      <div className="notice">
+        Devnet is a public test network, and the deployed program is currently upgradeable by its authority. Hashes and transactions are independently inspectable, but this release does not claim legal finality, proof of personhood, or permanent hosted-media availability.
       </div>
     </section>
   );

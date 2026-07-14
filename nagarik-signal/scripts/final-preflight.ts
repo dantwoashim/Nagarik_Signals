@@ -1,29 +1,28 @@
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { seededDemoSummary } from '../apps/web/lib/db/demoSeed';
 import type { ReadModel } from '../apps/web/lib/db/queries';
 
 type JsonObject = Record<string, unknown>;
 
 const root = process.cwd();
-const baseUrl = process.env.NAGARIK_PREFLIGHT_BASE_URL ?? process.env.NAGARIK_PHASE5_BASE_URL ?? 'http://127.0.0.1:3001';
+const repositoryRoot = resolve(root, '..');
+const baseUrl = process.env.NAGARIK_PREFLIGHT_BASE_URL ?? 'http://127.0.0.1:3001';
 const readModelPath = resolve(root, 'data', 'read-model', 'nagarik-signal.json');
+const programId = '76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY';
 
 const requiredFiles = [
   'README.md',
   'ARCHITECTURE.md',
   'ROADMAP.md',
   'SAFETY.md',
-  'docs/competitors.md',
-  'docs/why-solana.md',
-  'docs/privacy-and-safety.md',
-  'docs/product-walkthrough.md',
-  'docs/product-faq.md',
-  'docs/public-posts.md',
-  'apps/web/app/about/page.tsx',
-  'apps/web/app/steward/page.tsx',
-  'scripts/phase2-api-smoke.ts',
-  'scripts/phase5-status-lifecycle-smoke.ts',
+  'docs/data-provenance.md',
+  'docs/security-model.md',
+  'docs/research-notes.md',
+  'docs/operating-model.md',
+  'data/public-sources/nepal-civic-watch-2026.json',
+  'data/public-sources/onchain-receipt.json',
+  'apps/web/app/api/reports/[id]/moderation/route.ts',
+  'scripts/verify-public-data.ts',
 ];
 
 function fail(message: string): never {
@@ -36,97 +35,103 @@ function readText(path: string) {
 
 function assertFiles() {
   const missing = requiredFiles.filter((path) => !existsSync(resolve(root, path)) || statSync(resolve(root, path)).size === 0);
-  if (missing.length) fail(`Missing or empty required files: ${missing.join(', ')}`);
+  if (missing.length) fail(`missing_or_empty_required_files:${missing.join(',')}`);
 }
 
 function assertDocs() {
-  const readme = readText('README.md');
-  const readmeLower = readme.toLowerCase();
-  const publicPosts = readText('docs/public-posts.md');
-  const requiredReadmeText = [
-    '76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY',
-    'Public proof for public problems',
-    'No tokens',
-    'phase5:smoke',
-  ];
-  const missing = requiredReadmeText.filter((text) => !readmeLower.includes(text.toLowerCase()));
-  if (missing.length) fail(`README is missing required text: ${missing.join(', ')}`);
-  if (!publicPosts.includes('Nagarik Signal is now available as a public read-only preview.')) {
-    fail('Public posts file is missing the public preview announcement.');
+  const canonicalReadmePath = resolve(repositoryRoot, 'README.md');
+  if (!existsSync(canonicalReadmePath) || statSync(canonicalReadmePath).size === 0) {
+    fail(`canonical_readme_missing_or_empty:${canonicalReadmePath}`);
+  }
+  const readme = readFileSync(canonicalReadmePath, 'utf8').toLowerCase();
+  const required = [programId.toLowerCase(), 'public proof for public problems', 'delivered-byte verification', 'vercel blob'];
+  const missing = required.filter((text) => !readme.includes(text));
+  if (missing.length) fail(`readme_missing_required_text:${missing.join(',')}`);
+  if (readme.includes('public read-only preview') || readme.includes('read-only public preview')) {
+    fail('readme_contains_stale_preview_claim');
   }
 }
 
 function assertReadModel() {
-  if (!existsSync(readModelPath)) fail(`Read model missing at ${readModelPath}. Run npm run seed:demo.`);
+  if (!existsSync(readModelPath)) fail(`read_model_missing:${readModelPath}`);
   const model = JSON.parse(readFileSync(readModelPath, 'utf8')) as ReadModel;
-  const summary = seededDemoSummary(model);
-  const failures = [
-    summary.issues >= 30 ? null : `visible issues ${summary.issues} < 30`,
-    summary.wards >= 5 ? null : `wards ${summary.wards} < 5`,
-    summary.verifications >= 10 ? null : `verifications ${summary.verifications} < 10`,
-    summary.resolved >= 2 ? null : `resolved ${summary.resolved} < 2`,
-    summary.inProgress >= 5 ? null : `in progress ${summary.inProgress} < 5`,
-    summary.unresolved >= 10 ? null : `unresolved ${summary.unresolved} < 10`,
-    summary.maxVerifications >= 3 ? null : `max verifications ${summary.maxVerifications} < 3`,
-  ].filter(Boolean);
-  if (failures.length) fail(`Seeded data is not sample-ready: ${failures.join('; ')}`);
-  const live = model.issues.filter((issue) => issue.proof.proofStatus === 'indexed_devnet');
-  if (!live.length) fail('No indexed_devnet issue exists for live ProofPanel verification.');
-  return { model, summary, liveIssueId: live.sort((a, b) => b.issueId - a.issueId)[0].issueId };
+  const sources = model.issues.filter((issue) => issue.recordKind === 'public_source');
+  const community = model.issues.filter((issue) => issue.recordKind === 'community_report');
+  const samples = model.issues.filter((issue) => issue.recordKind === 'illustrative_sample');
+  const fixtures = model.issues.filter((issue) => issue.recordKind === 'qa_fixture');
+  const publicIssues = [...sources, ...community].filter((issue) => issue.safetyReviewStatus !== 'rejected');
+  if (sources.length < 4) fail(`public_sources_below_4:${sources.length}`);
+  if (samples.length < 30) fail(`samples_below_30:${samples.length}`);
+  if (!fixtures.length) fail('qa_fixtures_missing');
+  if (sources.some((issue) => !issue.provenance || issue.proof.proofStatus !== 'indexed_devnet')) {
+    fail('source_provenance_or_devnet_proof_missing');
+  }
+  const latest = [...publicIssues]
+    .filter((issue) => issue.proof.proofStatus === 'indexed_devnet')
+    .sort((a, b) => b.issueId - a.issueId)[0];
+  if (!latest) fail('indexed_public_record_missing');
+  return {
+    model,
+    latestIssueId: latest.issueId,
+    counts: {
+      public: publicIssues.length,
+      sources: sources.length,
+      community: community.length,
+      samples: samples.length,
+      fixtures: fixtures.length,
+    },
+  };
 }
 
 async function fetchJson(path: string) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 15_000);
+  const response = await fetch(`${baseUrl}${path}`, { signal: AbortSignal.timeout(20_000) });
+  const text = await response.text();
+  let payload: JsonObject = {};
   try {
-    const response = await fetch(`${baseUrl}${path}`, { signal: controller.signal });
-    const text = await response.text();
-    let payload: JsonObject = {};
-    try {
-      payload = text ? JSON.parse(text) as JsonObject : {};
-    } catch {
-      payload = { raw: text };
-    }
-    if (!response.ok || payload.ok === false) {
-      fail(`${path} failed with HTTP ${response.status}: ${JSON.stringify(payload)}`);
-    }
-    return payload;
-  } finally {
-    clearTimeout(timeout);
+    payload = text ? JSON.parse(text) as JsonObject : {};
+  } catch {
+    payload = { raw: text };
   }
+  if (!response.ok || payload.ok === false) {
+    fail(`${path}_failed_http_${response.status}:${JSON.stringify(payload)}`);
+  }
+  return payload;
 }
 
 async function assertPage(path: string) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 15_000);
-  try {
-    const response = await fetch(`${baseUrl}${path}`, { signal: controller.signal });
-    if (!response.ok) fail(`${path} failed with HTTP ${response.status}`);
-    const text = await response.text();
-    if (text.length < 500) fail(`${path} returned an unexpectedly short page.`);
-  } finally {
-    clearTimeout(timeout);
-  }
+  const response = await fetch(`${baseUrl}${path}`, { signal: AbortSignal.timeout(20_000) });
+  if (!response.ok) fail(`${path}_failed_http_${response.status}`);
+  if ((await response.text()).length < 500) fail(`${path}_page_too_short`);
 }
 
-async function assertApp(liveIssueId: number) {
+async function assertApp(latestIssueId: number, publicCount: number) {
   const [health, dashboard, proof] = await Promise.all([
     fetchJson('/api/health'),
     fetchJson('/api/dashboard'),
-    fetchJson(`/api/verify-proof/${liveIssueId}`),
+    fetchJson(`/api/verify-proof/${latestIssueId}`),
   ]);
-  if (health.programId !== '76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY') {
-    fail(`Health endpoint returned unexpected program ID: ${String(health.programId)}`);
-  }
+  if (health.programId !== programId) fail(`unexpected_program_id:${String(health.programId)}`);
   const stats = dashboard.stats as JsonObject | undefined;
-  if (!stats || Number(stats.totalIssues ?? 0) < 30) fail('Dashboard API does not show the seeded sample dataset.');
-  if (proof.matches !== true) fail(`ProofPanel API did not return a green match for issue ${liveIssueId}.`);
+  if (!stats || Number(stats.totalIssues) !== publicCount) {
+    fail(`dashboard_public_count_mismatch:${String(stats?.totalIssues)}:${publicCount}`);
+  }
+  if (
+    proof.matches !== true
+    || proof.evidenceStatus !== 'match'
+    || proof.evidenceAvailable !== true
+    || proof.evidenceMatches !== true
+    || proof.storedEvidenceMatchesOnChain !== true
+  ) {
+    fail(`proof_not_fully_green:${JSON.stringify(proof)}`);
+  }
   await Promise.all([
     assertPage('/'),
     assertPage('/about'),
     assertPage('/dashboard'),
     assertPage('/explore'),
-    assertPage(`/issues/${liveIssueId}`),
+    assertPage('/report'),
+    assertPage('/steward'),
+    assertPage(`/issues/${latestIssueId}`),
   ]);
   return { health, dashboard, proof };
 }
@@ -134,23 +139,24 @@ async function assertApp(liveIssueId: number) {
 async function main() {
   assertFiles();
   assertDocs();
-  const { summary, liveIssueId } = assertReadModel();
-  const app = await assertApp(liveIssueId);
-
+  const { latestIssueId, counts } = assertReadModel();
+  const app = await assertApp(latestIssueId, counts.public);
+  const rpc = app.health.rpc as JsonObject | undefined;
   console.log(JSON.stringify({
     ok: true,
     action: 'final_preflight',
     baseUrl,
-    liveIssueId,
-    summary,
-    health: {
-      ok: app.health.ok,
-      programId: app.health.programId,
-      relayerBalanceSol: app.health.relayerBalanceSol,
+    latestIssueId,
+    counts,
+    rpc: {
+      ok: rpc?.ok,
+      programDeployed: rpc?.programDeployed,
+      relayerBalanceSol: rpc?.relayerBalanceSol,
     },
     proof: {
-      issueId: liveIssueId,
       matches: app.proof.matches,
+      evidenceStatus: app.proof.evidenceStatus,
+      evidenceByteLength: app.proof.evidenceByteLength,
       explorerUrl: app.proof.explorerUrl,
     },
   }, null, 2));

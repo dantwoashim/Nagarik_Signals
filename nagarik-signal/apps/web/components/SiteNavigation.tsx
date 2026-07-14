@@ -1,10 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { List, Plus, ShieldCheck, X } from '@phosphor-icons/react';
-import { WalletButton } from './WalletButton';
 import { publicPreviewReadOnly } from '@/lib/deployment';
 
 const nav = [
@@ -18,6 +17,15 @@ export function SiteNavigation() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    if (!open) return;
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') setOpen(false);
+    }
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [open]);
+
   return (
     <>
       <nav className="desktop-nav" aria-label="Main navigation">
@@ -30,7 +38,6 @@ export function SiteNavigation() {
           {publicPreviewReadOnly ? <ShieldCheck size={16} weight="bold" /> : <Plus size={16} weight="bold" />}
           {publicPreviewReadOnly ? 'Browse proof' : 'Report issue'}
         </Link>
-        {publicPreviewReadOnly ? null : <WalletButton />}
       </nav>
 
       <div className="mobile-nav-shell">
@@ -58,7 +65,6 @@ export function SiteNavigation() {
               {label}
             </Link>
           ))}
-          {publicPreviewReadOnly ? null : <WalletButton />}
         </nav>
       ) : null}
     </>

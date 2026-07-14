@@ -15,6 +15,8 @@ Useful commands:
 ```bash
 cd nagarik-signal
 npm run seed:demo
+npm run test:unit
+npm run verify:data
 npm run typecheck
 npm run lint
 npm run build

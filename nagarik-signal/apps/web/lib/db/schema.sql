@@ -6,6 +6,9 @@ create table if not exists issues (
   issue_pda text unique not null,
   reporter_pubkey text not null,
   reporter_mode text not null check (reporter_mode in ('session', 'wallet')),
+  record_kind text not null default 'community_report'
+    check (record_kind in ('community_report', 'public_source', 'illustrative_sample', 'qa_fixture')),
+  provenance jsonb,
   title text not null,
   description text not null,
   category text not null,
@@ -28,7 +31,8 @@ create table if not exists issues (
   resolution_photo_url text,
   create_tx_sig text,
   latest_tx_sig text,
-  safety_review_status text not null default 'visible',
+  safety_review_status text not null default 'visible'
+    check (safety_review_status in ('visible', 'hidden_media', 'disputed', 'rejected', 'resolved')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -80,12 +84,36 @@ create table if not exists stewards (
   revoked_at timestamptz
 );
 
+create table if not exists request_events (
+  id uuid primary key default gen_random_uuid(),
+  scope text not null,
+  identifier_hash text not null,
+  outcome text not null check (outcome in ('allowed', 'blocked', 'success', 'failure')),
+  metadata jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists rate_limit_buckets (
+  scope text not null,
+  identifier_hash text not null,
+  capacity integer not null check (capacity > 0),
+  window_ms bigint not null check (window_ms > 0),
+  tokens double precision not null check (tokens >= 0),
+  last_refill_at timestamptz not null,
+  updated_at timestamptz not null default now(),
+  primary key (scope, identifier_hash)
+);
+
 create index if not exists issues_visible_status_idx on issues (safety_review_status, status);
 create index if not exists issues_ward_status_idx on issues (ward_id, status);
 create index if not exists issues_category_status_idx on issues (category, status);
 create index if not exists issues_first_observed_idx on issues (first_observed_at desc);
+create index if not exists issues_record_kind_review_idx on issues (record_kind, safety_review_status);
 create index if not exists verifications_issue_created_idx on verifications (issue_id, created_at desc);
 create index if not exists status_updates_issue_seq_idx on status_updates (issue_id, seq);
+create index if not exists request_events_scope_created_idx on request_events (scope, created_at desc);
+create index if not exists request_events_identifier_created_idx on request_events (identifier_hash, created_at desc);
+create index if not exists rate_limit_buckets_updated_idx on rate_limit_buckets (updated_at);
 
 create or replace view dashboard_issue_stats as
 select
@@ -96,7 +124,8 @@ select
   avg(extract(epoch from (coalesce(proof_anchored_at, now()) - first_observed_at)) / 86400)
     filter (where status not in ('resolved', 'rejected')) as avg_days_observed_unresolved
 from issues
-where safety_review_status = 'visible';
+where safety_review_status <> 'rejected'
+  and record_kind in ('community_report', 'public_source');
 
 -- Ward leaderboard query used by /api/dashboard.
 -- select
@@ -107,7 +136,8 @@ where safety_review_status = 'visible';
 --   avg(extract(epoch from (now() - first_observed_at)) / 86400)
 --     filter (where status not in ('resolved', 'rejected')) as avg_days_ignored
 -- from issues
--- where safety_review_status = 'visible'
+-- where safety_review_status <> 'rejected'
+--   and record_kind in ('community_report', 'public_source')
 -- group by ward_id, locality
 -- order by avg_days_ignored desc, unresolved_count desc
 -- limit 10;

@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { applyChainIssue, getIssue } from '@/lib/db/queries';
 import { fetchAllIssueAccounts } from '@/lib/solana/readOnly';
 import { publicPreviewReadOnly } from '@/lib/deployment';
+import { assertRateLimit, rateLimitResponse } from '@/lib/security/rateLimit';
+import { requestIpHash } from '@/lib/security/request';
+import { secretsMatch } from '@/lib/security/secrets';
 
 export const runtime = 'nodejs';
 
@@ -10,11 +13,23 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: 'public_preview_read_only' }, { status: 503 });
   }
   const secret = request.headers.get('x-nagarik-reindex-secret');
-  if (process.env.NAGARIK_REINDEX_SECRET && secret !== process.env.NAGARIK_REINDEX_SECRET) {
+  if (process.env.NAGARIK_REINDEX_SECRET && !secretsMatch(secret, process.env.NAGARIK_REINDEX_SECRET)) {
     return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 });
   }
   if (!process.env.NAGARIK_REINDEX_SECRET && process.env.NODE_ENV === 'production') {
     return NextResponse.json({ ok: false, error: 'reindex_secret_required_in_production' }, { status: 401 });
+  }
+  try {
+    await assertRateLimit({ scope: 'reindex:ip', identifier: requestIpHash(request), limit: 10, windowMs: 60_000 });
+  } catch (error) {
+    const limited = rateLimitResponse(error);
+    if (limited) {
+      return NextResponse.json(
+        { ok: false, error: limited.code, retryAfterSeconds: limited.retryAfterSeconds },
+        { status: limited.status, headers: { 'Retry-After': String(limited.retryAfterSeconds) } }
+      );
+    }
+    return NextResponse.json({ ok: false, error: 'rate_limit_check_failed' }, { status: 500 });
   }
 
   try {
@@ -24,7 +39,7 @@ export async function POST(request: Request) {
     const mismatches = [];
 
     for (const chainIssue of chainIssues) {
-      const local = getIssue(chainIssue.issueId);
+      const local = await getIssue(chainIssue.issueId);
       if (!local) {
         missingReadRows.push({
           issueId: chainIssue.issueId,
@@ -44,7 +59,7 @@ export async function POST(request: Request) {
         mismatches.push(mismatch);
       }
 
-      const updated = applyChainIssue({
+      const updated = await applyChainIssue({
         issueId: chainIssue.issueId,
         status: chainIssue.status,
         verificationCount: chainIssue.verificationCount,

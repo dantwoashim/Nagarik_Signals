@@ -1,0 +1,49 @@
+{
+  "ok": true,
+  "generatedAt": "2026-07-14T15:43:50.438Z",
+  "cluster": "devnet",
+  "programId": "76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY",
+  "reporterPubkey": "EETUeH3fzpCAEDiGpvWWXa9zZQXadmuX79FzNsGdsCJ9",
+  "records": [
+    {
+      "slug": "nagdhunga-mugling-utility-poles",
+      "issueId": 12,
+      "issuePda": "E1pYBumVS2bgdfjFTZ7qKfNTJG7nyGxUnfLwAsc7Vs9m",
+      "txSig": "5vGKTAehcJL86D1bGUgKgkK6YQUR99M4ccDLYkVZxL6coDrfBJZMVZEv8jWjgRASQ67s7PMWaK16LtDE2TVUysvC",
+      "metadataHash": "48738fe98a7bb4f13da4b12313f465a5a2cc1b6ad2d77c6d27c5c5469e010ec1",
+      "evidenceHash": "12abf18f762ee5658e9b30390b5fa31e43ff358244961b8e6f9bde776a77c386",
+      "locationHash": "ed8317ce9f1f11fe3b3bd7f1818e50e80f6ac51a96b244b6615a84862db4252c",
+      "sourceUrl": "https://kathmandupost.com/national/2026/06/24/utility-pole-relocation-delays-hobble-road-widening-projects"
+    },
+    {
+      "slug": "central-kathmandu-drainage-capacity",
+      "issueId": 13,
+      "issuePda": "E6yoJ6Hb8zuPwXpx1545Y14VjM3dReQTYwqRneYMNGuV",
+      "txSig": "5NCVoL5WnBirPu7R15Tp3Gbw8umCwgHRYG8Zmf1RsqiP6JdoLr9ruzrkvFKsR3kGe4ADRXX6MZXEKWEfCaNdpbyP",
+      "metadataHash": "6f660b622ef736dc84f8de5fdb5a11f6f80d438bae683a7214eb693d426fee44",
+      "evidenceHash": "1e0b8565baa9a54f08cdf519bec2f12107c25aa76f735dad7b7690176890ee63",
+      "locationHash": "1256b7e45441004af780c96b57a2041a08884b31ab30dc091bbd9845f8e50f26",
+      "sourceUrl": "https://metronews.kathmandu.gov.np/news/detail/0507389732"
+    },
+    {
+      "slug": "bancharedanda-landfill-service-life",
+      "issueId": 14,
+      "issuePda": "CbgEF5T7QC6UamxfbXRzoaXeqciv6veN4DvUbDLtTPJi",
+      "txSig": "2sNYwswwUcD4CEdJGhPrsP9EvGhvCcr5UnLfHsSMNRTmrpzGpLgNrMWamuxuVFunr3WWNPgRA4Kec1aEEHAkBSvY",
+      "metadataHash": "fde3e2fe2ca1036b8a8ec68af22fa761c10ae00155c52f23f8b702fbfac61856",
+      "evidenceHash": "b3e2e714cec2986381bfd87be29608ab526b8a7a57208c51d4420e05cafbcdd1",
+      "locationHash": "84267c1145f3c672e70239608d99c2bda8ed59f7ed235212e1fe81964bf08a97",
+      "sourceUrl": "https://metronews.kathmandu.gov.np/news/detail/0607285852"
+    },
+    {
+      "slug": "dhangadhi-groundwater-shortage",
+      "issueId": 15,
+      "issuePda": "FYZUAY3v5n9cmpdVy6fBTgKyEd3jzcFKR8MJaiuDmu8Y",
+      "txSig": "4XrjWRCkpjm8kdUBgT4jdKxeykA98JobJQ9ShT4sfX5KsRt9dTgfzD7dq2SujXM1rA4BVcvKK5ArTZaeKXRrSd7d",
+      "metadataHash": "b8b83a20d59722bc974798c320ada13b87e24c8f6dc38cc316f778fdb0e246cb",
+      "evidenceHash": "0cb38416aa8be979554c502d4f53a9934b522a64e2272825c266115b5a4313fe",
+      "locationHash": "fd1692ecc1cb67fa280f33217d33bb8698e07d370de249e77c9bd9db6d5128f2",
+      "sourceUrl": "https://kathmandupost.com/national/2026/06/27/hand-pumps-are-dry-even-deep-borewells-no-longer-provide-enough-water"
+    }
+  ]
+}

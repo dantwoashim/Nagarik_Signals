@@ -5,6 +5,8 @@ import { sha256Hex } from '../proof/hash';
 
 export const allowedImageTypes = new Set(['image/jpeg', 'image/png', 'image/webp']);
 export const maxUploadBytes = 8 * 1024 * 1024;
+export const maxImagePixels = Number(process.env.NAGARIK_MAX_IMAGE_PIXELS ?? 20_000_000);
+export const maxSanitizedBytes = Number(process.env.NAGARIK_MAX_OUTPUT_BYTES ?? 2 * 1024 * 1024);
 
 function extensionFor(mediaType: string) {
   if (mediaType === 'image/jpeg') return 'jpg';
@@ -24,6 +26,7 @@ export async function sanitizeImage(file: File) {
   const image = sharp(input, { failOn: 'error' }).rotate();
   const metadata = await image.metadata();
   if (!metadata.width || !metadata.height) throw new Error('invalid_image');
+  if (metadata.width * metadata.height > maxImagePixels) throw new Error('image_dimensions_too_large');
 
   let sanitized: Buffer;
   if (file.type === 'image/png') {
@@ -33,6 +36,7 @@ export async function sanitizeImage(file: File) {
   } else {
     sanitized = await image.jpeg({ quality: 82, mozjpeg: true }).toBuffer();
   }
+  if (sanitized.length > maxSanitizedBytes) throw new Error('sanitized_image_too_large');
 
   const evidenceHash = await sha256Hex(sanitized);
   return {

@@ -28,7 +28,10 @@ Run:
 cd nagarik-signal
 npm run typecheck
 npm run lint
+npm run test:unit
+npm run verify:data
 npm run build
+npm run test:e2e
 npm run final:preflight
 ```
 
@@ -47,7 +50,8 @@ npm run anchor:test:devnet
 - Do not add token, reward, payment, betting, or prediction-market mechanics.
 - Do not claim official government status unless an official integration exists.
 - Keep proof language precise. A hash proves a commitment, not physical truth by itself.
-- Keep seeded rows labeled as demo data.
+- Keep source, community, sample, and QA record classes explicit and isolated.
+- Preserve delivered-byte verification and source review expiry.
 - Do not commit session keypairs, uploads, logs, env files, build output, or `node_modules`.
 
 ## Good Changes

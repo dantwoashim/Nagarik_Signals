@@ -1,6 +1,7 @@
 # Nagarik Signal
 
 [![CI](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/ci.yml/badge.svg)](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/ci.yml)
+[![Production Smoke](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/production-smoke.yml/badge.svg)](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/production-smoke.yml)
 [![Solana Devnet](https://img.shields.io/badge/Solana-devnet-14F195?logo=solana&logoColor=111)](https://explorer.solana.com/address/76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY?cluster=devnet)
 [![Next.js](https://img.shields.io/badge/Next.js-16-111?logo=next.js)](nagarik-signal/apps/web)
 [![License: MIT](https://img.shields.io/badge/license-MIT-b71f2d)](LICENSE)
@@ -108,9 +109,12 @@ npm run build
 npm run test:e2e
 npm run anchor:build
 npm run final:preflight
+npm run verify:deployment
 ```
 
 `anchor:test:devnet`, `phase2:smoke`, and `phase5:smoke` make funded devnet writes and require a configured relayer with devnet SOL.
+
+`verify:deployment` checks the stable production release SHA, runtime write capabilities, trusted-origin boundary, secure session minting, public pages, detailed map provider, dashboard, and delivered-byte Solana proof. The production-smoke workflow runs it after every push to `main` and once daily without creating a public record.
 
 ## Trust Boundaries
 

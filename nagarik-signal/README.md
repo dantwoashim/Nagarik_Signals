@@ -78,9 +78,12 @@ npm run build
 npm run test:e2e
 npm run anchor:build
 npm run final:preflight
+npm run verify:deployment
 ```
 
 The browser suite checks desktop and mobile overflow, source/sample separation, evidence rendering, public wording, proof interaction, and core navigation. The preflight verifies API behavior and proof surfaces against a running app.
+
+`verify:deployment` targets the stable hosted alias. It waits for an expected Git SHA when configured, then checks runtime capabilities, durable write prerequisites, trusted-origin rejection, secure session minting, public pages, map-style availability, dashboard totals, and delivered-byte proof without creating a public record.
 
 ## Proof Boundary
 

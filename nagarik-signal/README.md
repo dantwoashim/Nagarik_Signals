@@ -13,6 +13,8 @@ scripts/                     Import, proof, smoke, and maintenance tools
 idl/                         Checked program interface
 ```
 
+Authority handoff events live in the durable read model as a separate append-only, hash-chained audit log. They are not Solana accounts and are never presented as records authored by a receiving authority.
+
 ## Storage Modes
 
 `NAGARIK_STORAGE_MODE=local` uses an atomically replaced JSON file and local media directory. This is the default for development.
@@ -81,12 +83,14 @@ npm run final:preflight
 npm run verify:deployment
 ```
 
-The browser suite checks desktop and mobile overflow, source/sample separation, evidence rendering, public wording, proof interaction, and core navigation. The preflight verifies API behavior and proof surfaces against a running app.
+The browser suite checks desktop and mobile overflow, source/sample separation, evidence rendering, public wording, proof interaction, official handoff persistence and retries, and core navigation. Each run uses an isolated temporary data directory.
 
-`verify:deployment` targets the stable hosted alias. It waits for an expected Git SHA when configured, then checks runtime capabilities, durable write prerequisites, trusted-origin rejection, secure session minting, public pages, map-style availability, dashboard totals, and delivered-byte proof without creating a public record.
+`verify:deployment` targets the stable hosted alias. It waits for an expected Git SHA when configured, then checks runtime capabilities, durable write prerequisites, trusted-origin rejection, secure session minting, public pages, map-style availability, dashboard and handoff contracts, and delivered-byte proof without creating a public record.
 
 ## Proof Boundary
 
 The verifier checks canonical metadata, approximate location, timeline state, counters, resolution state, and the SHA-256 hash of delivered evidence bytes against the Issue PDA. A passing result proves consistency with the committed devnet account. It does not establish physical truth, proof of personhood, official acknowledgement, or legal finality.
+
+The authority handoff API has a different boundary. It proves that the platform retained a hash-chained steward event and its stated evidence basis. A prepared route proves only that an official channel was identified. A submitted state requires a reference or redacted receipt; an acknowledged state requires a privacy-reviewed receipt. None of these events is authority-authored unless a future authenticated integration explicitly establishes that identity.
 
 See [Architecture](ARCHITECTURE.md), [Security model](docs/security-model.md), [Data provenance](docs/data-provenance.md), and [Safety](SAFETY.md).

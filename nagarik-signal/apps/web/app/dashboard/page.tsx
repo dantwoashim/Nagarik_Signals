@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, CheckCircle, Pulse } from '@phosphor-icons/react/dist/ssr';
+import { ArrowRight, CheckCircle, PaperPlaneTilt, Pulse } from '@phosphor-icons/react/dist/ssr';
 import { DashboardStats } from '@/components/DashboardStats';
 import { IssueCard } from '@/components/IssueCard';
 import { WardLeaderboard } from '@/components/WardLeaderboard';
@@ -8,6 +8,7 @@ import { statusLabel } from '@/lib/constants/statuses';
 import {
   categoryBreakdown,
   dashboardStats,
+  authorityHandoffOverview,
   listIssues,
   listVerifications,
   mostIgnoredIssues,
@@ -15,8 +16,10 @@ import {
 } from '@/lib/db/queries';
 import { formatDateTime, shortText } from '@/lib/ui/format';
 
+export const dynamic = 'force-dynamic';
+
 export default async function DashboardPage() {
-  const [allIssues, samples, categories, ignoredIssues, resolvedIssues, allVerifications, stats] = await Promise.all([
+  const [allIssues, samples, categories, ignoredIssues, resolvedIssues, allVerifications, stats, handoffOverview] = await Promise.all([
     listIssues({ scope: 'public', sort: 'most_ignored', limit: 100 }),
     listIssues({ scope: 'samples', limit: 100 }),
     categoryBreakdown(),
@@ -24,6 +27,7 @@ export default async function DashboardPage() {
     recentResolvedIssues(5),
     listVerifications(),
     dashboardStats(),
+    authorityHandoffOverview(6),
   ]);
   const publicIssueIds = new Set(allIssues.map((issue) => issue.issueId));
   const verifications = allVerifications
@@ -31,6 +35,7 @@ export default async function DashboardPage() {
     .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
     .slice(0, 5);
   const visibleIssues = allIssues.slice(0, 4);
+  const issuesByNumber = new Map(allIssues.map((issue) => [issue.issueId, issue]));
   const maxCategoryTotal = Math.max(1, ...categories.map((row) => row.total));
 
   return (
@@ -43,6 +48,50 @@ export default async function DashboardPage() {
 
       <DashboardStats stats={stats} liveCount={allIssues.length} sampleCount={samples.length} />
       <WardLeaderboard />
+
+      <section className="dashboard-data-section dashboard-handoff-section" aria-labelledby="dashboard-handoff-heading">
+        <div className="dashboard-section-heading">
+          <div>
+            <span className="eyebrow"><PaperPlaneTilt size={14} weight="bold" /> Official follow-up</span>
+            <h2 id="dashboard-handoff-heading">What happened after a record was published</h2>
+          </div>
+          <p className="dashboard-section-context">Steward-recorded platform events, separate from authority systems and the on-chain status timeline.</p>
+        </div>
+        <div className="handoff-overview-grid">
+          <dl className="handoff-metric-strip">
+            <div><dt>Routed</dt><dd>{handoffOverview.stats.routedIssues}</dd><span>{handoffOverview.stats.preparedOnly} prepared only</span></div>
+            <div><dt>Submitted</dt><dd>{handoffOverview.stats.submittedIssues}</dd><span>reference or receipt recorded</span></div>
+            <div><dt>Acknowledged</dt><dd>{handoffOverview.stats.acknowledgedIssues}</dd><span>redacted artifact required</span></div>
+            <div className={handoffOverview.stats.overdueFollowUps ? 'metric-attention' : ''}>
+              <dt>Overdue</dt><dd>{handoffOverview.stats.overdueFollowUps}</dd><span>follow-ups past due</span>
+            </div>
+          </dl>
+          <div className="handoff-recent-list" aria-label="Recent handoff events">
+            <div className="handoff-recent-heading">
+              <strong>Recent events</strong>
+              <span>{handoffOverview.stats.totalEvents} total</span>
+            </div>
+            {handoffOverview.recent.length ? handoffOverview.recent.map((event) => {
+              const issue = issuesByNumber.get(event.issueId);
+              return (
+                <Link className="handoff-recent-row" key={event.id} href={`/issues/${issue?.id ?? event.issueId}#handoff`}>
+                  <span className={`handoff-recent-icon handoff-state-${event.state}`}>
+                    <PaperPlaneTilt size={17} weight="bold" />
+                  </span>
+                  <span><strong>Issue #{event.issueId}</strong><small>{event.authorityName} / {event.channelName}</small></span>
+                  <span><strong>{event.state.replaceAll('_', ' ')}</strong><small>{formatDateTime(event.occurredAt)}</small></span>
+                  <ArrowRight size={16} weight="bold" />
+                </Link>
+              );
+            }) : (
+              <div className="empty-state compact">
+                <strong>No official handoff events recorded.</strong>
+                <span>Prepared routes, channel deliveries, acknowledgements, and follow-ups will appear here without being conflated.</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
 
       <div className="dashboard-intelligence-grid">
         <section className="dashboard-data-section category-pressure" aria-labelledby="category-pressure-heading">

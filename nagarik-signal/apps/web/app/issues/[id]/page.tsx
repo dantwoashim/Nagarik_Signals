@@ -1,14 +1,15 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { ArrowSquareOut, Clock, ImageSquare, Newspaper, Pulse, ShieldCheck, ShieldWarning } from '@phosphor-icons/react/dist/ssr';
+import { ArrowSquareOut, Clock, ImageSquare, Newspaper, PaperPlaneTilt, Pulse, ShieldCheck, ShieldWarning } from '@phosphor-icons/react/dist/ssr';
 import { DaysIgnoredBadge } from '@/components/DaysIgnoredBadge';
+import { HandoffTimeline } from '@/components/HandoffTimeline';
 import { IssueMap } from '@/components/IssueMap';
 import { ProofPanel } from '@/components/ProofPanel';
 import { StatusTimeline } from '@/components/StatusTimeline';
 import { VerifyButton } from '@/components/VerifyButton';
 import { categoryLabel } from '@/lib/constants/categories';
 import { statusLabel } from '@/lib/constants/statuses';
-import { getIssue } from '@/lib/db/queries';
+import { getIssue, listAuthorityHandoffs } from '@/lib/db/queries';
 import { inferredRecordKind, recordKindLabel, sourceFreshness } from '@/lib/issues/recordKind';
 import { formatDateTime, shortText } from '@/lib/ui/format';
 
@@ -17,6 +18,8 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
   const issue = await getIssue(id);
   if (!issue) notFound();
   const kind = inferredRecordKind(issue);
+  const handoffEligible = kind === 'community_report' || kind === 'public_source';
+  const authorityHandoffs = handoffEligible ? await listAuthorityHandoffs(issue.issueId) : [];
   const sourceState = sourceFreshness(issue);
   const mediaVisible = issue.safetyReviewStatus !== 'hidden_media' && issue.safetyReviewStatus !== 'rejected';
 
@@ -110,6 +113,7 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
 
       <nav className="issue-jump-nav" aria-label="Issue page sections">
         <a href="#evidence"><ImageSquare size={17} weight="bold" />Evidence</a>
+        {handoffEligible ? <a href="#handoff"><PaperPlaneTilt size={17} weight="bold" />Follow-up</a> : null}
         <a href="#activity"><Pulse size={17} weight="bold" />Activity</a>
         <a href="#proof"><ShieldCheck size={17} weight="bold" />Verify proof</a>
       </nav>
@@ -132,6 +136,7 @@ export default async function IssuePage({ params }: { params: Promise<{ id: stri
         <div className="issue-lower-grid">
           <div className="issue-history-stack">
             {resolution}
+            {handoffEligible ? <div id="handoff"><HandoffTimeline issue={issue} handoffs={authorityHandoffs} /></div> : null}
             <div id="activity" className="issue-timeline"><StatusTimeline issue={issue} /></div>
             <div id="location" className="issue-map"><IssueMap issue={issue} /></div>
           </div>

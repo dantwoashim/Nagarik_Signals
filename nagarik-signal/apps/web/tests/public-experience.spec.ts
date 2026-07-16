@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { expect, test } from '@playwright/test';
 
 async function expectNoHorizontalOverflow(page: import('@playwright/test').Page) {
@@ -29,7 +30,7 @@ test('homepage leads with sourced public records and honest totals', async ({ pa
   await expectNoHorizontalOverflow(page);
 });
 
-test('source record exposes provenance, official handoff, and live proof', async ({ page }) => {
+test('source record exposes provenance, official handoff, and live proof', async ({ page, request }) => {
   test.slow();
   await page.goto('/issues/15#proof');
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
@@ -38,6 +39,19 @@ test('source record exposes provenance, official handoff, and live proof', async
   await expect(page.getByText('The Kathmandu Post', { exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: /Read original source/ })).toHaveAttribute('href', /kathmandupost\.com/);
   await expect(page.getByRole('link', { name: 'Open official grievance channel' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Authority handoff' })).toBeVisible();
+  await expect(page.getByText('Platform audit log.')).toBeVisible();
+  await expect(page.getByText('No official handoff recorded')).toBeVisible();
+  const handoffResponse = await request.get('/api/reports/15/handoff');
+  expect(handoffResponse.ok()).toBe(true);
+  expect(await handoffResponse.json()).toMatchObject({
+    ok: true,
+    mode: 'platform_audit_log_not_onchain',
+    integrity: true,
+    issueId: 15,
+    current: null,
+    handoffs: [],
+  });
   await page.getByRole('button', { name: 'Verify against Solana' }).click();
   await expect(page.getByText('on-chain match')).toBeVisible({ timeout: 45_000 });
   await expect(page.getByText(/delivered evidence bytes checked/)).toBeVisible();
@@ -124,16 +138,24 @@ test('mobile navigation, report flow, and issue hierarchy remain usable', async 
   await expectNoHorizontalOverflow(page);
 });
 
-test('steward console contains separate chain-status and media moderation controls', async ({ page }) => {
+test('dashboard and steward console keep chain status, handoff, and moderation separate', async ({ page }) => {
+  await page.goto('/dashboard');
+  await expect(page.getByRole('heading', { name: 'What happened after a record was published' })).toBeVisible();
+  await expect(page.locator('.handoff-metric-strip')).toContainText('prepared only');
+  await expect(page.locator('.handoff-metric-strip')).toContainText('Acknowledged');
+
   await page.goto('/steward');
-  await expect(page.getByRole('heading', { name: 'Moderate and update public status' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Moderate, update, and follow through' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Create status proof' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Record authority handoff' })).toBeVisible();
+  await expect(page.getByLabel('Handoff state')).toBeVisible();
+  await expect(page.getByText('This creates a platform steward audit event.')).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Control media and discovery' })).toBeVisible();
   await expect(page.getByLabel('Review outcome')).toBeVisible();
   await expectNoHorizontalOverflow(page);
 });
 
-test('mutation endpoints reject untrusted and malformed origins before parsing input', async ({ request }) => {
+test('mutation endpoints enforce origin, auth, append, and retry boundaries', async ({ request }) => {
   const untrusted = await request.post('/api/upload', { headers: { Origin: 'https://example.com' } });
   expect(untrusted.status()).toBe(403);
   expect(await untrusted.json()).toMatchObject({ ok: false, error: 'untrusted_origin' });
@@ -141,6 +163,69 @@ test('mutation endpoints reject untrusted and malformed origins before parsing i
   const malformed = await request.post('/api/upload', { headers: { Origin: 'not-a-url' } });
   expect(malformed.status()).toBe(403);
   expect(await malformed.json()).toMatchObject({ ok: false, error: 'invalid_origin' });
+
+  const untrustedHandoff = await request.post('/api/reports/15/handoff', {
+    headers: {
+      Origin: 'https://example.com',
+      'x-nagarik-steward-secret': 'nagarik-e2e-steward-secret-0123456789',
+    },
+    data: {},
+  });
+  expect(untrustedHandoff.status()).toBe(403);
+  expect(await untrustedHandoff.json()).toMatchObject({ ok: false, error: 'untrusted_origin' });
+
+  const unauthenticatedHandoff = await request.post('/api/reports/15/handoff', {
+    headers: { Origin: 'http://127.0.0.1:3001' },
+    data: {},
+  });
+  expect(unauthenticatedHandoff.status()).toBe(401);
+  expect(await unauthenticatedHandoff.json()).toMatchObject({ ok: false, error: 'unauthorized_steward' });
+
+  const idempotencyKey = randomUUID();
+  const preparedBody = {
+    idempotencyKey,
+    expectedPreviousEventHash: null,
+    state: 'prepared',
+    authorityName: 'Office of the Prime Minister and Council of Ministers',
+    channelName: 'Hello Sarkar',
+    channelUrl: 'https://gunaso.opmcm.gov.np/',
+    note: 'Official intake route prepared for operational follow-up. No delivery or authority response is claimed.',
+    occurredAt: new Date().toISOString(),
+  };
+  const trustedHeaders = {
+    Origin: 'http://127.0.0.1:3001',
+    'x-nagarik-steward-secret': 'nagarik-e2e-steward-secret-0123456789',
+  };
+  const prepared = await request.post('/api/reports/12/handoff', { headers: trustedHeaders, data: preparedBody });
+  expect(prepared.status()).toBe(201);
+  const preparedPayload = await prepared.json();
+  expect(preparedPayload).toMatchObject({
+    ok: true,
+    created: true,
+    mode: 'platform_audit_log_not_onchain',
+    integrity: true,
+    handoff: { issueId: 12, seq: 1, state: 'prepared', evidenceBasis: 'route_only' },
+  });
+  expect(preparedPayload.handoff.eventHash).toMatch(/^[0-9a-f]{64}$/);
+
+  const retried = await request.post('/api/reports/12/handoff', { headers: trustedHeaders, data: preparedBody });
+  expect(retried.status()).toBe(200);
+  expect(await retried.json()).toMatchObject({ ok: true, created: false, handoff: { eventHash: preparedPayload.handoff.eventHash } });
+
+  const conflictingRetry = await request.post('/api/reports/12/handoff', {
+    headers: trustedHeaders,
+    data: { ...preparedBody, authorityName: 'Different authority' },
+  });
+  expect(conflictingRetry.status()).toBe(409);
+  expect(await conflictingRetry.json()).toMatchObject({ ok: false, error: 'idempotency_key_reused' });
+
+  const publicTrail = await request.get('/api/reports/12/handoff');
+  expect(publicTrail.ok()).toBe(true);
+  expect(await publicTrail.json()).toMatchObject({
+    ok: true,
+    current: { eventHash: preparedPayload.handoff.eventHash },
+    handoffs: [{ state: 'prepared' }],
+  });
 });
 
 test('public pages avoid internal event-facing language', async ({ page }) => {

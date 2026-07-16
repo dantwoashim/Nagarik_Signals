@@ -15,6 +15,8 @@ Nagarik Signal protects a devnet civic-record workflow with a funded server rela
 | Duplicate public evidence | Full sanitized-byte hash rejected when already attached to a public record |
 | Storage races | Local lock and atomic rename; Blob ETag compare-and-swap with bounded retry |
 | Unauthorized status/moderation | Independent steward secret compared in constant time |
+| False or overwritten handoff history | Explicit transitions, expected previous hash, event hash chain, and idempotency key |
+| Sensitive receipt disclosure | Receipt reuse rejection, manual redaction declaration, sanitized upload path, and moderation-aware media proxy |
 | Hidden harmful media | Private, no-store media proxy blocks `hidden_media` and `rejected` artifacts |
 | False green proof | Delivered bytes are fetched and hashed; missing bytes fail the proof result |
 | Test data leakage | Record-kind filtering excludes samples and QA from public metrics |
@@ -39,6 +41,7 @@ The relayer secret accepts a Solana secret array or base64-encoded secret key an
 
 - A browser session is not a unique human. Cookie clearing and multiple clients can create more identities.
 - Manual moderation can miss unsafe content. No face or license-plate detector is claimed.
+- Receipt privacy review is manual and can miss names, case credentials, QR codes, or other identifying details.
 - The production relayer is a hot key and can be abused if server secrets are compromised.
 - Vercel Blob compare-and-swap protects state writes but is not a substitute for a transactional database at sustained high concurrency.
 - The devnet program remains upgradeable by its authority.

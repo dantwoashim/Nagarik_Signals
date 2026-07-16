@@ -57,3 +57,9 @@ Social posts may identify a research question, but they do not become public civ
 ## Status and Resolution
 
 A platform steward status update proves that the configured steward signer committed a new state and proof hash. A resolution image is an after-state artifact submitted by that steward. Neither is described as an official government action unless an official integration and authenticated author exist.
+
+## Authority Handoff Receipts
+
+The handoff ledger is platform-recorded and separate from the on-chain status timeline. A route marked `prepared` cannot include a case reference or receipt. Delivery requires an external reference or redacted receipt, and acknowledgement requires a newly uploaded receipt plus an explicit privacy-review declaration.
+
+Before upload, remove names, phone numbers, addresses, signatures, account details, QR codes, login links, and national identifiers. The normal image sanitation pipeline strips metadata but cannot reliably detect visible personal information. Stewards remain responsible for visual redaction. Moderation can later block receipt delivery while retaining its hash and audit event.

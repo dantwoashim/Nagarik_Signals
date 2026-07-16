@@ -553,6 +553,7 @@ export function createSeededDemoReadModel(existing?: ReadModel): ReadModel {
       ...seededIssues.flatMap(makeStatusUpdates),
       ...existingStatusUpdates,
     ],
+    authorityHandoffs: existing?.authorityHandoffs ?? [],
     sessions: existing?.sessions ?? [],
     stewards: [
       {
@@ -564,6 +565,8 @@ export function createSeededDemoReadModel(existing?: ReadModel): ReadModel {
       },
       ...(existing?.stewards ?? []).filter((row) => row.walletPubkey !== 'DemoStewardPubkey'),
     ],
+    requestEvents: existing?.requestEvents ?? [],
+    rateLimits: existing?.rateLimits ?? [],
   };
 }
 

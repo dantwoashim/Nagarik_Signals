@@ -3,9 +3,11 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { EyeSlash, FunnelSimple, LockKey, UploadSimple, WarningCircle } from '@phosphor-icons/react';
+import { StewardHandoffForm } from '@/components/StewardHandoffForm';
 import { categoryLabel } from '@/lib/constants/categories';
 import { isClosedStatus, statuses, statusLabel } from '@/lib/constants/statuses';
-import type { CivicIssue, IssueStatus, SafetyReviewStatus } from '@/lib/types';
+import { handoffStateLabel } from '@/lib/handoffs/policy';
+import type { AuthorityHandoff, CivicIssue, IssueStatus, SafetyReviewStatus } from '@/lib/types';
 import { formatDateTime, shortText } from '@/lib/ui/format';
 
 type StatusResult = {
@@ -54,7 +56,7 @@ function proofMatches(issue: CivicIssue, filter: ProofFilter) {
   return issue.proof.proofStatus === 'seeded_demo';
 }
 
-export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
+export function StewardConsole({ issues, authorityHandoffs }: { issues: CivicIssue[]; authorityHandoffs: AuthorityHandoff[] }) {
   const router = useRouter();
   const [selectedId, setSelectedId] = useState(issues[0]?.id ?? '');
   const [statusFilter, setStatusFilter] = useState<QueueStatus>('open');
@@ -68,6 +70,10 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
   const [moderationMessage, setModerationMessage] = useState('No moderation change submitted.');
   const [moderationResult, setModerationResult] = useState<ModerationResult | null>(null);
   const selected = useMemo(() => issues.find((issue) => issue.id === selectedId) ?? issues[0] ?? null, [issues, selectedId]);
+  const selectedHandoffs = useMemo(
+    () => authorityHandoffs.filter((handoff) => handoff.issueId === selected?.issueId).sort((left, right) => left.seq - right.seq),
+    [authorityHandoffs, selected?.issueId],
+  );
   const filteredIssues = useMemo(() => {
     const text = query.trim().toLowerCase();
     return issues.filter((issue) => {
@@ -166,6 +172,7 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
   const selectedClosed = isClosedStatus(selected.status);
   const selectedSeeded = selected.proof.proofStatus === 'seeded_demo';
   const lastTimeline = selected.timeline.at(-1);
+  const latestHandoff = selectedHandoffs.at(-1) ?? null;
 
   return (
     <section className="dashboard-band">
@@ -244,7 +251,9 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
                 <span className="mono muted">#{issue.issueId}</span>
                 <span>
                   <strong>{issue.title}</strong>
-                  <span className="muted" style={{ display: 'block', fontSize: 13 }}>{issue.locality}</span>
+                  <span className="muted" style={{ display: 'block', fontSize: 13 }}>
+                    {issue.locality} / {handoffStateLabel(authorityHandoffs.filter((handoff) => handoff.issueId === issue.issueId).at(-1)?.state)}
+                  </span>
                 </span>
                 <span className={`pill status-${issue.status}`}>{statusLabel(issue.status)}</span>
               </button>
@@ -305,6 +314,13 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
           </p>
         </form>
 
+        <StewardHandoffForm
+          key={`${selected.id}-${latestHandoff?.eventHash ?? 'no-handoff'}`}
+          issue={selected}
+          handoffs={selectedHandoffs}
+          secret={secret}
+        />
+
         <form action={moderate} className="panel pad form-grid">
           <div>
             <span className="eyebrow">Safety moderation</span>
@@ -352,6 +368,7 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
             <span className={`pill status-${selected.status}`}>{statusLabel(selected.status)}</span>
             <span className="pill">{selected.locality}</span>
             <span className="pill">{selected.safetyReviewStatus.replaceAll('_', ' ')}</span>
+            <span className={`pill handoff-state handoff-state-${latestHandoff?.state ?? 'none'}`}>{handoffStateLabel(latestHandoff?.state)}</span>
           </div>
           <p className="muted" style={{ lineHeight: 1.6 }}>{selected.description}</p>
           <div style={{ display: 'grid', gap: 8 }}>
@@ -366,6 +383,10 @@ export function StewardConsole({ issues }: { issues: CivicIssue[] }) {
             <div className="hash-row">
               <span className="muted">Last update</span>
               <code className="mono">{formatDateTime(lastTimeline?.createdAt)}</code>
+            </div>
+            <div className="hash-row">
+              <span className="muted">Handoff event</span>
+              <code className="mono">{latestHandoff ? `#${latestHandoff.seq} / ${shortText(latestHandoff.eventHash, 9, 7)}` : 'not routed'}</code>
             </div>
           </div>
           {selectedSeeded ? (

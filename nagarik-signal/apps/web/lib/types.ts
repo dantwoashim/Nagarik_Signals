@@ -21,6 +21,44 @@ export type RecordKind = 'community_report' | 'public_source' | 'illustrative_sa
 
 export type SafetyReviewStatus = 'visible' | 'hidden_media' | 'disputed' | 'rejected' | 'resolved';
 
+export type HandoffState = 'prepared' | 'submitted' | 'acknowledged' | 'follow_up' | 'closed';
+
+export type HandoffEvidenceBasis = 'route_only' | 'external_reference' | 'redacted_receipt';
+
+export type AuthorityHandoff = {
+  version: '1.0';
+  id: string;
+  idempotencyKey: string;
+  issueId: number;
+  seq: number;
+  state: HandoffState;
+  authorityName: string;
+  channelName: string;
+  channelUrl: string | null;
+  externalReference: string | null;
+  note: string;
+  occurredAt: string;
+  followUpDueAt: string | null;
+  receiptPhotoUrl: string | null;
+  receiptEvidenceHash: string | null;
+  receiptPrivacyReviewed: boolean;
+  evidenceBasis: HandoffEvidenceBasis;
+  recordedBy: 'platform_steward';
+  previousEventHash: string | null;
+  eventHash: string;
+  createdAt: string;
+};
+
+export type HandoffStats = {
+  routedIssues: number;
+  preparedOnly: number;
+  submittedIssues: number;
+  acknowledgedIssues: number;
+  overdueFollowUps: number;
+  closedHandoffs: number;
+  totalEvents: number;
+};
+
 export type IssueProvenance = {
   publisher: string;
   sourceTitle: string;

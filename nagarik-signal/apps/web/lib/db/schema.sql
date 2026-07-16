@@ -66,6 +66,47 @@ create table if not exists status_updates (
   unique(issue_id, seq)
 );
 
+create table if not exists authority_handoffs (
+  id uuid primary key default gen_random_uuid(),
+  version text not null default '1.0' check (version = '1.0'),
+  idempotency_key uuid unique not null,
+  issue_id bigint not null references issues(issue_id),
+  seq integer not null check (seq > 0),
+  state text not null check (state in ('prepared', 'submitted', 'acknowledged', 'follow_up', 'closed')),
+  authority_name text not null,
+  channel_name text not null,
+  channel_url text check (channel_url is null or channel_url ~ '^https://'),
+  external_reference text,
+  note text not null default '',
+  occurred_at timestamptz not null,
+  follow_up_due_at timestamptz,
+  receipt_photo_url text,
+  receipt_evidence_hash text check (receipt_evidence_hash is null or receipt_evidence_hash ~ '^[0-9a-f]{64}$'),
+  receipt_privacy_reviewed boolean not null default false,
+  evidence_basis text not null check (evidence_basis in ('route_only', 'external_reference', 'redacted_receipt')),
+  recorded_by text not null default 'platform_steward' check (recorded_by = 'platform_steward'),
+  previous_event_hash text check (previous_event_hash is null or previous_event_hash ~ '^[0-9a-f]{64}$'),
+  event_hash text unique not null check (event_hash ~ '^[0-9a-f]{64}$'),
+  created_at timestamptz not null default now(),
+  check (
+    (receipt_photo_url is null and receipt_evidence_hash is null and receipt_privacy_reviewed = false)
+    or (receipt_photo_url is not null and receipt_evidence_hash is not null and receipt_privacy_reviewed = true)
+  ),
+  check (state <> 'prepared' or (external_reference is null and receipt_photo_url is null)),
+  check (state <> 'submitted' or (external_reference is not null or receipt_photo_url is not null)),
+  check (state <> 'acknowledged' or receipt_photo_url is not null),
+  check (state not in ('submitted', 'follow_up') or follow_up_due_at is not null),
+  check (state <> 'closed' or follow_up_due_at is null),
+  unique(issue_id, seq)
+);
+
+create index if not exists authority_handoffs_issue_created_idx
+  on authority_handoffs(issue_id, created_at desc);
+
+create index if not exists authority_handoffs_follow_up_idx
+  on authority_handoffs(follow_up_due_at)
+  where state <> 'closed' and follow_up_due_at is not null;
+
 create table if not exists sessions (
   id uuid primary key default gen_random_uuid(),
   session_pubkey text unique not null,

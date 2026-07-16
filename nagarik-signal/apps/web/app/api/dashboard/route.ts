@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import {
   categoryBreakdown,
+  authorityHandoffOverview,
   dashboardStats,
   listVerifications,
   listIssues,
@@ -12,7 +13,7 @@ import {
 export const runtime = 'nodejs';
 
 export async function GET() {
-  const [stats, wards, categories, ignored, resolved, verifications, issues] = await Promise.all([
+  const [stats, wards, categories, ignored, resolved, verifications, issues, handoffs] = await Promise.all([
     dashboardStats(),
     wardLeaderboard(),
     categoryBreakdown(),
@@ -20,6 +21,7 @@ export async function GET() {
     recentResolvedIssues(5),
     listVerifications(),
     listIssues({ scope: 'public', limit: 100 }),
+    authorityHandoffOverview(6),
   ]);
   const publicIssueIds = new Set(issues.map((issue) => issue.issueId));
   return NextResponse.json({
@@ -34,5 +36,6 @@ export async function GET() {
       .filter((row) => publicIssueIds.has(row.issueId))
       .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
       .slice(0, 10),
+    handoffs,
   });
 }

@@ -175,20 +175,35 @@ async function main() {
   const issueId = Number(latest.issueId);
   if (!Number.isInteger(issueId) || issueId <= 0) fail(`invalid_latest_issue_id:${String(latest.issueId)}`);
 
-  const [{ payload: dashboard }, { payload: proof }, styleResponse, pageResults, mutation] = await Promise.all([
+  const [{ payload: dashboard }, { payload: proof }, { payload: handoff }, styleResponse, pageResults, mutation] = await Promise.all([
     fetchJson(`${baseUrl}/api/dashboard`, 'dashboard'),
     fetchJson(`${baseUrl}/api/verify-proof/${issueId}`, 'proof'),
+    fetchJson(`${baseUrl}/api/reports/${issueId}/handoff`, 'handoff'),
     fetch(styleUrl, { cache: 'no-store', signal: AbortSignal.timeout(30_000) }),
     Promise.all([
       fetchPage(`${baseUrl}/`, 'home', ['Public proof for public problems.']),
       fetchPage(`${baseUrl}/explore?view=map`, 'map', ['Public follow-up, mapped.', 'Live civic atlas']),
       fetchPage(`${baseUrl}/report`, 'report', ['Put a public problem on the record']),
-      fetchPage(`${baseUrl}/issues/${issueId}`, 'issue', ['Verify this record']),
+      fetchPage(`${baseUrl}/issues/${issueId}`, 'issue', ['Verify this record', 'Authority handoff']),
     ]),
     assertMutationBoundary(baseUrl, issueCountBefore),
   ]);
 
   const stats = object(dashboard.stats, 'dashboard_stats');
+  const handoffOverview = object(dashboard.handoffs, 'dashboard_handoffs');
+  if (handoffOverview.integrity !== true) fail('dashboard_handoff_integrity_not_verified');
+  const handoffStats = object(handoffOverview.stats, 'dashboard_handoff_stats');
+  for (const field of ['routedIssues', 'preparedOnly', 'submittedIssues', 'acknowledgedIssues', 'overdueFollowUps', 'closedHandoffs', 'totalEvents']) {
+    const value = Number(handoffStats[field]);
+    if (!Number.isInteger(value) || value < 0) fail(`invalid_handoff_stat:${field}:${String(handoffStats[field])}`);
+  }
+  if (handoff.mode !== 'platform_audit_log_not_onchain' || handoff.integrity !== true || Number(handoff.issueId) !== issueId || !Array.isArray(handoff.handoffs)) {
+    fail(`handoff_api_contract_invalid:${JSON.stringify(handoff)}`);
+  }
+  const authorityHandoffCount = Number(db.authorityHandoffCount);
+  if (!Number.isInteger(authorityHandoffCount) || authorityHandoffCount < 0) {
+    fail(`health_invalid_authority_handoff_count:${String(db.authorityHandoffCount)}`);
+  }
   if (Number(stats.totalIssues) < 4) fail(`public_issue_count_below_baseline:${String(stats.totalIssues)}`);
   if (
     proof.matches !== true
@@ -217,6 +232,11 @@ async function main() {
     },
     capabilities,
     publicIssueCount: stats.totalIssues,
+    handoffs: {
+      authorityHandoffCount,
+      ...handoffStats,
+      latestIssueEvents: handoff.handoffs.length,
+    },
     proof: {
       issueId,
       evidenceStatus: proof.evidenceStatus,

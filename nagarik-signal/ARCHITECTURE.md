@@ -33,7 +33,20 @@ The current hosted adapter is private Vercel Blob:
 - bounded retry with jitter;
 - atomic temp-file replacement in local mode.
 
-The normalized PostgreSQL design in `apps/web/lib/db/schema.sql` remains the migration target for higher write volume and richer reporting. It includes issue provenance, verification uniqueness, status updates, request events, and rate-limit buckets.
+The normalized PostgreSQL design in `apps/web/lib/db/schema.sql` remains the migration target for higher write volume and richer reporting. It includes issue provenance, verification uniqueness, status updates, authority handoffs, request events, and rate-limit buckets.
+
+## Authority Handoff Path
+
+Official follow-up is intentionally separate from the Solana lifecycle:
+
+1. A steward selects only a valid next state: `prepared`, `submitted`, `acknowledged`, `follow_up`, or `closed`.
+2. The API authenticates the steward, enforces the trusted Origin, session, body limit, and rate limit, and rejects samples and fixtures.
+3. `submitted` requires an external reference or redacted receipt. `acknowledged` requires a newly uploaded receipt and explicit privacy review.
+4. The event commits its normalized fields and previous event hash with SHA-256.
+5. The durable store compares the expected previous hash before appending, preventing stale concurrent writes.
+6. Public reads expose the chronology with a permanent platform-recorded boundary.
+
+An idempotency key returns the original immutable event on an exact-state retry. Reusing that key for another issue or state fails. A closed trail cannot be reopened by rewriting history.
 
 ## Identity and Signing
 
@@ -48,6 +61,8 @@ This gives stable duplicate detection for one browser session. Clearing cookies 
 - `Issue`: evidence, metadata, location, timeline, status, and count commitments.
 - `Verification`: one PDA per issue and signer.
 - `StatusUpdate`: one immutable update record per issue sequence.
+
+Authority handoffs are not Solana accounts. StatusUpdate PDAs prove the platform signer committed a civic lifecycle state; the handoff ledger records the platform's operational interaction with an external channel. Neither proves that an authority authored a response.
 
 Program ID:
 
@@ -72,6 +87,7 @@ The program is deployed on devnet and is currently upgradeable by its authority.
 - Untrusted or malformed Origins are rejected.
 - Invalid upload receipts cannot create records.
 - Blob conflicts retry and then return an explicit write-conflict error.
+- Handoff transitions, stale previous hashes, and reused idempotency keys fail explicitly.
 - Evidence mismatch or unavailability fails proof verification.
 - Session and global relayer limits protect the funded signer.
 - Rejected records leave public discovery; hidden media leaves the proof record visible without serving the artifact.

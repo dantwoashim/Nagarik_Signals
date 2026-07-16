@@ -2,14 +2,18 @@ import 'server-only';
 
 import { createHash, createHmac, randomUUID } from 'node:crypto';
 import type {
+  AuthorityHandoff,
   CivicIssue,
   DashboardStats,
+  HandoffStats,
   IssueCategory,
   IssueStatus,
   RecordKind,
   SafetyReviewStatus,
   StatusTimelineEntry,
 } from '../types';
+import { buildAuthorityHandoff, verifyAuthorityHandoffChain } from '../handoffs/hash';
+import { handoffDraftMatches, nextHandoffStates, type ValidatedHandoffDraft } from '../handoffs/policy';
 import { isClosedStatus } from '../constants/statuses';
 import { publicPreviewReadOnly } from '../deployment';
 import { readModelPath } from '../server/paths';
@@ -89,6 +93,7 @@ export type ReadModel = {
   issues: CivicIssue[];
   verifications: VerificationRecord[];
   statusUpdates: StatusUpdateRecord[];
+  authorityHandoffs: AuthorityHandoff[];
   sessions: SessionRecord[];
   stewards: StewardRecord[];
   requestEvents?: RequestEventRecord[];
@@ -136,6 +141,7 @@ function initialModel(): ReadModel {
     storage: 'local_json',
     requestEvents: snapshot.requestEvents ?? [],
     rateLimits: snapshot.rateLimits ?? [],
+    authorityHandoffs: snapshot.authorityHandoffs ?? [],
   };
 }
 
@@ -176,6 +182,7 @@ function normalizeReadModel(value: unknown, mode: DurableStorageMode): ReadModel
       : [],
     verifications: Array.isArray(raw.verifications) ? raw.verifications : [],
     statusUpdates: Array.isArray(raw.statusUpdates) ? raw.statusUpdates : [],
+    authorityHandoffs: Array.isArray(raw.authorityHandoffs) ? raw.authorityHandoffs : [],
     sessions: Array.isArray(raw.sessions) ? raw.sessions : [],
     stewards: Array.isArray(raw.stewards) ? raw.stewards : [],
     requestEvents: Array.isArray(raw.requestEvents) ? raw.requestEvents : [],
@@ -390,9 +397,109 @@ export async function updateSafetyReview(input: {
 }
 
 export async function mediaDisplayAllowed(photoUrl: string) {
-  const issue = (await readModel()).issues.find((row) => row.photoUrl === photoUrl);
+  const model = await readModel();
+  const handoff = model.authorityHandoffs.find((row) => row.receiptPhotoUrl === photoUrl);
+  const issue = model.issues.find((row) =>
+    row.photoUrl === photoUrl || row.resolutionPhotoUrl === photoUrl || row.issueId === handoff?.issueId
+  );
   if (!issue) return true;
   return issue.safetyReviewStatus !== 'hidden_media' && issue.safetyReviewStatus !== 'rejected';
+}
+
+export async function listAuthorityHandoffs(issueId?: number) {
+  const rows = (await readModel()).authorityHandoffs;
+  const filtered = rows
+    .filter((row) => issueId === undefined || row.issueId === issueId)
+    .sort((a, b) => a.issueId - b.issueId || a.seq - b.seq);
+  const grouped = new Map<number, AuthorityHandoff[]>();
+  for (const row of filtered) grouped.set(row.issueId, [...(grouped.get(row.issueId) ?? []), row]);
+  if ([...grouped.values()].some((timeline) => !verifyAuthorityHandoffChain(timeline))) {
+    throw new Error('authority_handoff_integrity_failed');
+  }
+  return filtered;
+}
+
+export async function addAuthorityHandoff(input: {
+  issueId: number;
+  idempotencyKey: string;
+  expectedPreviousEventHash: string | null;
+  draft: ValidatedHandoffDraft;
+}) {
+  return mutateReadModel((model) => {
+    const existing = model.authorityHandoffs.find((row) => row.idempotencyKey === input.idempotencyKey);
+    if (existing) {
+      if (existing.issueId !== input.issueId || !handoffDraftMatches(existing, input.draft)) {
+        throw new Error('idempotency_key_reused');
+      }
+      return { record: structuredClone(existing), created: false };
+    }
+
+    const issue = model.issues.find((row) => row.issueId === input.issueId);
+    if (!issue) throw new Error('issue_not_found');
+    const rows = model.authorityHandoffs
+      .filter((row) => row.issueId === input.issueId)
+      .sort((a, b) => a.seq - b.seq);
+    if (!verifyAuthorityHandoffChain(rows)) throw new Error('authority_handoff_integrity_failed');
+    const previous = rows.at(-1) ?? null;
+    if ((previous?.eventHash ?? null) !== input.expectedPreviousEventHash) {
+      throw new Error('handoff_state_changed');
+    }
+    if (!nextHandoffStates(previous?.state ?? null).includes(input.draft.state)) {
+      throw new Error('invalid_handoff_transition');
+    }
+    if (previous && Date.parse(input.draft.occurredAt) < Date.parse(previous.occurredAt)) {
+      throw new Error('handoff_event_precedes_previous_event');
+    }
+
+    const record = buildAuthorityHandoff({
+      id: randomUUID(),
+      idempotencyKey: input.idempotencyKey,
+      issueId: input.issueId,
+      seq: (previous?.seq ?? 0) + 1,
+      draft: input.draft,
+      previousEventHash: previous?.eventHash ?? null,
+      createdAt: new Date().toISOString(),
+    });
+    model.authorityHandoffs = [...model.authorityHandoffs, record]
+      .sort((a, b) => a.issueId - b.issueId || a.seq - b.seq);
+    return { record: structuredClone(record), created: true };
+  });
+}
+
+export async function authorityHandoffOverview(limit = 6, now = new Date()) {
+  const model = await readModel();
+  const publicIssueIds = new Set(model.issues
+    .filter((issue) => {
+      const kind = issueRecordKind(issue);
+      return (kind === 'community_report' || kind === 'public_source') && issue.safetyReviewStatus !== 'rejected';
+    })
+    .map((issue) => issue.issueId));
+  const events = model.authorityHandoffs.filter((row) => publicIssueIds.has(row.issueId));
+  const byIssue = new Map<number, AuthorityHandoff[]>();
+  for (const event of events) byIssue.set(event.issueId, [...(byIssue.get(event.issueId) ?? []), event]);
+  if ([...byIssue.values()].some((timeline) => !verifyAuthorityHandoffChain(timeline))) {
+    throw new Error('authority_handoff_integrity_failed');
+  }
+  const latest = [...byIssue.values()].map((rows) => rows.sort((a, b) => a.seq - b.seq).at(-1)!);
+  const nowMs = now.getTime();
+  const stats: HandoffStats = {
+    routedIssues: byIssue.size,
+    preparedOnly: latest.filter((row) => row.state === 'prepared').length,
+    submittedIssues: [...byIssue.values()].filter((rows) => rows.some((row) => row.state === 'submitted')).length,
+    acknowledgedIssues: [...byIssue.values()].filter((rows) => rows.some((row) => row.state === 'acknowledged')).length,
+    overdueFollowUps: latest.filter((row) => row.state !== 'closed'
+      && Boolean(row.followUpDueAt)
+      && Date.parse(row.followUpDueAt!) < nowMs).length,
+    closedHandoffs: latest.filter((row) => row.state === 'closed').length,
+    totalEvents: events.length,
+  };
+  return {
+    integrity: true,
+    stats,
+    recent: [...events]
+      .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt) || b.seq - a.seq)
+      .slice(0, Math.max(0, Math.min(limit, 20))),
+  };
 }
 
 export async function addVerification(record: VerificationRecord, issuePatch: Partial<CivicIssue>) {

@@ -34,7 +34,7 @@ The chain proves when a commitment was recorded and whether committed fields sti
 - **Provenance classes:** community reports, public-source dossiers, illustrative samples, and engineering fixtures are never mixed in public totals.
 - **Abuse controls:** trusted-origin checks, upload receipts, rate limits, duplicate-evidence rejection, relayer circuit breakers, and constant-time steward authentication.
 - **Moderation:** stewards can hide media while retaining proof, dispute a record, or remove a rejected record from discovery.
-- **Official handoff:** source-backed records link to the original publisher and the relevant government grievance channel.
+- **Official follow-up ledger:** stewards can record route preparation, channel delivery, a receipt-backed acknowledgement, follow-up, and closure without presenting those events as authority-authored updates.
 
 ## Public Data, Without Pretending
 
@@ -62,10 +62,12 @@ flowchart LR
     F --> H[Verification PDA]
     F --> I[StatusUpdate PDA]
     B --> J[Durable Blob read model]
+    B --> M[Steward handoff ledger]
     D --> K[Public media proxy]
     G --> L[Proof verifier]
     H --> L
     I --> L
+    M --> L
     J --> L
     K --> L
 ```
@@ -124,6 +126,7 @@ npm run verify:deployment
 | Record timestamp | A Solana transaction committed the issue | An authority accepted a legal complaint |
 | Public signal | One rate-limited session created one Verification PDA | One signal equals one unique person |
 | Status update | An authorized platform steward created a StatusUpdate PDA | A municipality authored or endorsed the update |
+| Authority handoff | A steward appended a hash-chained event with the stated route, reference, or redacted receipt | The receiving authority authored, verified, or endorsed the event |
 | Source dossier | The cited article and summary were checked on a stated date | The source remains current after its review window |
 
 The program is on devnet and remains upgradeable by its authority. The relayer is a server-held hot key. Mainnet use requires an external program review, multisig governance, formal moderation operations, data-retention policy, and institutional agreements.

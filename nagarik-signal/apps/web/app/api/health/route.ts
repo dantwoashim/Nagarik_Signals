@@ -53,6 +53,7 @@ export async function GET() {
       issueCount: model.issues.length,
       verificationCount: model.verifications.length,
       statusUpdateCount: model.statusUpdates.length,
+      authorityHandoffCount: model.authorityHandoffs.length,
       latestIndexedIssue: latest ? { issueId: latest.issueId, issuePda: latest.proof.issuePda, txSig: latest.proof.latestTxSig } : null,
       supabase: {
         configured: supabase.configured,

@@ -1,4 +1,9 @@
+import { randomUUID } from 'node:crypto';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { defineConfig, devices } from '@playwright/test';
+
+const isolatedDataDir = join(tmpdir(), 'nagarik-signal-e2e', randomUUID());
 
 export default defineConfig({
   testDir: './tests',
@@ -23,6 +28,7 @@ export default defineConfig({
       NEXT_PUBLIC_APP_URL: 'http://127.0.0.1:3001',
       NEXT_PUBLIC_NAGARIK_PUBLIC_PREVIEW: '0',
       NAGARIK_ALLOWED_ORIGINS: 'http://127.0.0.1:3001',
+      NAGARIK_DATA_DIR: isolatedDataDir,
       NAGARIK_STORAGE_MODE: 'local',
       NAGARIK_COOKIE_SECRET: 'nagarik-e2e-cookie-secret-0123456789',
       NAGARIK_SESSION_DERIVATION_SECRET: 'nagarik-e2e-session-secret-0123456789',

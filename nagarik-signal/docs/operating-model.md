@@ -7,8 +7,22 @@ Nagarik Signal keeps public reporting free. Revenue, if the service reaches an o
 - report and browse public infrastructure issues;
 - inspect evidence origin and proof state;
 - add a rate-limited corroboration signal;
-- retain a public URL for official grievance handoff;
-- see source freshness and steward history.
+- inspect official grievance routes and the platform's handoff chronology;
+- see source freshness, evidence basis, follow-up dates, and steward history.
+
+## Official Follow-up
+
+The handoff ledger is an operational record maintained by Nagarik Signal, not a mirror of a government case system.
+
+| State | Minimum evidence | Meaning |
+|---|---|---|
+| `prepared` | Named authority and channel | The route is ready; no delivery is claimed |
+| `submitted` | External reference or redacted receipt | A steward recorded delivery to the channel |
+| `acknowledged` | Privacy-reviewed redacted receipt | A steward retained an acknowledgement artifact |
+| `follow_up` | Public note and next due date | A further action was recorded |
+| `closed` | Public closing note | The handoff trail ended; the issue is not automatically resolved |
+
+Every event commits the previous event hash. Stewards cannot skip an invalid transition, backdate before the prior event, attach reused evidence, or silently reopen a closed trail. Public pages state that the receiving authority did not author or independently verify these records.
 
 ## Institutional Workflow
 

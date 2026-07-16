@@ -22,6 +22,8 @@ const requiredFiles = [
   'data/public-sources/nepal-civic-watch-2026.json',
   'data/public-sources/onchain-receipt.json',
   'apps/web/app/api/reports/[id]/moderation/route.ts',
+  'apps/web/app/api/reports/[id]/handoff/route.ts',
+  'apps/web/lib/handoffs/policy.ts',
   'scripts/verify-public-data.ts',
 ];
 
@@ -55,6 +57,7 @@ function assertDocs() {
 function assertReadModel() {
   if (!existsSync(readModelPath)) fail(`read_model_missing:${readModelPath}`);
   const model = JSON.parse(readFileSync(readModelPath, 'utf8')) as ReadModel;
+  if (!Array.isArray(model.authorityHandoffs)) fail('authority_handoffs_collection_missing');
   const sources = model.issues.filter((issue) => issue.recordKind === 'public_source');
   const community = model.issues.filter((issue) => issue.recordKind === 'community_report');
   const samples = model.issues.filter((issue) => issue.recordKind === 'illustrative_sample');
@@ -105,15 +108,26 @@ async function assertPage(path: string) {
 }
 
 async function assertApp(latestIssueId: number, publicCount: number) {
-  const [health, dashboard, proof] = await Promise.all([
+  const [health, dashboard, proof, handoff] = await Promise.all([
     fetchJson('/api/health'),
     fetchJson('/api/dashboard'),
     fetchJson(`/api/verify-proof/${latestIssueId}`),
+    fetchJson(`/api/reports/${latestIssueId}/handoff`),
   ]);
   if (health.programId !== programId) fail(`unexpected_program_id:${String(health.programId)}`);
   const stats = dashboard.stats as JsonObject | undefined;
   if (!stats || Number(stats.totalIssues) !== publicCount) {
     fail(`dashboard_public_count_mismatch:${String(stats?.totalIssues)}:${publicCount}`);
+  }
+  const handoffOverview = dashboard.handoffs as JsonObject | undefined;
+  const handoffStats = handoffOverview?.stats as JsonObject | undefined;
+  if (!handoffStats || !Array.isArray(handoffOverview?.recent) || handoffOverview?.integrity !== true) fail('dashboard_handoff_contract_missing');
+  for (const field of ['routedIssues', 'preparedOnly', 'submittedIssues', 'acknowledgedIssues', 'overdueFollowUps', 'closedHandoffs', 'totalEvents']) {
+    const value = Number(handoffStats[field]);
+    if (!Number.isInteger(value) || value < 0) fail(`dashboard_handoff_stat_invalid:${field}:${String(handoffStats[field])}`);
+  }
+  if (handoff.mode !== 'platform_audit_log_not_onchain' || handoff.integrity !== true || Number(handoff.issueId) !== latestIssueId || !Array.isArray(handoff.handoffs)) {
+    fail(`handoff_api_contract_invalid:${JSON.stringify(handoff)}`);
   }
   if (
     proof.matches !== true
@@ -133,7 +147,7 @@ async function assertApp(latestIssueId: number, publicCount: number) {
     assertPage('/steward'),
     assertPage(`/issues/${latestIssueId}`),
   ]);
-  return { health, dashboard, proof };
+  return { health, dashboard, proof, handoff };
 }
 
 async function main() {
@@ -158,6 +172,10 @@ async function main() {
       evidenceStatus: app.proof.evidenceStatus,
       evidenceByteLength: app.proof.evidenceByteLength,
       explorerUrl: app.proof.explorerUrl,
+    },
+    handoffs: {
+      latestIssueEvents: Array.isArray(app.handoff.handoffs) ? app.handoff.handoffs.length : null,
+      mode: app.handoff.mode,
     },
   }, null, 2));
 }

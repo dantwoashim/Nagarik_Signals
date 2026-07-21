@@ -78,12 +78,17 @@ npm run typecheck
 npm run lint
 npm run build
 npm run test:e2e
-npm run anchor:build
-npm run final:preflight
 npm run verify:deployment
 ```
 
 The browser suite checks desktop and mobile overflow, source/sample separation, evidence rendering, public wording, proof interaction, official handoff persistence and retries, and core navigation. Each run uses an isolated temporary data directory.
+
+`final:preflight` checks a running application. Start `npm run dev` in another terminal before running it locally, or set `NAGARIK_PREFLIGHT_BASE_URL=https://nagarik-signal.vercel.app` to check the stable deployment. `anchor:build` additionally requires the Solana and Anchor toolchains.
+
+```bash
+npm run final:preflight
+npm run anchor:build
+```
 
 `verify:deployment` targets the stable hosted alias. It waits for an expected Git SHA when configured, then checks runtime capabilities, durable write prerequisites, trusted-origin rejection, secure session minting, public pages, map-style availability, dashboard and handoff contracts, and delivered-byte proof without creating a public record.
 

@@ -109,9 +109,14 @@ npm run typecheck
 npm run lint
 npm run build
 npm run test:e2e
-npm run anchor:build
-npm run final:preflight
 npm run verify:deployment
+```
+
+`final:preflight` checks a running application. Start `npm run dev` in another terminal before running it locally, or set `NAGARIK_PREFLIGHT_BASE_URL=https://nagarik-signal.vercel.app` to check the stable deployment. `anchor:build` additionally requires the Solana and Anchor toolchains.
+
+```bash
+npm run final:preflight
+npm run anchor:build
 ```
 
 `anchor:test:devnet`, `phase2:smoke`, and `phase5:smoke` make funded devnet writes and require a configured relayer with devnet SOL.

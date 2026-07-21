@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { randomUUID } from 'node:crypto';
-import { mkdir, readFile, rename, rm, stat, writeFile } from 'node:fs/promises';
+import { mkdir, open, readFile, rename, rm, stat, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import {
   BlobNotFoundError,
@@ -28,6 +28,8 @@ type JsonStoreOptions<T> = {
 
 let localOperationTail: Promise<void> = Promise.resolve();
 const blobOperationTails = new Map<string, Promise<void>>();
+const LOCAL_LOCK_TIMEOUT_MS = 10_000;
+const LOCAL_LOCK_STALE_MS = 30_000;
 
 function configuredMode(): DurableStorageMode {
   const configured = process.env.NAGARIK_STORAGE_MODE?.trim().toLowerCase();
@@ -70,6 +72,43 @@ async function withLocalLock<T>(operation: () => Promise<T>): Promise<T> {
     return await operation();
   } finally {
     release();
+  }
+}
+
+async function withLocalFileLock<T>(path: string, operation: () => Promise<T>): Promise<T> {
+  const lockPath = `${path}.lock`;
+  const deadline = Date.now() + LOCAL_LOCK_TIMEOUT_MS;
+  await mkdir(dirname(path), { recursive: true });
+
+  let handle;
+  while (!handle) {
+    try {
+      handle = await open(lockPath, 'wx');
+    } catch (error) {
+      const code = (error as NodeJS.ErrnoException).code;
+      if (code !== 'EEXIST') throw error;
+
+      try {
+        const lock = await stat(lockPath);
+        if (Date.now() - lock.mtimeMs > LOCAL_LOCK_STALE_MS) {
+          await rm(lockPath, { force: true });
+          continue;
+        }
+      } catch (lockError) {
+        if ((lockError as NodeJS.ErrnoException).code === 'ENOENT') continue;
+        throw lockError;
+      }
+
+      if (Date.now() >= deadline) throw new Error('local_store_lock_timeout');
+      await new Promise((resolve) => setTimeout(resolve, 10 + Math.floor(Math.random() * 20)));
+    }
+  }
+
+  try {
+    return await operation();
+  } finally {
+    await handle.close();
+    await rm(lockPath, { force: true });
   }
 }
 
@@ -155,12 +194,14 @@ export function createJsonStore<T>(options: JsonStoreOptions<T>) {
   async function readLocal(): Promise<T> {
     return withLocalLock(async () => {
       const path = options.localPath();
-      const existing = await localSnapshot<unknown>(path);
-      if (existing) return options.normalize(existing.value, 'local_json');
+      return withLocalFileLock(path, async () => {
+        const existing = await localSnapshot<unknown>(path);
+        if (existing) return options.normalize(existing.value, 'local_json');
 
-      const created = prepare(options.normalize(options.create(), 'local_json'), 'local_json');
-      await writeLocal(path, created);
-      return created;
+        const created = prepare(options.normalize(options.create(), 'local_json'), 'local_json');
+        await writeLocal(path, created);
+        return created;
+      });
     });
   }
 
@@ -184,11 +225,13 @@ export function createJsonStore<T>(options: JsonStoreOptions<T>) {
   async function mutateLocal<R>(mutation: (model: T) => R): Promise<R> {
     return withLocalLock(async () => {
       const path = options.localPath();
-      const existing = await localSnapshot<unknown>(path);
-      const model = options.normalize(existing?.value ?? options.create(), 'local_json');
-      const result = mutation(model);
-      await writeLocal(path, prepare(model, 'local_json'));
-      return result;
+      return withLocalFileLock(path, async () => {
+        const existing = await localSnapshot<unknown>(path);
+        const model = options.normalize(existing?.value ?? options.create(), 'local_json');
+        const result = mutation(model);
+        await writeLocal(path, prepare(model, 'local_json'));
+        return result;
+      });
     });
   }
 

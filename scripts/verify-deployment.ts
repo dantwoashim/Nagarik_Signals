@@ -182,9 +182,9 @@ async function main() {
     fetch(styleUrl, { cache: 'no-store', signal: AbortSignal.timeout(30_000) }),
     Promise.all([
       fetchPage(`${baseUrl}/`, 'home', ['Public proof for public problems.']),
-      fetchPage(`${baseUrl}/explore?view=map`, 'map', ['Public follow-up, mapped.', 'Live civic atlas']),
-      fetchPage(`${baseUrl}/report`, 'report', ['Put a public problem on the record']),
-      fetchPage(`${baseUrl}/issues/${issueId}`, 'issue', ['Verify this record', 'Authority handoff']),
+      fetchPage(`${baseUrl}/explore?view=map`, 'map', ['Civic issues across Nepal', 'Open a location to inspect its evidence, public proof, and follow-up.']),
+      fetchPage(`${baseUrl}/report`, 'report', ['Report a public issue']),
+      fetchPage(`${baseUrl}/issues/${issueId}`, 'issue', ['Evidence', 'Official follow-up']),
     ]),
     assertMutationBoundary(baseUrl, issueCountBefore),
   ]);

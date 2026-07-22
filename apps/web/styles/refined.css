@@ -446,16 +446,16 @@ h3 { font-weight: 680; }
 .report-stage-tab strong { font-size: 12px; }
 .report-stage-viewport,
 .report-step { min-height: 570px; }
-.report-step { gap: 24px; padding: 30px; }
+.report-step { gap: 24px; padding: 30px; animation: none; }
 .report-step-heading h2 { font-size: 25px; }
-.report-step-heading p { font-size: 13px; }
+.report-step-heading p { color: var(--ink-soft); font-size: 13px; }
 .photo-dropzone { min-height: 290px; border-radius: 6px; background: var(--surface-subtle); }
 .photo-dropzone:hover { transform: none; }
-.photo-dropzone-copy span { font-size: 12px; }
+.photo-dropzone-copy span { color: var(--ink-soft); font-size: 12px; }
 .photo-dropzone-action { min-height: 44px; }
 
 .photo-processing-details {
-  color: var(--muted);
+  color: var(--ink-soft);
   font-size: 11px;
 }
 .photo-processing-details summary { width: max-content; cursor: pointer; font-weight: 650; }

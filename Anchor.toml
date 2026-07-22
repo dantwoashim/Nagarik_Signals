@@ -16,4 +16,4 @@ cluster = "localnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
-test = "/mnt/c/NODE/node.exe ../../node_modules/tsx/dist/cli.mjs tests/nagarik_signal.ts"
+test = "npx tsx tests/nagarik_signal.ts"

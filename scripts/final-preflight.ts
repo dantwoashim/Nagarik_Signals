@@ -5,7 +5,6 @@ import type { ReadModel } from '../apps/web/lib/db/queries';
 type JsonObject = Record<string, unknown>;
 
 const root = process.cwd();
-const repositoryRoot = resolve(root, '..');
 const baseUrl = process.env.NAGARIK_PREFLIGHT_BASE_URL ?? 'http://127.0.0.1:3001';
 const readModelPath = resolve(root, 'data', 'read-model', 'nagarik-signal.json');
 const programId = '76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY';
@@ -41,7 +40,7 @@ function assertFiles() {
 }
 
 function assertDocs() {
-  const canonicalReadmePath = resolve(repositoryRoot, 'README.md');
+  const canonicalReadmePath = resolve(root, 'README.md');
   if (!existsSync(canonicalReadmePath) || statSync(canonicalReadmePath).size === 0) {
     fail(`canonical_readme_missing_or_empty:${canonicalReadmePath}`);
   }

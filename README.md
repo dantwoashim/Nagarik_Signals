@@ -3,7 +3,7 @@
 [![CI](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/ci.yml/badge.svg)](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/ci.yml)
 [![Production Smoke](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/production-smoke.yml/badge.svg)](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/production-smoke.yml)
 [![Solana Devnet](https://img.shields.io/badge/Solana-devnet-14F195?logo=solana&logoColor=111)](https://explorer.solana.com/address/76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY?cluster=devnet)
-[![Next.js](https://img.shields.io/badge/Next.js-16-111?logo=next.js)](nagarik-signal/apps/web)
+[![Next.js](https://img.shields.io/badge/Next.js-16-111?logo=next.js)](apps/web)
 [![License: MIT](https://img.shields.io/badge/license-MIT-b71f2d)](LICENSE)
 
 **Public proof for public problems.**
@@ -12,7 +12,7 @@ Nagarik Signal preserves civic evidence as an inspectable public record. A repor
 
 [Open Nagarik Signal](https://nagarik-signal.vercel.app) | [Explore public records](https://nagarik-signal.vercel.app/explore) | [Inspect the program](https://explorer.solana.com/address/76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY?cluster=devnet)
 
-![Nagarik Signal public civic record](nagarik-signal/docs/assets/product-overview.png)
+![Nagarik Signal public civic record](docs/assets/product-overview.png)
 
 ## Why This Exists
 
@@ -76,11 +76,11 @@ The read model stores searchable civic context. Solana stores compact commitment
 
 | Component | Location |
 |---|---|
-| Next.js application and API | [`nagarik-signal/apps/web`](nagarik-signal/apps/web) |
-| Anchor program | [`nagarik-signal/programs/nagarik_signal`](nagarik-signal/programs/nagarik_signal) |
-| Source and proof scripts | [`nagarik-signal/scripts`](nagarik-signal/scripts) |
-| Public source manifest | [`nagarik-signal/data/public-sources`](nagarik-signal/data/public-sources) |
-| Database adapter target | [`nagarik-signal/apps/web/lib/db/schema.sql`](nagarik-signal/apps/web/lib/db/schema.sql) |
+| Next.js application and API | [`apps/web`](apps/web) |
+| Anchor program | [`programs/nagarik_signal`](programs/nagarik_signal) |
+| Source and proof scripts | [`scripts`](scripts) |
+| Public source manifest | [`data/public-sources`](data/public-sources) |
+| Database adapter target | [`apps/web/lib/db/schema.sql`](apps/web/lib/db/schema.sql) |
 
 Devnet program: [`76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY`](https://explorer.solana.com/address/76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY?cluster=devnet)
 
@@ -90,7 +90,7 @@ Requirements: Node.js 22+, npm, and a modern browser.
 
 ```bash
 git clone https://github.com/dantwoashim/Nagarik_Signals.git
-cd Nagarik_Signals/nagarik-signal
+cd Nagarik_Signals
 npm ci
 npm run seed:demo
 npm run dev
@@ -98,12 +98,11 @@ npm run dev
 
 Open `http://127.0.0.1:3001`.
 
-Local development uses an atomic JSON file by default. A writable hosted deployment sets `NAGARIK_STORAGE_MODE=blob`, a private `BLOB_READ_WRITE_TOKEN`, the relayer secret, and independent session/security secrets documented in [`.env.example`](nagarik-signal/.env.example).
+Local development uses an atomic JSON file by default. A writable hosted deployment sets `NAGARIK_STORAGE_MODE=blob`, a private `BLOB_READ_WRITE_TOKEN`, the relayer secret, and independent session/security secrets documented in [`.env.example`](.env.example).
 
 ## Verification
 
 ```bash
-cd nagarik-signal
 npm run test:unit
 npm run typecheck
 npm run lint
@@ -138,13 +137,13 @@ The program is on devnet and remains upgradeable by its authority. The relayer i
 
 ## Documentation
 
-- [Architecture](nagarik-signal/ARCHITECTURE.md)
-- [Data provenance](nagarik-signal/docs/data-provenance.md)
-- [Security model](nagarik-signal/docs/security-model.md)
-- [Research notes](nagarik-signal/docs/research-notes.md)
-- [Safety policy](nagarik-signal/SAFETY.md)
-- [Operating model](nagarik-signal/docs/operating-model.md)
-- [Roadmap](nagarik-signal/ROADMAP.md)
+- [Architecture](ARCHITECTURE.md)
+- [Data provenance](docs/data-provenance.md)
+- [Security model](docs/security-model.md)
+- [Research notes](docs/research-notes.md)
+- [Safety policy](SAFETY.md)
+- [Operating model](docs/operating-model.md)
+- [Roadmap](ROADMAP.md)
 
 ## Contributing and Security
 

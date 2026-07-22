@@ -13,7 +13,6 @@ For security-sensitive reports, use `SECURITY.md` instead of a public issue.
 Useful commands:
 
 ```bash
-cd nagarik-signal
 npm run seed:demo
 npm run test:unit
 npm run verify:data

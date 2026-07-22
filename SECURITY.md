@@ -43,4 +43,4 @@ Include:
 - The relayer is a server-held hot key protected by scoped limits and a reserve circuit breaker.
 - Resolution proof is a steward-submitted record, not an official completion certificate.
 
-The detailed threat model and remaining risks are documented in [`nagarik-signal/docs/security-model.md`](nagarik-signal/docs/security-model.md).
+The detailed threat model and remaining risks are documented in [`docs/security-model.md`](docs/security-model.md).

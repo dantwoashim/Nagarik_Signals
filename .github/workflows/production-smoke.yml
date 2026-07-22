@@ -19,9 +19,6 @@ jobs:
     name: Verify stable production
     runs-on: ubuntu-latest
     timeout-minutes: 12
-    defaults:
-      run:
-        working-directory: nagarik-signal
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -31,7 +28,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: nagarik-signal/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci

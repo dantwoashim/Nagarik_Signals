@@ -1,7 +1,6 @@
 node_modules
 apps/web/.next
 target
-programs/nagarik_signal/target
 data/session-keypairs
 data/logs
 apps/web/public/uploads

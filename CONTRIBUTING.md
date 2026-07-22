@@ -5,16 +5,17 @@ Nagarik Signal is a proof-first civic technology project. Contributions should m
 ## Project Layout
 
 ```text
-nagarik-signal/       Active product and program
-viral_sync_reuse/     Reference material only
+apps/web/                    Next.js application and API routes
+programs/nagarik_signal/    Anchor program
+data/                        Public sources and the local read model
+scripts/                     Proof, import, and maintenance tools
 ```
 
-Most product work should happen inside `nagarik-signal/`.
+The repository root is the workspace root. Application work belongs in `apps/web`; proof-program work belongs in `programs/nagarik_signal`.
 
 ## Local Setup
 
 ```bash
-cd nagarik-signal
 npm install
 npm run seed:demo
 npm run dev
@@ -25,7 +26,6 @@ npm run dev
 Run:
 
 ```bash
-cd nagarik-signal
 npm run typecheck
 npm run lint
 npm run test:unit

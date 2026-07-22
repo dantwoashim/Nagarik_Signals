@@ -23,6 +23,8 @@ dist/
 **/data/logs/
 **/data/session-keypairs/
 **/apps/web/public/uploads/
+**/apps/web/test-results/
+**/apps/web/playwright-report/
 *.log
 
 # Local/editor state
@@ -31,6 +33,7 @@ Thumbs.db
 .vercel/
 .vscode/
 .idea/
+.local-archive/
 
 # Scratch planning exports kept locally
 4.7.txt

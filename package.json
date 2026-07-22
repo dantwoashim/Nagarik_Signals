@@ -42,7 +42,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "next": "16.2.10"
+    "next": "16.2.11"
   },
   "overrides": {
     "jayson": {

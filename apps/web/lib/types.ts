@@ -149,6 +149,56 @@ export type VerificationResult = {
   txSig?: string | null;
 };
 
+export type ProofVerificationResponse = {
+  ok: boolean;
+  matches?: boolean;
+  mode?: string;
+  error?: string;
+  boundary?: string;
+  checkedAt?: string;
+  network?: string;
+  programId?: string;
+  issuePda?: string;
+  explorerUrl?: string | null;
+  metadataMatches?: boolean;
+  evidenceMatches?: boolean;
+  locationMatches?: boolean;
+  timelineMatches?: boolean;
+  resolutionMatches?: boolean;
+  statusMatches?: boolean;
+  countMatches?: boolean;
+  evidenceStatus?: 'match' | 'mismatch' | 'unavailable';
+  evidenceAvailable?: boolean;
+  evidenceError?: string | null;
+  evidenceByteLength?: number | null;
+  storedEvidenceMatchesOnChain?: boolean | null;
+  computed?: {
+    metadataHash?: string | null;
+    evidenceHash?: string | null;
+    locationHash?: string | null;
+    timelineHash?: string | null;
+    resolutionHash?: string | null;
+  };
+  stored?: {
+    metadataHash?: string | null;
+    evidenceHash?: string | null;
+    locationHash?: string | null;
+    timelineHash?: string | null;
+    resolutionHash?: string | null;
+  };
+  onChain?: {
+    metadataHash?: string;
+    evidenceHash?: string;
+    locationHash?: string;
+    status?: string;
+    verificationCount?: number;
+    updateCount?: number;
+    timelineHash?: string;
+    resolutionHash?: string;
+    proofAnchoredAt?: string | null;
+  } | null;
+};
+
 type ProofMetadataBase = {
   title: string;
   description: string;

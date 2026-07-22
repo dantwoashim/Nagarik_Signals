@@ -62,6 +62,8 @@ This gives stable duplicate detection for one browser session. Clearing cookies 
 - `Verification`: one PDA per issue and signer.
 - `StatusUpdate`: one immutable update record per issue sequence.
 
+The API and program enforce the same lifecycle policy. Open records can advance toward follow-up, resolution, dispute, or rejection; disputed records can return to review; resolved and rejected records are terminal. The program rejects unchanged, backward, and reopened states even when called outside the web application.
+
 Authority handoffs are not Solana accounts. StatusUpdate PDAs prove the platform signer committed a civic lifecycle state; the handoff ledger records the platform's operational interaction with an external channel. Neither proves that an authority authored a response.
 
 Program ID:

@@ -1,14 +1,6 @@
 import type { DashboardStats as DashboardStatsType } from '@/lib/types';
 
-export function DashboardStats({
-  stats,
-  liveCount,
-  sampleCount,
-}: {
-  stats: DashboardStatsType;
-  liveCount?: number;
-  sampleCount?: number;
-}) {
+export function DashboardStats({ stats }: { stats: DashboardStatsType }) {
   const rows = [
     ['Tracked civic records', stats.totalIssues],
     ['Need follow-up', stats.unresolvedIssues],
@@ -27,9 +19,6 @@ export function DashboardStats({
           </div>
         ))}
       </div>
-      {typeof liveCount === 'number' && typeof sampleCount === 'number' ? (
-        <p className="proof-scope"><strong>{liveCount} public records anchored on devnet</strong><span aria-hidden="true">/</span>{sampleCount} illustrative samples kept outside these totals</p>
-      ) : null}
     </section>
   );
 }

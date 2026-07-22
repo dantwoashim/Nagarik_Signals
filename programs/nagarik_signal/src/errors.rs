@@ -26,4 +26,6 @@ pub enum NagarikSignalError {
     ResolutionProofRequired,
     #[msg("Arithmetic overflow.")]
     ArithmeticOverflow,
+    #[msg("The requested status transition is not allowed.")]
+    InvalidStatusTransition,
 }

@@ -23,7 +23,7 @@ export function ReportLocation({ active }: ReportLocationProps) {
   const [lng, setLng] = useState(selectedWard.lng.toFixed(3));
   const [moving, setMoving] = useState(false);
   const [locationState, setLocationState] = useState<'idle' | 'locating' | 'ready' | 'error'>('idle');
-  const [locationMessage, setLocationMessage] = useState('Only the rounded point below enters the public record.');
+  const [locationMessage, setLocationMessage] = useState('Only the rounded point is published.');
   const apiRef = useRef<MapSurfaceApi | null>(null);
 
   function moveMap(nextLat: number, nextLng: number, animate = true) {
@@ -44,7 +44,7 @@ export function ReportLocation({ active }: ReportLocationProps) {
     const ward = getWard(nextWardId);
     setWardId(ward.id);
     setLocationState('idle');
-    setLocationMessage(`Centered on ${ward.locality}. Move the map to adjust the public point.`);
+    setLocationMessage(`Centered on ${ward.locality}. Move the map to adjust.`);
     moveMap(ward.lat, ward.lng);
   }
 
@@ -66,7 +66,7 @@ export function ReportLocation({ active }: ReportLocationProps) {
       }
       moveMap(roundedLat, roundedLng);
       setLocationState('ready');
-      setLocationMessage('Location rounded immediately to three decimals. Exact device coordinates were not retained.');
+      setLocationMessage('Location rounded. Exact device coordinates were not retained.');
     }, () => {
       setLocationState('error');
       setLocationMessage('Location permission was unavailable. Choose the nearest ward and move the map instead.');
@@ -87,7 +87,7 @@ export function ReportLocation({ active }: ReportLocationProps) {
     }
     moveMap(nextLat, nextLng);
     setLocationState('ready');
-    setLocationMessage('Manual point applied and rounded for publication.');
+    setLocationMessage('Point applied and rounded for publication.');
   }
 
   return (
@@ -109,6 +109,10 @@ export function ReportLocation({ active }: ReportLocationProps) {
             if (isInsideNepalMapBounds(roundedLat, roundedLng)) {
               setLat(roundedLat.toFixed(3));
               setLng(roundedLng.toFixed(3));
+            } else {
+              api.map.easeTo({ center: [Number(lng), Number(lat)], duration: api.reducedMotion ? 0 : 300 });
+              setLocationState('error');
+              setLocationMessage('Choose a point inside Nepal. The previous public point was kept.');
             }
             setMoving(false);
           }}
@@ -130,7 +134,7 @@ export function ReportLocation({ active }: ReportLocationProps) {
         <div className="location-control-heading">
           <span className="eyebrow"><Crosshair size={14} weight="bold" />Public geography</span>
           <h3>{selectedWard.label}</h3>
-          <p>{selectedWard.locality}. The area label stays primary; coordinates remain deliberately coarse.</p>
+          <p>{selectedWard.locality}. The published point stays deliberately coarse.</p>
         </div>
 
         <label className="field">
@@ -151,7 +155,7 @@ export function ReportLocation({ active }: ReportLocationProps) {
         <label className="field">
           <span>First observed</span>
           <input name="firstObservedAt" type="datetime-local" defaultValue={localDateTimeValue()} required />
-          <span className="helper">Use the first time you personally observed the infrastructure issue.</span>
+          <span className="helper">When you first saw the issue.</span>
         </label>
 
         <details className="advanced-location">

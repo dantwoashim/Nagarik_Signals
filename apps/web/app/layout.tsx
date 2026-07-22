@@ -1,10 +1,24 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Geist, Geist_Mono } from 'next/font/google';
 import { HashScrollRestorer } from '@/components/HashScrollRestorer';
 import { SiteNavigation } from '@/components/SiteNavigation';
 import { publicPreviewReadOnly } from '@/lib/deployment';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '../styles/globals.css';
+import '../styles/refined.css';
+
+const geist = Geist({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
+
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: {
@@ -20,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="preconnect" href="https://tiles.openfreemap.org" crossOrigin="anonymous" />
       </head>
-      <body>
+      <body className={`${geist.variable} ${geistMono.variable}`}>
         <a className="skip-link" href="#main-content">Skip to content</a>
         <div className="shell">
           <header className="site-header">
@@ -53,21 +67,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </div>
               <div className="footer-boundary">
                 <span><i className="status-dot" aria-hidden="true" />Solana devnet proof online</span>
-                <p>No tokens, rewards, payments, comments, personal accusations, or emergency reporting.</p>
+                <p>Public records, independent checks, and accountable follow-up.</p>
               </div>
-              <div className="footer-nav" aria-label="Footer navigation">
+              <nav className="footer-nav" aria-label="Footer navigation">
                 <div className="footer-links">
                   <strong>Use Nagarik</strong>
-                  <Link href="/explore">Public records</Link>
-                  <Link href="/dashboard">Accountability index</Link>
-                  {!publicPreviewReadOnly ? <Link href="/report">Create a signal</Link> : null}
+                  <Link href="/explore">Explore the map</Link>
+                  {!publicPreviewReadOnly ? <Link href="/report">Report an issue</Link> : null}
+                  <Link href="/dashboard">Public insights</Link>
                 </div>
                 <div className="footer-links">
                   <strong>Trust</strong>
-                  <Link href="/about">How proof works</Link>
-                  <Link href="/about#safety">Safety boundary</Link>
+                  <Link href="/about">How it works</Link>
+                  <Link href="/about#safety">Privacy and safety</Link>
                 </div>
-              </div>
+              </nav>
             </div>
           </footer>
         </div>

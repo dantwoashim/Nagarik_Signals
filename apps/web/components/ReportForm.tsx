@@ -61,7 +61,7 @@ export function ReportForm() {
   const movedRef = useRef(false);
   const [stage, setStage] = useState(0);
   const [step, setStep] = useState<SubmitStep>('idle');
-  const [message, setMessage] = useState('Ready to create a civic proof object.');
+  const [message, setMessage] = useState('');
   const [preview, setPreview] = useState<{ evidenceHash?: string; metadataHash?: string; locationHash?: string; photoUrl?: string }>({});
   const [review, setReview] = useState<ReviewSnapshot | null>(null);
   const [created, setCreated] = useState<CreatedReport | null>(null);
@@ -210,6 +210,11 @@ export function ReportForm() {
 
   return (
     <form ref={formRef} action={submit} className="report-workflow" aria-busy={busy}>
+      <div className="report-mobile-progress" role="status" aria-live="polite">
+        <span>Step {stage + 1} of {stages.length}</span>
+        <strong>{stages[stage].title}</strong>
+        <i aria-hidden="true"><span style={{ width: `${((stage + 1) / stages.length) * 100}%` }} /></i>
+      </div>
       <nav className="report-stage-nav" aria-label="Report progress">
         {stages.map((item, index) => {
           const Icon = item.icon;
@@ -232,20 +237,20 @@ export function ReportForm() {
 
       <div className="report-stage-viewport">
         <section className="report-step" data-stage="0" hidden={stage !== 0}>
-          <div className="report-step-heading"><span className="mono">01</span><div><h2 tabIndex={-1}>Add safe evidence</h2><p>Use one clear photo of the public asset. Image metadata is stripped before upload.</p></div></div>
+          <div className="report-step-heading"><span className="mono">01</span><div><h2 tabIndex={-1}>Add a photo</h2><p>Choose one clear image. Location metadata is removed.</p></div></div>
           <PhotoUpload />
           <div className="report-stage-actions end">
-            <button className="button primary" type="button" onClick={continueFlow}>Continue to details <ArrowRight size={17} weight="bold" /></button>
+            <button className="button primary" type="button" onClick={continueFlow}>Continue <ArrowRight size={17} weight="bold" /></button>
           </div>
         </section>
 
         <section className="report-step" data-stage="1" hidden={stage !== 1}>
-          <div className="report-step-heading"><span className="mono">02</span><div><h2 tabIndex={-1}>Describe only what is visible</h2><p>Keep the record factual, useful, and focused on public infrastructure.</p></div></div>
+          <div className="report-step-heading"><span className="mono">02</span><div><h2 tabIndex={-1}>Describe the issue</h2><p>State what is visible and how public access is affected.</p></div></div>
           <div className="form-grid">
             <label className="field">
               <span>Title</span>
               <input name="title" required minLength={8} maxLength={140} placeholder="Broken drain beside a public bus stop" />
-              <span className="helper">Name the asset and the observable problem. Avoid people, blame, or speculation.</span>
+              <span className="helper">Name the public asset and the visible problem.</span>
             </label>
             <label className="field">
               <span>Description</span>
@@ -255,21 +260,21 @@ export function ReportForm() {
           </div>
           <div className="report-stage-actions">
             <button className="button secondary" type="button" onClick={() => moveTo(0)}><ArrowLeft size={17} weight="bold" />Back</button>
-            <button className="button primary" type="button" onClick={continueFlow}>Continue to place <ArrowRight size={17} weight="bold" /></button>
+            <button className="button primary" type="button" onClick={continueFlow}>Continue <ArrowRight size={17} weight="bold" /></button>
           </div>
         </section>
 
         <section className="report-step" data-stage="2" hidden={stage !== 2}>
-          <div className="report-step-heading"><span className="mono">03</span><div><h2 tabIndex={-1}>Place it approximately</h2><p>Ward-level context is useful. Exact reporter coordinates are not.</p></div></div>
+          <div className="report-step-heading"><span className="mono">03</span><div><h2 tabIndex={-1}>Choose an approximate location</h2><p>The public map uses a rounded point.</p></div></div>
           <ReportLocation active={stage === 2} />
           <div className="report-stage-actions">
             <button className="button secondary" type="button" onClick={() => moveTo(1)}><ArrowLeft size={17} weight="bold" />Back</button>
-            <button className="button primary" type="button" onClick={continueFlow}>Review the record <ArrowRight size={17} weight="bold" /></button>
+            <button className="button primary" type="button" onClick={continueFlow}>Review <ArrowRight size={17} weight="bold" /></button>
           </div>
         </section>
 
         <section className="report-step final-step" data-stage="3" hidden={stage !== 3}>
-          <div className="report-step-heading"><span className="mono">04</span><div><h2 tabIndex={-1}>Review and anchor</h2><p>Confirm the public summary and inspect what the proof process will commit.</p></div></div>
+          <div className="report-step-heading"><span className="mono">04</span><div><h2 tabIndex={-1}>Review and publish</h2><p>Check the public record before publishing.</p></div></div>
           {review ? (
             <section className="review-summary" aria-label="Report review summary">
               <div><span>Public title</span><strong>{review.title}</strong></div>
@@ -282,20 +287,20 @@ export function ReportForm() {
             <SessionChoice />
             <ProofPreview {...preview} />
           </div>
-          <div className="submit-progress-block">
+          {step !== 'idle' ? <div className="submit-progress-block">
             <h3>Publishing progress</h3>
             <SubmitProgress current={step} />
-          </div>
+          </div> : null}
           <div className="report-stage-actions publish-actions">
             <button className="button secondary" type="button" onClick={() => moveTo(2)} disabled={busy}><ArrowLeft size={17} weight="bold" />Back</button>
             <button className="button primary submit-proof" type="submit" disabled={busy}>
               {busy ? <WarningCircle size={17} weight="bold" /> : <ShieldCheck size={17} weight="bold" />}
-              {busy ? 'Creating proof...' : 'Create public proof'}
+              {busy ? 'Publishing...' : 'Publish report'}
             </button>
           </div>
-          <p className={step === 'failed' ? 'proof-bad form-status' : 'form-status'} role={step === 'failed' ? 'alert' : 'status'} aria-live="polite">
+          {message ? <p className={step === 'failed' ? 'proof-bad form-status' : 'form-status'} role={step === 'failed' ? 'alert' : 'status'} aria-live="polite">
             {step === 'indexed' ? <CheckCircle size={16} weight="bold" /> : null} {message}
-          </p>
+          </p> : null}
           {created ? <div className="notice">Issue #{created.issueId} is indexed. <Link href={created.url}>Open public issue page</Link></div> : null}
         </section>
       </div>

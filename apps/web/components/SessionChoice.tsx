@@ -1,6 +1,6 @@
 'use client';
 
-import { IdentificationBadge, ShieldCheck } from '@phosphor-icons/react';
+import { IdentificationBadge } from '@phosphor-icons/react';
 
 export function SessionChoice() {
   return (
@@ -8,16 +8,14 @@ export function SessionChoice() {
       <div className="badge-row">
         <span className="eyebrow">
           <IdentificationBadge size={15} weight="bold" />
-          Civic session
+          Private session
         </span>
-        <span className="pill proof-ok">Gasless and private</span>
+        <span className="pill proof-ok">No wallet needed</span>
       </div>
       <p className="muted review-proof-copy">
-        The server creates a signed, HttpOnly civic session for this browser. The relayer sponsors the devnet transaction without exposing a session key or asking residents to hold SOL.
+        Nagarik creates a private browser session and sponsors the Solana fee. You do not need a wallet or SOL.
       </p>
-      <div className="session-boundary">
-        <ShieldCheck size={17} weight="bold" /> One session can report and corroborate only within published rate limits. It is not proof of legal identity or a unique person.
-      </div>
+      <p className="session-boundary">The session limits repeated actions. It does not identify you.</p>
     </section>
   );
 }

@@ -1,10 +1,10 @@
+import { Fingerprint, ImageSquare, MapPin } from '@phosphor-icons/react/dist/ssr';
 import { shortText } from '@/lib/ui/format';
 
 export function ProofPreview({
   evidenceHash,
   metadataHash,
   locationHash,
-  photoUrl,
 }: {
   evidenceHash?: string | null;
   metadataHash?: string | null;
@@ -12,25 +12,34 @@ export function ProofPreview({
   photoUrl?: string | null;
 }) {
   const rows = [
-    ['Evidence hash', evidenceHash],
-    ['Metadata hash', metadataHash],
-    ['Location hash', locationHash],
+    ['Photo', evidenceHash],
+    ['Issue details', metadataHash],
+    ['Approximate location', locationHash],
   ];
+  const hasHashes = rows.some(([, value]) => Boolean(value));
+
   return (
     <section className="review-proof-section proof-preview">
-      <h2>Proof preview</h2>
-      <p className="muted review-proof-copy">
-        These commitments are anchored to the Issue PDA. The public page recomputes them and compares against Solana.
-      </p>
-      {photoUrl ? <p className="pill">Sanitized upload ready</p> : <p className="pill">Upload evidence to preview hashes</p>}
-      <div className="proof-preview-rows">
-        {rows.map(([label, value]) => (
-          <div className="hash-row" key={label}>
-            <span className="muted">{label}</span>
-            <code className="mono">{value ? shortText(value, 14, 14) : 'pending'}</code>
+      <h2>Public proof</h2>
+      <p className="muted review-proof-copy">Publishing creates three tamper-evident commitments.</p>
+      <ul className="proof-commitment-list">
+        <li><ImageSquare size={17} weight="bold" /> Sanitized photo</li>
+        <li><Fingerprint size={17} weight="bold" /> Issue details</li>
+        <li><MapPin size={17} weight="bold" /> Approximate location</li>
+      </ul>
+      {hasHashes ? (
+        <details className="proof-preview-details">
+          <summary>Created hashes</summary>
+          <div className="proof-preview-rows">
+            {rows.map(([label, value]) => (
+              <div className="hash-row" key={label}>
+                <span className="muted">{label}</span>
+                <code className="mono">{value ? shortText(value, 14, 14) : 'pending'}</code>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </details>
+      ) : null}
     </section>
   );
 }

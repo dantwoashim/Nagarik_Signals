@@ -22,14 +22,12 @@ export default function ReportPage() {
   return (
     <section className="container page-section page-stack report-page">
       <div className="page-heading report-page-heading">
-        <span className="eyebrow">Create a signal</span>
-        <h1>Put a public problem on the record</h1>
-        <p>Add one safe image and the minimum civic context. The app removes image metadata, stores only an approximate location, and shows exactly what will be committed.</p>
+        <span className="eyebrow">New public record</span>
+        <h1>Report a public issue</h1>
+        <p>Add a photo, describe the issue, and choose an approximate location.</p>
       </div>
-      <div className="report-layout">
-        <ReportForm />
-        <SafetyModal />
-      </div>
+      <SafetyModal />
+      <ReportForm />
     </section>
   );
 }

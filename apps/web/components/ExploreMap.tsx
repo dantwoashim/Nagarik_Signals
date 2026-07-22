@@ -15,7 +15,7 @@ import {
 import type { GeoJSONSource, MapGeoJSONFeature, MapMouseEvent } from 'maplibre-gl';
 import { MapSurface, type MapSurfaceApi } from '@/components/maps/MapSurface';
 import { categoryLabel } from '@/lib/constants/categories';
-import { isClosedStatus, statusLabel } from '@/lib/constants/statuses';
+import { isClosedStatus, publicStatusLabel } from '@/lib/constants/statuses';
 import { issueBounds, issuesToFeatureCollection, kathmanduCenter } from '@/lib/geo/map';
 import { recordKindLabel } from '@/lib/issues/recordKind';
 import type { CivicIssue } from '@/lib/types';
@@ -133,7 +133,7 @@ function addAtlasLayers(api: MapSurfaceApi, issues: CivicIssue[], selectedId: st
   });
 }
 
-export function ExploreMap({ issues }: { issues: CivicIssue[] }) {
+export function ExploreMap({ issues, compact = false }: { issues: CivicIssue[]; compact?: boolean }) {
   const [selectedId, setSelectedId] = useState(issues[0]?.id ?? '');
   const apiRef = useRef<MapSurfaceApi | null>(null);
   const data = useMemo(() => issuesToFeatureCollection(issues), [issues]);
@@ -214,19 +214,21 @@ export function ExploreMap({ issues }: { issues: CivicIssue[] }) {
   if (!issues.length) return null;
 
   return (
-    <section className="civic-atlas" aria-labelledby="civic-atlas-title">
-      <header className="atlas-header">
-        <div>
-          <span className="eyebrow"><Crosshair size={15} weight="bold" />Live civic atlas</span>
-          <h2 id="civic-atlas-title">Public follow-up, spatially legible</h2>
-        </div>
-        <dl className="atlas-metrics" aria-label="Map summary">
-          <div><dt>Visible</dt><dd>{issues.length}</dd></div>
-          <div><dt>Open</dt><dd>{unresolved}</dd></div>
-          <div><dt>Areas</dt><dd>{areas}</dd></div>
-          <div><dt>On-chain</dt><dd>{anchored}</dd></div>
-        </dl>
-      </header>
+    <section className={`civic-atlas ${compact ? 'civic-atlas-compact' : ''}`} aria-labelledby="civic-atlas-title">
+      {compact ? <h2 id="civic-atlas-title" className="sr-only">Public issues and follow-up</h2> : (
+        <header className="atlas-header">
+          <div>
+            <span className="eyebrow"><Crosshair size={15} weight="bold" />Live map</span>
+            <h2 id="civic-atlas-title">Public issues and follow-up</h2>
+          </div>
+          <dl className="atlas-metrics" aria-label="Map summary">
+            <div><dt>Visible</dt><dd>{issues.length}</dd></div>
+            <div><dt>Open</dt><dd>{unresolved}</dd></div>
+            <div><dt>Areas</dt><dd>{areas}</dd></div>
+            <div><dt>On-chain</dt><dd>{anchored}</dd></div>
+          </dl>
+        </header>
+      )}
 
       <div className="atlas-workspace">
         <div className="atlas-map-column">
@@ -236,6 +238,7 @@ export function ExploreMap({ issues }: { issues: CivicIssue[] }) {
             initialCenter={kathmanduCenter}
             initialZoom={7}
             minZoom={5}
+            deferUntilVisible={compact}
             onMapReady={handleMapReady}
           >
             <div className="atlas-map-key" aria-hidden="true">
@@ -250,11 +253,23 @@ export function ExploreMap({ issues }: { issues: CivicIssue[] }) {
         </div>
 
         <aside className="atlas-rail" aria-label="Mapped civic records">
+          <label className="atlas-mobile-record-select">
+            <span>Choose a record</span>
+            <select
+              value={selected?.id ?? ''}
+              onChange={(event) => {
+                const issue = issues.find((item) => item.id === event.target.value);
+                if (issue) focusIssue(issue);
+              }}
+            >
+              {issues.map((issue) => <option key={issue.id} value={issue.id}>{issue.title}</option>)}
+            </select>
+          </label>
           {selected ? (
             <div className="atlas-selection" aria-live="polite">
               <div className="atlas-selection-media">
                 <Image src={selected.photoUrl} alt="" fill sizes="(max-width: 900px) 100vw, 320px" />
-                <span className={`pill status-${selected.status}`}>{statusLabel(selected.status)}</span>
+                <span className={`pill status-${selected.status}`}>{publicStatusLabel(selected.status)}</span>
               </div>
               <div className="atlas-selection-copy">
                 <span className="atlas-location"><MapPin size={15} weight="fill" />{selected.locality}</span>
@@ -264,12 +279,13 @@ export function ExploreMap({ issues }: { issues: CivicIssue[] }) {
                   <span><CheckCircle size={15} weight="bold" />{selected.verificationCount} signal{selected.verificationCount === 1 ? '' : 's'}</span>
                   <span><Clock size={15} weight="bold" />{isClosedStatus(selected.status) ? 'Closed record' : `${observedDays(selected)} days observed`}</span>
                 </div>
-                <Link className="atlas-open-record" href={`/issues/${selected.id}`}>Open proof record <ArrowRight size={17} weight="bold" /></Link>
+                <Link className="atlas-open-record" href={`/issues/${selected.id}`}>View public record <ArrowRight size={17} weight="bold" /></Link>
+                {compact ? <Link className="atlas-explore-all" href="/explore">Explore all issues</Link> : null}
               </div>
             </div>
           ) : null}
 
-          <div className="atlas-record-index">
+          {!compact ? <div className="atlas-record-index">
             <div className="atlas-record-index-head">
               <span>Visible records</span>
               <span className="mono">{String(issues.length).padStart(2, '0')}</span>
@@ -290,14 +306,14 @@ export function ExploreMap({ issues }: { issues: CivicIssue[] }) {
                 </button>
               ))}
             </div>
-          </div>
+          </div> : null}
         </aside>
       </div>
 
-      <footer className="atlas-footer">
-        <span>Locations are deliberately rounded before publication.</span>
-        <span>Map position indicates an area, never a reporter.</span>
-      </footer>
+      {!compact ? <footer className="atlas-footer">
+        <span>Locations are rounded before publication.</span>
+        <span>Markers show an area, not a reporter.</span>
+      </footer> : null}
     </section>
   );
 }

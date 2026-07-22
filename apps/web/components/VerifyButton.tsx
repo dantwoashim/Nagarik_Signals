@@ -29,19 +29,19 @@ export function VerifyButton({ issue }: { issue: CivicIssue }) {
   const kind = inferredRecordKind(issue);
   const [message, setMessage] = useState(
     publicPreviewReadOnly
-      ? 'Citizen signals are temporarily paused in this public preview. The independent Solana proof check below remains available.'
+      ? 'Public signals are temporarily paused.'
       : kind === 'illustrative_sample' || kind === 'qa_fixture'
       ? 'This record is outside the public verification flow.'
-      : 'A private server-minted civic session can add one public signal.'
+      : ''
   );
   const [busy, setBusy] = useState(false);
   const [payload, setPayload] = useState<VerifyPayload | null>(null);
 
-  async function verify() {
+  async function addSignal() {
     setBusy(true);
     setPayload(null);
     try {
-      setMessage('Creating a verification account on Solana devnet...');
+      setMessage('Recording one public signal on Solana...');
       const response = await fetch(`/api/reports/${encodeURIComponent(issue.id)}/verify`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -49,7 +49,7 @@ export function VerifyButton({ issue }: { issue: CivicIssue }) {
       });
       const result = await response.json() as VerifyPayload;
       setPayload(result);
-      setMessage(result.ok ? 'Public verification signal anchored and indexed.' : readableReason(result.reason));
+      setMessage(result.ok ? 'One public signal recorded on Solana.' : readableReason(result.reason));
       router.refresh();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'verification failed');
@@ -62,26 +62,24 @@ export function VerifyButton({ issue }: { issue: CivicIssue }) {
   const disabled = publicPreviewReadOnly || busy || kind === 'illustrative_sample' || kind === 'qa_fixture' || closed;
 
   return (
-    <section className="panel pad corroboration-panel">
+    <section id="attention" className="panel pad corroboration-panel">
       <div className="panel-heading-row">
-        <h2>Public corroboration</h2>
+        <h2>Public attention</h2>
         <span className={`pill ${payload?.ok ? 'proof-ok' : ''}`}>
-          {payload?.ok ? 'verified' : issue.verificationCount} signal{issue.verificationCount === 1 ? '' : 's'}
+          {payload?.ok ? (payload.verificationCount ?? issue.verificationCount + 1) : issue.verificationCount} signal{(payload?.verificationCount ?? issue.verificationCount) === 1 ? '' : 's'}
         </span>
       </div>
       <p className="muted panel-copy">
-        One server-minted civic session can signal once. This is a rate-limited corroboration signal, not proof of a unique person or an official acknowledgement.
+        Add one signal from this browser when the issue still needs attention. A signal is not evidence or an official response.
       </p>
-      <button type="button" onClick={verify} className="button green" disabled={disabled}>
+      <button type="button" onClick={addSignal} className="button green" disabled={disabled}>
         {busy ? <WarningCircle size={17} weight="bold" /> : <CheckCircle size={17} weight="bold" />}
-        {busy ? 'Anchoring signal...' : kind === 'public_source' ? 'This still needs follow-up' : 'I can corroborate this'}
+        {busy ? 'Adding signal...' : closed ? 'Record closed' : 'Add public signal'}
       </button>
-      <p className={payload && !payload.ok ? 'proof-bad panel-status' : 'muted panel-status'} role="status">
-        {message}
-      </p>
+      {message ? <p className={payload && !payload.ok ? 'proof-bad panel-status' : 'muted panel-status'} role="status">{message}</p> : null}
       {payload?.ok ? (
         <div className="notice">
-          Verification account: <code className="mono">{shortText(payload.verificationPda, 12, 10)}</code>
+          Signal account: <code className="mono">{shortText(payload.verificationPda, 12, 10)}</code>
           {payload.explorerUrl ? (
             <>
               {' '}

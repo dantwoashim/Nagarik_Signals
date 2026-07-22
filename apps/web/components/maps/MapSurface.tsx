@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { MapTrifold, WarningCircle } from '@phosphor-icons/react';
+import { ArrowClockwise, MapTrifold, WarningCircle } from '@phosphor-icons/react';
 import type { Map as MapLibreMap } from 'maplibre-gl';
 import { detailedMapStyleUrl, nepalMapInteractionBounds } from '@/lib/geo/map';
 
@@ -51,6 +51,7 @@ export function MapSurface({
   const onMoveStartRef = useRef(onMoveStart);
   const [visible, setVisible] = useState(!deferUntilVisible);
   const [state, setState] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle');
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     onMapReadyRef.current = onMapReady;
@@ -128,7 +129,7 @@ export function MapSurface({
 
         loadTimer = window.setTimeout(() => {
           if (!map.loaded() && !disposed) setState('error');
-        }, 18_000);
+        }, 5_000);
 
         resizeObserver = new ResizeObserver(() => map.resize());
         resizeObserver.observe(hostRef.current);
@@ -147,10 +148,10 @@ export function MapSurface({
       mapRef.current?.remove();
       mapRef.current = null;
     };
-  }, [active, controls, initialZoom, maxZoom, minZoom, styleUrl, visible]);
+  }, [active, attempt, controls, initialZoom, maxZoom, minZoom, styleUrl, visible]);
 
   return (
-    <div className={`map-surface ${className}`} data-map-state={state} aria-label={ariaLabel} aria-busy={state === 'loading'}>
+    <div className={`map-surface ${className}`} data-map-state={state} role="region" aria-label={ariaLabel} aria-busy={state === 'loading'}>
       <div ref={hostRef} className="map-surface-host" />
       {state === 'loading' ? (
         <div className="map-surface-state map-loading" role="status">
@@ -164,12 +165,15 @@ export function MapSurface({
           <WarningCircle size={23} weight="duotone" aria-hidden="true" />
           <strong>Detailed map unavailable</strong>
           <span>Location labels and record links remain available.</span>
+          <button type="button" className="button secondary" onClick={() => setAttempt((value) => value + 1)}>
+            <ArrowClockwise size={16} weight="bold" /> Retry map
+          </button>
         </div>
       ) : null}
       {children}
       <div className="map-attribution">
         <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a>
-        <span>·</span>
+        <span aria-hidden="true">/</span>
         <a href="https://openfreemap.org" target="_blank" rel="noreferrer">OpenFreeMap</a>
       </div>
     </div>

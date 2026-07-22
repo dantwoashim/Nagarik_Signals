@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { EyeSlash, FunnelSimple, LockKey, UploadSimple, WarningCircle } from '@phosphor-icons/react';
 import { StewardHandoffForm } from '@/components/StewardHandoffForm';
 import { categoryLabel } from '@/lib/constants/categories';
-import { isClosedStatus, statuses, statusLabel } from '@/lib/constants/statuses';
+import { isClosedStatus, statuses, statusLabel, validStatusTransitions } from '@/lib/constants/statuses';
 import { handoffStateLabel } from '@/lib/handoffs/policy';
 import type { AuthorityHandoff, CivicIssue, IssueStatus, SafetyReviewStatus } from '@/lib/types';
 import { formatDateTime, shortText } from '@/lib/ui/format';
@@ -171,6 +171,7 @@ export function StewardConsole({ issues, authorityHandoffs }: { issues: CivicIss
 
   const selectedClosed = isClosedStatus(selected.status);
   const selectedSeeded = selected.proof.proofStatus === 'seeded_demo';
+  const statusOptions = validStatusTransitions(selected.status);
   const lastTimeline = selected.timeline.at(-1);
   const latestHandoff = selectedHandoffs.at(-1) ?? null;
 
@@ -286,8 +287,8 @@ export function StewardConsole({ issues, authorityHandoffs }: { issues: CivicIss
           </label>
           <label className="field">
             <span>New status</span>
-            <select key={selected.id} name="newStatus" defaultValue={selected.status === 'submitted' ? 'in_progress' : 'resolved'}>
-              {statuses.map((status) => (
+            <select key={selected.id} name="newStatus" defaultValue={statusOptions.includes('in_progress') ? 'in_progress' : statusOptions[0]}>
+              {statuses.filter((status) => statusOptions.includes(status.id)).map((status) => (
                 <option key={status.id} value={status.id}>{status.label}</option>
               ))}
             </select>

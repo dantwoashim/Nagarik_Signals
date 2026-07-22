@@ -120,7 +120,8 @@
     { "code": 6008, "name": "IssueClosed", "msg": "Issue is closed." },
     { "code": 6009, "name": "InvalidSequence", "msg": "Invalid status update sequence." },
     { "code": 6010, "name": "ResolutionProofRequired", "msg": "Resolution proof is required for resolved status." },
-    { "code": 6011, "name": "ArithmeticOverflow", "msg": "Arithmetic overflow." }
+    { "code": 6011, "name": "ArithmeticOverflow", "msg": "Arithmetic overflow." },
+    { "code": 6012, "name": "InvalidStatusTransition", "msg": "The requested status transition is not allowed." }
   ],
   "types": [
     {

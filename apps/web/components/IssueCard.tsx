@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowUpRight, Eye, MapPin, ShieldWarning } from '@phosphor-icons/react/dist/ssr';
 import { categoryLabel } from '@/lib/constants/categories';
-import { statusLabel } from '@/lib/constants/statuses';
+import { publicStatusLabel } from '@/lib/constants/statuses';
 import { daysIgnored } from '@/lib/db/queries';
 import { isClosedStatus } from '@/lib/constants/statuses';
 import type { CivicIssue } from '@/lib/types';
@@ -49,7 +49,7 @@ export function IssueCard({ issue, variant = 'grid', priority = false }: { issue
           <div className="issue-card-copy">
             <div className="badge-row">
               <span>{categoryLabel(issue.category)}</span>
-              <span className={`status-${issue.status}`}>{statusLabel(issue.status)}</span>
+              <span className={`status-${issue.status}`}>{publicStatusLabel(issue.status)}</span>
             </div>
             <h3>{issue.title}</h3>
             <p>{issue.description}</p>

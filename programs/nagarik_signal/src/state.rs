@@ -102,3 +102,59 @@ pub fn valid_status(status: u8) -> bool {
 pub fn closed_status(status: u8) -> bool {
     status == STATUS_RESOLVED || status == STATUS_REJECTED
 }
+
+pub fn valid_status_transition(old_status: u8, new_status: u8) -> bool {
+    match old_status {
+        STATUS_SUBMITTED => matches!(
+            new_status,
+            STATUS_VERIFIED
+                | STATUS_IN_PROGRESS
+                | STATUS_RESOLVED
+                | STATUS_DISPUTED
+                | STATUS_REJECTED
+        ),
+        STATUS_VERIFIED => matches!(
+            new_status,
+            STATUS_IN_PROGRESS | STATUS_RESOLVED | STATUS_DISPUTED | STATUS_REJECTED
+        ),
+        STATUS_IN_PROGRESS => matches!(
+            new_status,
+            STATUS_RESOLVED | STATUS_DISPUTED | STATUS_REJECTED
+        ),
+        STATUS_DISPUTED => matches!(
+            new_status,
+            STATUS_SUBMITTED
+                | STATUS_VERIFIED
+                | STATUS_IN_PROGRESS
+                | STATUS_RESOLVED
+                | STATUS_REJECTED
+        ),
+        STATUS_RESOLVED | STATUS_REJECTED => false,
+        _ => false,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn lifecycle_moves_forward_and_closed_states_are_terminal() {
+        assert!(valid_status_transition(STATUS_SUBMITTED, STATUS_VERIFIED));
+        assert!(valid_status_transition(STATUS_VERIFIED, STATUS_IN_PROGRESS));
+        assert!(valid_status_transition(STATUS_IN_PROGRESS, STATUS_RESOLVED));
+        assert!(valid_status_transition(STATUS_DISPUTED, STATUS_IN_PROGRESS));
+
+        assert!(!valid_status_transition(STATUS_VERIFIED, STATUS_SUBMITTED));
+        assert!(!valid_status_transition(
+            STATUS_IN_PROGRESS,
+            STATUS_VERIFIED
+        ));
+        assert!(!valid_status_transition(
+            STATUS_RESOLVED,
+            STATUS_IN_PROGRESS
+        ));
+        assert!(!valid_status_transition(STATUS_REJECTED, STATUS_SUBMITTED));
+        assert!(!valid_status_transition(STATUS_SUBMITTED, STATUS_SUBMITTED));
+    }
+}

@@ -1,6 +1,14 @@
 import type { CivicIssue } from '@/lib/types';
-import { statusLabel } from '@/lib/constants/statuses';
 import { addressUrl, formatDateTime, shortText, txUrl } from '@/lib/ui/format';
+
+const historyLabels: Record<CivicIssue['status'], string> = {
+  submitted: 'Record created',
+  verified: 'Public attention threshold reached',
+  in_progress: 'Follow-up in progress',
+  resolved: 'Marked resolved',
+  disputed: 'Marked disputed',
+  rejected: 'Record closed',
+};
 
 export function StatusTimeline({ issue }: { issue: CivicIssue }) {
   const timeline = [...issue.timeline].sort(
@@ -9,7 +17,7 @@ export function StatusTimeline({ issue }: { issue: CivicIssue }) {
   return (
     <section className="panel pad timeline-panel">
       <div className="panel-heading-row">
-        <h2>Status timeline</h2>
+        <h2>Record history</h2>
         <span className="pill">{issue.updateCount} update{issue.updateCount === 1 ? '' : 's'}</span>
       </div>
       <div className="timeline">
@@ -17,34 +25,29 @@ export function StatusTimeline({ issue }: { issue: CivicIssue }) {
           const transactionUrl = txUrl(entry.txSig);
           const statusUpdateUrl = addressUrl(entry.statusUpdatePda);
           const stepLabel = entry.seq === 0
-            ? 'Issue proof'
+            ? issue.recordKind === 'public_source' ? 'Public source import' : 'Reporter'
             : Number.isInteger(entry.seq)
-              ? `StatusUpdate #${entry.seq}`
-              : 'Verification threshold';
+              ? 'Nagarik steward'
+              : 'Public signal';
           return (
             <article className="timeline-item" key={`${entry.seq}-${entry.status}-${entry.txSig ?? index}`}>
               <div className="timeline-head">
-                <strong>{index + 1}. {statusLabel(entry.status)}</strong>
+                <strong>{historyLabels[entry.status]}</strong>
                 <span className="muted">{formatDateTime(entry.createdAt)}</span>
               </div>
               <span className="pill timeline-step-label">{stepLabel}</span>
               <p className="muted timeline-note">{entry.note}</p>
-              <div className="hash-row">
-                <span className="muted">Proof hash</span>
-                <code className="mono">{shortText(entry.proofHash, 14, 14)}</code>
-              </div>
-              <div className="row-actions timeline-actions">
-                {transactionUrl ? (
-                  <a className="button secondary" href={transactionUrl} target="_blank" rel="noreferrer">
-                    Transaction
-                  </a>
-                ) : null}
-                {statusUpdateUrl ? (
-                  <a className="button secondary" href={statusUpdateUrl} target="_blank" rel="noreferrer">
-                    Status account
-                  </a>
-                ) : null}
-              </div>
+              <details className="timeline-technical">
+                <summary>Technical event</summary>
+                <div className="hash-row">
+                  <span className="muted">Proof hash</span>
+                  <code className="mono">{shortText(entry.proofHash, 14, 14)}</code>
+                </div>
+                <div className="row-actions timeline-actions">
+                  {transactionUrl ? <a className="button secondary" href={transactionUrl} target="_blank" rel="noreferrer">Transaction</a> : null}
+                  {statusUpdateUrl ? <a className="button secondary" href={statusUpdateUrl} target="_blank" rel="noreferrer">Status account</a> : null}
+                </div>
+              </details>
             </article>
           );
         })}

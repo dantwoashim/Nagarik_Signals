@@ -3,7 +3,9 @@ use anchor_lang::solana_program::hash::hashv;
 
 use crate::errors::NagarikSignalError;
 use crate::events::StatusUpdated;
-use crate::state::{valid_status, Issue, StatusUpdate, Steward, STATUS_RESOLVED};
+use crate::state::{
+    valid_status, valid_status_transition, Issue, StatusUpdate, Steward, STATUS_RESOLVED,
+};
 
 #[derive(Accounts)]
 #[instruction(seq: u32)]
@@ -43,11 +45,24 @@ pub fn handler(
     new_status: u8,
     proof_hash: [u8; 32],
 ) -> Result<()> {
-    require!(ctx.accounts.steward.active, NagarikSignalError::StewardInactive);
+    require!(
+        ctx.accounts.steward.active,
+        NagarikSignalError::StewardInactive
+    );
     require!(valid_status(new_status), NagarikSignalError::InvalidStatus);
+    require!(
+        valid_status_transition(ctx.accounts.issue.status, new_status),
+        NagarikSignalError::InvalidStatusTransition
+    );
     require!(proof_hash != [0; 32], NagarikSignalError::InvalidHash);
-    require!(seq == ctx.accounts.issue.update_count + 1, NagarikSignalError::InvalidSequence);
-    require!(new_status != STATUS_RESOLVED || proof_hash != [0; 32], NagarikSignalError::ResolutionProofRequired);
+    require!(
+        seq == ctx.accounts.issue.update_count + 1,
+        NagarikSignalError::InvalidSequence
+    );
+    require!(
+        new_status != STATUS_RESOLVED || proof_hash != [0; 32],
+        NagarikSignalError::ResolutionProofRequired
+    );
 
     let now = Clock::get()?.unix_timestamp;
     let issue_key = ctx.accounts.issue.key();

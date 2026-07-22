@@ -20,7 +20,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
   const status = one(params.status) || '';
   const sort = one(params.sort) || 'newest';
   const scope = one(params.scope) === 'samples' ? 'samples' : 'public';
-  const view = one(params.view) === 'map' ? 'map' : 'list';
+  const view = one(params.view) === 'list' ? 'list' : 'map';
   const query = (one(params.q) || '').trim().toLowerCase();
   const requestedPage = Math.max(1, Number(one(params.page) || 1));
   const pageSize = 12;
@@ -50,18 +50,20 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
   function href(overrides: Record<string, string | null>) {
     const next = new URLSearchParams();
     for (const [key, value] of Object.entries({ q: query, ward, category, status, sort, scope, view, ...overrides })) {
-      if (value && value !== 'newest' && value !== 'public' && value !== 'list') next.set(key, value);
+      if (value && value !== 'newest' && value !== 'public' && value !== 'map') next.set(key, value);
       if (key === 'scope' && value === 'samples') next.set(key, value);
-      if (key === 'view' && value === 'map') next.set(key, value);
+      if (key === 'view' && value === 'list') next.set(key, value);
     }
     const suffix = next.toString();
     return suffix ? `/explore?${suffix}` : '/explore';
   }
 
+  const resetHref = href({ q: null, ward: null, category: null, status: null, sort: null, page: null });
+
   const filterForm = (
     <form className="filter-bar explore-filter-shell">
       <input type="hidden" name="scope" value={scope === 'samples' ? 'samples' : ''} />
-      <input type="hidden" name="view" value={view === 'map' ? 'map' : ''} />
+      <input type="hidden" name="view" value={view === 'list' ? 'list' : ''} />
       <div className="field search-field">
         <label htmlFor="record-search">Search</label>
         <div className="input-with-icon">
@@ -100,7 +102,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
       </label>
       <div className="row-actions">
         <button className="button crimson" type="submit">Apply</button>
-        <Link className="button secondary" href={scope === 'samples' ? '/explore?scope=samples' : '/explore'}>Reset</Link>
+        <Link className="button secondary" href={resetHref}>Reset</Link>
       </div>
     </form>
   );
@@ -108,28 +110,25 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
   return (
     <section className={`container page-section page-stack explore-page ${view === 'map' ? 'explore-page-map' : ''}`}>
       <div className="page-heading">
-        <span className="eyebrow">Public civic record</span>
-        <h1>{view === 'map' ? 'Public follow-up, mapped.' : 'See what still needs a current answer'}</h1>
+        <span className="eyebrow">Explore</span>
+        <h1>{view === 'map' ? 'Civic issues across Nepal' : 'Public civic records'}</h1>
         <p>{view === 'map'
-          ? 'Approximate civic records across Nepal, separated from illustrative samples and backed by inspectable proof.'
-          : 'Browse community reports and checked public-source dossiers. Illustrative samples stay in a separate view and never contribute to public totals.'}</p>
+          ? 'Open a location to inspect its evidence, public proof, and follow-up.'
+          : 'Browse community reports and checked public sources.'}</p>
       </div>
 
       <div className="explore-modes">
-        <nav className="scope-switch" aria-label="Record origin">
-          <a className={scope === 'public' ? 'active' : ''} href={href({ scope: null, page: null })}>Public records</a>
-          <a className={scope === 'samples' ? 'active' : ''} href={href({ scope: 'samples', page: null })}>Illustrative samples</a>
-        </nav>
+        {scope === 'samples' ? <Link className="text-link" href="/explore">Back to public records</Link> : <span />}
         <nav className="scope-switch" aria-label="Explore view">
-          <a className={view === 'list' ? 'active' : ''} href={href({ view: null, page: null })}><ListBullets size={16} weight="bold" />List</a>
-          <a className={view === 'map' ? 'active' : ''} href={href({ view: 'map', page: null })}><MapTrifold size={16} weight="bold" />Map</a>
+          <a className={view === 'map' ? 'active' : ''} href={href({ view: null, page: null })}><MapTrifold size={16} weight="bold" />Map</a>
+          <a className={view === 'list' ? 'active' : ''} href={href({ view: 'list', page: null })}><ListBullets size={16} weight="bold" />List</a>
         </nav>
       </div>
 
       {view === 'map' ? (
         <details className="map-filter-disclosure">
           <summary>
-            <span><FunnelSimple size={17} weight="bold" />Filter mapped records</span>
+            <span><FunnelSimple size={17} weight="bold" />Filters</span>
             <span>{activeFilters.length ? `${activeFilters.length} active` : 'All records'}</span>
             <CaretDown size={15} weight="bold" aria-hidden="true" />
           </summary>
@@ -143,7 +142,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
           <div className="active-filter-list" aria-label="Active filters">
             {activeFilters.map((item) => <span className="pill" key={item}>{item}</span>)}
           </div>
-        ) : <span className="result-context">Showing the complete {scope === 'samples' ? 'sample library' : 'public watchlist'}</span>}
+        ) : null}
       </div>
 
       {issues.length ? (
@@ -154,7 +153,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Sear
         <div className="empty-state">
           <strong>No records match these filters.</strong>
           <span>Try a wider area or reset the current filter set.</span>
-          <Link className="button secondary" href="/explore">Reset filters</Link>
+          <Link className="button secondary" href={resetHref}>Reset filters</Link>
         </div>
       )}
 

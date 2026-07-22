@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { statuses } from '@/lib/constants/statuses';
+import { isValidStatusTransition, statuses } from '@/lib/constants/statuses';
 import { addStatusUpdate, getIssue, recordRequestEvent, recordSteward } from '@/lib/db/queries';
 import { publicPreviewReadOnly } from '@/lib/deployment';
 import { inferredRecordKind } from '@/lib/issues/recordKind';
@@ -77,7 +77,9 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   if (!statuses.some((status) => status.id === newStatus)) {
     return NextResponse.json({ ok: false, reason: 'invalid_status' }, { status: 400 });
   }
-  if (newStatus === issue.status) return NextResponse.json({ ok: false, reason: 'status_unchanged' }, { status: 400 });
+  if (!isValidStatusTransition(issue.status, newStatus)) {
+    return NextResponse.json({ ok: false, reason: 'invalid_status_transition' }, { status: 409 });
+  }
 
   const note = String(body.note ?? '').trim();
   const resolutionPhotoUrl = String(body.resolutionPhotoUrl ?? '').trim() || null;

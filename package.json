@@ -15,7 +15,7 @@
     "verify": "npm run typecheck && npm run lint",
     "verify:data": "tsx scripts/verify-public-data.ts",
     "test:e2e": "npm run test:e2e --workspace @nagarik-signal/web",
-    "test:unit": "tsx --test apps/web/lib/solana/identity.test.ts apps/web/lib/storage/media.test.ts apps/web/lib/proof/evidence.test.ts apps/web/lib/proof/metadata.test.ts apps/web/lib/geo/map.test.ts apps/web/lib/ops/readiness.test.ts apps/web/lib/handoffs/policy.test.ts",
+    "test:unit": "tsx --test apps/web/lib/solana/identity.test.ts apps/web/lib/storage/media.test.ts apps/web/lib/proof/evidence.test.ts apps/web/lib/proof/metadata.test.ts apps/web/lib/geo/map.test.ts apps/web/lib/ops/readiness.test.ts apps/web/lib/handoffs/policy.test.ts apps/web/lib/constants/statuses.test.ts",
     "anchor:prepare": "node scripts/prepare-anchor-test.mjs",
     "anchor:test": "npm run anchor:prepare && anchor test --skip-build",
     "anchor:test:devnet": "npm run anchor:prepare && anchor test --skip-build --skip-deploy --skip-local-validator --provider.cluster devnet",

@@ -7,8 +7,8 @@ const isolatedDataDir = join(tmpdir(), 'nagarik-signal-e2e', randomUUID());
 
 export default defineConfig({
   testDir: './tests',
-  fullyParallel: true,
-  timeout: 60_000,
+  fullyParallel: false,
+  timeout: 90_000,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? 'github' : 'list',
   use: {
@@ -19,10 +19,10 @@ export default defineConfig({
     ...(process.env.CI ? {} : { channel: 'chrome' }),
   },
   webServer: {
-    command: 'npm run build && npm run start -- -p 3001',
+    command: 'npm run build && npm run start --workspace @nagarik-signal/web -- -p 3001',
     url: 'http://127.0.0.1:3001/api/health',
-    reuseExistingServer: !process.env.CI,
-    timeout: 180_000,
+    reuseExistingServer: false,
+    timeout: 300_000,
     env: {
       ...process.env,
       NEXT_PUBLIC_APP_URL: 'http://127.0.0.1:3001',

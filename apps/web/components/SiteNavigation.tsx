@@ -1,29 +1,49 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { List, Plus, ShieldCheck, X } from '@phosphor-icons/react';
+import { ChartBar, Info, List, MapTrifold, Plus, ShieldCheck, X } from '@phosphor-icons/react';
 import { publicPreviewReadOnly } from '@/lib/deployment';
 
 const nav = [
-  ['Explore', '/explore'],
-  ['Dashboard', '/dashboard'],
-  ...(publicPreviewReadOnly ? [] : [['Steward', '/steward']] as const),
-  ['About', '/about'],
+  ['Explore', '/explore', MapTrifold],
+  ['Insights', '/dashboard', ChartBar],
+  ['How it works', '/about', Info],
 ] as const;
 
 export function SiteNavigation() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const mobileNavRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (!open) return;
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.requestAnimationFrame(() => mobileNavRef.current?.querySelector<HTMLElement>('button, a')?.focus());
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key === 'Escape') setOpen(false);
+      if (event.key !== 'Tab') return;
+      const focusable = Array.from(mobileNavRef.current?.querySelectorAll<HTMLElement>('button, a') ?? []);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
     window.addEventListener('keydown', closeOnEscape);
-    return () => window.removeEventListener('keydown', closeOnEscape);
+    return () => {
+      window.removeEventListener('keydown', closeOnEscape);
+      document.body.style.overflow = previousOverflow;
+      previousFocus?.focus();
+    };
   }, [open]);
 
   return (
@@ -66,12 +86,14 @@ export function SiteNavigation() {
             aria-label="Close navigation"
             onClick={() => setOpen(false)}
           />
-          <nav id="mobile-navigation" className="mobile-nav" aria-label="Mobile navigation">
-            <div className="mobile-nav-heading">
-              <span>Navigate</span>
-              <small>Public records, proof, and follow-up</small>
+          <nav ref={mobileNavRef} id="mobile-navigation" className="mobile-nav" aria-label="Mobile navigation">
+            <div className="mobile-nav-toolbar">
+              <strong>Menu</strong>
+              <button type="button" className="icon-button" aria-label="Close navigation" onClick={() => setOpen(false)}>
+                <X size={20} weight="bold" />
+              </button>
             </div>
-            {nav.map(([label, href], index) => (
+            {nav.map(([label, href, Icon]) => (
               <Link
                 key={href}
                 href={href}
@@ -79,14 +101,10 @@ export function SiteNavigation() {
                 aria-current={pathname.startsWith(href) ? 'page' : undefined}
                 onClick={() => setOpen(false)}
               >
-                <span className="mono">0{index + 1}</span>
+                <Icon size={18} weight="bold" aria-hidden="true" />
                 {label}
               </Link>
             ))}
-            <div className="mobile-nav-status">
-              <span className="status-dot" aria-hidden="true" />
-              Solana devnet proof is online
-            </div>
           </nav>
         </>
       ) : null}

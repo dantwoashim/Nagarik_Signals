@@ -339,6 +339,20 @@ async function main() {
       .rpc()
   );
 
+  await expectFailure("backward status transition", () =>
+    program.methods
+      .updateStatus(1, STATUS_SUBMITTED, hashBytes(131))
+      .accounts({
+        issue: issueOne,
+        steward: stewardPda,
+        updater: steward.publicKey,
+        statusUpdate: statusUpdatePda(issueOne, 1),
+        systemProgram: SystemProgram.programId,
+      })
+      .signers([steward])
+      .rpc()
+  );
+
   const beforeStatusTimeline = Array.from(issueAccount.timelineHash);
   await program.methods
     .updateStatus(1, STATUS_IN_PROGRESS, hashBytes(132))
@@ -389,6 +403,20 @@ async function main() {
   assert.ok(issueAccount.resolvedAt.toNumber() > 0);
   assert.deepEqual(Array.from(issueAccount.resolutionHash), hashBytes(134));
 
+  await expectFailure("closed issue status update", () =>
+    program.methods
+      .updateStatus(3, STATUS_IN_PROGRESS, hashBytes(135))
+      .accounts({
+        issue: issueOne,
+        steward: stewardPda,
+        updater: steward.publicKey,
+        statusUpdate: statusUpdatePda(issueOne, 3),
+        systemProgram: SystemProgram.programId,
+      })
+      .signers([steward])
+      .rpc()
+  );
+
   const closedVerifier = Keypair.generate();
   await fund(closedVerifier.publicKey);
   await expectFailure("resolved issue verification", () =>
@@ -420,7 +448,9 @@ async function main() {
       "status_update",
       "non_steward_rejected",
       "invalid_status_rejected",
+      "backward_status_transition_rejected",
       "sequence_mismatch_rejected",
+      "closed_status_update_rejected",
       "resolved_issue_rejects_verification",
       "timeline_hash_changes",
     ],

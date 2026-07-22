@@ -27,7 +27,7 @@ export function PhotoUpload() {
 
   return (
     <div className="field photo-upload-field">
-      <span id="safe-photo-label">Safe public photo</span>
+      <span id="safe-photo-label">Photo</span>
       <input
         ref={inputRef}
         id="safe-public-photo"
@@ -51,8 +51,8 @@ export function PhotoUpload() {
           <span className="photo-upload-icon" aria-hidden="true"><ImageSquare size={34} weight="regular" /></span>
         )}
         <span className="photo-dropzone-copy">
-          <strong>{file ? 'Evidence ready to sanitize' : 'Choose one clear infrastructure photo'}</strong>
-          <span>{file ? 'Select again to replace this image' : 'JPG, PNG, or WebP. Maximum upload limits are checked before storage.'}</span>
+          <strong>{file ? 'Photo ready' : 'Choose a clear infrastructure photo'}</strong>
+          <span>{file ? 'Choose again to replace it' : 'JPG, PNG, or WebP'}</span>
         </span>
         <span className="photo-dropzone-action">
           {file ? <CheckCircle size={18} weight="fill" /> : <UploadSimple size={18} weight="bold" />}
@@ -67,7 +67,10 @@ export function PhotoUpload() {
           </button>
         </div>
       ) : null}
-      <span className="helper">The uploaded file is decoded, resized, stripped of metadata, re-encoded, and hashed before the public record is created.</span>
+      <details className="photo-processing-details">
+        <summary>How the photo is processed</summary>
+        <p>The file is decoded, resized, stripped of metadata, re-encoded, and hashed before publication.</p>
+      </details>
     </div>
   );
 }

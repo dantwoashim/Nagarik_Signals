@@ -4,7 +4,7 @@ import { DashboardStats } from '@/components/DashboardStats';
 import { IssueCard } from '@/components/IssueCard';
 import { WardLeaderboard } from '@/components/WardLeaderboard';
 import { categoryLabel } from '@/lib/constants/categories';
-import { statusLabel } from '@/lib/constants/statuses';
+import { publicStatusLabel } from '@/lib/constants/statuses';
 import {
   categoryBreakdown,
   dashboardStats,
@@ -19,9 +19,8 @@ import { formatDateTime, shortText } from '@/lib/ui/format';
 export const dynamic = 'force-dynamic';
 
 export default async function DashboardPage() {
-  const [allIssues, samples, categories, ignoredIssues, resolvedIssues, allVerifications, stats, handoffOverview] = await Promise.all([
+  const [allIssues, categories, ignoredIssues, resolvedIssues, allVerifications, stats, handoffOverview] = await Promise.all([
     listIssues({ scope: 'public', sort: 'most_ignored', limit: 100 }),
-    listIssues({ scope: 'samples', limit: 100 }),
     categoryBreakdown(),
     mostIgnoredIssues(5),
     recentResolvedIssues(5),
@@ -41,29 +40,29 @@ export default async function DashboardPage() {
   return (
     <section className="container page-section page-stack dashboard-page">
       <div className="page-heading dashboard-heading">
-        <span className="eyebrow">Accountability index</span>
-        <h1>Where public follow-up is accumulating</h1>
-        <p>An area-level view of current public records, verification signals, category pressure, source age, and status history. Samples and engineering fixtures are excluded from every number below.</p>
+        <span className="eyebrow">Public insights</span>
+        <h1>Civic issues that need follow-up</h1>
+        <p>Public records only. Samples and engineering fixtures are excluded.</p>
       </div>
 
-      <DashboardStats stats={stats} liveCount={allIssues.length} sampleCount={samples.length} />
+      <DashboardStats stats={stats} />
       <WardLeaderboard />
 
       <section className="dashboard-data-section dashboard-handoff-section" aria-labelledby="dashboard-handoff-heading">
         <div className="dashboard-section-heading">
           <div>
             <span className="eyebrow"><PaperPlaneTilt size={14} weight="bold" /> Official follow-up</span>
-            <h2 id="dashboard-handoff-heading">What happened after a record was published</h2>
+            <h2 id="dashboard-handoff-heading">Official follow-up activity</h2>
           </div>
-          <p className="dashboard-section-context">Steward-recorded platform events, separate from authority systems and the on-chain status timeline.</p>
+          <p className="dashboard-section-context">Steward-recorded events, separate from Solana integrity checks.</p>
         </div>
         <div className="handoff-overview-grid">
           <dl className="handoff-metric-strip">
-            <div><dt>Routed</dt><dd>{handoffOverview.stats.routedIssues}</dd><span>{handoffOverview.stats.preparedOnly} prepared only</span></div>
-            <div><dt>Submitted</dt><dd>{handoffOverview.stats.submittedIssues}</dd><span>reference or receipt recorded</span></div>
-            <div><dt>Acknowledged</dt><dd>{handoffOverview.stats.acknowledgedIssues}</dd><span>redacted artifact required</span></div>
+            <div><dt>Routed</dt><dd>{handoffOverview.stats.routedIssues}<span>{handoffOverview.stats.preparedOnly} prepared only</span></dd></div>
+            <div><dt>Sent</dt><dd>{handoffOverview.stats.submittedIssues}<span>reference recorded</span></dd></div>
+            <div><dt>Receipt</dt><dd>{handoffOverview.stats.acknowledgedIssues}<span>artifact attached</span></dd></div>
             <div className={handoffOverview.stats.overdueFollowUps ? 'metric-attention' : ''}>
-              <dt>Overdue</dt><dd>{handoffOverview.stats.overdueFollowUps}</dd><span>follow-ups past due</span>
+              <dt>Overdue</dt><dd>{handoffOverview.stats.overdueFollowUps}<span>follow-ups past due</span></dd>
             </div>
           </dl>
           <div className="handoff-recent-list" aria-label="Recent handoff events">
@@ -85,8 +84,8 @@ export default async function DashboardPage() {
               );
             }) : (
               <div className="empty-state compact">
-                <strong>No official handoff events recorded.</strong>
-                <span>Prepared routes, channel deliveries, acknowledgements, and follow-ups will appear here without being conflated.</span>
+                <strong>No official follow-up yet.</strong>
+                <span>Route, delivery, receipt, and follow-up events will appear here.</span>
               </div>
             )}
           </div>
@@ -112,7 +111,7 @@ export default async function DashboardPage() {
 
         <section className="dashboard-data-section signal-stream" aria-labelledby="signal-stream-heading">
           <div className="dashboard-section-heading compact">
-            <div><span className="eyebrow"><Pulse size={14} weight="bold" />Public signals</span><h2 id="signal-stream-heading">Latest corroboration</h2></div>
+            <div><span className="eyebrow"><Pulse size={14} weight="bold" />Public attention</span><h2 id="signal-stream-heading">Latest public signals</h2></div>
           </div>
           <div className="signal-stream-list">
             {verifications.length ? verifications.map((row) => (
@@ -121,7 +120,7 @@ export default async function DashboardPage() {
                 <span><strong>Issue #{row.issueId}</strong><code className="mono">{shortText(row.verificationPda, 10, 7)}</code></span>
                 <time>{formatDateTime(row.createdAt)}</time>
               </div>
-            )) : <div className="empty-state compact"><strong>No public signals yet.</strong><span>Corroboration activity will appear here.</span></div>}
+            )) : <div className="empty-state compact"><strong>No public signals yet.</strong><span>Public signals will appear here.</span></div>}
           </div>
         </section>
       </div>
@@ -135,7 +134,7 @@ export default async function DashboardPage() {
             {ignoredIssues.map((issue, index) => (
               <Link className="followup-row" key={issue.id} href={`/issues/${issue.id}`}>
                 <span className="mono">0{index + 1}</span>
-                <span><strong>{issue.title}</strong><small>{statusLabel(issue.status)} / {issue.locality}</small></span>
+                <span><strong>{issue.title}</strong><small>{publicStatusLabel(issue.status)} / {issue.locality}</small></span>
                 <span className="followup-days"><strong className="mono">{issue.daysIgnored}</strong><small>days</small></span>
                 <ArrowRight size={17} weight="bold" aria-hidden="true" />
               </Link>

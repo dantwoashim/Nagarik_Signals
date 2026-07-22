@@ -5,6 +5,7 @@ import { buildIssueProofMetadata } from './metadata';
 import { sha256Hex } from './hash';
 import { canonicalize } from './canonicalize';
 import { verifyDeliveredEvidence } from './evidence';
+import { appConfig } from '../constants/config';
 
 const ZERO_HASH = '0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -18,6 +19,7 @@ function normalizeResolutionHash(value: string | null | undefined) {
 }
 
 export async function verifyIssueProof(issue: CivicIssue) {
+  const checkedAt = new Date().toISOString();
   const computedMetadataHash = await sha256Hex(canonicalize(proofMetadata(issue)));
   const localMetadataMatches = computedMetadataHash === issue.proof.metadataHash;
   const deliveredEvidence = await verifyDeliveredEvidence(issue.photoUrl, issue.proof.evidenceHash);
@@ -38,6 +40,9 @@ export async function verifyIssueProof(issue: CivicIssue) {
       mode,
       error: deliveredEvidence.status === 'unavailable' ? deliveredEvidence.error : undefined,
       issueId: issue.id,
+      checkedAt,
+      network: appConfig.cluster,
+      programId: appConfig.programId,
       issuePda: issue.proof.issuePda,
       onChain: null,
       computed: {
@@ -99,6 +104,9 @@ export async function verifyIssueProof(issue: CivicIssue) {
     mode,
     error: deliveredEvidence.status === 'unavailable' ? deliveredEvidence.error : undefined,
     issueId: issue.id,
+    checkedAt,
+    network: appConfig.cluster,
+    programId: appConfig.programId,
     issuePda: issue.proof.issuePda,
     onChain: {
       metadataHash: onChain.metadataHash,

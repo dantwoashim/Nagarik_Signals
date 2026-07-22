@@ -8,11 +8,11 @@ export type SubmitStep =
   | 'failed';
 
 const steps: Array<{ id: SubmitStep; label: string }> = [
-  { id: 'uploading', label: 'Uploading evidence and stripping metadata' },
-  { id: 'hashing', label: 'Hashing canonical metadata and location' },
-  { id: 'anchoring', label: 'Creating Issue PDA on Solana devnet' },
-  { id: 'confirming', label: 'Confirming transaction' },
-  { id: 'indexed', label: 'Indexing public issue record' },
+  { id: 'uploading', label: 'Prepare photo' },
+  { id: 'hashing', label: 'Create commitments' },
+  { id: 'anchoring', label: 'Anchor Solana account' },
+  { id: 'confirming', label: 'Confirm transaction' },
+  { id: 'indexed', label: 'Publish record' },
 ];
 
 export function SubmitProgress({ current }: { current: SubmitStep }) {

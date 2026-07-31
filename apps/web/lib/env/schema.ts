@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { safeAlertWebhookUrl } from '../ops/alertEndpoint';
+
 const V1_PROGRAM_ID = '76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY';
 const RELEASE_PROFILE = 'curated_pilot_v2_non_mainnet';
 const TRUE = 'true';
@@ -7,6 +9,10 @@ const FALSE = 'false';
 
 const url = z.string().url();
 const httpsUrl = url.refine((value) => value.startsWith('https://'), 'must use HTTPS');
+const alertWebhookUrl = httpsUrl.refine(
+  (value) => safeAlertWebhookUrl(value) !== null,
+  'must be a public credential-free HTTPS endpoint',
+);
 const secret = z
   .string()
   .min(32)
@@ -69,6 +75,8 @@ export const serverEnvironmentSchema = z
     NAGARIK_CSRF_SECRET: secret.optional(),
     NAGARIK_WORKER_AUTH_SECRET: secret.optional(),
     CRON_SECRET: secret.optional(),
+    NAGARIK_ALERT_WEBHOOK_URL: alertWebhookUrl.optional(),
+    NAGARIK_ALERT_WEBHOOK_TOKEN: secret.optional(),
     NAGARIK_LEGACY_READ: z.enum([TRUE, FALSE]).optional(),
     NAGARIK_LEGACY_MUTATIONS: z.enum([TRUE, FALSE]).optional(),
     NAGARIK_PUBLIC_READ: z.enum([TRUE, FALSE]).optional(),
@@ -136,6 +144,8 @@ export const serverEnvironmentSchema = z
       'NAGARIK_CSRF_SECRET',
       'NAGARIK_WORKER_AUTH_SECRET',
       'CRON_SECRET',
+      'NAGARIK_ALERT_WEBHOOK_URL',
+      'NAGARIK_ALERT_WEBHOOK_TOKEN',
       'NAGARIK_STAGING_TTL_HOURS',
       'NAGARIK_PRIVATE_RETENTION_DAYS',
       'NAGARIK_LOG_RETENTION_DAYS',
@@ -240,6 +250,7 @@ export const serverEnvironmentSchema = z
       'NAGARIK_CSRF_SECRET',
       'NAGARIK_WORKER_AUTH_SECRET',
       'CRON_SECRET',
+      'NAGARIK_ALERT_WEBHOOK_TOKEN',
     ] as const;
     const seen = new Map<string, string>();
     for (const key of secretKeys) {

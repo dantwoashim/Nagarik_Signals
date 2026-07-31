@@ -247,6 +247,9 @@ gate.
 
 ## Security monitoring requirements
 
+The runtime event and alert allowlists are defined in
+[the observability contract](observability.md).
+
 At minimum, restricted telemetry covers:
 
 - intake/upload success, rejection category, bytes, pixels, and latency;

@@ -39,6 +39,8 @@ const validProduction = {
   NAGARIK_CSRF_SECRET: `csrf-${'h'.repeat(40)}`,
   NAGARIK_WORKER_AUTH_SECRET: `worker-${'i'.repeat(40)}`,
   CRON_SECRET: `cron-${'j'.repeat(40)}`,
+  NAGARIK_ALERT_WEBHOOK_URL: 'https://alerts.example/nagarik',
+  NAGARIK_ALERT_WEBHOOK_TOKEN: `alert-${'k'.repeat(40)}`,
   NAGARIK_LEGACY_READ: 'true',
   NAGARIK_LEGACY_MUTATIONS: 'false',
   NAGARIK_PUBLIC_READ: 'true',
@@ -96,6 +98,27 @@ describe('production environment', () => {
       parseServerEnvironment({
         ...validProduction,
         CRON_SECRET: validProduction.NAGARIK_WORKER_AUTH_SECRET,
+      }),
+    );
+  });
+
+  it('requires an independent HTTPS alert destination and credential', () => {
+    assert.throws(() =>
+      parseServerEnvironment({
+        ...validProduction,
+        NAGARIK_ALERT_WEBHOOK_URL: undefined,
+      }),
+    );
+    assert.throws(() =>
+      parseServerEnvironment({
+        ...validProduction,
+        NAGARIK_ALERT_WEBHOOK_URL: 'http://alerts.example/nagarik',
+      }),
+    );
+    assert.throws(() =>
+      parseServerEnvironment({
+        ...validProduction,
+        NAGARIK_ALERT_WEBHOOK_TOKEN: validProduction.CRON_SECRET,
       }),
     );
   });

@@ -13,6 +13,8 @@ Postgres.
 - Set independent random `CRON_SECRET` and `NAGARIK_WORKER_AUTH_SECRET` values
   of at least 32 bytes. Never reuse an application, auth, database, Blob, RPC,
   signer, or capability secret.
+- Configure the public HTTPS alert endpoint and independent bearer described in
+  [the observability contract](../observability.md).
 - Confirm all four jobs appear under the production project's Cron Jobs view
   after deployment. Preview deployments do not run these schedules.
 - Keep invite intake, publication, and v2 writes disabled until the database,

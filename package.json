@@ -25,6 +25,7 @@
     "test:unit": "tsx --test \"apps/web/**/*.test.ts\"",
     "test:env": "tsx --test apps/web/lib/env/schema.test.ts",
     "audit:production": "npm audit --omit=dev --audit-level=moderate",
+    "audit:security": "tsx scripts/security-audit.ts",
     "db:start": "supabase start",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset",

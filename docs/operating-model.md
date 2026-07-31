@@ -1,6 +1,9 @@
 # Operating Model
 
-Nagarik Signal keeps public reporting free. Revenue, if the service reaches an operating pilot, comes from workflow used by institutions around the public record rather than charging residents to report or selling influence over issue ranking.
+Nagarik Signal keeps public browsing free. If invited reporting becomes part of
+an approved operating pilot, residents are not charged to submit. Revenue would
+come from institutional workflow around the public record, never from selling
+influence over issue ranking.
 
 ## Public Layer
 
@@ -14,13 +17,13 @@ Nagarik Signal keeps public reporting free. Revenue, if the service reaches an o
 
 The handoff ledger is an operational record maintained by Nagarik Signal, not a mirror of a government case system.
 
-| State | Minimum evidence | Meaning |
-|---|---|---|
-| `prepared` | Named authority and channel | The route is ready; no delivery is claimed |
-| `submitted` | External reference or redacted receipt | A steward recorded delivery to the channel |
-| `acknowledged` | Privacy-reviewed redacted receipt | A steward retained an acknowledgement artifact |
-| `follow_up` | Public note and next due date | A further action was recorded |
-| `closed` | Public closing note | The handoff trail ended; the issue is not automatically resolved |
+| State          | Minimum evidence                       | Meaning                                                          |
+| -------------- | -------------------------------------- | ---------------------------------------------------------------- |
+| `prepared`     | Named authority and channel            | The route is ready; no delivery is claimed                       |
+| `submitted`    | External reference or redacted receipt | A steward recorded delivery to the channel                       |
+| `acknowledged` | Privacy-reviewed redacted receipt      | A steward retained an acknowledgement artifact                   |
+| `follow_up`    | Public note and next due date          | A further action was recorded                                    |
+| `closed`       | Public closing note                    | The handoff trail ended; the issue is not automatically resolved |
 
 Every event commits the previous event hash. Stewards cannot skip an invalid transition, backdate before the prior event, attach reused evidence, or silently reopen a closed trail. Public pages state that the receiving authority did not author or independently verify these records.
 

@@ -1,12 +1,25 @@
-# Privacy and Safety Notes
+# Privacy And Safety Notes
 
-- The server issues a random signed session cookie. It is HttpOnly, Secure in production, SameSite Lax, and expires after 30 days.
-- Session IDs are not public. Stored session and rate-limit identifiers are one-way hashes.
-- Forwarded IP addresses are hashed with a server secret before request events are stored.
-- Community evidence is re-encoded without EXIF metadata and stored under its full sanitized-byte hash.
-- Public location is rounded and presented as ward/locality first. Exact camera GPS is not retained from image metadata or written on-chain.
-- Public-source dossiers contain publisher information, not personal submitter information.
-- Hidden and rejected media is blocked by the delivery route while its on-chain hash remains.
-- No comments, private messaging, people-focused accusation categories, or emergency dispatch exist.
+- Intake, tracking, media, and signal capabilities are separate, expiring, and
+  purpose-bound. The database stores keyed verifiers rather than raw tokens.
+- Operator access requires managed identity, AAL2, active organization
+  membership, and an allowed role for the target resource.
+- Precise review coordinates remain private. Public records use a rounded cell,
+  ward, and locality, and only that coarse location is committed on-chain.
+- Uploaded images are decoded, rotated, bounded, resized, metadata-stripped,
+  re-encoded, and hashed before durable storage.
+- Source media remains private. Public delivery uses a separately reviewed
+  derivative through a same-origin media route.
+- Public projections have no columns for private narrative, exact location,
+  tracking material, moderation notes, operator details, or outbox payloads.
+- Removal denies public media and record access immediately while a neutral
+  tombstone and minimum integrity history can remain.
+- Logs and abuse identifiers use bounded, redacted data and keyed correlation
+  values. Raw forwarded addresses are not application identifiers.
+- The product has no comments, private messaging, people-focused accusation
+  categories, or emergency dispatch.
 
-The current system does not claim automatic detection of faces, plates, or sensitive scenes. Reporters and stewards remain responsible for safety review. See [`SAFETY.md`](../SAFETY.md) for the enforceable product boundary.
+Automated image processing cannot reliably identify every face, plate, address,
+document, or harmful scene. Reporter declarations and operator review remain
+required. See [`SAFETY.md`](../SAFETY.md) and the
+[`data-classification contract`](production/data-classification.md).

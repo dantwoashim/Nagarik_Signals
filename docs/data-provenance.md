@@ -1,68 +1,53 @@
 # Data Provenance
 
-Every Nagarik Signal issue has an explicit `recordKind`. Public totals include only community reports and public-source dossiers.
+Every public Nagarik Signal record identifies how its civic claim entered the
+system and which version was approved for publication.
 
-## Record Classes
+## Public Record Classes
 
 ### Community report
 
-A server-session report with sanitized evidence and an approximate location. The platform records the supplied description; it does not certify physical truth.
+An invited resident or civic group submits a description, date, category,
+approximate location, and sanitized evidence. The report remains private until
+moderation approves a public-safe version.
 
 ### Public-source dossier
 
-A checked official or reputable publication with:
+An operator records a checkable publication with:
 
-- publisher and source title;
-- original URL;
-- publication, check, and expiry times;
+- publisher, title, and original URL;
+- publication and check dates;
+- review deadline;
 - source type and confidence;
-- status at check;
-- official escalation URL;
-- a generated dossier image whose exact bytes are hashed and anchored.
+- a concise, attributed summary;
+- the approved evidence and metadata commitments.
 
-### Illustrative sample
+The platform records what was checked. It does not copy an article, certify the
+publisher's claim, or assume the source remains current after its review date.
 
-Synthetic interface data. Samples have local integrity hashes, use `seeded_demo`, and never contribute to public civic totals.
+## Non-Civic Data
 
-### QA fixture
+Illustrative samples and engineering fixtures can exist in local compatibility
+data, but they are excluded from v2 civic projections, public totals, and
+operator claims. Production migrations accept only `community_report` and
+`public_source` for native v2 records.
 
-Historical smoke-test activity retained for engineering traceability. Fixtures cannot enter public list APIs, maps, dashboards, or leaderboards.
+## Version History
 
-## Checked Source Set
+Publication freezes one immutable public version. A correction creates another
+version under the same public issue ID. Each version retains its provenance,
+approved derivative, canonical metadata, coarse location, review decision, and
+chain binding. A correction never changes the bytes or fields of an earlier
+version.
 
-The source manifest is [`data/public-sources/nepal-civic-watch-2026.json`](../data/public-sources/nepal-civic-watch-2026.json). The generated evidence artifacts are under [`apps/web/public/source-dossiers`](../apps/web/public/source-dossiers). Full issue PDAs, transaction signatures, evidence hashes, and metadata hashes are recorded in [`data/public-sources/onchain-receipt.json`](../data/public-sources/onchain-receipt.json).
+## Source Recheck
 
-| Issue | Publisher | Review expiry |
-|---:|---|---|
-| 12 | The Kathmandu Post | 2026-07-28 12:00 NPT |
-| 13 | Kathmandu Metropolitan City - Metro News | 2026-07-28 12:00 NPT |
-| 14 | Kathmandu Metropolitan City - Metro News | 2026-08-13 12:00 NPT |
-| 15 | The Kathmandu Post | 2026-07-28 12:00 NPT |
+1. Open the recorded source URL and any primary corroborating reference.
+2. Check for a dated correction or status update.
+3. Record the new check time, reviewer, and result.
+4. Create a new immutable public version when public metadata changes.
+5. Append lifecycle or handoff history only when the evidence supports that
+   specific event.
 
-The expiry is a review deadline, not a predicted resolution date.
-
-## Reproducibility
-
-Render the dossier artifacts:
-
-```bash
-npm run sources:render
-```
-
-Import or refresh them on devnet:
-
-```bash
-npm run sources:import
-```
-
-Import performs chain writes and requires the configured relayer. Run it only after reviewing source changes. Any change to committed metadata or image bytes produces a different hash and must create or update a traceable receipt rather than silently replacing the prior claim.
-
-## Recheck Procedure
-
-1. Open the original source and any listed corroborating URLs.
-2. Look for a dated official or reputable update.
-3. Record the new check time and state without rewriting the earlier source claim.
-4. Attach a steward status update when the new evidence supports one.
-5. Keep `needs_recheck` when the current state cannot be established.
-
-Social posts can trigger a recheck, but cannot by themselves upgrade a record to high-confidence civic evidence.
+Social posts can identify a question for review. They are not accepted as a
+high-confidence public-source record without a checkable source and review.

@@ -1,35 +1,40 @@
 # Roadmap
 
-## Current Baseline
+## Current Engineering Baseline
 
-- writable hosted report, signal, status, and moderation routes;
-- private durable evidence and read-model storage;
-- server-owned civic sessions and relayer limits;
-- live Solana devnet proof verification;
-- public-source provenance with review expiry;
-- strict separation of public records, samples, and QA fixtures;
-- official grievance-channel handoff.
+- Postgres-authoritative private intake, moderation, publication, lifecycle,
+  correction, handoff, removal, signals, audit, and outbox workflows;
+- managed operator identity with AAL2, organization scope, roles, and RLS;
+- staged private media, reviewed public derivatives, capability-bound delivery,
+  retention state, and neutral tombstones;
+- frozen v1 read compatibility and a separate server-owned v2 commitment
+  protocol;
+- public, tracking, and operator interfaces backed by versioned v2 contracts;
+- deterministic CI for web, database/RLS, Rust, generated IDL, browser,
+  accessibility, security scanning, dependency audit, and SBOM evidence.
 
-## Next Operational Milestone
+## Curated Pilot Readiness
 
-- run one locality for 90 days with a named moderation owner;
-- add Nepali-language report and proof surfaces;
-- record official complaint/ticket references without exposing complainant identity;
-- publish CSV and JSON exports for civic groups and newsrooms;
-- add duplicate-location and perceptual-image review tools;
-- move high-volume state to the PostgreSQL adapter;
-- define evidence retention, takedown, appeal, and steward rotation procedures.
+- exercise an actual database and object-storage backup in an isolated restore;
+- run load smoke against a staging release and approve measured thresholds;
+- exercise kill switches, immutable release rollback, cache purge, and outbox
+  recovery;
+- connect alert delivery and record acknowledgement evidence;
+- complete a manual keyboard and screen-reader review;
+- obtain Nepal-specific privacy/legal review;
+- define signer custody and upgrade-authority governance;
+- name moderation, privacy, recovery, and incident owners;
+- complete a scoped penetration test and operator tabletop.
 
-Success is measured by source freshness, acknowledgement time, resolution time, duplicate rate, moderation turnaround, evidence availability, and proof-check success. No institutional pilot is claimed today.
+## After A Responsible Pilot
 
-## Before Mainnet
+- add reviewed Nepali-language public, intake, tracking, and operator copy;
+- publish privacy-safe civic exports and aggregate service metrics;
+- add duplicate-location and perceptual-similarity review assistance;
+- support verified authority integrations without presenting platform events as
+  authority-authored history;
+- evaluate broader intake only from measured moderation and abuse data.
 
-- independent Anchor program review;
-- multisig upgrade authority and documented key rotation;
-- legal and data-protection review in Nepal;
-- tested incident response and relayer monitoring;
-- durable backups and restore drills;
-- stronger identity options without making public reporting inaccessible;
-- signed agreements for any official acknowledgement or status authorship.
-
-Tokens, rewards, payments, betting, and public accusation features are outside the roadmap.
+Mainnet is a separate release decision requiring an independent program audit,
+approved key governance, tested recovery, and evidence from the pilot. Tokens,
+rewards, payments, betting, and public accusation features are outside scope.

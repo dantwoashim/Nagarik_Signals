@@ -1,29 +1,43 @@
 # Product FAQ
 
-## Is this an official complaint portal?
+## Is Nagarik Signal an official complaint portal?
 
-No. It preserves a public evidence record and links to official channels such as Hello Sarkar and Kathmandu Gunaso. An official ticket remains the authority's own record.
+It is an independent civic record and follow-up system. A government case or
+ticket remains the authority's own record. Nagarik Signal shows a handoff as
+platform-recorded unless an authenticated official integration exists.
 
-## Why use Solana?
+## What does Solana add?
 
-The program supplies a public timestamp, evidence and metadata commitments, signer-specific Verification PDAs, and append-only StatusUpdate accounts. Search, moderation, and media still belong in normal application storage.
+The v2 program records an issue commitment and ordered commitment events.
+Independent readers can compare approved evidence, canonical metadata, coarse
+location, lifecycle, and event-head hashes with a finalized public account.
 
-## Does a passing proof check mean the issue is true?
+## Does a passing proof establish physical truth?
 
-No. It means the delivered evidence and displayed record match the committed devnet account. Physical truth still depends on source quality, field observation, and follow-up.
+It establishes integrity and ordering for the committed fields and delivered
+evidence. Source quality, capture context, field observation, and official
+follow-up still require human assessment.
 
-## Is one signal one citizen?
+## Is one public signal one person?
 
-No. One server-minted browser session can signal once per issue, and the chain blocks that signer from repeating. This is duplicate resistance for a session, not proof of personhood.
+A signal is one valid, rate-limited capability event. It indicates attention or
+corroboration and does not establish unique identity, truth, priority, or
+lifecycle state.
 
-## Can evidence be removed?
+## Why does a submitted report stay private?
 
-A steward can block public delivery of unsafe media. The on-chain hash commitment remains. This allows harmful display to be moderated without pretending the earlier proof never existed.
+Text, media, and precise location require safety and privacy review. Publication
+occurs only after an operator approves a public-safe immutable version and any
+required v2 commitment is finalized.
 
-## Why are samples present?
+## Can a public record be corrected or removed?
 
-They demonstrate workflows without being presented as real events. Samples require an explicit Explore scope and never contribute to public totals. Engineering fixtures are hidden from discovery entirely.
+A correction appends a new immutable version. Removal denies public access and
+returns a neutral tombstone. Existing public-chain commitments cannot be
+deleted, so private or identifying data is never placed directly on-chain.
 
-## Is it mainnet ready?
+## Is it ready for unrestricted production use?
 
-No. The deployed program is on devnet and remains upgradeable. Mainnet requires external review, multisig governance, legal and privacy work, operational moderation, and durable incident response.
+The implemented profile is a curated non-mainnet pilot. Real civic intake and a
+production claim remain blocked until the security, legal, custody, recovery,
+and operator gates have recorded evidence.

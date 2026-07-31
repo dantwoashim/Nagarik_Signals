@@ -55,7 +55,7 @@ test('migrations apply to an empty database and enforce core invariants', async 
          from information_schema.tables
          where table_schema = 'nagarik'`,
       ),
-      35,
+      36,
     );
     assert.equal(
       await scalar<number>(
@@ -76,11 +76,11 @@ test('migrations apply to an empty database and enforce core invariants', async 
            and pg_class.relrowsecurity
            and pg_class.relforcerowsecurity`,
       ),
-      35,
+      36,
     );
     assert.equal(
       await scalar<number>(database, `select count(*)::integer as value from pg_policies`),
-      31,
+      32,
     );
 
     await database.exec(`
@@ -700,6 +700,16 @@ test('operator RLS separates organizations and role capabilities', async () => {
         'migration',
         '36000000-0000-0000-0000-000000000002'
       );
+
+      insert into nagarik.privacy_request_events(
+        id, privacy_request_id, organization_id, sequence, event_type,
+        from_state, to_state, actor_type, actor_key
+      ) values (
+        '35000000-0000-0000-0000-000000000002',
+        '35000000-0000-0000-0000-000000000001',
+        '${orgOne}', 1, 'received', null, 'received', 'capability',
+        decode(repeat('72', 32), 'hex')
+      );
     `);
 
     assert.equal(await countAs(moderator, 'nagarik.submissions'), 1);
@@ -707,6 +717,8 @@ test('operator RLS separates organizations and role capabilities', async () => {
     assert.equal(await countAs(steward, 'nagarik.submissions'), 0);
     assert.equal(await countAs(steward, 'nagarik.issues'), 1);
     assert.equal(await countAs(privacyReviewer, 'nagarik.privacy_requests'), 1);
+    assert.equal(await countAs(privacyReviewer, 'nagarik.privacy_request_events'), 1);
+    assert.equal(await countAs(moderator, 'nagarik.privacy_request_events'), 0);
     assert.equal(await countAs(privacyReviewer, 'nagarik.audit_events'), 0);
     assert.equal(await countAs(auditor, 'nagarik.audit_events'), 1);
     assert.equal(await countAs(systemAdmin, 'nagarik.submissions'), 2);

@@ -27,15 +27,19 @@ export function statusSeqToLeBytes(seq: number) {
 export function deriveIssuePda(issueId: string | number | bigint) {
   const [pda, bump] = PublicKey.findProgramAddressSync(
     [Buffer.from('issue'), issueIdToLeBytes(issueId)],
-    programKey()
+    programKey(),
   );
   return { pda: pda.toBase58(), bump };
 }
 
 export function deriveVerificationPda(issuePda: string, verifierPubkey: string) {
   const [pda, bump] = PublicKey.findProgramAddressSync(
-    [Buffer.from('verification'), new PublicKey(issuePda).toBuffer(), new PublicKey(verifierPubkey).toBuffer()],
-    programKey()
+    [
+      Buffer.from('verification'),
+      new PublicKey(issuePda).toBuffer(),
+      new PublicKey(verifierPubkey).toBuffer(),
+    ],
+    programKey(),
   );
   return { pda: pda.toBase58(), bump };
 }
@@ -43,7 +47,7 @@ export function deriveVerificationPda(issuePda: string, verifierPubkey: string) 
 export function deriveStatusUpdatePda(issuePda: string, seq: number) {
   const [pda, bump] = PublicKey.findProgramAddressSync(
     [Buffer.from('status_update'), new PublicKey(issuePda).toBuffer(), statusSeqToLeBytes(seq)],
-    programKey()
+    programKey(),
   );
   return { pda: pda.toBase58(), bump };
 }

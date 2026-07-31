@@ -7,7 +7,7 @@ const COOKIE_VERSION = 'v1';
 const MAX_SESSION_AGE_SECONDS = 60 * 60 * 24 * 30;
 
 function sessionSecret() {
-  const configured = process.env.NAGARIK_COOKIE_SECRET ?? process.env.NAGARIK_SESSION_DERIVATION_SECRET;
+  const configured = process.env.NAGARIK_COOKIE_SECRET;
   if (configured) return configured;
   if (process.env.NODE_ENV === 'production') throw new Error('nagarik_cookie_secret_missing');
   return 'nagarik-signal-local-development-cookie-secret';
@@ -32,7 +32,12 @@ function parseCookie(value: string | undefined) {
   if (left.length !== right.length || !timingSafeEqual(left, right)) return null;
   const issuedAt = Number(issuedAtRaw);
   const now = Math.floor(Date.now() / 1000);
-  if (!Number.isInteger(issuedAt) || issuedAt > now + 300 || issuedAt < now - MAX_SESSION_AGE_SECONDS) return null;
+  if (
+    !Number.isInteger(issuedAt) ||
+    issuedAt > now + 300 ||
+    issuedAt < now - MAX_SESSION_AGE_SECONDS
+  )
+    return null;
   return { id, issuedAt };
 }
 

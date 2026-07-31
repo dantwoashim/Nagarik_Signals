@@ -4,9 +4,11 @@ skip-lint = false
 
 [programs.localnet]
 nagarik_signal = "76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY"
+nagarik_signal_v2 = "A1PDikCUQekCAbc8CHcZgEFwxxhEyspfHGEbG7PX4URP"
 
 [programs.devnet]
 nagarik_signal = "76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY"
+nagarik_signal_v2 = "A1PDikCUQekCAbc8CHcZgEFwxxhEyspfHGEbG7PX4URP"
 
 [registry]
 url = "https://api.apr.dev"
@@ -16,4 +18,4 @@ cluster = "localnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
-test = "npx tsx tests/nagarik_signal.ts"
+test = "npx tsx tests/nagarik_signal.ts && npx tsx tests/nagarik_signal_v2.ts && npx tsx tests/anchor_v2_transport.ts"

@@ -30,9 +30,18 @@ pub struct VerifyIssue<'info> {
 }
 
 pub fn handler(ctx: Context<VerifyIssue>, issue_id: u64) -> Result<()> {
-    require!(ctx.accounts.issue.id == issue_id, NagarikSignalError::InvalidSequence);
-    require!(ctx.accounts.issue.reporter != ctx.accounts.verifier.key(), NagarikSignalError::SelfVerificationNotAllowed);
-    require!(!closed_status(ctx.accounts.issue.status), NagarikSignalError::IssueClosed);
+    require!(
+        ctx.accounts.issue.id == issue_id,
+        NagarikSignalError::InvalidSequence
+    );
+    require!(
+        ctx.accounts.issue.reporter != ctx.accounts.verifier.key(),
+        NagarikSignalError::SelfVerificationNotAllowed
+    );
+    require!(
+        !closed_status(ctx.accounts.issue.status),
+        NagarikSignalError::IssueClosed
+    );
 
     let now = Clock::get()?.unix_timestamp;
     let issue = &mut ctx.accounts.issue;

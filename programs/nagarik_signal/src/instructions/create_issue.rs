@@ -39,15 +39,27 @@ pub fn handler(
     evidence_hash: [u8; 32],
     location_hash: [u8; 32],
 ) -> Result<()> {
-    require!(issue_id == ctx.accounts.registry.issue_count + 1, NagarikSignalError::InvalidSequence);
-    require!(valid_category(category), NagarikSignalError::InvalidCategory);
+    require!(
+        issue_id == ctx.accounts.registry.issue_count + 1,
+        NagarikSignalError::InvalidSequence
+    );
+    require!(
+        valid_category(category),
+        NagarikSignalError::InvalidCategory
+    );
     require!(metadata_hash != [0; 32], NagarikSignalError::InvalidHash);
     require!(evidence_hash != [0; 32], NagarikSignalError::InvalidHash);
     require!(location_hash != [0; 32], NagarikSignalError::InvalidHash);
 
     let now = Clock::get()?.unix_timestamp;
-    require!(first_observed_at <= now + 300, NagarikSignalError::InvalidObservedDate);
-    require!(first_observed_at >= now - 180 * 86_400, NagarikSignalError::InvalidObservedDate);
+    require!(
+        first_observed_at <= now + 300,
+        NagarikSignalError::InvalidObservedDate
+    );
+    require!(
+        first_observed_at >= now - 180 * 86_400,
+        NagarikSignalError::InvalidObservedDate
+    );
 
     let reporter_key = ctx.accounts.reporter.key();
     let issue = &mut ctx.accounts.issue;

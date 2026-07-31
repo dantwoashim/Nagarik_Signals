@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { Keypair } from '@solana/web3.js';
-import { deriveSessionKeypair, parseRelayerSecretKey } from './identity';
+import { deriveSessionKeypair, parseRelayerSecretKey } from './legacyIdentity';
 
 test('parseRelayerSecretKey accepts JSON and raw base64 secret keys', () => {
   const expected = Keypair.generate();
@@ -14,8 +14,13 @@ test('parseRelayerSecretKey accepts JSON and raw base64 secret keys', () => {
 
 test('parseRelayerSecretKey also accepts base64-encoded Solana JSON', () => {
   const expected = Keypair.generate();
-  const encodedJson = Buffer.from(JSON.stringify(Array.from(expected.secretKey))).toString('base64');
-  assert.equal(parseRelayerSecretKey(encodedJson).publicKey.toBase58(), expected.publicKey.toBase58());
+  const encodedJson = Buffer.from(JSON.stringify(Array.from(expected.secretKey))).toString(
+    'base64',
+  );
+  assert.equal(
+    parseRelayerSecretKey(encodedJson).publicKey.toBase58(),
+    expected.publicKey.toBase58(),
+  );
 });
 
 test('raw base64 remains valid when the first secret byte looks like JSON', () => {
@@ -36,13 +41,13 @@ test('deriveSessionKeypair is stable per session and domain-separated by session
   assert.notEqual(first.publicKey.toBase58(), other.publicKey.toBase58());
   assert.notEqual(
     first.publicKey.toBase58(),
-    deriveSessionKeypair(' resident-session-1', secret).publicKey.toBase58()
+    deriveSessionKeypair(' resident-session-1', secret).publicKey.toBase58(),
   );
 });
 
 test('deriveSessionKeypair rejects weak derivation secrets', () => {
   assert.throws(
     () => deriveSessionKeypair('resident-session-1', 'too-short'),
-    /must_be_at_least_32_bytes/
+    /must_be_at_least_32_bytes/,
   );
 });

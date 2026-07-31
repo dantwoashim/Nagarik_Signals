@@ -1,0 +1,2062 @@
+{
+  "address": "A1PDikCUQekCAbc8CHcZgEFwxxhEyspfHGEbG7PX4URP",
+  "metadata": {
+    "name": "nagarik_signal_v2",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Nagarik Signal production commitment protocol"
+  },
+  "instructions": [
+    {
+      "name": "accept_authority",
+      "discriminator": [
+        107,
+        86,
+        198,
+        91,
+        33,
+        12,
+        107,
+        160
+      ],
+      "accounts": [
+        {
+          "name": "pending_authority",
+          "signer": true
+        },
+        {
+          "name": "protocol_config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "expected_config_revision",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "append_lifecycle",
+      "discriminator": [
+        39,
+        111,
+        191,
+        83,
+        15,
+        254,
+        188,
+        19
+      ],
+      "accounts": [
+        {
+          "name": "actor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "protocol_config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "role_grant",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protocol_config"
+              },
+              {
+                "kind": "account",
+                "path": "actor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "issue_commitment",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  115,
+                  115,
+                  117,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protocol_config"
+              },
+              {
+                "kind": "account",
+                "path": "issue_commitment.issue_key",
+                "account": "IssueCommitment"
+              }
+            ]
+          }
+        },
+        {
+          "name": "commitment_event",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  118,
+                  101,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "issue_commitment"
+              },
+              {
+                "kind": "arg",
+                "path": "event_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "event_id",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "expected_update_count",
+          "type": "u64"
+        },
+        {
+          "name": "expected_timeline_head",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "expected_handoff_head",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "expected_lifecycle",
+          "type": "u8"
+        },
+        {
+          "name": "new_lifecycle",
+          "type": "u8"
+        },
+        {
+          "name": "payload_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "cancel_authority_proposal",
+      "discriminator": [
+        234,
+        52,
+        221,
+        94,
+        179,
+        175,
+        219,
+        114
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "signer": true
+        },
+        {
+          "name": "protocol_config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "expected_config_revision",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "checkpoint_handoff",
+      "discriminator": [
+        85,
+        248,
+        204,
+        88,
+        106,
+        29,
+        75,
+        0
+      ],
+      "accounts": [
+        {
+          "name": "actor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "protocol_config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "role_grant",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protocol_config"
+              },
+              {
+                "kind": "account",
+                "path": "actor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "issue_commitment",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  115,
+                  115,
+                  117,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protocol_config"
+              },
+              {
+                "kind": "account",
+                "path": "issue_commitment.issue_key",
+                "account": "IssueCommitment"
+              }
+            ]
+          }
+        },
+        {
+          "name": "commitment_event",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  118,
+                  101,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "issue_commitment"
+              },
+              {
+                "kind": "arg",
+                "path": "event_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "event_id",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "expected_update_count",
+          "type": "u64"
+        },
+        {
+          "name": "expected_timeline_head",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "expected_handoff_head",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "payload_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "commit_metadata_version",
+      "discriminator": [
+        178,
+        239,
+        255,
+        115,
+        12,
+        149,
+        1,
+        27
+      ],
+      "accounts": [
+        {
+          "name": "actor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "protocol_config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "role_grant",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protocol_config"
+              },
+              {
+                "kind": "account",
+                "path": "actor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "issue_commitment",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  115,
+                  115,
+                  117,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protocol_config"
+              },
+              {
+                "kind": "account",
+                "path": "issue_commitment.issue_key",
+                "account": "IssueCommitment"
+              }
+            ]
+          }
+        },
+        {
+          "name": "commitment_event",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  118,
+                  101,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "issue_commitment"
+              },
+              {
+                "kind": "arg",
+                "path": "event_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "event_id",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "expected_update_count",
+          "type": "u64"
+        },
+        {
+          "name": "expected_timeline_head",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "expected_handoff_head",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "expected_category",
+          "type": "u8"
+        },
+        {
+          "name": "new_category",
+          "type": "u8"
+        },
+        {
+          "name": "payload_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "new_metadata_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "new_evidence_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "new_location_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "create_issue",
+      "discriminator": [
+        177,
+        159,
+        162,
+        73,
+        188,
+        253,
+        190,
+        63
+      ],
+      "accounts": [
+        {
+          "name": "actor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "protocol_config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "role_grant",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protocol_config"
+              },
+              {
+                "kind": "account",
+                "path": "actor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "issue_commitment",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  115,
+                  115,
+                  117,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protocol_config"
+              },
+              {
+                "kind": "arg",
+                "path": "issue_key"
+              }
+            ]
+          }
+        },
+        {
+          "name": "commitment_event",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  118,
+                  101,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "issue_commitment"
+              },
+              {
+                "kind": "arg",
+                "path": "event_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "issue_key",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "event_id",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "category",
+          "type": "u8"
+        },
+        {
+          "name": "payload_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "metadata_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "evidence_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "location_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "initialize_protocol",
+      "discriminator": [
+        188,
+        233,
+        252,
+        106,
+        134,
+        146,
+        202,
+        91
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "genesis_authority",
+          "signer": true
+        },
+        {
+          "name": "protocol_config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "mark_publication_removed",
+      "discriminator": [
+        62,
+        113,
+        106,
+        106,
+        18,
+        209,
+        101,
+        209
+      ],
+      "accounts": [
+        {
+          "name": "actor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "protocol_config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "role_grant",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protocol_config"
+              },
+              {
+                "kind": "account",
+                "path": "actor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "issue_commitment",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  115,
+                  115,
+                  117,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protocol_config"
+              },
+              {
+                "kind": "account",
+                "path": "issue_commitment.issue_key",
+                "account": "IssueCommitment"
+              }
+            ]
+          }
+        },
+        {
+          "name": "commitment_event",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  118,
+                  101,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "issue_commitment"
+              },
+              {
+                "kind": "arg",
+                "path": "event_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "event_id",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "expected_update_count",
+          "type": "u64"
+        },
+        {
+          "name": "expected_timeline_head",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "expected_handoff_head",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "payload_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "tombstone_metadata_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "propose_authority",
+      "discriminator": [
+        20,
+        148,
+        236,
+        198,
+        76,
+        119,
+        99,
+        142
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "signer": true
+        },
+        {
+          "name": "protocol_config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "expected_config_revision",
+          "type": "u64"
+        },
+        {
+          "name": "new_authority",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "set_pause",
+      "discriminator": [
+        63,
+        32,
+        154,
+        2,
+        56,
+        103,
+        79,
+        45
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "signer": true
+        },
+        {
+          "name": "protocol_config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "expected_config_revision",
+          "type": "u64"
+        },
+        {
+          "name": "paused",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "set_role",
+      "discriminator": [
+        77,
+        78,
+        62,
+        233,
+        192,
+        61,
+        199,
+        190
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "protocol_config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "subject"
+        },
+        {
+          "name": "role_grant",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protocol_config"
+              },
+              {
+                "kind": "account",
+                "path": "subject"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "expected_config_revision",
+          "type": "u64"
+        },
+        {
+          "name": "expected_grant_revision",
+          "type": "u64"
+        },
+        {
+          "name": "role_bits",
+          "type": "u16"
+        },
+        {
+          "name": "active",
+          "type": "bool"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "CommitmentEvent",
+      "discriminator": [
+        188,
+        211,
+        121,
+        192,
+        238,
+        24,
+        31,
+        3
+      ]
+    },
+    {
+      "name": "IssueCommitment",
+      "discriminator": [
+        131,
+        168,
+        187,
+        56,
+        211,
+        15,
+        83,
+        189
+      ]
+    },
+    {
+      "name": "ProtocolConfig",
+      "discriminator": [
+        207,
+        91,
+        250,
+        28,
+        152,
+        179,
+        215,
+        209
+      ]
+    },
+    {
+      "name": "RoleGrant",
+      "discriminator": [
+        126,
+        213,
+        123,
+        128,
+        172,
+        2,
+        104,
+        242
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "AuthorityAccepted",
+      "discriminator": [
+        166,
+        192,
+        219,
+        188,
+        41,
+        209,
+        195,
+        26
+      ]
+    },
+    {
+      "name": "AuthorityProposalCancelled",
+      "discriminator": [
+        201,
+        36,
+        146,
+        19,
+        47,
+        101,
+        65,
+        248
+      ]
+    },
+    {
+      "name": "AuthorityProposed",
+      "discriminator": [
+        244,
+        117,
+        94,
+        112,
+        53,
+        151,
+        35,
+        89
+      ]
+    },
+    {
+      "name": "PauseChanged",
+      "discriminator": [
+        238,
+        188,
+        213,
+        78,
+        134,
+        209,
+        178,
+        218
+      ]
+    },
+    {
+      "name": "ProtocolInitialized",
+      "discriminator": [
+        173,
+        122,
+        168,
+        254,
+        9,
+        118,
+        76,
+        132
+      ]
+    },
+    {
+      "name": "RoleGrantChanged",
+      "discriminator": [
+        172,
+        215,
+        240,
+        28,
+        101,
+        65,
+        254,
+        175
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidGenesisAuthority",
+      "msg": "The genesis authority does not match the compiled protocol authority."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidProtocolVersion",
+      "msg": "The protocol version is not supported."
+    },
+    {
+      "code": 6002,
+      "name": "ProtocolPaused",
+      "msg": "The protocol is paused."
+    },
+    {
+      "code": 6003,
+      "name": "ProtocolMustBePaused",
+      "msg": "The protocol must be paused for this operation."
+    },
+    {
+      "code": 6004,
+      "name": "UnauthorizedAuthority",
+      "msg": "The protocol authority is not authorized."
+    },
+    {
+      "code": 6005,
+      "name": "StaleConfigRevision",
+      "msg": "The protocol revision is stale."
+    },
+    {
+      "code": 6006,
+      "name": "StaleGrantRevision",
+      "msg": "The role grant revision is stale."
+    },
+    {
+      "code": 6007,
+      "name": "InvalidAuthorityTransfer",
+      "msg": "The authority transfer state is invalid."
+    },
+    {
+      "code": 6008,
+      "name": "InvalidAuthority",
+      "msg": "The supplied authority is invalid."
+    },
+    {
+      "code": 6009,
+      "name": "PauseStateUnchanged",
+      "msg": "The requested pause state is already active."
+    },
+    {
+      "code": 6010,
+      "name": "InvalidRoleBits",
+      "msg": "The role bit mask is invalid."
+    },
+    {
+      "code": 6011,
+      "name": "InvalidRoleGrant",
+      "msg": "The role grant does not belong to this protocol and subject."
+    },
+    {
+      "code": 6012,
+      "name": "InvalidRoleChange",
+      "msg": "The role change is not permitted in the current protocol state."
+    },
+    {
+      "code": 6013,
+      "name": "RoleStateUnchanged",
+      "msg": "The role change is a no-op."
+    },
+    {
+      "code": 6014,
+      "name": "RequiredRoleMissing",
+      "msg": "The signer does not hold the required active role."
+    },
+    {
+      "code": 6015,
+      "name": "InvalidCategory",
+      "msg": "The category discriminant is invalid."
+    },
+    {
+      "code": 6016,
+      "name": "InvalidLifecycle",
+      "msg": "The lifecycle discriminant is invalid."
+    },
+    {
+      "code": 6017,
+      "name": "InvalidLifecycleTransition",
+      "msg": "The lifecycle transition is not allowed."
+    },
+    {
+      "code": 6018,
+      "name": "ZeroCommitment",
+      "msg": "A required key or hash is zero."
+    },
+    {
+      "code": 6019,
+      "name": "InvalidIssue",
+      "msg": "The issue does not belong to this protocol."
+    },
+    {
+      "code": 6020,
+      "name": "PublicationAlreadyRemoved",
+      "msg": "The issue has already been removed."
+    },
+    {
+      "code": 6021,
+      "name": "IssueRemoved",
+      "msg": "The issue is terminally removed."
+    },
+    {
+      "code": 6022,
+      "name": "StaleUpdateCount",
+      "msg": "The expected issue update count is stale."
+    },
+    {
+      "code": 6023,
+      "name": "StaleHead",
+      "msg": "The expected issue head is stale."
+    },
+    {
+      "code": 6024,
+      "name": "StaleCategory",
+      "msg": "The expected issue category is stale."
+    },
+    {
+      "code": 6025,
+      "name": "StaleLifecycle",
+      "msg": "The expected lifecycle is stale."
+    },
+    {
+      "code": 6026,
+      "name": "SequenceExhausted",
+      "msg": "The issue sequence is exhausted."
+    },
+    {
+      "code": 6027,
+      "name": "ArithmeticOverflow",
+      "msg": "Arithmetic overflow."
+    }
+  ],
+  "types": [
+    {
+      "name": "AuthorityAccepted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "protocol",
+            "type": "pubkey"
+          },
+          {
+            "name": "previous_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "new_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "config_revision",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuthorityProposalCancelled",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "protocol",
+            "type": "pubkey"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "cancelled_pending_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "config_revision",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuthorityProposed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "protocol",
+            "type": "pubkey"
+          },
+          {
+            "name": "current_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "pending_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "config_revision",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CommitmentEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "issue",
+            "type": "pubkey"
+          },
+          {
+            "name": "event_id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "event_type",
+            "type": "u8"
+          },
+          {
+            "name": "category",
+            "type": "u8"
+          },
+          {
+            "name": "sequence",
+            "type": "u64"
+          },
+          {
+            "name": "previous_head",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "new_head",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "payload_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "metadata_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "issue_evidence_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "location_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "lifecycle",
+            "type": "u8"
+          },
+          {
+            "name": "publication_removed",
+            "type": "bool"
+          },
+          {
+            "name": "occurred_at",
+            "type": "i64"
+          },
+          {
+            "name": "actor",
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                15
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "IssueCommitment",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "protocol",
+            "type": "pubkey"
+          },
+          {
+            "name": "issue_key",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "issuer",
+            "type": "pubkey"
+          },
+          {
+            "name": "category",
+            "type": "u8"
+          },
+          {
+            "name": "lifecycle",
+            "type": "u8"
+          },
+          {
+            "name": "publication_removed",
+            "type": "bool"
+          },
+          {
+            "name": "metadata_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "evidence_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "location_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "timeline_head",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "handoff_head",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "update_count",
+            "type": "u64"
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "updated_at",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PauseChanged",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "protocol",
+            "type": "pubkey"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "paused",
+            "type": "bool"
+          },
+          {
+            "name": "config_revision",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProtocolConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "pending_authority",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "paused",
+            "type": "bool"
+          },
+          {
+            "name": "revision",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                56
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProtocolInitialized",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "protocol",
+            "type": "pubkey"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "config_revision",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoleGrant",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "protocol",
+            "type": "pubkey"
+          },
+          {
+            "name": "subject",
+            "type": "pubkey"
+          },
+          {
+            "name": "role_bits",
+            "type": "u16"
+          },
+          {
+            "name": "active",
+            "type": "bool"
+          },
+          {
+            "name": "granted_at",
+            "type": "i64"
+          },
+          {
+            "name": "revoked_at",
+            "type": "i64"
+          },
+          {
+            "name": "revision",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                24
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoleGrantChanged",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "protocol",
+            "type": "pubkey"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "subject",
+            "type": "pubkey"
+          },
+          {
+            "name": "role_bits",
+            "type": "u16"
+          },
+          {
+            "name": "active",
+            "type": "bool"
+          },
+          {
+            "name": "grant_revision",
+            "type": "u64"
+          },
+          {
+            "name": "config_revision",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "constants": [
+    {
+      "name": "GENESIS_AUTHORITY",
+      "type": "pubkey",
+      "value": "94GGj4zzhRQV5FzpL3RmYoZrH5qoLhdRMKYj9t9ndv5i"
+    },
+    {
+      "name": "PROTOCOL_VERSION",
+      "type": "u8",
+      "value": "2"
+    }
+  ]
+}

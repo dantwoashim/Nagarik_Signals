@@ -31,7 +31,6 @@ export default defineConfig({
       NAGARIK_DATA_DIR: isolatedDataDir,
       NAGARIK_STORAGE_MODE: 'local',
       NAGARIK_COOKIE_SECRET: 'nagarik-e2e-cookie-secret-0123456789',
-      NAGARIK_SESSION_DERIVATION_SECRET: 'nagarik-e2e-session-secret-0123456789',
       NAGARIK_UPLOAD_RECEIPT_SECRET: 'nagarik-e2e-upload-secret-0123456789',
       NAGARIK_RATE_LIMIT_SALT: 'nagarik-e2e-rate-salt-0123456789',
       NAGARIK_RATE_LIMIT_PEPPER: 'nagarik-e2e-rate-pepper-0123456789',

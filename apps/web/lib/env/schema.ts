@@ -61,6 +61,7 @@ export const serverEnvironmentSchema = z
       .optional(),
     NAGARIK_V2_SIGNER_PUBLIC_KEY: publicKey.optional(),
     NAGARIK_V2_SIGNER_KMS_KEY_ID: z.string().min(8).max(240).optional(),
+    NAGARIK_V2_LOCAL_SIGNER_PATH: z.string().min(1).optional(),
     NAGARIK_CAPABILITY_DERIVATION_KEY: secret.optional(),
     NAGARIK_CAPABILITY_VERIFIER_KEY: secret.optional(),
     NAGARIK_SECURITY_CORRELATION_KEY: secret.optional(),
@@ -216,6 +217,7 @@ export const serverEnvironmentSchema = z
       'NAGARIK_RELAYER_SECRET_KEY',
       'NAGARIK_SESSION_DERIVATION_SECRET',
       'NAGARIK_UPLOAD_RECEIPT_SECRET',
+      'NAGARIK_V2_LOCAL_SIGNER_PATH',
     ] as const;
     for (const key of legacySecrets) {
       if (env[key])

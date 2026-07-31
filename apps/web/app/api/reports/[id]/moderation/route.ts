@@ -3,7 +3,11 @@ import { getIssue, recordRequestEvent, updateSafetyReview } from '@/lib/db/queri
 import { publicPreviewReadOnly } from '@/lib/deployment';
 import { inferredRecordKind } from '@/lib/issues/recordKind';
 import { assertRateLimit, rateLimitResponse } from '@/lib/security/rateLimit';
-import { assertTrustedMutation, requestIpHash, securityErrorResponse } from '@/lib/security/request';
+import {
+  assertTrustedMutation,
+  requestIpHash,
+  securityErrorResponse,
+} from '@/lib/security/request';
 import { secretsMatch } from '@/lib/security/secrets';
 import { getOrCreateServerSession } from '@/lib/security/session';
 import type { SafetyReviewStatus } from '@/lib/types';
@@ -26,7 +30,10 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   const requiredSecret = process.env.NAGARIK_STEWARD_SECRET;
   const providedSecret = request.headers.get('x-nagarik-steward-secret');
   if (!requiredSecret && process.env.NODE_ENV === 'production') {
-    return NextResponse.json({ ok: false, reason: 'steward_secret_not_configured' }, { status: 503 });
+    return NextResponse.json(
+      { ok: false, reason: 'steward_secret_not_configured' },
+      { status: 503 },
+    );
   }
   if (requiredSecret && !secretsMatch(providedSecret, requiredSecret)) {
     return NextResponse.json({ ok: false, reason: 'unauthorized_steward' }, { status: 401 });
@@ -44,12 +51,13 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     });
   } catch (error) {
     const security = securityErrorResponse(error);
-    if (security) return NextResponse.json({ ok: false, reason: security.code }, { status: security.status });
+    if (security)
+      return NextResponse.json({ ok: false, reason: security.code }, { status: security.status });
     const limited = rateLimitResponse(error);
     if (limited) {
       return NextResponse.json(
         { ok: false, reason: limited.code, retryAfterSeconds: limited.retryAfterSeconds },
-        { status: limited.status, headers: { 'Retry-After': String(limited.retryAfterSeconds) } }
+        { status: limited.status, headers: { 'Retry-After': String(limited.retryAfterSeconds) } },
       );
     }
     return NextResponse.json({ ok: false, reason: 'request_security_failed' }, { status: 500 });
@@ -63,17 +71,23 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     return NextResponse.json({ ok: false, reason: 'record_outside_moderation' }, { status: 409 });
   }
 
-  const body = await request.json().catch(() => null) as Record<string, unknown> | null;
+  const body = (await request.json().catch(() => null)) as Record<string, unknown> | null;
   const safetyReviewStatus = String(body?.safetyReviewStatus ?? '') as SafetyReviewStatus;
   const note = String(body?.note ?? '').trim();
   if (!moderationStates.has(safetyReviewStatus)) {
     return NextResponse.json({ ok: false, reason: 'invalid_moderation_state' }, { status: 400 });
   }
   if (note.length < 8 || note.length > 500) {
-    return NextResponse.json({ ok: false, reason: 'moderation_note_outside_limits' }, { status: 400 });
+    return NextResponse.json(
+      { ok: false, reason: 'moderation_note_outside_limits' },
+      { status: 400 },
+    );
   }
   if (safetyReviewStatus === 'resolved' && issue.status !== 'resolved') {
-    return NextResponse.json({ ok: false, reason: 'chain_status_must_be_resolved_first' }, { status: 409 });
+    return NextResponse.json(
+      { ok: false, reason: 'chain_status_must_be_resolved_first' },
+      { status: 409 },
+    );
   }
 
   const oldSafetyReviewStatus = issue.safetyReviewStatus;

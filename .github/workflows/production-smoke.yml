@@ -16,26 +16,33 @@ concurrency:
 
 jobs:
   verify:
-    name: Verify stable production
+    name: Verify exact deployed release
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 22.23.1
           cache: npm
           cache-dependency-path: package-lock.json
 
-      - name: Install dependencies
+      - name: Install locked dependencies
         run: npm ci
 
-      - name: Wait for and verify production
+      - name: Verify exact runtime
+        run: >-
+          node -e "if (process.version !== 'v22.23.1') throw new
+          Error('Unexpected Node runtime: ' + process.version)"
+
+      - name: Wait for and verify production without mutations
         env:
-          NAGARIK_DEPLOYMENT_URL: https://nagarik-signal.vercel.app
+          NAGARIK_DEPLOYMENT_URL: ${{ vars.NAGARIK_DEPLOYMENT_URL || 'https://nagarik-signal.vercel.app' }}
           NAGARIK_EXPECTED_GIT_SHA: ${{ github.sha }}
           NAGARIK_DEPLOYMENT_WAIT_SECONDS: '480'
+          NAGARIK_SMOKE_PUBLIC_ID: ${{ vars.NAGARIK_SMOKE_PUBLIC_ID }}
+          NAGARIK_SMOKE_TOMBSTONE_ID: ${{ vars.NAGARIK_SMOKE_TOMBSTONE_ID }}
         run: npm run verify:deployment

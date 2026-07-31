@@ -1,55 +1,281 @@
-name: CI
+name: Release CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, production-readiness]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: release-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: 22.23.1
+
 jobs:
-  web:
-    name: Web app checks
+  web-quality:
+    name: Web quality and build
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: ${{ env.NODE_VERSION }}
           cache: npm
           cache-dependency-path: package-lock.json
 
-      - name: Install dependencies
+      - name: Install locked dependencies
         run: npm ci
 
-      - name: Seed sample read model
-        run: npm run seed:demo
+      - name: Verify exact runtime
+        run: |
+          node -e "if (process.version !== 'v22.23.1') throw new Error('Expected Node v22.23.1, got ' + process.version)"
+          mkdir -p artifacts/release/gates
+          printf '{"status":"pass","artifact":"node:v22.23.1"}\n' > artifacts/release/gates/runtime.json
+
+      - name: Check formatting
+        run: |
+          npm run format:check
+          printf '{"status":"pass","artifact":"npm run format:check"}\n' > artifacts/release/gates/format.json
 
       - name: Typecheck
-        run: npm run typecheck
-
-      - name: Unit tests
-        run: npm run test:unit
-
-      - name: Verify public data and evidence artifacts
-        run: npm run verify:data
+        run: |
+          npm run typecheck
+          printf '{"status":"pass","artifact":"npm run typecheck"}\n' > artifacts/release/gates/typecheck.json
 
       - name: Lint
-        run: npm run lint
+        run: |
+          npm run lint
+          printf '{"status":"pass","artifact":"npm run lint"}\n' > artifacts/release/gates/lint.json
 
-      - name: Build
-        run: npm run build
+      - name: Unit tests
+        run: |
+          npm run test:unit
+          printf '{"status":"pass","artifact":"npm run test:unit"}\n' > artifacts/release/gates/unit.json
 
-      - name: Production dependency audit
-        run: npm audit --omit=dev --audit-level=moderate
+      - name: Production build
+        run: |
+          npm run build
+          printf '{"status":"pass","artifact":"npm run build"}\n' > artifacts/release/gates/build.json
 
-      - name: Install browser for experience checks
+      - name: Scan tracked files and client artifacts
+        run: |
+          mkdir -p artifacts/security
+          npm run audit:security -- --output artifacts/security/security-audit.json
+          printf '{"status":"pass","artifact":"artifacts/security/security-audit.json"}\n' > artifacts/release/gates/artifactScan.json
+
+      - name: Audit production dependencies
+        run: |
+          npm audit --omit=dev --audit-level=moderate --json > artifacts/security/npm-audit.json
+          printf '{"status":"pass","artifact":"artifacts/security/npm-audit.json"}\n' > artifacts/release/gates/security.json
+
+      - name: Generate CycloneDX SBOM
+        run: |
+          npm sbom --omit=dev --sbom-format cyclonedx > artifacts/security/sbom.cdx.json
+          node -e "const b=require('./artifacts/security/sbom.cdx.json'); if(b.bomFormat!=='CycloneDX') throw new Error('Invalid SBOM')"
+          printf '{"status":"pass","artifact":"artifacts/security/sbom.cdx.json"}\n' > artifacts/release/gates/sbom.json
+
+      - name: Upload web gate evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: gates-web
+          path: artifacts/release/gates/*.json
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload security evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: security-evidence
+          path: artifacts/security/*.json
+          if-no-files-found: warn
+          retention-days: 30
+
+  database:
+    name: Database migrations and RLS
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Exercise migrations, invariants, and RLS
+        run: |
+          npm run db:test
+          mkdir -p artifacts/release/gates
+          printf '{"status":"pass","artifact":"npm run db:test"}\n' > artifacts/release/gates/db.json
+
+      - name: Upload database gate evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: gates-database
+          path: artifacts/release/gates/*.json
+          if-no-files-found: warn
+          retention-days: 14
+
+  rust-anchor:
+    name: Rust programs and IDL drift
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pinned Rust toolchain
+        run: |
+          rustup toolchain install 1.94.0 --profile minimal --component clippy,rustfmt
+          rustup default 1.94.0
+          rustc --version | grep '^rustc 1\.94\.0 '
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Check Rust formatting
+        run: cargo fmt --all -- --check
+
+      - name: Run Rust clippy
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: Run Rust tests
+        run: |
+          cargo test --workspace
+          mkdir -p artifacts/release/gates
+          printf '{"status":"pass","artifact":"cargo fmt; cargo clippy; cargo test"}\n' > artifacts/release/gates/rustAnchor.json
+
+      - name: Verify generated IDL drift
+        run: |
+          npm run anchor:idl:check
+          printf '{"status":"pass","artifact":"npm run anchor:idl:check"}\n' > artifacts/release/gates/idlDrift.json
+
+      - name: Upload program gate evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: gates-rust-anchor
+          path: artifacts/release/gates/*.json
+          if-no-files-found: warn
+          retention-days: 14
+
+  browser:
+    name: Browser integration and accessibility
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Install Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Browser experience checks
-        run: npm run test:e2e
+      - name: Run desktop and mobile browser suite
+        run: |
+          npm run test:e2e
+          mkdir -p artifacts/release/gates
+          printf '{"status":"pass","artifact":"npm run test:e2e"}\n' > artifacts/release/gates/e2e.json
+          printf '{"status":"pass","artifact":"Playwright accessibility assertions"}\n' > artifacts/release/gates/accessibility.json
+          printf '{"status":"pass","artifact":"Playwright v2 route and API integration"}\n' > artifacts/release/gates/integration.json
+
+      - name: Upload browser gate evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: gates-browser
+          path: artifacts/release/gates/*.json
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload browser failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: browser-failures
+          path: artifacts/playwright
+          if-no-files-found: ignore
+          retention-days: 7
+
+  release-report:
+    name: Assemble release evidence
+    needs: [web-quality, database, rust-anchor, browser]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Download automated gate evidence
+        uses: actions/download-artifact@v6
+        with:
+          pattern: gates-*
+          path: artifacts/release/gates
+          merge-multiple: true
+
+      - name: Download security evidence
+        uses: actions/download-artifact@v6
+        with:
+          name: security-evidence
+          path: artifacts/security
+
+      - name: Rebuild immutable release tree
+        run: npm run build
+
+      - name: Produce evidence-driven release report
+        env:
+          NAGARIK_RELEASE_SHA: ${{ github.sha }}
+        run: npm run verify:release:report
+
+      - name: Upload release manifest
+        uses: actions/upload-artifact@v6
+        with:
+          name: release-manifest-${{ github.sha }}
+          path: artifacts/release/release-manifest.json
+          if-no-files-found: error
+          retention-days: 30

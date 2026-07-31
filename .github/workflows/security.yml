@@ -1,0 +1,111 @@
+name: Security
+
+on:
+  push:
+    branches: [main, production-readiness]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '43 3 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: 22.23.1
+
+jobs:
+  codeql:
+    name: CodeQL
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: javascript-typescript
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@v4
+
+  supply-chain:
+    name: Dependencies, artifacts, and SBOM
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Build client artifacts
+        run: npm run build
+
+      - name: Scan repository and browser bundle
+        run: |
+          mkdir -p artifacts/security
+          npm run audit:security -- --output artifacts/security/security-audit.json
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=moderate --json > artifacts/security/npm-audit.json
+
+      - name: Generate CycloneDX SBOM
+        run: |
+          npm sbom --omit=dev --sbom-format cyclonedx > artifacts/security/sbom.cdx.json
+          node -e "const b=require('./artifacts/security/sbom.cdx.json'); if(b.bomFormat!=='CycloneDX') throw new Error('Invalid SBOM')"
+
+      - name: Upload security evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: security-evidence-${{ github.sha }}
+          path: artifacts/security/*.json
+          if-no-files-found: warn
+          retention-days: 30
+
+  dependency-review:
+    name: Dependency review
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Review dependency changes
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate

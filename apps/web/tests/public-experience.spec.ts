@@ -594,4 +594,9 @@ test('health and security headers expose no dependency details', async ({ reques
   expect(response.headers()['x-content-type-options']).toBe('nosniff');
   expect(response.headers()['x-frame-options']).toBe('DENY');
   expect(response.headers()['referrer-policy']).toBe('strict-origin-when-cross-origin');
+  expect(response.headers()['strict-transport-security']).toBe(
+    'max-age=31536000; includeSubDomains',
+  );
+  expect(response.headers()['content-security-policy']).toContain("frame-ancestors 'none'");
+  expect(response.headers()['content-security-policy']).toContain("object-src 'none'");
 });

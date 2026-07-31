@@ -3610,3 +3610,368 @@
     margin-left: 0;
   }
 }
+
+.operator-metrics {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.operator-records {
+  margin-top: 22px;
+}
+
+.operator-record-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.operator-record-list > a {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  gap: 14px;
+  align-items: center;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 18px 22px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background-color 140ms ease;
+}
+
+.operator-record-list > a:nth-child(2n) {
+  border-right: 0;
+}
+
+.operator-record-list > a:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.operator-record-list > a:hover {
+  background: #f4f5f2;
+}
+
+.operator-record-list > a > div {
+  min-width: 0;
+}
+
+.operator-record-list > a > div strong,
+.operator-record-list > a > div span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.operator-record-list > a > div span,
+.operator-record-list > a > span:nth-last-child(2) {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.operator-record-list > a > div span {
+  margin-top: 4px;
+}
+
+.operator-heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.operator-recovery-warning {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  border-left: 3px solid var(--crimson);
+  background: #f8eded;
+  padding: 14px 16px;
+  color: var(--crimson);
+}
+
+.operator-recovery-warning strong,
+.operator-recovery-warning span {
+  display: block;
+}
+
+.operator-recovery-warning span {
+  margin-top: 3px;
+  color: var(--ink-soft);
+  font-size: 12px;
+}
+
+.operator-issue-facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 24px;
+  border-block: 1px solid var(--line-strong);
+}
+
+.operator-issue-facts article {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 5px 10px;
+  align-items: center;
+  border-right: 1px solid var(--line);
+  padding: 18px 20px;
+}
+
+.operator-issue-facts article:last-child {
+  border-right: 0;
+}
+
+.operator-issue-facts svg {
+  grid-row: 1 / 3;
+  color: var(--muted);
+}
+
+.operator-issue-facts span {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 720;
+  text-transform: uppercase;
+}
+
+.operator-issue-facts strong {
+  overflow: hidden;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.operator-issue-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(360px, 0.65fr);
+  gap: 24px;
+  align-items: start;
+  margin-top: 26px;
+}
+
+.operator-current-copy {
+  padding: 22px;
+}
+
+.operator-current-copy > p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.operator-current-copy dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 22px 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.operator-current-copy dl > div {
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 14px 0;
+}
+
+.operator-current-copy dl > div:nth-child(2n) {
+  border-right: 0;
+  padding-left: 18px;
+}
+
+.operator-current-copy dl > div:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.operator-current-copy dt {
+  margin-bottom: 5px;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 720;
+  text-transform: uppercase;
+}
+
+.operator-current-copy dd {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.operator-issue-actions {
+  min-width: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.operator-operation,
+.operator-readonly {
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: var(--surface);
+}
+
+.operator-operation > summary {
+  min-height: 54px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 15px 18px;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 720;
+}
+
+.operator-operation > summary svg {
+  color: var(--crimson);
+}
+
+.operator-operation[open] > summary {
+  border-bottom: 1px solid var(--line);
+}
+
+.operator-operation > form {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.operator-operation > form > .button {
+  width: 100%;
+}
+
+.operator-operation.danger > summary {
+  color: var(--crimson);
+}
+
+.operator-danger-copy {
+  display: flex;
+  gap: 9px;
+  color: var(--crimson);
+}
+
+.operator-danger-copy p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.operator-readonly {
+  display: flex;
+  gap: 12px;
+  padding: 20px;
+}
+
+.operator-readonly svg {
+  flex: 0 0 auto;
+  color: var(--green);
+}
+
+.operator-readonly strong,
+.operator-readonly span {
+  display: block;
+}
+
+.operator-readonly span {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+@media (max-width: 980px) {
+  .operator-metrics,
+  .operator-issue-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .operator-metrics article:nth-child(2),
+  .operator-issue-facts article:nth-child(2) {
+    border-right: 0;
+  }
+
+  .operator-metrics article:nth-child(-n + 2),
+  .operator-issue-facts article:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .operator-issue-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .operator-issue-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .operator-record-list {
+    grid-template-columns: 1fr;
+  }
+
+  .operator-record-list > a,
+  .operator-record-list > a:nth-child(2n),
+  .operator-record-list > a:nth-last-child(-n + 2) {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .operator-record-list > a:last-child {
+    border-bottom: 0;
+  }
+
+  .operator-heading-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .operator-issue-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .operator-metrics,
+  .operator-issue-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .operator-metrics article,
+  .operator-metrics article:nth-child(2),
+  .operator-metrics article:nth-child(-n + 2),
+  .operator-issue-facts article,
+  .operator-issue-facts article:nth-child(2),
+  .operator-issue-facts article:nth-child(-n + 2) {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .operator-metrics article:last-child,
+  .operator-issue-facts article:last-child {
+    border-bottom: 0;
+  }
+
+  .operator-record-list > a {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .operator-record-list > a > span:nth-last-child(2) {
+    display: none;
+  }
+
+  .operator-current-copy dl {
+    grid-template-columns: 1fr;
+  }
+
+  .operator-current-copy dl > div,
+  .operator-current-copy dl > div:nth-child(2n),
+  .operator-current-copy dl > div:nth-last-child(-n + 2) {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 13px 0;
+  }
+
+  .operator-current-copy dl > div:last-child {
+    border-bottom: 0;
+  }
+}

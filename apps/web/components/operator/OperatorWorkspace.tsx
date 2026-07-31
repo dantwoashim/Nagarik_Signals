@@ -11,6 +11,7 @@ import {
   Key,
   ListChecks,
   LockKey,
+  ShieldCheck,
   SignOut,
   UsersThree,
   WarningCircle,
@@ -41,6 +42,23 @@ type QueueItem = {
 type QueueResponse = {
   items: QueueItem[];
   nextCursor: string | null;
+};
+
+type OperatorIssue = {
+  publicId: string;
+  publicationState: string;
+  lifecycle: string;
+  domainVersion: number;
+  blockedFromSequence: number | null;
+  title: string;
+  category: string;
+  wardLabel: string;
+  signalCount: number;
+  updatedAt: string;
+};
+
+type OperatorIssuesResponse = {
+  items: OperatorIssue[];
 };
 
 type InvitationResponse = {
@@ -104,6 +122,8 @@ export function OperatorWorkspace({
     organizations[0];
   const [queue, setQueue] = useState<QueueItem[]>([]);
   const [queueState, setQueueState] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [issues, setIssues] = useState<OperatorIssue[]>([]);
+  const [issuesState, setIssuesState] = useState<'loading' | 'ready' | 'error'>('loading');
   const [message, setMessage] = useState('');
   const [invitation, setInvitation] = useState<InvitationResponse | null>(null);
   const [invitationBusy, setInvitationBusy] = useState(false);
@@ -147,6 +167,25 @@ export function OperatorWorkspace({
         if (!active) return;
         setMessage(queueMessage(error));
         setQueueState('error');
+      });
+    return () => {
+      active = false;
+    };
+  }, [selected.id]);
+
+  useEffect(() => {
+    let active = true;
+    readOperatorApi<OperatorIssuesResponse>(
+      `/api/operator/issues?organizationId=${encodeURIComponent(selected.id)}&limit=50`,
+    )
+      .then((result) => {
+        if (!active) return;
+        setIssues(result.items);
+        setIssuesState('ready');
+      })
+      .catch(() => {
+        if (!active) return;
+        setIssuesState('error');
       });
     return () => {
       active = false;
@@ -270,6 +309,11 @@ export function OperatorWorkspace({
           <UsersThree size={20} weight="regular" />
           <span>Assigned</span>
           <strong>{queue.filter((item) => item.assignedTo).length}</strong>
+        </article>
+        <article>
+          <ShieldCheck size={20} weight="regular" />
+          <span>Published records</span>
+          <strong>{issues.length}</strong>
         </article>
       </section>
 
@@ -407,6 +451,54 @@ export function OperatorWorkspace({
           ) : null}
         </aside>
       </div>
+
+      <section className="operator-panel operator-records" aria-labelledby="records-heading">
+        <header>
+          <div>
+            <span className="eyebrow">Published workflow</span>
+            <h2 id="records-heading">Public record operations</h2>
+          </div>
+        </header>
+        {issuesState === 'loading' ? (
+          <div className="operator-panel-state" role="status">
+            <span className="prod-inline-spinner" aria-hidden="true" /> Loading records
+          </div>
+        ) : issuesState === 'error' ? (
+          <div className="operator-panel-state" role="status">
+            <WarningCircle size={22} weight="regular" />
+            <span>Published records are temporarily unavailable.</span>
+          </div>
+        ) : issues.length ? (
+          <div className="operator-record-list">
+            {issues.map((issue) => (
+              <Link
+                key={issue.publicId}
+                href={`/operator/issues/${issue.publicId}?organization=${encodeURIComponent(selected.id)}`}
+              >
+                <span className={`prod-state prod-state-${issue.lifecycle}`}>
+                  {stateLabel(issue.lifecycle)}
+                </span>
+                <div>
+                  <strong>{issue.title}</strong>
+                  <span>
+                    {issue.wardLabel} / {issue.signalCount} signals
+                  </span>
+                </div>
+                <span>{issue.category.replaceAll('_', ' ')}</span>
+                {issue.blockedFromSequence === null ? (
+                  <ArrowRight size={17} weight="bold" />
+                ) : (
+                  <WarningCircle size={17} weight="bold" />
+                )}
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="operator-panel-state">
+            <span>No published records are available for this organization.</span>
+          </div>
+        )}
+      </section>
     </div>
   );
 }

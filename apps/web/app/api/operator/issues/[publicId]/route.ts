@@ -21,7 +21,7 @@ export async function GET(
   const requestId = `req_${randomUUID()}`;
   try {
     const { publicId } = await params;
-    await requireIssueOperator(publicId, [
+    const operator = await requireIssueOperator(publicId, [
       'moderator',
       'steward',
       'privacy_reviewer',
@@ -100,6 +100,7 @@ export async function GET(
         requestId,
         data: {
           publicId: row.public_id,
+          roles: operator.roles,
           publicationState: row.publication_state,
           lifecycle: row.lifecycle,
           domainVersion: Number(row.domain_version),

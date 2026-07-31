@@ -5,8 +5,6 @@ target
 coverage
 apps/web/public/demo
 apps/web/public/source-dossiers
-docs/production/production-readiness-master-plan.md
-nagarik_signal_master_plan.md
 package-lock.json
 Cargo.lock
 idl

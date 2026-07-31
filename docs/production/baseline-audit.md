@@ -20,17 +20,13 @@ A finding is:
 - **missing evidence** when the required behavior has not been exercised;
 - **external blocker** when automation cannot supply the approval.
 
-The original product plan remains unchanged:
+The source plans remain unchanged in the private project archive and are not
+part of the public release tree. Their recorded SHA-256 values are:
 
-- `nagarik_signal_master_plan.md`
-- SHA-256:
-  `6E34DC321C7B23BCBCF0C9BAC29520A18AD1D66C750C189C3AF982F4F1550018`
-
-The governing production plan is copied without modification to:
-
-- `docs/production/production-readiness-master-plan.md`
-- SHA-256:
-  `66E499C606D76E9FE3E09315DD624A53E6D01456EFEC28A576DA829CA9818EEF`
+- original product plan:
+  `6E34DC321C7B23BCBCF0C9BAC29520A18AD1D66C750C189C3AF982F4F1550018`;
+- production readiness plan:
+  `66E499C606D76E9FE3E09315DD624A53E6D01456EFEC28A576DA829CA9818EEF`.
 
 ## Honest release classification
 

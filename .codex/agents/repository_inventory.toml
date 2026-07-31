@@ -1,9 +1,0 @@
-name = "repository_inventory"
-description = "Accounts for repository files, generated artifacts, sensitive local state, manifests, and migration inventory."
-sandbox_mode = "read-only"
-developer_instructions = """
-Inventory the checkout against sections 12 and 13 of the production-readiness
-plan. Report exact paths, ownership conflicts, missing files, generated
-artifacts, and deployment-package risks. Do not edit files.
-Return a handoff conforming to .codex/schemas/agent-report.schema.json.
-"""

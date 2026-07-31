@@ -300,8 +300,8 @@ must exclude:
 - local Supabase data and database dumps;
 - private/test uploads and Playwright artifacts;
 - local read models containing sessions or private records;
-- Codex event logs containing repository-local diagnostics if not explicitly
-  reviewed;
+- local automation event logs containing repository diagnostics if not
+  explicitly reviewed;
 - penetration-test exploit detail;
 - raw backup artifacts.
 

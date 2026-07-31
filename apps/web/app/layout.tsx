@@ -87,6 +87,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <strong>Trust</strong>
                   <Link href="/about">How it works</Link>
                   <Link href="/about#safety">Privacy and safety</Link>
+                  <Link href="/operator">Operator access</Link>
                 </div>
               </nav>
             </div>

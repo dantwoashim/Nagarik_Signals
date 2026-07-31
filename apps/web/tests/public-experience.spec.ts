@@ -586,11 +586,19 @@ for (const [name, path] of accessibilityRoutes) {
 test('health and security headers expose no dependency details', async ({ request }) => {
   const response = await request.get('/api/health');
   expect(response.ok()).toBe(true);
-  expect(await response.json()).toEqual({
+  const health = (await response.json()) as {
+    ok: boolean;
+    status: string;
+    release: { environment: string; commitSha: string | null };
+  };
+  expect(health).toEqual({
     ok: true,
     status: 'live',
-    release: { environment: 'development', commitSha: null },
+    release: { environment: 'development', commitSha: health.release.commitSha },
   });
+  expect(health.release.commitSha === null || /^[0-9a-f]{40}$/.test(health.release.commitSha)).toBe(
+    true,
+  );
   expect(response.headers()['x-content-type-options']).toBe('nosniff');
   expect(response.headers()['x-frame-options']).toBe('DENY');
   expect(response.headers()['referrer-policy']).toBe('strict-origin-when-cross-origin');

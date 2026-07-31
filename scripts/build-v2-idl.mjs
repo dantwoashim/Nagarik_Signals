@@ -11,8 +11,7 @@ const result = spawnSync(
     cwd: process.cwd(),
     env: {
       ...process.env,
-      RUSTUP_TOOLCHAIN:
-        process.env.NAGARIK_ANCHOR_IDL_TOOLCHAIN ?? 'nightly-2024-10-01-x86_64-pc-windows-msvc',
+      RUSTUP_TOOLCHAIN: process.env.NAGARIK_ANCHOR_IDL_TOOLCHAIN ?? 'nightly-2024-10-01',
     },
     stdio: 'inherit',
   },

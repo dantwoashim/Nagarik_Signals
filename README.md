@@ -1,153 +1,171 @@
 # Nagarik Signal
 
-[![CI](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/ci.yml/badge.svg)](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/ci.yml)
+[![Release CI](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/ci.yml/badge.svg)](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/ci.yml)
+[![Security](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/security.yml/badge.svg)](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/security.yml)
 [![Production Smoke](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/production-smoke.yml/badge.svg)](https://github.com/dantwoashim/Nagarik_Signals/actions/workflows/production-smoke.yml)
-[![Solana Devnet](https://img.shields.io/badge/Solana-devnet-14F195?logo=solana&logoColor=111)](https://explorer.solana.com/address/76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY?cluster=devnet)
-[![Next.js](https://img.shields.io/badge/Next.js-16-111?logo=next.js)](apps/web)
 [![License: MIT](https://img.shields.io/badge/license-MIT-b71f2d)](LICENSE)
 
 **Public proof for public problems.**
 
-Nagarik Signal preserves civic evidence as an inspectable public record. A report or checked public-source dossier receives a sanitized evidence artifact, explicit provenance, an approximate location commitment, and a Solana devnet proof account. Follow-up signals and steward updates remain attached to the same record.
+Nagarik Signal is a civic record system for documenting public infrastructure
+issues and following them through review, publication, handoff, and resolution.
+It keeps the operational workflow in Postgres and anchors compact integrity
+commitments on Solana.
 
-[Open Nagarik Signal](https://nagarik-signal.vercel.app) | [Explore public records](https://nagarik-signal.vercel.app/explore) | [Inspect the program](https://explorer.solana.com/address/76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY?cluster=devnet)
+[Open the public preview](https://nagarik-signal.vercel.app) |
+[Browse records](https://nagarik-signal.vercel.app/explore) |
+[Read the architecture](ARCHITECTURE.md)
 
 ![Nagarik Signal public civic record](docs/assets/product-overview.png)
 
-## Why This Exists
+## Release Profile
 
-Nepal does not lack grievance channels. Hello Sarkar, Kathmandu Gunaso, Connect KMC, and agency-specific portals already accept reports. Nagarik Signal does a different job: it creates a public evidence commitment that civic groups, residents, newsrooms, and institutions can inspect before, during, and after an official grievance process.
+The implemented target is `curated_pilot_v2_non_mainnet`.
+
+| Capability                            | Current policy                                                                 |
+| ------------------------------------- | ------------------------------------------------------------------------------ |
+| Public approved records and proof     | Enabled                                                                        |
+| Invite-based civic intake             | Implemented; closed by runtime kill switch until an operator enables it        |
+| Invite-based public signals           | Implemented; closed by runtime kill switch until an operator enables it        |
+| Operator review and lifecycle actions | Managed identity, AAL2, organization scope, and role checks required           |
+| Legacy v1 Solana writes               | Disabled; v1 remains readable for historical proof                             |
+| v2 Solana writes                      | Server-owned, non-mainnet profile only                                         |
+| Real civic data                       | Disabled until the privacy/legal gate has a recorded approval                  |
+| Production or mainnet release         | Blocked by independent security, legal, custody, recovery, and operator review |
+
+The release verifier treats every absent artifact or external review as a
+blocker. It does not turn an incomplete checklist into a passing release.
+
+## How A Record Becomes Public
 
 ```text
-Observe -> sanitize -> hash -> anchor -> corroborate -> hand off -> track
+invitation
+  -> sanitized private upload
+  -> private submission
+  -> operator review
+  -> redacted public derivative
+  -> immutable approved version
+  -> durable Solana outbox
+  -> finalized v2 commitment
+  -> public projection
 ```
 
-The chain proves when a commitment was recorded and whether committed fields still match. It does not prove that every physical-world claim is true, that each signal is a unique person, or that a repair happened.
+1. An intake capability authorizes one bounded reporting session.
+2. The image pipeline decodes and re-encodes the upload, strips metadata,
+   limits dimensions and bytes, and stores the result privately.
+3. The report remains private while an operator reviews its text, location,
+   provenance, and media.
+4. Approval freezes an immutable public version and creates a durable outbox
+   job in the same database transaction.
+5. A bounded worker writes the v2 commitment and records the exact finalized
+   account observation.
+6. Publication occurs only after the database version, media derivative, and
+   finalized chain commitment agree.
 
-## Working Product
+Corrections, lifecycle updates, authority handoffs, removals, and public
+signals append new history. They do not rewrite an earlier public version.
 
-- **Writable reporting:** JPEG, PNG, and WebP evidence is decoded, resized, metadata-stripped, re-encoded, hashed, and stored privately.
-- **Durable hosted state:** Vercel Blob stores the read model and media; fixed-path writes use ETag compare-and-swap with bounded retries.
-- **Server-owned identity:** signed, HttpOnly civic-session cookies derive deterministic Solana signers without exposing private keys to the browser.
-- **Public proof:** Issue, Verification, Steward, and StatusUpdate PDAs are deployed on Solana devnet.
-- **Delivered-byte verification:** the proof panel fetches the evidence a visitor actually receives and recomputes its SHA-256 hash before comparing it with the read model and chain.
-- **Provenance classes:** community reports, public-source dossiers, illustrative samples, and engineering fixtures are never mixed in public totals.
-- **Abuse controls:** trusted-origin checks, upload receipts, rate limits, duplicate-evidence rejection, relayer circuit breakers, and constant-time steward authentication.
-- **Moderation:** stewards can hide media while retaining proof, dispute a record, or remove a rejected record from discovery.
-- **Official follow-up ledger:** stewards can record route preparation, channel delivery, a receipt-backed acknowledgement, follow-up, and closure without presenting those events as authority-authored updates.
+## Why Solana
 
-## Public Data, Without Pretending
+Postgres is the workflow authority because civic operations need private
+review, authorization, transactions, retention, and queryable history. Solana
+is the public commitment layer because independent readers can inspect a
+timestamped account without relying on the application database.
 
-The default public watchlist contains four checked source dossiers. Each one records its publisher, source date, check date, review expiry, evidence hash, and devnet receipt. It does not claim a live field inspection.
+The v2 program stores two account families:
 
-| Record | Source | Public proof |
-|---|---|---|
-| Nagdhunga-Mugling utility-pole obstruction | [The Kathmandu Post](https://kathmandupost.com/national/2026/06/24/utility-pole-relocation-delays-hobble-road-widening-projects) | [Issue 12](https://nagarik-signal.vercel.app/issues/12) |
-| Central Kathmandu drainage follow-up | [Kathmandu Metropolitan City](https://metronews.kathmandu.gov.np/news/detail/0507389732) | [Issue 13](https://nagarik-signal.vercel.app/issues/13) |
-| Bancharedanda landfill service-life pressure | [Kathmandu Metropolitan City](https://metronews.kathmandu.gov.np/news/detail/0607285852) | [Issue 14](https://nagarik-signal.vercel.app/issues/14) |
-| Dhangadhi and Kailari groundwater shortage | [The Kathmandu Post](https://kathmandupost.com/national/2026/06/27/hand-pumps-are-dry-even-deep-borewells-no-longer-provide-enough-water) | [Issue 15](https://nagarik-signal.vercel.app/issues/15) |
+- `IssueCommitment`, keyed by `['issue', issue_id]`, holds the current evidence,
+  metadata, location, lifecycle, and event-head commitments;
+- `CommitmentEvent`, keyed by `['event', issue, sequence]`, preserves ordered
+  changes with previous and new hashes.
 
-Thirty illustrative records are available under the separate **Samples** scope. Seven historical engineering fixtures remain addressable for audit work but are excluded from discovery, maps, dashboards, and public counts.
+The chain proves that specific bytes and fields were committed in a specific
+order. It does not prove that a photograph is truthful, that a signal is a
+unique person, or that an authority accepted a complaint.
 
-## Architecture
+## Repository Layout
 
-```mermaid
-flowchart LR
-    A[Resident or source curator] --> B[Next.js API]
-    B --> C[Image safety pipeline]
-    C --> D[Private Blob evidence]
-    B --> E[Canonical metadata]
-    E --> F[Solana devnet]
-    F --> G[Issue PDA]
-    F --> H[Verification PDA]
-    F --> I[StatusUpdate PDA]
-    B --> J[Durable Blob read model]
-    B --> M[Steward handoff ledger]
-    D --> K[Public media proxy]
-    G --> L[Proof verifier]
-    H --> L
-    I --> L
-    M --> L
-    J --> L
-    K --> L
-```
+| Path                                                       | Purpose                                                                 |
+| ---------------------------------------------------------- | ----------------------------------------------------------------------- |
+| [`apps/web`](apps/web)                                     | Next.js public, tracking, operator, media, and API surfaces             |
+| [`apps/web/lib/services`](apps/web/lib/services)           | Transactional civic workflows                                           |
+| [`supabase/migrations`](supabase/migrations)               | Postgres schema, constraints, RLS, and append-only protections          |
+| [`programs/nagarik_signal_v2`](programs/nagarik_signal_v2) | Current Anchor protocol                                                 |
+| [`programs/nagarik_signal`](programs/nagarik_signal)       | Frozen v1 compatibility program                                         |
+| [`idl`](idl)                                               | Versioned program interfaces                                            |
+| [`scripts`](scripts)                                       | Workers, reconciliation, security, deployment, and release verification |
+| [`docs/adr`](docs/adr)                                     | Architecture decisions                                                  |
+| [`docs/production`](docs/production)                       | Contracts, threat model, release criteria, and execution evidence       |
 
-The read model stores searchable civic context. Solana stores compact commitments and lifecycle accounts. Neither is silently treated as the other: the proof verifier recomputes the record and compares both.
+## Local Setup
 
-| Component | Location |
-|---|---|
-| Next.js application and API | [`apps/web`](apps/web) |
-| Anchor program | [`programs/nagarik_signal`](programs/nagarik_signal) |
-| Source and proof scripts | [`scripts`](scripts) |
-| Public source manifest | [`data/public-sources`](data/public-sources) |
-| Database adapter target | [`apps/web/lib/db/schema.sql`](apps/web/lib/db/schema.sql) |
+Requirements:
 
-Devnet program: [`76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY`](https://explorer.solana.com/address/76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY?cluster=devnet)
+- Node.js `22.23.1` and npm `11.x`;
+- Docker for the local Supabase stack;
+- Rust `1.94.0`, Anchor `0.30.1`, and the pinned nightly toolchain for program
+  and generated-IDL checks.
 
-## Run Locally
-
-Requirements: Node.js 22+, npm, and a modern browser.
+Install the locked JavaScript dependencies and start the local services:
 
 ```bash
-git clone https://github.com/dantwoashim/Nagarik_Signals.git
-cd Nagarik_Signals
 npm ci
-npm run seed:demo
+npm run db:start
+npm run db:reset
 npm run dev
 ```
 
-Open `http://127.0.0.1:3001`.
+Copy [`.env.example`](.env.example) to `apps/web/.env.local` and fill the local
+Supabase URL, keys, database URL, and independent development secrets before
+exercising private intake or operator routes. Production rejects local storage,
+filesystem signer custody, shared legacy secrets, and placeholder credentials.
 
-Local development uses an atomic JSON file by default. A writable hosted deployment sets `NAGARIK_STORAGE_MODE=blob`, a private `BLOB_READ_WRITE_TOKEN`, the relayer secret, and independent session/security secrets documented in [`.env.example`](.env.example).
+The web application runs at `http://127.0.0.1:3001`.
 
 ## Verification
 
+The main local gates are:
+
 ```bash
-npm run test:unit
-npm run typecheck
-npm run lint
+npm run verify
+npm run db:test
 npm run build
 npm run test:e2e
-npm run verify:deployment
+npm run audit:production
+npm run audit:security
+cargo fmt --all -- --check
+cargo clippy --workspace --all-targets -- -D warnings
+cargo test --workspace
+npm run anchor:idl:check
 ```
 
-`final:preflight` checks a running application. Start `npm run dev` in another terminal before running it locally, or set `NAGARIK_PREFLIGHT_BASE_URL=https://nagarik-signal.vercel.app` to check the stable deployment. `anchor:build` additionally requires the Solana and Anchor toolchains.
+`npm run verify:release:report` assembles a machine-readable release manifest
+under `artifacts/release/`. The strict `npm run verify:release` command exits
+nonzero until every automated and external release gate has valid evidence.
 
-```bash
-npm run final:preflight
-npm run anchor:build
-```
-
-`anchor:test:devnet`, `phase2:smoke`, and `phase5:smoke` make funded devnet writes and require a configured relayer with devnet SOL.
-
-`verify:deployment` checks the stable production release SHA, runtime write capabilities, trusted-origin boundary, secure session minting, public pages, detailed map provider, dashboard, and delivered-byte Solana proof. The production-smoke workflow runs it after every push to `main` and once daily without creating a public record.
+`npm run verify:deployment` is read-only. It checks an exact deployed commit,
+health and readiness responses, public v2 APIs, proof delivery, pages, media,
+and response headers without creating or changing a civic record.
 
 ## Trust Boundaries
 
-| Claim | What is checked | What is not claimed |
-|---|---|---|
-| Evidence integrity | Delivered bytes match the stored and on-chain hash | The image depicts the claimed place or date |
-| Record timestamp | A Solana transaction committed the issue | An authority accepted a legal complaint |
-| Public signal | One rate-limited session created one Verification PDA | One signal equals one unique person |
-| Status update | An authorized platform steward created a StatusUpdate PDA | A municipality authored or endorsed the update |
-| Authority handoff | A steward appended a hash-chained event with the stated route, reference, or redacted receipt | The receiving authority authored, verified, or endorsed the event |
-| Source dossier | The cited article and summary were checked on a stated date | The source remains current after its review window |
+| Public statement   | What the system can verify                                                        | Boundary                                                   |
+| ------------------ | --------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Evidence integrity | Delivered bytes match the approved version and recorded commitment                | Content truth and capture context still require review     |
+| Record history     | Ordered metadata and lifecycle commitments match the finalized v2 account history | A chain timestamp is not official government receipt       |
+| Public signal      | A valid capability appended one rate-limited attention event                      | A signal is not proof of personhood or truth               |
+| Authority handoff  | A steward recorded a route, external reference, or reviewed receipt               | The receiving authority did not author the platform record |
+| Removal            | Public access is denied and a neutral tombstone remains                           | Existing chain commitments cannot be erased                |
 
-The program is on devnet and remains upgradeable by its authority. The relayer is a server-held hot key. Mainnet use requires an external program review, multisig governance, formal moderation operations, data-retention policy, and institutional agreements.
+See [the security model](docs/security-model.md), [safety policy](SAFETY.md),
+and [release criteria](docs/production/release-criteria.md) for the complete
+boundary.
 
-## Documentation
+## Contributing
 
-- [Architecture](ARCHITECTURE.md)
-- [Data provenance](docs/data-provenance.md)
-- [Security model](docs/security-model.md)
-- [Research notes](docs/research-notes.md)
-- [Safety policy](SAFETY.md)
-- [Operating model](docs/operating-model.md)
-- [Roadmap](ROADMAP.md)
-
-## Contributing and Security
-
-Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before opening a pull request. Report vulnerabilities through the private process in [`SECURITY.md`](SECURITY.md), not a public issue.
+Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before opening a pull request. Report
+security or privacy-sensitive defects through the private process in
+[`SECURITY.md`](SECURITY.md).
 
 ## License
 

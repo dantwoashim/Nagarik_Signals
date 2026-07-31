@@ -1,46 +1,63 @@
 # Security Policy
 
-Nagarik Signal is a public devnet system with a funded server relayer. Security reports are welcome and should be handled privately.
+Security and privacy reports must use a private channel. Do not include exploit
+details, personal data, tracking capabilities, storage URLs, or credentials in
+a public issue.
 
-## Scope
+## Supported Surface
 
-In scope:
+The latest commit on the maintained release branch receives security fixes.
+Historical commits, local sample data, unsupported forks, and the frozen v1
+write path do not receive fixes unless the defect also affects the maintained
+surface.
 
-- Solana program authorization bugs.
-- Duplicate verification bypasses.
-- Hash mismatch or canonicalization bugs.
-- Unsafe upload handling.
-- Leaked secrets, session keypairs, or relayer credentials.
-- API paths that allow unauthorized status updates.
-- Origin, upload-receipt, rate-limit, or moderation bypasses.
-- Durable-state races that lose or overwrite a confirmed record.
-- Safety failures that expose people, license plates, private homes, or accusation flows.
+The release profile is non-mainnet. Real civic intake remains disabled until
+the recorded privacy and legal review exists.
 
-Out of scope:
+## Report Privately
 
-- Mainnet fund loss, because this MVP is devnet-only.
-- Spam in seeded demo data.
-- Social engineering against maintainers.
-- Reports about unsupported roadmap features.
-
-## Reporting
-
-Open a private GitHub security advisory when available. If that is not available, contact the repository owner directly and avoid publishing exploit details until the issue is triaged.
+Use the repository's
+[private security advisory form](https://github.com/dantwoashim/Nagarik_Signals/security/advisories/new).
+If that channel is unavailable, contact the repository owner privately before
+sharing technical details elsewhere.
 
 Include:
 
-- affected file or endpoint;
-- steps to reproduce;
-- impact;
-- suggested fix if known.
+- affected route, account, file, or release commit;
+- prerequisites and a minimal reproduction;
+- actual and expected behavior;
+- security or privacy impact;
+- whether any real data or credential may have been exposed;
+- a proposed remediation, when available.
+
+Never test against real civic records or a shared deployment. Use synthetic
+local fixtures and stop if a test could expose or modify another person's data.
+
+## In Scope
+
+- authorization, organization-scope, AAL2, or RLS bypass;
+- capability forgery, replay, purpose confusion, fixation, or enumeration;
+- private submission, precise location, media, moderation, or operator leakage;
+- unsafe upload parsing, media substitution, raw storage access, or cache leak;
+- idempotency, transaction, outbox, reconciliation, or publication race;
+- Solana role, PDA, sequence, hash, pause, or authority defect;
+- proof responses that report a match for unavailable or mismatched evidence;
+- secret, signer, service-role, or worker credential exposure;
+- removal, retention, export, or tombstone behavior that restores denied data;
+- release, deployment, CSP, dependency, or artifact-scan bypass.
 
 ## Current Boundaries
 
-- The project is devnet-only.
-- No tokens, rewards, payments, or mainnet value are handled.
-- Hosted state and evidence use private Vercel Blob objects; local development uses atomic JSON and local media.
-- Browser sessions are duplicate-resistant identities, not proof of personhood.
-- The relayer is a server-held hot key protected by scoped limits and a reserve circuit breaker.
-- Resolution proof is a steward-submitted record, not an official completion certificate.
+- Postgres is authoritative for workflow; Solana is a public commitment layer.
+- V1 is read-only. V2 writes use a distinct server-owned, non-mainnet profile.
+- Mainnet writes and unrestricted public intake are disabled.
+- Operator access requires managed identity, AAL2, organization membership,
+  roles, and audit attribution.
+- Media storage is private. Public bytes come from a reviewed derivative through
+  a same-origin authorization layer.
+- A cryptographic commitment proves integrity and ordering, not physical-world
+  truth, personhood, or government acknowledgement.
 
-The detailed threat model and remaining risks are documented in [`docs/security-model.md`](docs/security-model.md).
+External penetration testing, a program audit, Nepal-specific privacy/legal
+review, signer governance review, and an operator recovery tabletop remain
+release gates. See [`docs/production/release-criteria.md`](docs/production/release-criteria.md).

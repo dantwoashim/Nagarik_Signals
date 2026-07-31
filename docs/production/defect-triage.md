@@ -12,9 +12,10 @@ warnings from clean CI, open security reports, accessibility findings,
 operational drill findings, and discrepancies between public claims and
 implemented behavior.
 
-The review owner and reviewer must be different people. References may be
-private ticket or report IDs; do not place exploit details or personal data in
-the repository.
+The review owner and reviewer must be different people. The sanitized artifact
+must use distinct `ownerReference` and `reviewerReference` values. References
+must be either a GitHub URL or a `restricted:` ticket/report identifier; do not
+place exploit details or personal data in the repository.
 
 ## Procedure
 
@@ -30,6 +31,11 @@ the repository.
 6. Have the independent reviewer reconcile the defect list and severity counts.
 7. Store the signed review in restricted evidence storage and place only the
    sanitized count artifact at `artifacts/release/known-defects.json`.
+
+The verifier accepts the review only when it names the exact 40-character
+candidate commit, was completed after that commit, is at most 30 days old, and
+contains two to twenty unique evidence references. A new candidate commit
+requires a new review artifact.
 
 ## Severity policy
 
@@ -68,5 +74,5 @@ review fields so a human can trace how those counts were established.
 ```
 
 Replace every example value. The artifact is stale if its `releaseId` differs
-from the candidate commit or if any referenced review predates a material
-change.
+from the candidate commit, its review predates the candidate commit, or the
+candidate changes after review.

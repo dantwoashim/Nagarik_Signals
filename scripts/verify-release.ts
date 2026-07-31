@@ -3,6 +3,8 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, relative, resolve } from 'node:path';
 
+import { parseKnownDefectEvidence } from './lib/releaseEvidence';
+
 type GateStatus = 'blocked' | 'fail' | 'not_run' | 'pass';
 type GateEvidence = {
   status: GateStatus;
@@ -156,19 +158,6 @@ function vulnerabilityCounts() {
     : { critical: null, high: null, moderate: null };
 }
 
-function knownDefects() {
-  const source = json(resolve(option('--known-defects', 'artifacts/release/known-defects.json')));
-  const counts = {
-    p0: source ? Number(source.p0) : null,
-    p1: source ? Number(source.p1) : null,
-    p2: source ? Number(source.p2) : null,
-    p3: source ? Number(source.p3) : null,
-  };
-  return Object.values(counts).every((value) => Number.isInteger(value) && value! >= 0)
-    ? counts
-    : { p0: null, p1: null, p2: null, p3: null };
-}
-
 function idl(path: string) {
   const bytes = readFileSync(resolve(path));
   const value = JSON.parse(bytes.toString('utf8')) as { address?: unknown };
@@ -180,6 +169,8 @@ function idl(path: string) {
 
 const gitCommit = git('rev-parse', 'HEAD');
 if (!/^[0-9a-f]{40}$/.test(gitCommit)) throw new Error('git_commit_not_immutable');
+const releaseCommittedAt = new Date(git('show', '-s', '--format=%cI', gitCommit));
+if (!Number.isFinite(releaseCommittedAt.getTime())) throw new Error('git_commit_time_invalid');
 const expectedCommit = process.env.NAGARIK_RELEASE_SHA?.trim().toLowerCase() ?? null;
 const commitMatches = !expectedCommit || expectedCommit === gitCommit;
 const cleanWorktree = git('status', '--porcelain', '--untracked-files=no') === '';
@@ -197,7 +188,11 @@ const gates = Object.fromEntries(requiredGates.map((name) => [name, gate(name)])
 if (!nodeExact) gates.runtime = { status: 'fail', artifact: `node:${process.version}` };
 
 const vulnerabilities = vulnerabilityCounts();
-const defects = knownDefects();
+const defectEvidence = parseKnownDefectEvidence(
+  json(resolve(option('--known-defects', 'artifacts/release/known-defects.json'))),
+  { expectedReleaseId: gitCommit, releaseCommittedAt },
+);
+const defects = defectEvidence.counts;
 const externalGates = externalEvidence();
 const buildChecksum = treeChecksum(
   resolve('apps/web/.next'),
@@ -221,6 +216,9 @@ for (const [severity, count] of Object.entries(vulnerabilities)) {
 for (const [severity, count] of Object.entries(defects)) {
   if (count !== 0) blockers.push(`known_defects_${severity}_${String(count ?? 'unknown')}`);
 }
+if (defectEvidence.review.status !== 'pass') {
+  blockers.push(defectEvidence.review.reason ?? 'known_defect_review_invalid');
+}
 for (const [name, evidence] of Object.entries(externalGates)) {
   if (evidence.status !== 'pass') blockers.push(`external_${name}_${evidence.status}`);
   if (evidence.status === 'pass' && !evidence.reference) {
@@ -234,7 +232,8 @@ const automatedPass =
   Boolean(schemaChecksum && latestMigration && buildChecksum) &&
   Object.values(gates).every((evidence) => evidence.status === 'pass') &&
   Object.values(vulnerabilities).every((count) => count === 0) &&
-  Object.values(defects).every((count) => count === 0);
+  Object.values(defects).every((count) => count === 0) &&
+  defectEvidence.review.status === 'pass';
 const externalPass = Object.values(externalGates).every(
   (evidence) => evidence.status === 'pass' && Boolean(evidence.reference),
 );
@@ -283,6 +282,7 @@ const manifest = {
   tests: gates,
   vulnerabilities,
   knownDefects: defects,
+  knownDefectReview: defectEvidence.review,
   externalGates,
   featureFlags: {
     legacyMutations: false,

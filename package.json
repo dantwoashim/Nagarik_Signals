@@ -46,6 +46,8 @@
     "phase2:smoke": "tsx scripts/phase2-api-smoke.ts",
     "phase5:smoke": "tsx scripts/phase5-status-lifecycle-smoke.ts",
     "final:preflight": "tsx scripts/final-preflight.ts",
+    "verify:release": "tsx scripts/verify-release.ts",
+    "verify:release:report": "tsx scripts/verify-release.ts --allow-no-go",
     "verify:deployment": "tsx scripts/verify-deployment.ts"
   },
   "devDependencies": {

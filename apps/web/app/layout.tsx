@@ -1,24 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Geist, Geist_Mono } from 'next/font/google';
 import { HashScrollRestorer } from '@/components/HashScrollRestorer';
 import { SiteNavigation } from '@/components/SiteNavigation';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '../styles/globals.css';
 import '../styles/refined.css';
 import '../styles/production.css';
-
-const geist = Geist({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  display: 'swap',
-});
-
-const geistMono = Geist_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: {
@@ -35,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="preconnect" href="https://tiles.openfreemap.org" crossOrigin="anonymous" />
       </head>
-      <body className={`${geist.variable} ${geistMono.variable}`}>
+      <body>
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>

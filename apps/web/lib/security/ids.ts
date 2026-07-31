@@ -12,7 +12,18 @@ export function deterministicUuid(namespace: string, value: string): string {
   const bytes = createHash('sha256').update(`${namespace}\0${value}`).digest().subarray(0, 16);
   bytes[6] = (bytes[6] & 0x0f) | 0x80;
   bytes[8] = (bytes[8] & 0x3f) | 0x80;
-  const hex = bytes.toString('hex');
+  return formatUuid(bytes);
+}
+
+export function deterministicUuidV4(namespace: string, value: string): string {
+  const bytes = createHash('sha256').update(`${namespace}\0${value}`).digest().subarray(0, 16);
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  return formatUuid(bytes);
+}
+
+function formatUuid(bytes: Uint8Array): string {
+  const hex = Buffer.from(bytes).toString('hex');
   return [
     hex.slice(0, 8),
     hex.slice(8, 12),

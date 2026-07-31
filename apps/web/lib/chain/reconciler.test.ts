@@ -182,6 +182,7 @@ test('reconciliation dry-runs drift and repairs only exact observed events', asy
       transaction,
       signer,
       workerId: 'reconciliation-test',
+      projectConfirmed: async () => true,
       now: () => new Date('2030-01-01T00:00:00.000Z'),
     };
 

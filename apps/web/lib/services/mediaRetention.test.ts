@@ -56,20 +56,21 @@ test('retention deletes only expired private objects and records an audit trail'
       values ('${organizationId}', 'retention-test', 'Retention test');
 
       insert into nagarik.media_objects(
-        id, organization_id, state, purpose, storage_class, storage_key, mime_type,
+        id, organization_id, source_media_id, state, purpose, storage_class, storage_key, mime_type,
         normalization_version, sha256, byte_length, width, height, expires_at
       )
       values
-        ('20000000-0000-4000-8000-000000000002', '${organizationId}', 'staged',
+        ('20000000-0000-4000-8000-000000000002', '${organizationId}', null, 'staged',
          'evidence', 'staging_private', 'staging/local/one.jpg', 'image/jpeg',
          'image-v2', decode(repeat('11', 32), 'hex'), 3, 1, 1, '2029-12-31'),
-        ('30000000-0000-4000-8000-000000000003', '${organizationId}', 'approved_private',
+        ('30000000-0000-4000-8000-000000000003', '${organizationId}', null, 'approved_private',
          'evidence', 'durable_private', 'private/local/two.jpg', 'image/jpeg',
          'image-v2', decode(repeat('22', 32), 'hex'), 3, 1, 1, '2029-12-31'),
-        ('40000000-0000-4000-8000-000000000004', '${organizationId}', 'approved_private',
+        ('40000000-0000-4000-8000-000000000004', '${organizationId}', null, 'approved_private',
          'evidence', 'durable_private', 'private/local/three.jpg', 'image/jpeg',
          'image-v2', decode(repeat('33', 32), 'hex'), 3, 1, 1, '2030-01-02'),
-        ('50000000-0000-4000-8000-000000000005', '${organizationId}', 'approved_public',
+        ('50000000-0000-4000-8000-000000000005', '${organizationId}',
+         '30000000-0000-4000-8000-000000000003', 'approved_public',
          'public_derivative', 'durable_private', 'private/local/public.jpg', 'image/jpeg',
          'image-v2', decode(repeat('44', 32), 'hex'), 3, 1, 1, '2029-12-31');
     `);

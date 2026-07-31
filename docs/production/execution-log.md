@@ -245,3 +245,99 @@ integration, real private Blob behavior, and concurrent multi-connection
 Postgres execution still require an external runtime. Human moderation and
 public derivative creation are implemented in the later workflow wave; until
 then all new submissions remain private.
+
+## 2026-07-31 - Wave 4 Solana v2 write path and durable chain outbox
+
+### Changes
+
+- added the frozen v2 Anchor state and instruction set for issue creation,
+  metadata versions, lifecycle changes, handoff checkpoints, and publication
+  removal;
+- added deterministic operation/event IDs, PDA vectors, optimistic sequence and
+  head checks, terminal publication rules, and replay-safe event accounts;
+- added the typed chain-job envelope, bounded signer interface, exact
+  observation matching, leased FIFO outbox worker, submitted-unknown recovery,
+  dead-letter handling, and reconciliation;
+- added durable issue-chain bindings with cluster, genesis hash, program,
+  accounts, signature, finalized slot, and account checksum;
+- separated the frozen v1 read profile from v2 writes and added generated-IDL
+  drift verification.
+
+### Verified evidence
+
+| Command | Result |
+|---|---|
+| `npm run verify` | exit 0; 66 unit tests passed |
+| `npm run db:test` | exit 0; 10 database tests passed |
+| `cargo fmt --all -- --check` | exit 0 |
+| `cargo clippy --workspace --all-targets -- -D warnings` | exit 0 |
+| `cargo test --workspace` | exit 0; 9 Rust tests passed |
+| `npm run anchor:idl:check` | exit 0; generated v2 IDL matched the committed profile |
+| local validator v1/v2 transport suite | exit 0; both profiles and bounded finalized transport passed |
+
+The validator was stopped after the bounded transport run. The production
+custody adapter still fails closed with
+`chain_custody_adapter_unconfigured`; no local key fallback is permitted in
+the production profile.
+
+## 2026-07-31 - Wave 5 moderated publication and invited civic workflow
+
+### Changes
+
+- added explicit submission, lifecycle, and handoff state machines;
+- added AAL2 organization-scoped operator routes and transactional,
+  idempotent, append-only services for moderation, lifecycle, handoff,
+  correction, removal, and public signals;
+- replaced legacy shared-secret mutation routes with stable `410` responses;
+- added distinct `approved_private` source and `redacted_derivative` child
+  media handling, deterministic `public-derivative-v1` rendering, bounded
+  reviewed redaction rectangles, one-time purpose-bound media receipts, and
+  receipt consumption during approval;
+- added confirmation-gated public issue, media, event, and proof projections;
+  pending content remains private and removal produces a neutral tombstone;
+- made a finalized publication recoverable while the publication kill switch
+  is disabled instead of leaving a confirmed outbox job stranded;
+- added curated pilot invitation issuance and one-time consumption into
+  separate intake and signal capabilities without storing raw tokens;
+- added off-chain attention signal creation, retraction, reactivation, and
+  aggregate updates without changing lifecycle, proof, or chain state;
+- added cursor-based public issue list/detail, versioned proof, signal, and
+  intake-session APIs;
+- removed caller-selected media hashes from correction and handoff paths.
+  Corrections currently retain the approved derivative; handoff delivery and
+  acknowledgment use reviewed external references.
+
+### Verified evidence
+
+These Wave 5 commands ran under the machine's current Node `25.2.1` runtime.
+The exact Node `22.23.1` release gate remains separate and pending.
+
+| Command | Result |
+|---|---|
+| `npm run verify` | exit 0; formatting, typecheck, lint, and 73 unit tests passed |
+| `npm run db:test` | exit 0; 10 migration, RLS, import, transaction, and query-plan tests passed |
+| `git diff --check` | exit 0 |
+
+The workflow integration uses the real Sharp transform and PGlite migrations.
+It proves private-source preservation, distinct derivative identity and hash,
+one-time receipt consumption, no public row before exact finalized binding,
+kill-switch defer/recovery, lifecycle ordering, neutral signal semantics,
+handoff independence, immutable correction, and removal tombstoning. The
+invitation integration proves deterministic authorized replay, separate
+purpose tokens, single consumption, expiry binding, and no raw token
+persistence.
+
+Both governing documents remain unchanged. Their SHA-256 values are
+`66E499C606D76E9FE3E09315DD624A53E6D01456EFEC28A576DA829CA9818EEF`
+and
+`6E34DC321C7B23BCBCF0C9BAC29520A18AD1D66C750C189C3AF982F4F1550018`.
+
+### Remaining boundary
+
+PGlite does not replace hosted Postgres, Supabase Auth, private Vercel Blob, or
+concurrent multi-connection execution. The proof API recomputes canonical
+metadata, location, and delivered-media hashes and reports the recorded exact
+finalized binding; a fresh independent RPC account read is still a release
+gate. Operator-media receipts currently cover initial publication. New media
+for correction, status, or handoff remains denied until its separate upload
+and purpose-bound receipt flow is implemented.

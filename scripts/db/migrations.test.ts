@@ -55,7 +55,7 @@ test('migrations apply to an empty database and enforce core invariants', async 
          from information_schema.tables
          where table_schema = 'nagarik'`,
       ),
-      33,
+      35,
     );
     assert.equal(
       await scalar<number>(
@@ -76,11 +76,11 @@ test('migrations apply to an empty database and enforce core invariants', async 
            and pg_class.relrowsecurity
            and pg_class.relforcerowsecurity`,
       ),
-      33,
+      35,
     );
     assert.equal(
       await scalar<number>(database, `select count(*)::integer as value from pg_policies`),
-      28,
+      31,
     );
 
     await database.exec(`
@@ -145,6 +145,25 @@ test('migrations apply to an empty database and enforce core invariants', async 
       `),
       /append_only_row/,
     );
+
+    assert.equal(
+      await scalar<string>(
+        database,
+        `select to_regclass('public.proof_projection')::text as value`,
+      ),
+      'proof_projection',
+    );
+    assert.equal(
+      await scalar<number>(
+        database,
+        `select count(*)::integer as value
+         from information_schema.columns
+         where table_schema = 'public'
+           and table_name = 'proof_projection'
+           and column_name = 'canonical_metadata'`,
+      ),
+      1,
+    );
   } finally {
     await database.close();
   }
@@ -200,6 +219,49 @@ test('public projections fail closed and private tables stay inaccessible', asyn
         'Visible only while the public read switch is enabled.',
         now()
       );
+
+      insert into public.proof_projection(
+        issue_public_id,
+        protocol_version,
+        version_id,
+        metadata_hash,
+        evidence_hash,
+        location_hash,
+        cluster,
+        genesis_hash,
+        program_id,
+        issue_account,
+        event_account,
+        signature,
+        finalized_slot,
+        update_count,
+        timeline_head,
+        handoff_head,
+        canonical_metadata,
+        confirmed_at,
+        updated_at
+      )
+      values (
+        '50000000-0000-0000-0000-000000000001',
+        'v2',
+        '50000000-0000-0000-0000-000000000002',
+        decode(repeat('11', 32), 'hex'),
+        decode(repeat('22', 32), 'hex'),
+        decode(repeat('33', 32), 'hex'),
+        'custom',
+        'test-genesis',
+        'A1PDikCUQekCAbc8CHcZgEFwxxhEyspfHGEbG7PX4URP',
+        '5vKnvo9rayumgpb2GgaT7jx5jyzsRowJWRxfq3eDPHJ3',
+        'CBZdhpXQ5tpJKYXyRZAMkzkQC2NmeHDjyrDppPJfebUu',
+        repeat('2', 64),
+        1,
+        1,
+        decode(repeat('44', 32), 'hex'),
+        decode(repeat('00', 32), 'hex'),
+        '{}'::jsonb,
+        now(),
+        now()
+      );
     `);
 
     await database.exec('set role anon');
@@ -207,6 +269,13 @@ test('public projections fail closed and private tables stay inaccessible', asyn
       await scalar<number>(
         database,
         'select count(*)::integer as value from public.issue_projection',
+      ),
+      0,
+    );
+    assert.equal(
+      await scalar<number>(
+        database,
+        'select count(*)::integer as value from public.proof_projection',
       ),
       0,
     );
@@ -223,6 +292,13 @@ test('public projections fail closed and private tables stay inaccessible', asyn
       await scalar<number>(
         database,
         'select count(*)::integer as value from public.issue_projection',
+      ),
+      1,
+    );
+    assert.equal(
+      await scalar<number>(
+        database,
+        'select count(*)::integer as value from public.proof_projection',
       ),
       1,
     );

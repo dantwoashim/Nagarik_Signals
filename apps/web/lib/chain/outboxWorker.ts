@@ -2,6 +2,7 @@ import { deriveCommitmentEventPda, deriveIssuePda, v2Operations } from '../solan
 import type { QueryExecutor } from '../db/query';
 import { deterministicUuid } from '../security/ids';
 import { prepareChainJob, type PreparedChainJob, type ChainJobEnvelope } from './chainJob';
+import { applyConfirmedPublicProjection } from './publicProjection';
 import { ChainExecutionError, type ChainSigner, type ObservedCommitmentEvent } from './signer';
 
 type ClaimedJob = {
@@ -39,6 +40,7 @@ export type ChainWorkerDependencies = {
   transaction<T>(operation: (query: QueryExecutor) => Promise<T>): Promise<T>;
   signer: ChainSigner;
   workerId: string;
+  projectConfirmed?: typeof applyConfirmedPublicProjection;
   now?: () => Date;
 };
 
@@ -49,6 +51,13 @@ export type OutboxBatchResult = {
   retry: number;
   deadLetter: number;
 };
+
+class PublicProjectionDeferredError extends Error {
+  constructor() {
+    super('public_projection_deferred');
+    this.name = 'PublicProjectionDeferredError';
+  }
+}
 
 function bytesHex(value: Uint8Array): string {
   return Buffer.from(value).toString('hex');
@@ -375,6 +384,58 @@ async function recordPostSubmitConflict(
   });
 }
 
+async function recordProjectionDeferred(
+  job: WorkerJob,
+  signature: string,
+  dependencies: ChainWorkerDependencies,
+): Promise<void> {
+  const now = dependencies.now?.() ?? new Date();
+  await dependencies.transaction(async (query) => {
+    const locked = await query.query(
+      `select state, lease_owner, submitted_signature
+       from nagarik.outbox_jobs
+       where id = $1::uuid
+       for update`,
+      [job.row.id],
+    );
+    const row = locked[0];
+    const ownedLease = row?.state === 'leased' && row.lease_owner === job.row.lease_owner;
+    const submitted = row?.state === 'confirming' && row.submitted_signature === signature;
+    if (!ownedLease && !submitted) throw new Error('chain_outbox_confirmation_state_lost');
+    await query.query(
+      `insert into nagarik.outbox_attempts(
+         id, outbox_job_id, attempt_number, result, signature, error_category,
+         diagnostic, started_at, finished_at
+       )
+       values (
+         $1::uuid, $2::uuid, $3, 'submitted_unknown', $4, 'publication_disabled',
+         $5::jsonb, $6::timestamptz, $6::timestamptz
+       )`,
+      [
+        attemptId(job),
+        job.row.id,
+        job.row.attempt_count,
+        signature,
+        JSON.stringify({ phase: 'public_projection' }),
+        now.toISOString(),
+      ],
+    );
+    await query.query(
+      `update nagarik.outbox_jobs
+       set
+         state = 'submitted_unknown',
+         submitted_signature = coalesce(submitted_signature, $2),
+         available_at = $3::timestamptz,
+         lease_owner = null,
+         lease_expires_at = null,
+         last_error_category = 'publication_disabled',
+         updated_at = $4::timestamptz
+       where id = $1::uuid`,
+      [job.row.id, signature, new Date(now.getTime() + 60_000).toISOString(), now.toISOString()],
+    );
+  });
+}
+
 async function finalizeConfirmed(
   job: WorkerJob,
   observation: ObservedCommitmentEvent,
@@ -500,6 +561,20 @@ async function finalizeConfirmed(
     ) {
       throw new Error('chain_confirmation_binding_conflict');
     }
+    const projected = await (dependencies.projectConfirmed ?? applyConfirmedPublicProjection)(
+      query,
+      {
+        issueId: job.row.issue_id,
+        issueVersionId: job.row.issue_version_id,
+        job: job.protocol,
+        observation,
+        cluster: dependencies.signer.profile.cluster,
+        genesisHash: dependencies.signer.profile.genesisHash,
+        programId: dependencies.signer.profile.programId,
+        now,
+      },
+    );
+    if (!projected) throw new PublicProjectionDeferredError();
     await query.query(
       `insert into nagarik.outbox_attempts(
          id, outbox_job_id, attempt_number, result, signature,
@@ -569,7 +644,11 @@ async function processJob(
     }
     try {
       await finalizeConfirmed(job, existing, dependencies, true);
-    } catch {
+    } catch (error) {
+      if (error instanceof PublicProjectionDeferredError) {
+        await recordProjectionDeferred(job, existing.signature, dependencies);
+        return 'retry';
+      }
       return recordFailure(job, 'chain_confirmation_db_conflict', false, dependencies);
     }
     return 'confirmed';
@@ -609,7 +688,11 @@ async function processJob(
   }
   try {
     await finalizeConfirmed(job, confirmed, dependencies, false);
-  } catch {
+  } catch (error) {
+    if (error instanceof PublicProjectionDeferredError) {
+      await recordProjectionDeferred(job, confirmed.signature, dependencies);
+      return 'retry';
+    }
     await recordPostSubmitConflict(job, signature, 'chain_confirmation_db_conflict', dependencies);
     return 'deadLetter';
   }
@@ -664,7 +747,11 @@ export async function reconcileExactChainOutboxJob(
   try {
     await finalizeConfirmed(job, observation, dependencies, true);
     return 'confirmed';
-  } catch {
+  } catch (error) {
+    if (error instanceof PublicProjectionDeferredError) {
+      await recordProjectionDeferred(job, observation.signature, dependencies);
+      return 'busy';
+    }
     await recordFailure(job, 'chain_confirmation_db_conflict', false, dependencies);
     return 'deadLetter';
   }

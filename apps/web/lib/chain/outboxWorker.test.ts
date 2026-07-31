@@ -222,6 +222,7 @@ test('chain outbox finalizes exact events and quarantines ambiguous or conflicti
       transaction,
       signer,
       workerId: 'chain-worker-test',
+      projectConfirmed: async () => true,
       now: () => new Date('2020-01-01T00:00:00.000Z'),
     };
     assert.deepEqual(await processChainOutboxBatch(dependencies, 10), {

@@ -21,6 +21,14 @@ function stagingPrefix(): string {
   return prefix;
 }
 
+function durablePrefix(): string {
+  const prefix = process.env.NAGARIK_BLOB_DURABLE_PREFIX ?? 'private/local/';
+  if (!/^private\/[a-z0-9-]+\/$/.test(prefix)) {
+    throw new Error('private_durable_prefix_invalid');
+  }
+  return prefix;
+}
+
 function localRoot(): string {
   return path.resolve(process.env.NAGARIK_DATA_DIR ?? '.data', 'private-media');
 }
@@ -147,10 +155,7 @@ export async function writePrivateObject(input: {
   bytes: Uint8Array;
   contentType: 'image/jpeg' | 'image/webp';
 }): Promise<PrivateStagedObject> {
-  if (
-    !validPrivateStorageKey(input.storageKey) ||
-    !input.storageKey.startsWith(stagingPrefix().replace(/^staging\//, 'private/'))
-  ) {
+  if (!validPrivateStorageKey(input.storageKey) || !input.storageKey.startsWith(durablePrefix())) {
     throw new Error('private_storage_key_invalid');
   }
   if (configuredStorageMode() === 'blob') {

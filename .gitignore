@@ -16,6 +16,7 @@ dist/
 **/*.tsbuildinfo
 coverage/
 **/coverage/
+artifacts/
 release-evidence/private/
 **/*.lcov
 

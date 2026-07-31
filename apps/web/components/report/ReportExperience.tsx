@@ -332,6 +332,7 @@ export function ReportExperience() {
                 key={item.label}
                 type="button"
                 className={index === stage ? 'active' : index < stage ? 'complete' : ''}
+                aria-label={`Step ${index + 1}: ${item.label}`}
                 aria-current={index === stage ? 'step' : undefined}
                 disabled={index > stage}
                 onClick={() => setStage(index)}

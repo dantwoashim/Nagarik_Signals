@@ -286,7 +286,7 @@
 .prod-map-fit {
   position: absolute;
   right: 10px;
-  top: 104px;
+  top: 158px;
   z-index: 5;
 }
 
@@ -381,7 +381,7 @@
   position: absolute;
   right: 18px;
   top: 18px;
-  color: var(--line-strong);
+  color: var(--muted);
   font-size: 11px;
 }
 
@@ -780,7 +780,7 @@
 }
 
 .prod-area-table > div > span:first-child {
-  color: var(--line-strong);
+  color: var(--muted);
   font-size: 10px;
 }
 
@@ -1161,7 +1161,7 @@
 }
 
 .prod-report-steps button small {
-  color: var(--line-strong);
+  color: var(--muted);
   font-family: var(--font-mono), monospace;
   font-size: 10px;
 }
@@ -2104,7 +2104,7 @@
   position: absolute;
   right: 20px;
   top: 24px;
-  color: var(--line-strong);
+  color: var(--muted);
   font-size: 10px;
 }
 

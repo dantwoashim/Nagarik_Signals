@@ -11,6 +11,13 @@ export const metadata: Metadata = {
 };
 
 export default async function OperatorLayout({ children }: { children: React.ReactNode }) {
+  if (
+    process.env.NODE_ENV !== 'production' &&
+    process.env.NAGARIK_E2E_OPERATOR_FIXTURE === 'true'
+  ) {
+    return children;
+  }
+
   if (!getSupabaseConfig().configured) {
     return (
       <section className="container page-section operator-page">

@@ -279,6 +279,7 @@ export function PublicMap({
                   src={selected.mediaUrl}
                   alt=""
                   fill
+                  loading="eager"
                   sizes="(max-width: 900px) 100vw, 330px"
                 />
               ) : (

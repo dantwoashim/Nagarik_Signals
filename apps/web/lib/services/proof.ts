@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import type { PublicIssueProjection, PublicIssueProof } from '../db/repositories/publicIssues';
 import { canonicalize } from '../proof/canonicalize';
 import { verifyDeliveredEvidence } from '../proof/evidence';
+import { verifyV2PublicProof } from '../solana/v2/readOnly';
 
 function bytesHex(value: Uint8Array): string {
   return Buffer.from(value).toString('hex');
@@ -23,13 +24,13 @@ export async function buildPublicProofResponse(input: {
   const locationComputed = input.issue.location ? hash(input.issue.location) : null;
   const evidenceExpected = bytesHex(input.proof.evidence_hash);
   const mediaPath = input.issue.media_id ? `/api/media/med_${input.issue.media_id}` : null;
-  const evidence =
+  const [evidence, chainVerification] = await Promise.all([
     mediaPath && input.issue.publication_state !== 'removed'
-      ? await verifyDeliveredEvidence(mediaPath, evidenceExpected, {
+      ? verifyDeliveredEvidence(mediaPath, evidenceExpected, {
           appOrigin: input.appOrigin,
           maxBytes: 6 * 1024 * 1024,
         })
-      : {
+      : Promise.resolve({
           status: 'unavailable' as const,
           available: false,
           expectedHash: evidenceExpected,
@@ -37,7 +38,26 @@ export async function buildPublicProofResponse(input: {
           byteLength: null,
           mediaType: null,
           error: 'public_media_unavailable',
-        };
+        }),
+    input.proof.protocol_version === 'v2'
+      ? verifyV2PublicProof({
+          publicId: input.issue.public_id,
+          genesisHash: input.proof.genesis_hash,
+          programId: input.proof.program_id,
+          issueAccount: input.proof.issue_account,
+          eventAccount: input.proof.event_account,
+          signature: input.proof.signature,
+          finalizedSlot: Number(input.proof.finalized_slot),
+          updateCount: Number(input.proof.update_count),
+          metadataHash: metadataExpected,
+          evidenceHash: evidenceExpected,
+          locationHash: locationExpected,
+          timelineHead: bytesHex(input.proof.timeline_head),
+          handoffHead: bytesHex(input.proof.handoff_head),
+          publicationRemoved: input.issue.publication_state === 'removed',
+        })
+      : Promise.resolve(null),
+  ]);
 
   return {
     schemaVersion: 'nagarik-proof-response-v2',
@@ -70,7 +90,7 @@ export async function buildPublicProofResponse(input: {
         computedHash: locationComputed,
       },
       chain: {
-        status: 'finalized_binding_recorded',
+        status: chainVerification?.status ?? 'finalized_binding_recorded',
         cluster: input.proof.cluster,
         genesisHash: input.proof.genesis_hash,
         programId: input.proof.program_id,
@@ -81,6 +101,15 @@ export async function buildPublicProofResponse(input: {
         updateCount: Number(input.proof.update_count),
         timelineHead: bytesHex(input.proof.timeline_head),
         handoffHead: bytesHex(input.proof.handoff_head),
+        issueAccountOwner: chainVerification?.owner ?? null,
+        issueAccountSha256: chainVerification?.issueAccountSha256 ?? null,
+        eventAccountSha256: chainVerification?.eventAccountSha256 ?? null,
+        publicationRemoved: chainVerification?.observedPublicationRemoved ?? null,
+        confirmationQuorum: {
+          requiredIndependentProviders: chainVerification?.requiredIndependentProviders ?? 0,
+          agreedIndependentProviders: chainVerification?.agreedIndependentProviders ?? 0,
+          minimumFinalizedSlot: chainVerification?.minimumFinalizedSlot ?? null,
+        },
         confirmedAt: input.proof.confirmed_at.toISOString(),
       },
       availability: {

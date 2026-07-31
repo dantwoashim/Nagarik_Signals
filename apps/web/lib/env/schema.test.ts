@@ -132,6 +132,21 @@ describe('production environment', () => {
     );
   });
 
+  it('requires two public-network RPC provider hostnames', () => {
+    assert.throws(() =>
+      parseServerEnvironment({
+        ...validProduction,
+        NAGARIK_RPC_SECONDARY_URL: 'https://rpc-one.example/secondary',
+      }),
+    );
+    assert.throws(() =>
+      parseServerEnvironment({
+        ...validProduction,
+        NAGARIK_RPC_SECONDARY_URL: 'https://127.0.0.1/rpc',
+      }),
+    );
+  });
+
   it('requires external privacy approval before real civic data', () => {
     assert.throws(() =>
       parseServerEnvironment({

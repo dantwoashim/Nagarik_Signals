@@ -94,6 +94,15 @@ export type PublicProof = {
       updateCount: number;
       timelineHead: string;
       handoffHead: string;
+      issueAccountOwner: string | null;
+      issueAccountSha256: string | null;
+      eventAccountSha256: string | null;
+      publicationRemoved: boolean | null;
+      confirmationQuorum: {
+        requiredIndependentProviders: number;
+        agreedIndependentProviders: number;
+        minimumFinalizedSlot: number | null;
+      };
       confirmedAt: string;
     };
     availability: { issue: string; media: string };

@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { safeAlertWebhookUrl } from '../ops/alertEndpoint';
+import { safeSolanaRpcUrl } from '../solana/v2/readOnly';
 
 const V1_PROGRAM_ID = '76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY';
 const RELEASE_PROFILE = 'curated_pilot_v2_non_mainnet';
@@ -9,6 +10,10 @@ const FALSE = 'false';
 
 const url = z.string().url();
 const httpsUrl = url.refine((value) => value.startsWith('https://'), 'must use HTTPS');
+const solanaRpcUrl = httpsUrl.refine(
+  (value) => safeSolanaRpcUrl(value) !== null,
+  'must be a public-network HTTPS endpoint without URL userinfo',
+);
 const alertWebhookUrl = httpsUrl.refine(
   (value) => safeAlertWebhookUrl(value) !== null,
   'must be a public credential-free HTTPS endpoint',
@@ -51,8 +56,8 @@ export const serverEnvironmentSchema = z
     NAGARIK_AUTH_ISSUER: httpsUrl.optional(),
     NAGARIK_AUTH_AUDIENCE: z.string().min(1).max(120).optional(),
     NAGARIK_AUTH_AAL2_REQUIRED: z.enum([TRUE, FALSE]).optional(),
-    NAGARIK_RPC_PRIMARY_URL: httpsUrl.optional(),
-    NAGARIK_RPC_SECONDARY_URL: httpsUrl.optional(),
+    NAGARIK_RPC_PRIMARY_URL: solanaRpcUrl.optional(),
+    NAGARIK_RPC_SECONDARY_URL: solanaRpcUrl.optional(),
     NAGARIK_SOLANA_CLUSTER: z.enum(['localnet', 'testnet', 'custom']).optional(),
     NAGARIK_SOLANA_GENESIS_HASH: z.string().min(32).max(128).optional(),
     NAGARIK_V1_PROGRAM_ID: publicKey.optional(),
@@ -212,6 +217,17 @@ export const serverEnvironmentSchema = z
         path: ['NAGARIK_RPC_SECONDARY_URL'],
         message: 'must use an independent provider',
       });
+    }
+    if (env.NAGARIK_RPC_PRIMARY_URL && env.NAGARIK_RPC_SECONDARY_URL) {
+      const primary = safeSolanaRpcUrl(env.NAGARIK_RPC_PRIMARY_URL);
+      const secondary = safeSolanaRpcUrl(env.NAGARIK_RPC_SECONDARY_URL);
+      if (primary && secondary && primary.hostname === secondary.hostname) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['NAGARIK_RPC_SECONDARY_URL'],
+          message: 'must use an independently operated provider hostname',
+        });
+      }
     }
     for (const key of ['NAGARIK_RPC_PRIMARY_URL', 'NAGARIK_RPC_SECONDARY_URL'] as const) {
       if (env[key] && /(devnet|mainnet-beta)\.solana\.com/i.test(env[key])) {

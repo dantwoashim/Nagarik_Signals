@@ -448,7 +448,9 @@ export function PublicIssueRecord({ publicId }: { publicId: string }) {
                 ].map(([label, status]) => (
                   <div key={label}>
                     <span>
-                      {status === 'match' || status === 'finalized_binding_recorded' ? (
+                      {status === 'match' ||
+                      status === 'confirmed' ||
+                      status === 'finalized_binding_recorded' ? (
                         <CheckCircle size={18} weight="fill" />
                       ) : (
                         <ShieldWarning size={18} />

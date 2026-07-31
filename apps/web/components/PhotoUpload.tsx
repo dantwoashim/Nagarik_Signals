@@ -39,7 +39,10 @@ export function PhotoUpload() {
         aria-labelledby="safe-photo-label"
         onChange={(event) => updateFile(event.target.files?.[0] ?? null)}
       />
-      <label className={file ? 'photo-dropzone has-file' : 'photo-dropzone'} htmlFor="safe-public-photo">
+      <label
+        className={file ? 'photo-dropzone has-file' : 'photo-dropzone'}
+        htmlFor="safe-public-photo"
+      >
         {previewUrl ? (
           <span
             className="photo-preview"
@@ -48,28 +51,46 @@ export function PhotoUpload() {
             aria-label={`Selected evidence preview: ${file?.name ?? 'photo'}`}
           />
         ) : (
-          <span className="photo-upload-icon" aria-hidden="true"><ImageSquare size={34} weight="regular" /></span>
+          <span className="photo-upload-icon" aria-hidden="true">
+            <ImageSquare size={34} weight="regular" />
+          </span>
         )}
         <span className="photo-dropzone-copy">
           <strong>{file ? 'Photo ready' : 'Choose a clear infrastructure photo'}</strong>
           <span>{file ? 'Choose again to replace it' : 'JPG, PNG, or WebP'}</span>
         </span>
         <span className="photo-dropzone-action">
-          {file ? <CheckCircle size={18} weight="fill" /> : <UploadSimple size={18} weight="bold" />}
+          {file ? (
+            <CheckCircle size={18} weight="fill" />
+          ) : (
+            <UploadSimple size={18} weight="bold" />
+          )}
           {file ? 'Replace' : 'Choose photo'}
         </span>
       </label>
       {file ? (
         <div className="photo-file-meta" aria-live="polite">
-          <span><strong>{file.name}</strong><small>{Math.max(1, Math.round(file.size / 1024)).toLocaleString()} KB selected</small></span>
-          <button type="button" className="icon-button compact" onClick={clearFile} aria-label="Remove selected photo" title="Remove selected photo">
+          <span>
+            <strong>{file.name}</strong>
+            <small>{Math.max(1, Math.round(file.size / 1024)).toLocaleString()} KB selected</small>
+          </span>
+          <button
+            type="button"
+            className="icon-button compact"
+            onClick={clearFile}
+            aria-label="Remove selected photo"
+            title="Remove selected photo"
+          >
             <Trash size={17} weight="bold" />
           </button>
         </div>
       ) : null}
       <details className="photo-processing-details">
         <summary>How the photo is processed</summary>
-        <p>The file is decoded, resized, stripped of metadata, re-encoded, and hashed before publication.</p>
+        <p>
+          The file is decoded, resized, stripped of metadata, re-encoded, and hashed before private
+          review.
+        </p>
       </details>
     </div>
   );

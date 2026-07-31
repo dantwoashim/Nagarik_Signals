@@ -8,13 +8,24 @@ export function SafetyModal() {
         <h2 id="safety-strip-heading">Before you upload</h2>
       </div>
       <ul>
-        <li><CheckCircle size={16} weight="fill" aria-hidden="true" /> Public infrastructure only</li>
-        <li><CheckCircle size={16} weight="fill" aria-hidden="true" /> Keep faces, plates, and private homes out</li>
-        <li><CheckCircle size={16} weight="fill" aria-hidden="true" /> Use emergency services for immediate danger</li>
+        <li>
+          <CheckCircle size={16} weight="fill" aria-hidden="true" /> Public infrastructure only
+        </li>
+        <li>
+          <CheckCircle size={16} weight="fill" aria-hidden="true" /> Keep faces, plates, and private
+          homes out
+        </li>
+        <li>
+          <CheckCircle size={16} weight="fill" aria-hidden="true" /> Use emergency services for
+          immediate danger
+        </li>
       </ul>
       <details>
         <summary>Photo safety details</summary>
-        <p>Leave out names, accusations, and identifying details. Unsafe media can be hidden while its proof trail remains.</p>
+        <p>
+          Leave out names, accusations, and identifying details. Every photo stays private until a
+          moderator approves a safe public derivative.
+        </p>
       </details>
     </aside>
   );

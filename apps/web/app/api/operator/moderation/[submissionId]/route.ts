@@ -56,13 +56,29 @@ export async function GET(
          media.byte_length,
          media.width,
          media.height,
-         encode(media.sha256, 'hex') as evidence_hash
+         encode(media.sha256, 'hex') as evidence_hash,
+         derivative.id as derivative_media_id,
+         derivative.state as derivative_media_state,
+         derivative.version as derivative_media_version,
+         derivative.mime_type as derivative_mime_type,
+         derivative.byte_length as derivative_byte_length,
+         derivative.width as derivative_width,
+         derivative.height as derivative_height,
+         encode(derivative.sha256, 'hex') as derivative_evidence_hash
        from nagarik.submissions submission
        join nagarik.submission_revisions revision
          on revision.submission_id = submission.id
         and revision.revision_number = submission.current_revision_number
        join nagarik.submission_media link on link.revision_id = revision.id and link.position = 0
        join nagarik.media_objects media on media.id = link.media_id
+       left join lateral (
+         select candidate.*
+         from nagarik.media_objects candidate
+         where candidate.source_media_id = media.id
+           and candidate.purpose = 'public_derivative'
+         order by candidate.created_at desc, candidate.id desc
+         limit 1
+       ) derivative on true
        where submission.id = $1::uuid`,
       [submissionId],
     );
@@ -112,6 +128,18 @@ export async function GET(
               width: Number(row.width),
               height: Number(row.height),
               evidenceHash: row.evidence_hash,
+              derivative: row.derivative_media_id
+                ? {
+                    id: row.derivative_media_id,
+                    state: row.derivative_media_state,
+                    version: Number(row.derivative_media_version),
+                    mimeType: row.derivative_mime_type,
+                    byteLength: Number(row.derivative_byte_length),
+                    width: Number(row.derivative_width),
+                    height: Number(row.derivative_height),
+                    evidenceHash: row.derivative_evidence_hash,
+                  }
+                : null,
             },
           },
           moderationEvents: events.map((event) => ({

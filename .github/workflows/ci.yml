@@ -60,7 +60,8 @@ jobs:
       - name: Unit tests
         run: |
           npm run test:unit
-          printf '{"status":"pass","artifact":"npm run test:unit"}\n' > artifacts/release/gates/unit.json
+          npm run test:ops
+          printf '{"status":"pass","artifact":"npm run test:unit; npm run test:ops"}\n' > artifacts/release/gates/unit.json
 
       - name: Production build
         run: |

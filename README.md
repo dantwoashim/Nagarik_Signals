@@ -147,6 +147,12 @@ nonzero until every automated and external release gate has valid evidence.
 health and readiness responses, public v2 APIs, proof delivery, pages, media,
 and response headers without creating or changing a civic record.
 
+Operational procedures are maintained in the
+[production runbooks](docs/production/runbooks/README.md). Release owners must
+also complete the [known-defect review](docs/production/defect-triage.md). A
+written procedure or passing verifier test is not evidence that a real load,
+restore, rollback, or incident exercise occurred.
+
 ## Trust Boundaries
 
 | Public statement   | What the system can verify                                                        | Boundary                                                   |

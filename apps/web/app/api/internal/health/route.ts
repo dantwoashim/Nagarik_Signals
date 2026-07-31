@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { getServerEnvironment } from '@/lib/env/server';
-import { createOperationalAlert, deliverOperationalAlert } from '@/lib/ops/alerts';
+import { sendConfiguredOperationalAlert } from '@/lib/ops/alertRuntime';
 import { readInternalHealth, type InternalHealthSnapshot } from '@/lib/ops/health';
 import {
   createOperationalContext,
@@ -40,62 +40,13 @@ async function deliverReadinessAlert(
   env: ReturnType<typeof getServerEnvironment>,
   metrics: ReturnType<typeof readinessMetrics>,
 ) {
-  const startedAt = Date.now();
-  const alertKind = 'readiness_failed';
-  if (
-    !env.NAGARIK_ALERT_WEBHOOK_URL ||
-    !env.NAGARIK_ALERT_WEBHOOK_TOKEN ||
-    !env.NEXT_PUBLIC_RELEASE_ID
-  ) {
-    emitOperationalEvent({
-      event: 'alert.delivery',
-      outcome: 'degraded',
-      ...context,
-      releaseId: env.NEXT_PUBLIC_RELEASE_ID,
-      environment: env.NODE_ENV,
-      durationMs: Date.now() - startedAt,
-      metrics: { httpStatus: 0 },
-      dimensions: { alertKind },
-    });
-    return;
-  }
-
-  const alert = createOperationalAlert({
-    kind: alertKind,
+  await sendConfiguredOperationalAlert({
+    context,
+    environment: env,
+    kind: 'readiness_failed',
     severity: 'critical',
-    occurredAt: new Date().toISOString(),
-    requestId: context.requestId,
-    traceId: context.traceId,
-    releaseId: env.NEXT_PUBLIC_RELEASE_ID,
     metrics,
   });
-  try {
-    const result = await deliverOperationalAlert(alert, {
-      url: env.NAGARIK_ALERT_WEBHOOK_URL,
-      token: env.NAGARIK_ALERT_WEBHOOK_TOKEN,
-    });
-    emitOperationalEvent({
-      event: 'alert.delivery',
-      outcome: 'success',
-      ...context,
-      releaseId: env.NEXT_PUBLIC_RELEASE_ID,
-      environment: env.NODE_ENV,
-      durationMs: Date.now() - startedAt,
-      metrics: { httpStatus: result.httpStatus },
-      dimensions: { alertKind },
-    });
-  } catch {
-    emitOperationalEvent({
-      event: 'alert.delivery',
-      outcome: 'failure',
-      ...context,
-      releaseId: env.NEXT_PUBLIC_RELEASE_ID,
-      environment: env.NODE_ENV,
-      durationMs: Date.now() - startedAt,
-      metrics: { httpStatus: 0 },
-      dimensions: { alertKind },
-    });
-  }
 }
 
 export async function GET(request: Request) {
@@ -111,7 +62,7 @@ export async function GET(request: Request) {
         ...context,
         releaseId: env.NEXT_PUBLIC_RELEASE_ID,
         environment: env.NODE_ENV,
-        durationMs: Date.now() - context.startedAtMs,
+        durationMs: Math.max(Date.now() - context.startedAtMs, 0),
         metrics: { httpStatus: 404 },
         dimensions: { trigger: 'cron' },
       });
@@ -133,7 +84,7 @@ export async function GET(request: Request) {
       ...context,
       releaseId: env.NEXT_PUBLIC_RELEASE_ID,
       environment: env.NODE_ENV,
-      durationMs: Date.now() - context.startedAtMs,
+      durationMs: Math.max(Date.now() - context.startedAtMs, 0),
       metrics: { ...metrics, httpStatus: snapshot.ready ? 200 : 503 },
       dimensions: { trigger: 'cron' },
     });
@@ -156,7 +107,7 @@ export async function GET(request: Request) {
         process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test'
           ? process.env.NODE_ENV
           : 'development',
-      durationMs: Date.now() - context.startedAtMs,
+      durationMs: Math.max(Date.now() - context.startedAtMs, 0),
       metrics: { httpStatus: 503 },
       dimensions: { trigger: 'cron' },
     });

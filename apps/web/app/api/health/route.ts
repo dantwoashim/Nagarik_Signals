@@ -20,12 +20,13 @@ export async function GET() {
   const [model, latest, modelExists] = await Promise.all([readModel(), latestIndexedIssue(), readModelExists()]);
   const supabase = getSupabaseConfig();
   const readModelMode = readModelStorageMode();
-  let mediaStorageMode: 'local' | 'blob' | null = null;
-  try {
-    mediaStorageMode = configuredStorageMode();
-  } catch {
-    mediaStorageMode = null;
-  }
+  const mediaStorageMode: 'local' | 'blob' | null = (() => {
+    try {
+      return configuredStorageMode();
+    } catch {
+      return null;
+    }
+  })();
   const rpcRecord = rpc as Record<string, unknown>;
   const readiness = runtimeReadiness({
     env: process.env,

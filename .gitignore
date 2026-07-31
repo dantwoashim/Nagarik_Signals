@@ -7,10 +7,17 @@ target/
 **/target/
 .anchor/
 **/.anchor/
+supabase/.branches/
+supabase/.temp/
+supabase/.local/
 dist/
 **/dist/
 *.tsbuildinfo
 **/*.tsbuildinfo
+coverage/
+**/coverage/
+release-evidence/private/
+**/*.lcov
 
 # Local environment and secrets
 .env
@@ -34,6 +41,7 @@ Thumbs.db
 .vscode/
 .idea/
 .local-archive/
+.codex-worktrees/
 
 # Scratch planning exports kept locally
 4.7.txt

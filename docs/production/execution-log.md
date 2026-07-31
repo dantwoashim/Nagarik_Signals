@@ -91,3 +91,47 @@ size arithmetic, stale markers, immutable plan checksums, and diff hygiene.
 Wave 0 adds documentation and orchestration only. It changes no runtime
 behavior. Rollback is removal of the Wave 0 commit; the
 `prototype-baseline` tag remains the immutable source reference.
+
+## 2026-07-31 - Wave 1 runtime and configuration foundation
+
+### Changes
+
+- pinned Node `22.23.1`, npm compatibility, and Rust `1.94.0`;
+- upgraded Next/ESLint to patched current releases and replaced the vulnerable
+  preset dependency chain with official flat plugins;
+- added strict server/client environment schemas, production startup
+  validation, independent-secret checks, frozen profile invariants, and legacy
+  secret rejection;
+- added private Supabase client factories and a local Supabase configuration;
+- changed unit tests from a hard-coded list to repository discovery;
+- added scoped deterministic formatting and complete dependency audit scripts.
+
+### Verified evidence
+
+The official Node `22.23.1` Windows archive was downloaded from `nodejs.org`
+and matched SHA-256
+`7DF0BC9375723F4A86B3AA1B7CC73342423D9677A8DF4538ACA31A049E309C29`.
+Under that exact runtime:
+
+| Command | Result |
+|---|---|
+| `npm ci` | exit 0; 332 packages installed |
+| `npm run format:check` | exit 0 |
+| `npm run typecheck` | exit 0 |
+| `npm run lint` | exit 0 |
+| `npm run test:unit` | exit 0; 37 tests passed |
+| `npm audit --audit-level=moderate` | exit 0; zero vulnerabilities |
+| `npm run build` | exit 0; Next 16.2.12 production build |
+| `npx supabase --version` | exit 0; 2.110.0 |
+| `npx supabase status` | blocked before startup; Docker and Podman are absent |
+
+The seven new environment tests prove exact-profile acceptance and rejection
+of missing production dependencies, shared legacy secrets, duplicate secret
+material, default public Solana clusters, and real civic data without an
+`EXT-003` evidence reference.
+
+### Remaining boundary
+
+The Supabase configuration parses, but local empty/upgrade migration and RLS
+execution require a Postgres runtime. No database gate is represented as
+passing until that runtime exists and the Wave 2 tests execute.

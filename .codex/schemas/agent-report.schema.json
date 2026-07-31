@@ -26,12 +26,7 @@
       "pattern": "^[A-Z][A-Z0-9_-]*-[0-9]{3}$"
     },
     "status": {
-      "enum": [
-        "complete",
-        "blocked",
-        "failed",
-        "review_only"
-      ]
+      "enum": ["complete", "blocked", "failed", "review_only"]
     },
     "summary": {
       "type": "string",
@@ -49,11 +44,7 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "command",
-          "exit_code",
-          "result"
-        ],
+        "required": ["command", "exit_code", "result"],
         "properties": {
           "command": {
             "type": "string",
@@ -95,10 +86,7 @@
       "minLength": 1
     },
     "commit_sha": {
-      "type": [
-        "string",
-        "null"
-      ],
+      "type": ["string", "null"],
       "pattern": "^[0-9a-f]{40}$"
     }
   }

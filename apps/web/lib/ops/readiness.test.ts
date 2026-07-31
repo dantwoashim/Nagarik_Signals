@@ -88,8 +88,11 @@ test('release metadata is normalized and rejects arbitrary values', () => {
     deploymentId: null,
   });
   assert.equal(deploymentRelease({ NAGARIK_RELEASE_SHA: 'not-a-commit' }).commitSha, null);
-  assert.equal(deploymentRelease({
-    VERCEL_GIT_COMMIT_SHA: 'invalid',
-    NAGARIK_RELEASE_SHA: '1234567',
-  }).commitSha, '1234567');
+  assert.equal(
+    deploymentRelease({
+      VERCEL_GIT_COMMIT_SHA: 'invalid',
+      NAGARIK_RELEASE_SHA: '1234567',
+    }).commitSha,
+    '1234567',
+  );
 });

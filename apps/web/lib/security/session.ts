@@ -44,13 +44,16 @@ function mintCookie() {
 }
 
 export async function getOrCreateServerSession() {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('legacy_civic_session_disabled');
+  }
   const store = await cookies();
   const existing = parseCookie(store.get(cookieName())?.value);
   if (existing) return existing;
   const created = mintCookie();
   store.set(cookieName(), created.value, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: false,
     sameSite: 'lax',
     path: '/',
     maxAge: MAX_SESSION_AGE_SECONDS,

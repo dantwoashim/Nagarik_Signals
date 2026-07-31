@@ -1,6 +1,8 @@
 import 'server-only';
 
+import { createServerClient } from '@supabase/ssr';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { cookies } from 'next/headers';
 
 import { getServerEnvironment } from '@/lib/env/server';
 
@@ -22,6 +24,28 @@ export function createOperatorSupabaseClient(accessToken: string): SupabaseClien
   return createClient(url, anonKey, {
     auth: { autoRefreshToken: false, persistSession: false },
     global: { headers: { Authorization: `Bearer ${accessToken}` } },
+  });
+}
+
+export async function createServerSupabaseClient(): Promise<SupabaseClient> {
+  const { url, anonKey } = requireSupabaseConfig();
+  const cookieStore = await cookies();
+
+  return createServerClient(url, anonKey, {
+    cookies: {
+      getAll() {
+        return cookieStore.getAll();
+      },
+      setAll(values) {
+        try {
+          for (const value of values) {
+            cookieStore.set(value.name, value.value, value.options);
+          }
+        } catch {
+          // Server Components cannot write cookies. The proxy performs refresh writes.
+        }
+      },
+    },
   });
 }
 

@@ -135,3 +135,60 @@ material, default public Solana clusters, and real civic data without an
 The Supabase configuration parses, but local empty/upgrade migration and RLS
 execution require a Postgres runtime. No database gate is represented as
 passing until that runtime exists and the Wave 2 tests execute.
+
+## 2026-07-31 - Wave 2 database and operator authorization foundation
+
+### Changes
+
+- added ordered legacy-archive, production-core, and access/transaction
+  migrations;
+- added 33 private workflow tables, three public projection tables, constraints,
+  indexes, immutable triggers, seven fail-closed capability switches, and RLS;
+- added atomic idempotency reservation/completion, one-time capability
+  consumption, FIFO outbox leasing, and no-last-admin protection;
+- added managed Supabase cookie sessions and explicit AAL2 operator-role checks;
+- added a production proxy that returns `410` for every legacy mutation route;
+- removed the unused browser-local pseudo-session and made the remaining
+  legacy development session unavailable in production;
+- added server-only Postgres access and separate public, submission, and outbox
+  repositories;
+- added a deterministic, transaction-only legacy importer with dry-run default,
+  canonical checksums, explicit organization binding, and no-op reruns.
+
+### Verified evidence
+
+All commands below ran under the pinned Node `22.23.1` runtime.
+
+| Command | Result |
+|---|---|
+| `npm run db:test` | exit 0; 10 migration, RLS, transaction, plan, and import tests passed |
+| `npm run legacy:import -- --source=data/read-model/nagarik-signal.json` | exit 0; dry-run only |
+| `npm run typecheck` | exit 0 |
+| `npm run lint` | exit 0 |
+| `npm run test:unit` | exit 0; 38 tests passed |
+| `npm audit --audit-level=moderate` | exit 0; zero vulnerabilities |
+| `npm run build` | exit 0; Next 16.2.12 production build |
+
+The import dry-run read 41 legacy records. Four `public_source` records are
+eligible; seven `qa_fixture` and 30 `illustrative_sample` records are excluded.
+Its canonical source SHA-256 is
+`2a661ea7ed10d9d78e242c8fdb0a6e0bbae2807e68a27540647407e86de33538`;
+the deterministic eligible issue-set SHA-256 is
+`3ee266004d7d49ff709f7980727f3a84d00bb2d4fd40e19b7a423fb773dff487`.
+No import was committed to an external database.
+
+The database suite executes the exact numbered SQL migrations in PGlite's
+PostgreSQL runtime. It proves clean install, prototype-table upgrade/archive,
+all switches initially disabled, anonymous fail-closed projection access,
+private table denial, append-only revisions, idempotency conflict behavior,
+single-use capabilities, last-admin protection, per-issue FIFO outbox claims,
+cross-organization/role RLS, deterministic import/no-op rerun, and index-backed
+public pagination.
+
+### Remaining boundary
+
+Docker and Podman are still absent, so Supabase CLI reset, Supabase Auth network
+integration, and hosted Postgres execution have not run locally. PGlite evidence
+does not replace those release gates. Legacy JSON read routes remain available
+for frozen v1 compatibility; their mutations are blocked in production and
+will be replaced by v2 services in later waves.

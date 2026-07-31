@@ -68,6 +68,7 @@ export const serverEnvironmentSchema = z
     NAGARIK_COOKIE_SECRET: secret.optional(),
     NAGARIK_CSRF_SECRET: secret.optional(),
     NAGARIK_WORKER_AUTH_SECRET: secret.optional(),
+    CRON_SECRET: secret.optional(),
     NAGARIK_LEGACY_READ: z.enum([TRUE, FALSE]).optional(),
     NAGARIK_LEGACY_MUTATIONS: z.enum([TRUE, FALSE]).optional(),
     NAGARIK_PUBLIC_READ: z.enum([TRUE, FALSE]).optional(),
@@ -134,6 +135,7 @@ export const serverEnvironmentSchema = z
       'NAGARIK_COOKIE_SECRET',
       'NAGARIK_CSRF_SECRET',
       'NAGARIK_WORKER_AUTH_SECRET',
+      'CRON_SECRET',
       'NAGARIK_STAGING_TTL_HOURS',
       'NAGARIK_PRIVATE_RETENTION_DAYS',
       'NAGARIK_LOG_RETENTION_DAYS',
@@ -237,6 +239,7 @@ export const serverEnvironmentSchema = z
       'NAGARIK_COOKIE_SECRET',
       'NAGARIK_CSRF_SECRET',
       'NAGARIK_WORKER_AUTH_SECRET',
+      'CRON_SECRET',
     ] as const;
     const seen = new Map<string, string>();
     for (const key of secretKeys) {

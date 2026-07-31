@@ -9,6 +9,7 @@ operating instructions, not evidence that a drill or external review passed.
 - [Privacy restriction and removal](privacy-removal.md)
 - [Signer or key compromise](signer-key-compromise.md)
 - [Dependency outage](dependency-outage.md)
+- [Scheduled workers](scheduled-workers.md)
 - [Backup and isolated restore](backup-restore.md)
 - [Release rollback](release-rollback.md)
 - [Operator tabletop](operator-tabletop.md)

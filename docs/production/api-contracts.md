@@ -2001,9 +2001,17 @@ tabletop.
 
 Internal endpoints are not browser APIs.
 
+Manual `POST` calls require the dedicated worker bearer and the exact
+`X-Nagarik-Worker-Audience` documented below. They accept no query parameters.
+Registered Vercel schedules use a bodyless `GET` alias, the separate
+`CRON_SECRET` bearer, exact route path, and `vercel-cron/1.0` user agent. A cron
+alias has fixed server-side behavior and accepts no caller-selected limit,
+mode, account, hash, or signer input.
+
 ### `POST /api/internal/outbox/process`
 
 - machine auth and audience required;
+- audience: `nagarik-worker/outbox-process/v1`;
 - exact body `{"schemaVersion":"outbox-process-v1"}`; unknown fields rejected;
 - bounded batch, lease duration, operation allowlist, and time budget;
 - duplicate invocation is safe;
@@ -2013,6 +2021,7 @@ Internal endpoints are not browser APIs.
 ### `POST /api/internal/reconcile`
 
 - machine auth and exact body `{"schemaVersion":"reconcile-worker-v1"}`;
+- audience: `nagarik-worker/reconcile/v1`;
 - processes only an existing typed reconciliation run or the server's scheduled
   dry run; it accepts no mode, job, account, hash, program, or signer selector;
 - bounded deterministic binding checks;
@@ -2023,6 +2032,7 @@ Internal endpoints are not browser APIs.
 ### `POST /api/internal/retention`
 
 - machine auth and exact body `{"schemaVersion":"retention-worker-v1"}`;
+- audience: `nagarik-worker/retention/v1`;
 - bounded expiry/deletion batch;
 - legal hold and current lifecycle checked;
 - storage deletion and DB state converge through retryable intent;
@@ -2030,6 +2040,10 @@ Internal endpoints are not browser APIs.
 - typed policy uses the exact maximums in `data-classification.md`;
 - configuration may shorten but cannot extend a maximum;
 - policy/version mismatch makes readiness false and performs no deletion.
+
+The scheduled reconciliation alias is dry-run only. A safe repair remains a
+separate system-admin-created, version-bound reconciliation run; adding a query
+parameter cannot turn the scheduled route into an apply operation.
 
 ## Health API
 

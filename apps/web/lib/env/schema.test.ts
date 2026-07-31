@@ -38,6 +38,7 @@ const validProduction = {
   NAGARIK_COOKIE_SECRET: `cookie-${'g'.repeat(40)}`,
   NAGARIK_CSRF_SECRET: `csrf-${'h'.repeat(40)}`,
   NAGARIK_WORKER_AUTH_SECRET: `worker-${'i'.repeat(40)}`,
+  CRON_SECRET: `cron-${'j'.repeat(40)}`,
   NAGARIK_LEGACY_READ: 'true',
   NAGARIK_LEGACY_MUTATIONS: 'false',
   NAGARIK_PUBLIC_READ: 'true',
@@ -80,6 +81,21 @@ describe('production environment', () => {
       parseServerEnvironment({
         ...validProduction,
         NAGARIK_CSRF_SECRET: validProduction.NAGARIK_COOKIE_SECRET,
+      }),
+    );
+  });
+
+  it('requires a dedicated Vercel cron secret', () => {
+    assert.throws(() =>
+      parseServerEnvironment({
+        ...validProduction,
+        CRON_SECRET: undefined,
+      }),
+    );
+    assert.throws(() =>
+      parseServerEnvironment({
+        ...validProduction,
+        CRON_SECRET: validProduction.NAGARIK_WORKER_AUTH_SECRET,
       }),
     );
   });

@@ -13,13 +13,18 @@ import type {
   StatusTimelineEntry,
 } from '../types';
 import { buildAuthorityHandoff, verifyAuthorityHandoffChain } from '../handoffs/hash';
-import { handoffDraftMatches, nextHandoffStates, type ValidatedHandoffDraft } from '../handoffs/policy';
+import {
+  handoffDraftMatches,
+  nextHandoffStates,
+  type ValidatedHandoffDraft,
+} from '../handoffs/policy';
 import { isClosedStatus } from '../constants/statuses';
 import { publicPreviewReadOnly } from '../deployment';
 import { readModelPath } from '../server/paths';
 import { explorerUrl } from '../solana/explorer';
 import bundledPublicSnapshot from '../../../../data/read-model/nagarik-signal.json';
 import { createJsonStore, type DurableStorageMode } from './jsonStore';
+import { getDatabase } from './postgres';
 
 export type VerificationRecord = {
   issueId: number;
@@ -160,7 +165,8 @@ function resolvedRecordKind(issue: unknown): IssueRecordKind {
   ) {
     return explicit;
   }
-  const proof = row.proof && typeof row.proof === 'object' ? (row.proof as Record<string, unknown>) : {};
+  const proof =
+    row.proof && typeof row.proof === 'object' ? (row.proof as Record<string, unknown>) : {};
   return proof.proofStatus === 'seeded_demo' ? 'illustrative_sample' : 'qa_fixture';
 }
 
@@ -230,17 +236,18 @@ function validTimestamp(value: string) {
 function pruneRequestState(model: ReadModel, nowMs: number, retentionMs: number) {
   const cutoff = nowMs - retentionMs;
   model.requestEvents = (model.requestEvents ?? []).filter(
-    (event) => validTimestamp(event.createdAt) && Date.parse(event.createdAt) >= cutoff
+    (event) => validTimestamp(event.createdAt) && Date.parse(event.createdAt) >= cutoff,
   );
   model.rateLimits = (model.rateLimits ?? []).filter(
-    (bucket) => validTimestamp(bucket.updatedAt) && Date.parse(bucket.updatedAt) >= cutoff
+    (bucket) => validTimestamp(bucket.updatedAt) && Date.parse(bucket.updatedAt) >= cutoff,
   );
 }
 
 function appendRequestEvent(model: ReadModel, event: RequestEventRecord) {
   const events = [...(model.requestEvents ?? []), event];
   const maxEvents = requestEventLimit();
-  model.requestEvents = events.length > maxEvents ? events.slice(events.length - maxEvents) : events;
+  model.requestEvents =
+    events.length > maxEvents ? events.slice(events.length - maxEvents) : events;
 }
 
 function sanitizeScope(scope: string) {
@@ -262,7 +269,10 @@ function sanitizeMetadata(metadata: RequestEventMetadata | undefined): RequestEv
   return Object.fromEntries(
     Object.entries(metadata)
       .slice(0, 12)
-      .map(([key, value]) => [key.slice(0, 64), typeof value === 'string' ? value.slice(0, 256) : value])
+      .map(([key, value]) => [
+        key.slice(0, 64),
+        typeof value === 'string' ? value.slice(0, 256) : value,
+      ]),
   );
 }
 
@@ -276,7 +286,8 @@ function hashIdentifier(scope: string, identifier: string) {
 
 function timestampMs(value: Date | string | number | undefined) {
   if (value === undefined) return Date.now();
-  const parsed = value instanceof Date ? value.getTime() : typeof value === 'number' ? value : Date.parse(value);
+  const parsed =
+    value instanceof Date ? value.getTime() : typeof value === 'number' ? value : Date.parse(value);
   if (!Number.isFinite(parsed)) throw new Error('invalid_request_event_timestamp');
   return parsed;
 }
@@ -310,8 +321,27 @@ export function issueRecordKind(issue: CivicIssue): IssueRecordKind {
   return resolvedRecordKind(issue);
 }
 
+async function productionVisibleLegacyIds(): Promise<Set<number> | null> {
+  if (process.env.NODE_ENV !== 'production') return null;
+  const sql = getDatabase();
+  const rows = await sql<{ legacy_issue_id: string }[]>`
+    select issue.legacy_issue_id::text as legacy_issue_id
+    from nagarik.issues issue
+    join public.issue_projection projection on projection.public_id = issue.public_id
+    where issue.workflow_version = 'v1_legacy'
+      and issue.legacy_issue_id is not null
+      and projection.publication_state = 'published'
+      and not nagarik.is_issue_access_restricted(issue.public_id)
+  `;
+  return new Set(rows.map((row) => Number(row.legacy_issue_id)));
+}
+
 export async function listIssues(filters: IssueListFilters = {}) {
   let rows = (await readModel()).issues;
+  const visibleLegacyIds = await productionVisibleLegacyIds();
+  if (visibleLegacyIds) {
+    rows = rows.filter((issue) => visibleLegacyIds.has(issue.issueId));
+  }
   if (filters.recordKind === 'qa_fixture') {
     rows = [];
   } else if (filters.recordKind) {
@@ -322,14 +352,20 @@ export async function listIssues(filters: IssueListFilters = {}) {
   } else if (filters.scope === 'all') {
     rows = rows.filter((issue) => {
       const kind = issueRecordKind(issue);
-      return kind !== 'qa_fixture' && (kind === 'illustrative_sample' || issue.safetyReviewStatus !== 'rejected');
+      return (
+        kind !== 'qa_fixture' &&
+        (kind === 'illustrative_sample' || issue.safetyReviewStatus !== 'rejected')
+      );
     });
   } else if (filters.scope === 'samples') {
     rows = rows.filter((issue) => issueRecordKind(issue) === 'illustrative_sample');
   } else {
     rows = rows.filter((issue) => {
       const kind = issueRecordKind(issue);
-      return (kind === 'community_report' || kind === 'public_source') && issue.safetyReviewStatus !== 'rejected';
+      return (
+        (kind === 'community_report' || kind === 'public_source') &&
+        issue.safetyReviewStatus !== 'rejected'
+      );
     });
   }
   if (filters.ward) rows = rows.filter((issue) => issue.wardId === filters.ward);
@@ -360,7 +396,13 @@ export async function listModerationIssues() {
 
 export async function getIssue(id: string | number) {
   const key = String(id);
-  return (await readModel()).issues.find((issue) => issue.id === key || String(issue.issueId) === key) ?? null;
+  const issue =
+    (await readModel()).issues.find(
+      (candidate) => candidate.id === key || String(candidate.issueId) === key,
+    ) ?? null;
+  if (!issue) return null;
+  const visibleLegacyIds = await productionVisibleLegacyIds();
+  return !visibleLegacyIds || visibleLegacyIds.has(issue.issueId) ? issue : null;
 }
 
 export async function listVerifications(issueId?: number) {
@@ -371,14 +413,16 @@ export async function listVerifications(issueId?: number) {
 export async function findVerification(issueId: number, verifierPubkey: string) {
   return (
     (await readModel()).verifications.find(
-      (row) => row.issueId === issueId && row.verifierPubkey === verifierPubkey
+      (row) => row.issueId === issueId && row.verifierPubkey === verifierPubkey,
     ) ?? null
   );
 }
 
 export async function upsertIssue(issue: CivicIssue) {
   await mutateReadModel((model) => {
-    const index = model.issues.findIndex((row) => row.issueId === issue.issueId || row.id === issue.id);
+    const index = model.issues.findIndex(
+      (row) => row.issueId === issue.issueId || row.id === issue.id,
+    );
     if (index === -1) model.issues.push(issue);
     else model.issues[index] = issue;
   });
@@ -399,8 +443,11 @@ export async function updateSafetyReview(input: {
 export async function mediaDisplayAllowed(photoUrl: string) {
   const model = await readModel();
   const handoff = model.authorityHandoffs.find((row) => row.receiptPhotoUrl === photoUrl);
-  const issue = model.issues.find((row) =>
-    row.photoUrl === photoUrl || row.resolutionPhotoUrl === photoUrl || row.issueId === handoff?.issueId
+  const issue = model.issues.find(
+    (row) =>
+      row.photoUrl === photoUrl ||
+      row.resolutionPhotoUrl === photoUrl ||
+      row.issueId === handoff?.issueId,
   );
   if (!issue) return true;
   return issue.safetyReviewStatus !== 'hidden_media' && issue.safetyReviewStatus !== 'rejected';
@@ -426,7 +473,9 @@ export async function addAuthorityHandoff(input: {
   draft: ValidatedHandoffDraft;
 }) {
   return mutateReadModel((model) => {
-    const existing = model.authorityHandoffs.find((row) => row.idempotencyKey === input.idempotencyKey);
+    const existing = model.authorityHandoffs.find(
+      (row) => row.idempotencyKey === input.idempotencyKey,
+    );
     if (existing) {
       if (existing.issueId !== input.issueId || !handoffDraftMatches(existing, input.draft)) {
         throw new Error('idempotency_key_reused');
@@ -460,23 +509,30 @@ export async function addAuthorityHandoff(input: {
       previousEventHash: previous?.eventHash ?? null,
       createdAt: new Date().toISOString(),
     });
-    model.authorityHandoffs = [...model.authorityHandoffs, record]
-      .sort((a, b) => a.issueId - b.issueId || a.seq - b.seq);
+    model.authorityHandoffs = [...model.authorityHandoffs, record].sort(
+      (a, b) => a.issueId - b.issueId || a.seq - b.seq,
+    );
     return { record: structuredClone(record), created: true };
   });
 }
 
 export async function authorityHandoffOverview(limit = 6, now = new Date()) {
   const model = await readModel();
-  const publicIssueIds = new Set(model.issues
-    .filter((issue) => {
-      const kind = issueRecordKind(issue);
-      return (kind === 'community_report' || kind === 'public_source') && issue.safetyReviewStatus !== 'rejected';
-    })
-    .map((issue) => issue.issueId));
+  const publicIssueIds = new Set(
+    model.issues
+      .filter((issue) => {
+        const kind = issueRecordKind(issue);
+        return (
+          (kind === 'community_report' || kind === 'public_source') &&
+          issue.safetyReviewStatus !== 'rejected'
+        );
+      })
+      .map((issue) => issue.issueId),
+  );
   const events = model.authorityHandoffs.filter((row) => publicIssueIds.has(row.issueId));
   const byIssue = new Map<number, AuthorityHandoff[]>();
-  for (const event of events) byIssue.set(event.issueId, [...(byIssue.get(event.issueId) ?? []), event]);
+  for (const event of events)
+    byIssue.set(event.issueId, [...(byIssue.get(event.issueId) ?? []), event]);
   if ([...byIssue.values()].some((timeline) => !verifyAuthorityHandoffChain(timeline))) {
     throw new Error('authority_handoff_integrity_failed');
   }
@@ -485,11 +541,18 @@ export async function authorityHandoffOverview(limit = 6, now = new Date()) {
   const stats: HandoffStats = {
     routedIssues: byIssue.size,
     preparedOnly: latest.filter((row) => row.state === 'prepared').length,
-    submittedIssues: [...byIssue.values()].filter((rows) => rows.some((row) => row.state === 'submitted')).length,
-    acknowledgedIssues: [...byIssue.values()].filter((rows) => rows.some((row) => row.state === 'acknowledged')).length,
-    overdueFollowUps: latest.filter((row) => row.state !== 'closed'
-      && Boolean(row.followUpDueAt)
-      && Date.parse(row.followUpDueAt!) < nowMs).length,
+    submittedIssues: [...byIssue.values()].filter((rows) =>
+      rows.some((row) => row.state === 'submitted'),
+    ).length,
+    acknowledgedIssues: [...byIssue.values()].filter((rows) =>
+      rows.some((row) => row.state === 'acknowledged'),
+    ).length,
+    overdueFollowUps: latest.filter(
+      (row) =>
+        row.state !== 'closed' &&
+        Boolean(row.followUpDueAt) &&
+        Date.parse(row.followUpDueAt!) < nowMs,
+    ).length,
     closedHandoffs: latest.filter((row) => row.state === 'closed').length,
     totalEvents: events.length,
   };
@@ -505,7 +568,7 @@ export async function authorityHandoffOverview(limit = 6, now = new Date()) {
 export async function addVerification(record: VerificationRecord, issuePatch: Partial<CivicIssue>) {
   await mutateReadModel((model) => {
     const exists = model.verifications.some(
-      (row) => row.issueId === record.issueId && row.verifierPubkey === record.verifierPubkey
+      (row) => row.issueId === record.issueId && row.verifierPubkey === record.verifierPubkey,
     );
     if (!exists) model.verifications.push(record);
     model.issues = model.issues.map((issue) =>
@@ -515,7 +578,7 @@ export async function addVerification(record: VerificationRecord, issuePatch: Pa
             ...issuePatch,
             proof: { ...issue.proof, ...(issuePatch.proof ?? {}) },
           }
-        : issue
+        : issue,
     );
   });
 }
@@ -528,7 +591,9 @@ export async function addStatusUpdate(input: {
 }) {
   await mutateReadModel((model) => {
     model.statusUpdates = [
-      ...model.statusUpdates.filter((row) => !(row.issueId === input.record.issueId && row.seq === input.record.seq)),
+      ...model.statusUpdates.filter(
+        (row) => !(row.issueId === input.record.issueId && row.seq === input.record.seq),
+      ),
       input.record,
     ].sort((a, b) => a.issueId - b.issueId || a.seq - b.seq);
     model.issues = model.issues.map((issue) =>
@@ -536,12 +601,13 @@ export async function addStatusUpdate(input: {
         ? {
             ...issue,
             ...input.issuePatch,
-            timeline: [...issue.timeline.filter((row) => row.seq !== input.entry.seq), input.entry].sort(
-              (a, b) => a.seq - b.seq
-            ),
+            timeline: [
+              ...issue.timeline.filter((row) => row.seq !== input.entry.seq),
+              input.entry,
+            ].sort((a, b) => a.seq - b.seq),
             proof: { ...issue.proof, ...(input.issuePatch.proof ?? {}) },
           }
-        : issue
+        : issue,
     );
   });
 }
@@ -549,10 +615,15 @@ export async function addStatusUpdate(input: {
 export async function recordSession(session: SessionRecord) {
   await mutateReadModel((model) => {
     const index = model.sessions.findIndex(
-      (row) => row.id === session.id || row.sessionPubkey === session.sessionPubkey
+      (row) => row.id === session.id || row.sessionPubkey === session.sessionPubkey,
     );
     if (index === -1) model.sessions.push(session);
-    else model.sessions[index] = { ...model.sessions[index], ...session, lastSeenAt: new Date().toISOString() };
+    else
+      model.sessions[index] = {
+        ...model.sessions[index],
+        ...session,
+        lastSeenAt: new Date().toISOString(),
+      };
   });
 }
 
@@ -566,9 +637,12 @@ export async function recordSteward(steward: StewardRecord) {
 
 export function daysIgnored(issue: CivicIssue) {
   const end = isClosedStatus(issue.status)
-    ? issue.timeline.at(-1)?.createdAt ?? new Date().toISOString()
+    ? (issue.timeline.at(-1)?.createdAt ?? new Date().toISOString())
     : new Date().toISOString();
-  return Math.max(0, Math.floor((Date.parse(end) - Date.parse(issue.firstObservedAt)) / 86_400_000));
+  return Math.max(
+    0,
+    Math.floor((Date.parse(end) - Date.parse(issue.firstObservedAt)) / 86_400_000),
+  );
 }
 
 export async function dashboardStats(): Promise<DashboardStats> {
@@ -592,7 +666,13 @@ export async function dashboardStats(): Promise<DashboardStats> {
 export async function wardLeaderboard() {
   const grouped = new Map<
     string,
-    { locality: string; total: number; unresolved: number; days: number; mostIgnored: CivicIssue | null }
+    {
+      locality: string;
+      total: number;
+      unresolved: number;
+      days: number;
+      mostIgnored: CivicIssue | null;
+    }
   >();
   for (const issue of await listIssues({ scope: 'public' })) {
     const current = grouped.get(issue.wardId) ?? {
@@ -607,7 +687,8 @@ export async function wardLeaderboard() {
     if (!isClosedStatus(issue.status)) {
       current.unresolved += 1;
       current.days += ignored;
-      if (!current.mostIgnored || ignored > daysIgnored(current.mostIgnored)) current.mostIgnored = issue;
+      if (!current.mostIgnored || ignored > daysIgnored(current.mostIgnored))
+        current.mostIgnored = issue;
     }
     grouped.set(issue.wardId, current);
   }
@@ -631,9 +712,16 @@ export async function wardLeaderboard() {
 }
 
 export async function categoryBreakdown() {
-  const grouped = new Map<IssueCategory, { category: IssueCategory; total: number; unresolved: number }>();
+  const grouped = new Map<
+    IssueCategory,
+    { category: IssueCategory; total: number; unresolved: number }
+  >();
   for (const issue of await listIssues({ scope: 'public' })) {
-    const current = grouped.get(issue.category) ?? { category: issue.category, total: 0, unresolved: 0 };
+    const current = grouped.get(issue.category) ?? {
+      category: issue.category,
+      total: 0,
+      unresolved: 0,
+    };
     current.total += 1;
     if (!isClosedStatus(issue.status)) current.unresolved += 1;
     grouped.set(issue.category, current);
@@ -653,7 +741,7 @@ export async function recentResolvedIssues(limit = 5) {
     .sort(
       (a, b) =>
         Date.parse(b.timeline.at(-1)?.createdAt ?? b.firstObservedAt) -
-        Date.parse(a.timeline.at(-1)?.createdAt ?? a.firstObservedAt)
+        Date.parse(a.timeline.at(-1)?.createdAt ?? a.firstObservedAt),
     )
     .slice(0, limit);
 }
@@ -733,7 +821,11 @@ export async function consumeRateLimit(input: RateLimitInput): Promise<RateLimit
   if (!Number.isInteger(input.limit) || input.limit < 1 || input.limit > 10_000) {
     throw new Error('invalid_rate_limit_capacity');
   }
-  if (!Number.isInteger(input.windowMs) || input.windowMs < 1_000 || input.windowMs > 30 * 24 * 60 * 60 * 1_000) {
+  if (
+    !Number.isInteger(input.windowMs) ||
+    input.windowMs < 1_000 ||
+    input.windowMs > 30 * 24 * 60 * 60 * 1_000
+  ) {
     throw new Error('invalid_rate_limit_window');
   }
 
@@ -742,7 +834,9 @@ export async function consumeRateLimit(input: RateLimitInput): Promise<RateLimit
   return mutateReadModel((model) => {
     pruneRequestState(model, nowMs, requestEventRetentionMs(input.windowMs * 2));
     const buckets = model.rateLimits ?? [];
-    let bucket = buckets.find((row) => row.scope === scope && row.identifierHash === identifierHash);
+    let bucket = buckets.find(
+      (row) => row.scope === scope && row.identifierHash === identifierHash,
+    );
 
     if (!bucket || bucket.capacity !== input.limit || bucket.windowMs !== input.windowMs) {
       bucket = {
@@ -760,7 +854,9 @@ export async function consumeRateLimit(input: RateLimitInput): Promise<RateLimit
       ];
     }
 
-    const lastRefillMs = validTimestamp(bucket.lastRefillAt) ? Date.parse(bucket.lastRefillAt) : nowMs;
+    const lastRefillMs = validTimestamp(bucket.lastRefillAt)
+      ? Date.parse(bucket.lastRefillAt)
+      : nowMs;
     const elapsedMs = Math.max(0, nowMs - lastRefillMs);
     const refillPerMs = input.limit / input.windowMs;
     bucket.tokens = Math.min(input.limit, Math.max(0, bucket.tokens) + elapsedMs * refillPerMs);
@@ -791,7 +887,9 @@ export async function consumeRateLimit(input: RateLimitInput): Promise<RateLimit
   });
 }
 
-export async function pruneRequestEvents(input: { now?: Date | string | number; retentionMs?: number } = {}) {
+export async function pruneRequestEvents(
+  input: { now?: Date | string | number; retentionMs?: number } = {},
+) {
   const nowMs = timestampMs(input.now);
   const retentionMs = Math.max(input.retentionMs ?? requestEventRetentionMs(), 60_000);
   return mutateReadModel((model) => {
@@ -802,11 +900,18 @@ export async function pruneRequestEvents(input: { now?: Date | string | number; 
 }
 
 export async function listRequestEvents(
-  filters: { scope?: string; identifier?: string; since?: Date | string | number; limit?: number } = {}
+  filters: {
+    scope?: string;
+    identifier?: string;
+    since?: Date | string | number;
+    limit?: number;
+  } = {},
 ) {
   const scope = filters.scope ? sanitizeScope(filters.scope) : null;
   const identifierHash =
-    scope && filters.identifier ? hashIdentifier(scope, sanitizeIdentifier(filters.identifier)) : null;
+    scope && filters.identifier
+      ? hashIdentifier(scope, sanitizeIdentifier(filters.identifier))
+      : null;
   const sinceMs = filters.since === undefined ? null : timestampMs(filters.since);
   const limit = Math.min(Math.max(filters.limit ?? 100, 1), 1_000);
   return ((await readModel()).requestEvents ?? [])

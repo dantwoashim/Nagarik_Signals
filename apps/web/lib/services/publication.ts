@@ -54,7 +54,7 @@ type PublicationResult = {
   replayed: boolean;
   publicId: string;
   domainVersion: number;
-  chainSequence: number;
+  chainSequence: number | null;
   timelineHead: string;
 };
 
@@ -62,10 +62,12 @@ export type CorrectionResult = PublicationResult & {
   versionId: string;
   versionNumber: number;
   publicationState: 'commit_pending';
+  chainSequence: number;
 };
 
 export type RemovalResult = PublicationResult & {
-  publicationState: 'removal_pending';
+  publicationState: 'removal_pending' | 'removed';
+  checkpointState: 'pending' | 'not_applicable_v1_legacy';
 };
 
 type StableCorrectionResult = Omit<CorrectionResult, 'replayed'>;
@@ -125,6 +127,79 @@ function stableCorrection(value: unknown): StableCorrectionResult {
 function stableRemoval(value: unknown): StableRemovalResult {
   if (!value || typeof value !== 'object') throw new Error('stored_removal_response_invalid');
   return value as StableRemovalResult;
+}
+
+async function createPrivacyRestriction(
+  query: QueryExecutor,
+  input: {
+    identity: string;
+    organizationId: string;
+    issueId: string;
+    eventId: string;
+    reasonCode: string;
+    privateNote: string;
+    publicMessage: string;
+    actorSubjectId: string;
+    now: Date;
+    state: 'in_review' | 'fulfilled';
+  },
+) {
+  const privacyRequestId = deterministicUuidV4('nagarik:v2:privacy-request', input.identity);
+  const accessOverlayId = deterministicUuidV4('nagarik:v2:access-overlay', input.identity);
+  const overlayVersions = await query.query(
+    `select coalesce(max(overlay_version), 0)::bigint + 1 as next_version
+     from nagarik.access_overlays
+     where issue_id = $1::uuid`,
+    [input.issueId],
+  );
+  const overlayVersion = Number(overlayVersions[0]?.next_version);
+  if (!Number.isSafeInteger(overlayVersion) || overlayVersion < 1) {
+    throw new Error('access_overlay_version_invalid');
+  }
+  const description =
+    `Publication removal requested under ${input.reasonCode}. ${input.privateNote}`.slice(0, 1_000);
+  const fulfilled = input.state === 'fulfilled';
+  await query.query(
+    `insert into nagarik.privacy_requests(
+       id, organization_id, target_type, target_id, request_type,
+       description, state, outcome_public, created_at, updated_at, closed_at
+     )
+     values (
+       $1::uuid, $2::uuid, 'public_issue', $3::uuid, 'erasure',
+       $4, $5, $6, $7::timestamptz, $7::timestamptz, $8::timestamptz
+     )`,
+    [
+      privacyRequestId,
+      input.organizationId,
+      input.issueId,
+      description,
+      input.state,
+      fulfilled ? input.publicMessage : null,
+      input.now.toISOString(),
+      fulfilled ? input.now.toISOString() : null,
+    ],
+  );
+  await query.query(
+    `insert into nagarik.access_overlays(
+       id, privacy_request_id, issue_id, overlay_version, state,
+       reason_category, decision_event_id, created_by, created_at
+     )
+     values (
+       $1::uuid, $2::uuid, $3::uuid, $4, 'restricted',
+       $5, $6::uuid, $7::uuid, $8::timestamptz
+     )`,
+    [
+      accessOverlayId,
+      privacyRequestId,
+      input.issueId,
+      overlayVersion,
+      input.reasonCode,
+      input.eventId,
+      input.actorSubjectId,
+      input.now.toISOString(),
+    ],
+  );
+  return { privacyRequestId, accessOverlayId };
 }
 
 async function assertOperatorSwitches(
@@ -471,6 +546,7 @@ export async function removePublishedIssue(
     const rows = await query.query(
       `select
          issue.id as issue_id,
+         issue.workflow_version,
          issue.publication_state,
          issue.lifecycle,
          issue.domain_version,
@@ -479,6 +555,7 @@ export async function removePublishedIssue(
          issue.projected_handoff_head,
          issue.blocked_from_sequence,
          version.id as version_id,
+         version.public_media_id,
          version.category,
          version.metadata_hash,
          version.evidence_hash,
@@ -487,7 +564,6 @@ export async function removePublishedIssue(
        join nagarik.issue_versions version on version.id = issue.current_version_id
        where issue.public_id = $1::uuid
          and issue.organization_id = $2::uuid
-         and issue.workflow_version = 'v2'
        for update of issue`,
       [input.publicId, input.actor.organizationId],
     );
@@ -507,8 +583,127 @@ export async function removePublishedIssue(
 
     const identity = `${input.publicId}:${input.idempotencyKey}`;
     const eventId = deterministicUuidV4('nagarik:v2:publication-removal', identity);
-    const privacyRequestId = deterministicUuidV4('nagarik:v2:privacy-request', identity);
-    const accessOverlayId = deterministicUuidV4('nagarik:v2:access-overlay', identity);
+    const nextDomainVersion = domainVersion + 1;
+    if (row.workflow_version === 'v1_legacy') {
+      const tombstone = {
+        schemaVersion: 'nagarik-tombstone-v1',
+        removedAt: now.toISOString(),
+        reasonCode: input.removal.reasonCode,
+        publicMessage: input.removal.publicMessage,
+      };
+      const { privacyRequestId, accessOverlayId } = await createPrivacyRestriction(query, {
+        identity,
+        organizationId: input.actor.organizationId,
+        issueId: String(row.issue_id),
+        eventId,
+        reasonCode: input.removal.reasonCode,
+        privateNote: input.removal.privateNote,
+        publicMessage: input.removal.publicMessage,
+        actorSubjectId: input.actor.subjectId,
+        now,
+        state: 'fulfilled',
+      });
+      await query.query(
+        `update nagarik.issues
+         set publication_state = 'removed', domain_version = $2,
+             updated_at = $3::timestamptz
+         where id = $1::uuid and workflow_version = 'v1_legacy'`,
+        [String(row.issue_id), nextDomainVersion, now.toISOString()],
+      );
+      await query.query(
+        `update nagarik.issue_versions
+         set state = 'removed'
+         where id = $1::uuid and state = 'published'`,
+        [String(row.version_id)],
+      );
+      if (row.public_media_id) {
+        await query.query(
+          `update nagarik.media_objects
+           set state = 'removed', version = version + 1,
+               denied_at = $2::timestamptz, updated_at = $2::timestamptz
+           where id = $1::uuid and state = 'approved_public'`,
+          [String(row.public_media_id), now.toISOString()],
+        );
+        await query.query(
+          `update public.media_projection
+           set state = 'removed', updated_at = $2::timestamptz
+           where media_id = $1::uuid`,
+          [String(row.public_media_id), now.toISOString()],
+        );
+      }
+      await query.query(
+        `update public.issue_projection
+         set publication_state = 'removed', version_id = null,
+             title = null, summary = null, narrative = null, category = null,
+             ward = null, location = null, media_id = null, provenance = null,
+             lifecycle = null, legacy_status = null, tombstone = $2::jsonb,
+             updated_at = $3::timestamptz
+         where public_id = $1::uuid and workflow_version = 'v1_legacy'`,
+        [input.publicId, JSON.stringify(tombstone), now.toISOString()],
+      );
+      await query.query(
+        `insert into nagarik.recovery_ledger(
+           id, organization_id, opaque_record_id, action,
+           policy_version, integrity_hash, occurred_at
+         )
+         values (
+           $1::uuid, $2::uuid, $3::uuid, 'legacy_publication_removed',
+           'nagarik-tombstone-v1', decode($4, 'hex'), $5::timestamptz
+         )`,
+        [
+          deterministicUuid('nagarik:v1:removal-recovery', identity),
+          input.actor.organizationId,
+          String(row.issue_id),
+          hash(tombstone),
+          now.toISOString(),
+        ],
+      );
+      await query.query(
+        `insert into nagarik.audit_events(
+           id, organization_id, actor_type, actor_key, action,
+           resource_type, resource_id, request_id, detail, occurred_at
+         )
+         values (
+           $1::uuid, $2::uuid, 'operator', decode($3, 'hex'),
+           'legacy_publication_removed', 'issue', $4::uuid,
+           $5::uuid, $6::jsonb, $7::timestamptz
+         )`,
+        [
+          deterministicUuid('nagarik:v1:removal-audit', identity),
+          input.actor.organizationId,
+          reservation.actorKey,
+          String(row.issue_id),
+          deterministicUuidV4('nagarik:v1:removal-request', identity),
+          JSON.stringify({
+            reasonCode: input.removal.reasonCode,
+            privacyRequestId,
+            accessOverlayId,
+            cachePurgeReference: input.removal.cachePurgeReference,
+            checkpointState: 'not_applicable_v1_legacy',
+          }),
+          now.toISOString(),
+        ],
+      );
+      const response: StableRemovalResult = {
+        publicId: input.publicId,
+        publicationState: 'removed',
+        domainVersion: nextDomainVersion,
+        chainSequence: null,
+        timelineHead,
+        checkpointState: 'not_applicable_v1_legacy',
+      };
+      await completeOperatorMutation(query, {
+        recordId: reservation.recordId,
+        requestHash: reservation.requestHash,
+        status: 200,
+        response,
+        resourceId: String(row.issue_id),
+      });
+      return { replayed: false, value: response };
+    }
+    if (row.workflow_version !== 'v2') {
+      throw new OperatorMutationError('workflow_conflict', 409);
+    }
     const publicEvent = {
       schemaVersion: 'nagarik-removal-event-v1',
       reasonCode: input.removal.reasonCode,
@@ -548,7 +743,6 @@ export async function removePublishedIssue(
         locationHash: bytesHex(row.location_hash),
       },
     });
-    const nextDomainVersion = domainVersion + 1;
     const outboxId = deterministicUuid('nagarik:v2:removal-outbox', eventId);
     await query.query(
       `insert into nagarik.publication_events(
@@ -569,53 +763,18 @@ export async function removePublishedIssue(
         now.toISOString(),
       ],
     );
-    const overlayVersions = await query.query(
-      `select coalesce(max(overlay_version), 0)::bigint + 1 as next_version
-       from nagarik.access_overlays
-       where issue_id = $1::uuid`,
-      [String(row.issue_id)],
-    );
-    const overlayVersion = Number(overlayVersions[0]?.next_version);
-    if (!Number.isSafeInteger(overlayVersion) || overlayVersion < 1) {
-      throw new Error('access_overlay_version_invalid');
-    }
-    await query.query(
-      `insert into nagarik.privacy_requests(
-         id, organization_id, target_type, target_id, request_type,
-         description, state, created_at, updated_at
-       )
-       values (
-         $1::uuid, $2::uuid, 'public_issue', $3::uuid, 'erasure',
-         $4, 'in_review', $5::timestamptz, $5::timestamptz
-       )`,
-      [
-        privacyRequestId,
-        input.actor.organizationId,
-        String(row.issue_id),
-        `Publication removal requested under ${input.removal.reasonCode}.`,
-        now.toISOString(),
-      ],
-    );
-    await query.query(
-      `insert into nagarik.access_overlays(
-         id, privacy_request_id, issue_id, overlay_version, state,
-         reason_category, decision_event_id, created_by, created_at
-       )
-       values (
-         $1::uuid, $2::uuid, $3::uuid, $4, 'restricted',
-         $5, $6::uuid, $7::uuid, $8::timestamptz
-       )`,
-      [
-        accessOverlayId,
-        privacyRequestId,
-        String(row.issue_id),
-        overlayVersion,
-        input.removal.reasonCode,
-        eventId,
-        input.actor.subjectId,
-        now.toISOString(),
-      ],
-    );
+    const { privacyRequestId, accessOverlayId } = await createPrivacyRestriction(query, {
+      identity,
+      organizationId: input.actor.organizationId,
+      issueId: String(row.issue_id),
+      eventId,
+      reasonCode: input.removal.reasonCode,
+      privateNote: input.removal.privateNote,
+      publicMessage: input.removal.publicMessage,
+      actorSubjectId: input.actor.subjectId,
+      now,
+      state: 'in_review',
+    });
     await query.query(
       `update nagarik.issues
        set
@@ -692,6 +851,7 @@ export async function removePublishedIssue(
       domainVersion: nextDomainVersion,
       chainSequence: chainJob.next.updateCount,
       timelineHead: chainJob.next.timelineHead,
+      checkpointState: 'pending',
     };
     await completeOperatorMutation(query, {
       recordId: reservation.recordId,

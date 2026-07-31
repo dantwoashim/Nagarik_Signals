@@ -38,7 +38,7 @@ export async function POST(
     return NextResponse.json(
       { ok: true, requestId, data: result },
       {
-        status: 202,
+        status: result.checkpointState === 'not_applicable_v1_legacy' ? 200 : 202,
         headers: {
           'Cache-Control': 'no-store',
           ...(result.replayed ? { 'Idempotency-Replayed': 'true' } : {}),

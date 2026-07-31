@@ -44,6 +44,7 @@ function matchingRoles(
 export async function requireOperator(input: {
   organizationId: string | null;
   roles: readonly OperatorRole[];
+  allowSystemAdminOverride?: boolean;
 }): Promise<OperatorContext> {
   const supabase = await createServerSupabaseClient();
   const {
@@ -72,7 +73,11 @@ export async function requireOperator(input: {
   }
 
   const roles = matchingRoles((data ?? []) as OperatorGrant[], input.organizationId);
-  if (!hasRequiredOperatorRole(roles, input.roles)) {
+  if (
+    !hasRequiredOperatorRole(roles, input.roles, {
+      allowSystemAdminOverride: input.allowSystemAdminOverride,
+    })
+  ) {
     throw new OperatorAuthorizationError('operator_role_required');
   }
 

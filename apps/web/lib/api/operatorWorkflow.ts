@@ -16,6 +16,7 @@ import { ModerationError } from '@/lib/services/moderation';
 import { OperatorMutationError } from '@/lib/services/operatorMutation';
 import { PilotInvitationError } from '@/lib/services/pilotInvitations';
 import { PublicationError } from '@/lib/services/publication';
+import { PrivacyRequestError } from '@/lib/services/privacyRequests';
 import { LifecycleError } from '@/lib/services/status';
 
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
@@ -25,7 +26,7 @@ export function validUuid(value: string): boolean {
 }
 
 async function organizationFor(
-  resource: 'submission' | 'issue' | 'media',
+  resource: 'submission' | 'issue' | 'media' | 'privacy_request',
   id: string,
 ): Promise<string | null> {
   if (!validUuid(id)) return null;
@@ -46,13 +47,21 @@ async function organizationFor(
            limit 1`,
             [id],
           )
-        : await databaseExecutor().query(
-            `select organization_id
+        : resource === 'media'
+          ? await databaseExecutor().query(
+              `select organization_id
              from nagarik.media_objects
              where id = $1::uuid
              limit 1`,
-            [id],
-          );
+              [id],
+            )
+          : await databaseExecutor().query(
+              `select organization_id
+               from nagarik.privacy_requests
+               where id = $1::uuid
+               limit 1`,
+              [id],
+            );
   return rows[0]?.organization_id ? String(rows[0].organization_id) : null;
 }
 
@@ -68,10 +77,23 @@ export async function requireSubmissionOperator(
 export async function requireIssueOperator(
   publicId: string,
   roles: readonly OperatorRole[],
+  options: { allowSystemAdminOverride?: boolean } = {},
 ): Promise<OperatorContext> {
   const organizationId = await organizationFor('issue', publicId);
   if (!organizationId) throw new OperatorMutationError('resource_not_found', 404);
-  return requireOperator({ organizationId, roles });
+  return requireOperator({ organizationId, roles, ...options });
+}
+
+export async function requirePrivacyRequestOperator(
+  privacyRequestId: string,
+): Promise<OperatorContext> {
+  const organizationId = await organizationFor('privacy_request', privacyRequestId);
+  if (!organizationId) throw new OperatorMutationError('resource_not_found', 404);
+  return requireOperator({
+    organizationId,
+    roles: ['privacy_reviewer'],
+    allowSystemAdminOverride: false,
+  });
 }
 
 export async function requireMediaOperator(
@@ -105,6 +127,7 @@ export function operatorWorkflowFailure(requestId: string, error: unknown): Next
     error instanceof ModerationError ||
     error instanceof MediaWorkflowError ||
     error instanceof PilotInvitationError ||
+    error instanceof PrivacyRequestError ||
     error instanceof LifecycleError ||
     error instanceof HandoffError ||
     error instanceof PublicationError

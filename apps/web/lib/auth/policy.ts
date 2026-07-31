@@ -12,6 +12,10 @@ export type OperatorRole = (typeof operatorRoles)[number];
 export function hasRequiredOperatorRole(
   roles: readonly OperatorRole[],
   required: readonly OperatorRole[],
+  options: { allowSystemAdminOverride?: boolean } = {},
 ): boolean {
-  return roles.includes('system_admin') || required.some((role) => roles.includes(role));
+  return (
+    (options.allowSystemAdminOverride !== false && roles.includes('system_admin')) ||
+    required.some((role) => roles.includes(role))
+  );
 }

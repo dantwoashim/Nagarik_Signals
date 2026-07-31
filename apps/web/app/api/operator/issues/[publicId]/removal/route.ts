@@ -24,7 +24,9 @@ export async function POST(
     assertTrustedMutation(request, { maxBytes: 16 * 1024 });
     const idempotencyKey = requireIdempotencyKey(request);
     const { publicId } = await params;
-    const operator = await requireIssueOperator(publicId, ['privacy_reviewer', 'org_admin']);
+    const operator = await requireIssueOperator(publicId, ['privacy_reviewer'], {
+      allowSystemAdminOverride: false,
+    });
     const removal = parseRemovalInput(await readJsonLimited<unknown>(request, 16 * 1024));
     const result = await removePublishedIssue(
       {

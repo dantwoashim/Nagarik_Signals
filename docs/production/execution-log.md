@@ -192,3 +192,56 @@ integration, and hosted Postgres execution have not run locally. PGlite evidence
 does not replace those release gates. Legacy JSON read routes remain available
 for frozen v1 compatibility; their mutations are blocked in production and
 will be replaced by v2 services in later waves.
+
+## 2026-07-31 - Wave 3 private intake and media boundary
+
+### Changes
+
+- added strict streamed body limits and deterministic `image-v2` JPEG/WebP
+  normalization with decode, pixel, dimension, output, animation, MIME, and
+  metadata controls;
+- added purpose-bound intake, upload-receipt, and private-tracking capabilities
+  whose raw token material is never persisted;
+- added idempotent private upload and submission services with pilot/ward
+  validation, Nepal civic-date validation, exact-to-coarse location handling,
+  one-time receipt consumption, and zero public or chain writes at intake;
+- added durable-private media promotion through the leased outbox, with source
+  and destination integrity verification, bounded retries, dead-letter state,
+  and staging cleanup;
+- replaced production filename media access with opaque media IDs, fail-closed
+  publication checks, bound tracking or AAL2 operator authorization, safe
+  content headers, and neutral denial;
+- added bounded, authenticated media-retention cleanup and audit events;
+- serialized first-use idempotency reservations with a transaction advisory
+  lock.
+
+### Verified evidence
+
+All commands below ran under the pinned Node `22.23.1` runtime.
+
+| Command | Result |
+|---|---|
+| `npm run verify` | exit 0; formatting, typecheck, lint, and 56 unit tests passed |
+| `npm run db:test` | exit 0; 10 migration, RLS, transaction, plan, and import tests passed |
+| `npm run audit:production` | exit 0; zero vulnerabilities |
+| `npm run build` | exit 0; Next 16.2.12 production build |
+| `git diff --check` | exit 0 |
+
+The integration tests prove deterministic upload replay, changed-payload
+conflict, one-time media receipt consumption, private-only submission, no raw
+capability persistence, zero public issue/projection rows, durable promotion
+with byte-level verification, staging deletion, negative media access states,
+and idempotent retention with an audit trail.
+
+Both governing documents remain unchanged. Their SHA-256 values are
+`66E499C606D76E9FE3E09315DD624A53E6D01456EFEC28A576DA829CA9818EEF`
+and
+`6E34DC321C7B23BCBCF0C9BAC29520A18AD1D66C750C189C3AF982F4F1550018`.
+
+### Remaining boundary
+
+The local database proof uses PGlite. Supabase CLI reset, managed Auth
+integration, real private Blob behavior, and concurrent multi-connection
+Postgres execution still require an external runtime. Human moderation and
+public derivative creation are implemented in the later workflow wave; until
+then all new submissions remain private.

@@ -30,7 +30,7 @@ export async function prepareUpload(file: File) {
 
   return {
     fileName,
-    originalFileName: sanitized.fileName,
+    originalFileName: file.name,
     mediaType: sanitized.mediaType,
     originalSize: sanitized.originalSize,
     sanitizedSize: sanitized.sanitizedSize,
@@ -38,12 +38,13 @@ export async function prepareUpload(file: File) {
     height: sanitized.height,
     evidenceHash: sanitized.evidenceHash,
     photoUrl: `/api/media/${fileName}`,
-    storageMode: storageMode === 'blob'
-      ? 'vercel_blob_private'
-      : process.env.NAGARIK_DATA_DIR || process.env.NAGARIK_UPLOAD_DIR
-        ? 'persistent_data_directory'
-        : 'local_public_uploads',
-    exifStripped: sanitized.exifStripped,
-    compressed: sanitized.compressed,
+    storageMode:
+      storageMode === 'blob'
+        ? 'vercel_blob_private'
+        : process.env.NAGARIK_DATA_DIR || process.env.NAGARIK_UPLOAD_DIR
+          ? 'persistent_data_directory'
+          : 'local_public_uploads',
+    exifStripped: true,
+    compressed: true,
   };
 }

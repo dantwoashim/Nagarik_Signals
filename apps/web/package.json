@@ -16,6 +16,8 @@
     "@solana/web3.js": "^1.98.4",
     "@supabase/ssr": "0.12.4",
     "@supabase/supabase-js": "2.111.0",
+    "@turf/boolean-point-in-polygon": "^7.3.5",
+    "@turf/helpers": "^7.3.5",
     "@vercel/blob": "^2.6.1",
     "maplibre-gl": "^5.24.0",
     "next": "16.2.12",
@@ -28,9 +30,9 @@
     "zod": "4.4.3"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
     "@eslint/js": "10.0.1",
     "@next/eslint-plugin-next": "16.2.12",
-    "@axe-core/playwright": "^4.12.1",
     "@playwright/test": "^1.55.1",
     "@tailwindcss/postcss": "^4.2.4",
     "@types/node": "^20",

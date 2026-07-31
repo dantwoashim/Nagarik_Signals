@@ -55,6 +55,27 @@ export type PublicIssueProof = {
   updated_at: Date;
 };
 
+export type PublicIssueStats = {
+  total: string;
+  open: string;
+  in_progress: string;
+  resolved: string;
+  closed: string;
+  signals: string;
+  updated_at: Date | null;
+};
+
+export type PublicCategoryStat = {
+  category: string;
+  total: string;
+};
+
+export type PublicWardStat = {
+  id: string;
+  label: string;
+  total: string;
+};
+
 export async function findPublicIssue(
   sql: Sql,
   publicId: string,
@@ -174,4 +195,61 @@ export async function findPublicIssueProof(
     limit 1
   `;
   return rows[0] ?? null;
+}
+
+export async function getPublicIssueStats(sql: Sql): Promise<{
+  totals: PublicIssueStats;
+  categories: PublicCategoryStat[];
+  wards: PublicWardStat[];
+}> {
+  const [totals] = await sql<PublicIssueStats[]>`
+    select
+      count(*)::text as total,
+      count(*) filter (
+        where coalesce(lifecycle, legacy_status, 'open') in ('open', 'submitted', 'verified')
+      )::text as open,
+      count(*) filter (
+        where coalesce(lifecycle, legacy_status) = 'in_progress'
+      )::text as in_progress,
+      count(*) filter (
+        where coalesce(lifecycle, legacy_status) = 'resolved'
+      )::text as resolved,
+      count(*) filter (
+        where coalesce(lifecycle, legacy_status) = 'closed'
+      )::text as closed,
+      coalesce(sum(signal_count), 0)::text as signals,
+      max(updated_at) as updated_at
+    from public.issue_projection
+    where publication_state = 'published'
+  `;
+  const categories = await sql<PublicCategoryStat[]>`
+    select category, count(*)::text as total
+    from public.issue_projection
+    where publication_state = 'published' and category is not null
+    group by category
+    order by count(*) desc, category
+  `;
+  const wards = await sql<PublicWardStat[]>`
+    select
+      coalesce(ward->>'id', 'unknown') as id,
+      coalesce(ward->>'label', ward->>'id', 'Approximate area') as label,
+      count(*)::text as total
+    from public.issue_projection
+    where publication_state = 'published'
+    group by ward->>'id', ward->>'label'
+    order by count(*) desc, label
+  `;
+  return {
+    totals: totals ?? {
+      total: '0',
+      open: '0',
+      in_progress: '0',
+      resolved: '0',
+      closed: '0',
+      signals: '0',
+      updated_at: null,
+    },
+    categories,
+    wards,
+  };
 }

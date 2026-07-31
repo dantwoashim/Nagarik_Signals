@@ -291,6 +291,7 @@ export function OperatorIssueManager({
       reasonCode: 'privacy_or_safety_removal',
       publicMessage: String(data.get('publicMessage') ?? '').trim(),
       privateNote: String(data.get('privateNote') ?? '').trim(),
+      cachePurgeReference: String(data.get('cachePurgeReference') ?? '').trim(),
     });
   }
 
@@ -636,6 +637,16 @@ export function OperatorIssueManager({
                 <label className="field">
                   <span>Private reason</span>
                   <textarea name="privateNote" minLength={8} maxLength={2000} rows={4} required />
+                </label>
+                <label className="field">
+                  <span>CDN purge reference</span>
+                  <input
+                    name="cachePurgeReference"
+                    minLength={3}
+                    maxLength={200}
+                    autoComplete="off"
+                    required
+                  />
                 </label>
                 <button
                   className="button secondary danger"

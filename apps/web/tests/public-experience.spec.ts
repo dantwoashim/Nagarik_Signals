@@ -484,15 +484,16 @@ test('operator routes fail closed and private review runs without manual hashes'
   await expectNoHorizontalOverflow(page);
 });
 
-test('operator record actions hide concurrency data and refresh after a status change', async ({
+test('operator record actions hide concurrency data and complete status and privacy removal', async ({
   page,
 }) => {
   let lifecycle = 'open';
+  let publicationState = 'published';
   let domainVersion = 3;
   const operatorIssue = () => ({
     publicId,
     roles: ['steward', 'moderator', 'privacy_reviewer', 'org_admin'],
-    publicationState: 'published',
+    publicationState,
     lifecycle,
     domainVersion,
     checkpointUpdateCount: 2,
@@ -521,15 +522,29 @@ test('operator record actions hide concurrency data and refresh after a status c
   await page.route('**/api/operator/issues/**', async (route) => {
     const request = route.request();
     if (request.method() === 'GET') return fulfill(route, operatorIssue());
+    const url = new URL(request.url());
     const body = request.postDataJSON() as Record<string, unknown>;
-    expect(body).toMatchObject({
-      expectedDomainVersion: 3,
-      expectedTimelineHead: 'a'.repeat(64),
-      toState: 'in_progress',
-    });
-    lifecycle = 'in_progress';
-    domainVersion = 4;
-    return fulfill(route, { publicId, lifecycle, domainVersion });
+    if (url.pathname.endsWith('/status')) {
+      expect(body).toMatchObject({
+        expectedDomainVersion: 3,
+        expectedTimelineHead: 'a'.repeat(64),
+        toState: 'in_progress',
+      });
+      lifecycle = 'in_progress';
+      domainVersion = 4;
+      return fulfill(route, { publicId, lifecycle, domainVersion });
+    }
+    if (url.pathname.endsWith('/removal')) {
+      expect(body).toMatchObject({
+        expectedDomainVersion: 4,
+        expectedTimelineHead: 'a'.repeat(64),
+        cachePurgeReference: 'vercel-purge-2026-07-31-001',
+      });
+      publicationState = 'removal_pending';
+      domainVersion = 5;
+      return fulfill(route, { publicId, publicationState, domainVersion });
+    }
+    return route.abort('failed');
   });
   await page.goto(`/operator/issues/${publicId}?organization=${organizationId}`);
   await expect(page.getByRole('heading', { name: 'Published record' })).toBeVisible();
@@ -538,6 +553,13 @@ test('operator record actions hide concurrency data and refresh after a status c
   await page.getByRole('button', { name: /Record status/ }).click();
   await expect(page.getByText(/Change recorded/)).toBeVisible();
   await expect(page.getByText('in progress', { exact: true }).first()).toBeVisible();
+
+  await page.locator('summary').filter({ hasText: 'Remove public content' }).click();
+  await page.getByLabel('Public message').fill('This record is no longer publicly available.');
+  await page.getByLabel('Private reason').fill('Approved privacy removal request.');
+  await page.getByLabel('CDN purge reference').fill('vercel-purge-2026-07-31-001');
+  await page.getByRole('button', { name: 'Remove public content' }).click();
+  await expect(page.getByText(/Change recorded/)).toBeVisible();
   await expectNoHorizontalOverflow(page);
 });
 

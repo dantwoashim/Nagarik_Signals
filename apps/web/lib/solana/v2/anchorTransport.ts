@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-import { AnchorProvider, BN, Program, Wallet } from '@coral-xyz/anchor';
+import { AnchorProvider, BN, Program } from '@coral-xyz/anchor';
 import {
   Connection,
   Keypair,
@@ -8,6 +8,7 @@ import {
   sendAndConfirmTransaction,
   SystemProgram,
   Transaction,
+  VersionedTransaction,
   type TransactionInstruction,
 } from '@solana/web3.js';
 
@@ -103,12 +104,30 @@ type V2Accounts = {
   };
 };
 
+type AnchorWallet = ConstructorParameters<typeof AnchorProvider>[1];
+
 function bytes(value: string): number[] {
   return [...Buffer.from(value, 'hex')];
 }
 
 function hex(value: number[]): string {
   return Buffer.from(value).toString('hex');
+}
+
+function authorityWallet(authority: Keypair): AnchorWallet {
+  function sign<T extends Transaction | VersionedTransaction>(transaction: T): T {
+    if (transaction instanceof VersionedTransaction) {
+      transaction.sign([authority]);
+    } else {
+      transaction.partialSign(authority);
+    }
+    return transaction;
+  }
+  return {
+    publicKey: authority.publicKey,
+    signTransaction: async (transaction) => sign(transaction),
+    signAllTransactions: async (transactions) => transactions.map(sign),
+  };
 }
 
 export class AnchorV2Transport implements V2ChainTransport {
@@ -129,7 +148,7 @@ export class AnchorV2Transport implements V2ChainTransport {
     };
     const provider = new AnchorProvider(
       connection,
-      new Wallet(authority),
+      authorityWallet(authority),
       AnchorProvider.defaultOptions(),
     );
     this.program = new Program(nagarikSignalV2Idl, provider);

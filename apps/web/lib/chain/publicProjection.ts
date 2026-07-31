@@ -267,10 +267,11 @@ async function projectRemoval(query: QueryExecutor, input: ProjectionInput): Pro
   );
   const row = rows[0];
   if (!row) throw new Error('removal_confirmation_state_missing');
+  const publicEvent = (row.public_event as Record<string, unknown>) ?? {};
   const tombstone = {
     schemaVersion: 'nagarik-tombstone-v1',
     removedAt: input.now.toISOString(),
-    ...((row.public_event as Record<string, unknown>) ?? {}),
+    ...publicEvent,
   };
   await query.query(
     `update nagarik.issues
@@ -318,6 +319,23 @@ async function projectRemoval(query: QueryExecutor, input: ProjectionInput): Pro
        updated_at = $3::timestamptz
      where public_id = $1::uuid`,
     [String(row.public_id), JSON.stringify(tombstone), input.now.toISOString()],
+  );
+  await query.query(
+    `update nagarik.privacy_requests request
+     set state = 'fulfilled', version = version + 1,
+         outcome_public = $3, updated_at = $4::timestamptz,
+         closed_at = $4::timestamptz
+     from nagarik.access_overlays overlay
+     where overlay.privacy_request_id = request.id
+       and overlay.issue_id = $1::uuid
+       and overlay.decision_event_id = $2::uuid
+       and request.state in ('received', 'capability_or_identity_checked', 'in_review')`,
+    [
+      input.issueId,
+      input.job.databaseEventId,
+      String(publicEvent.publicMessage ?? 'This record was removed after a privacy review.'),
+      input.now.toISOString(),
+    ],
   );
   await query.query(
     `insert into public.event_projection(

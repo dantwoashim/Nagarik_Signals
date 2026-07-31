@@ -28,6 +28,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ publ
       findPublicIssueProof(sql, publicId),
     ]);
     if (!issue || !proof) return notFound();
+    if (issue.access_restricted && issue.publication_state !== 'removed') return notFound();
     const data = await buildPublicProofResponse({
       issue,
       proof,

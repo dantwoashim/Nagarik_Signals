@@ -47,6 +47,25 @@ export async function GET(
         { headers: { 'Cache-Control': 'public, max-age=60, s-maxage=300' } },
       );
     }
+    if (issue.access_restricted) {
+      return NextResponse.json(
+        {
+          ok: true,
+          data: {
+            publicId,
+            publicationState: 'removed',
+            tombstone: {
+              schemaVersion: 'nagarik-tombstone-v1',
+              reasonCode: 'privacy_review',
+              publicMessage: 'This record is unavailable while a privacy review is in progress.',
+            },
+            proofAvailable: false,
+            updatedAt: issue.updated_at.toISOString(),
+          },
+        },
+        { headers: { 'Cache-Control': 'no-store' } },
+      );
+    }
     const events = await listPublicIssueEvents(sql, publicId);
     return NextResponse.json(
       {

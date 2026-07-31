@@ -23,6 +23,7 @@ export type PublicIssueProjection = {
   tombstone: unknown;
   published_at: Date | null;
   updated_at: Date;
+  access_restricted: boolean;
 };
 
 export type PublicIssueEvent = {
@@ -99,7 +100,8 @@ export async function findPublicIssue(
       signal_count,
       tombstone,
       published_at,
-      updated_at
+      updated_at,
+      nagarik.is_issue_access_restricted(public_id) as access_restricted
     from public.issue_projection
     where public_id = ${publicId}
     limit 1
@@ -133,9 +135,11 @@ export async function listPublicIssues(
       signal_count,
       tombstone,
       published_at,
-      updated_at
+      updated_at,
+      false as access_restricted
     from public.issue_projection
     where publication_state = 'published'
+      and not nagarik.is_issue_access_restricted(public_id)
       and (
         ${hasCursor} = false
         or (published_at, public_id) < (
@@ -221,11 +225,14 @@ export async function getPublicIssueStats(sql: Sql): Promise<{
       max(updated_at) as updated_at
     from public.issue_projection
     where publication_state = 'published'
+      and not nagarik.is_issue_access_restricted(public_id)
   `;
   const categories = await sql<PublicCategoryStat[]>`
     select category, count(*)::text as total
     from public.issue_projection
-    where publication_state = 'published' and category is not null
+    where publication_state = 'published'
+      and category is not null
+      and not nagarik.is_issue_access_restricted(public_id)
     group by category
     order by count(*) desc, category
   `;
@@ -236,6 +243,7 @@ export async function getPublicIssueStats(sql: Sql): Promise<{
       count(*)::text as total
     from public.issue_projection
     where publication_state = 'published'
+      and not nagarik.is_issue_access_restricted(public_id)
     group by ward->>'id', ward->>'label'
     order by count(*) desc, label
   `;

@@ -732,6 +732,7 @@ test('approval stays private until exact v2 confirmation publishes the frozen pr
           reasonCode: 'privacy_request',
           publicMessage: 'This record was removed after a privacy review.',
           privateNote: 'Removal request validated by the privacy reviewer.',
+          cachePurgeReference: 'vercel-purge:privacy-removal-test',
         }),
       },
       dependencies,
@@ -747,6 +748,25 @@ test('approval stays private until exact v2 confirmation publishes the frozen pr
         )
       )[0].publication_state,
       'published',
+    );
+    const restriction = await query.query(
+      `select request.state as request_state, overlay.state as overlay_state
+       from nagarik.privacy_requests request
+       join nagarik.access_overlays overlay on overlay.privacy_request_id = request.id
+       where request.target_id = (
+         select id from nagarik.issues where public_id = $1::uuid
+       )`,
+      [approved.issue!.publicId],
+    );
+    assert.equal(restriction[0].request_state, 'in_review');
+    assert.equal(restriction[0].overlay_state, 'restricted');
+    assert.equal(
+      (
+        await query.query(`select nagarik.is_issue_access_restricted($1::uuid) as restricted`, [
+          approved.issue!.publicId,
+        ])
+      )[0].restricted,
+      true,
     );
     await query.query(
       `update nagarik.outbox_jobs
@@ -783,6 +803,17 @@ test('approval stays private until exact v2 confirmation publishes the frozen pr
     assert.equal(removed[0].media_id, null);
     assert.equal((removed[0].tombstone as Record<string, unknown>).reasonCode, 'privacy_request');
     assert.equal(Number(removed[0].update_count), 5);
+    assert.equal(
+      (
+        await query.query(
+          `select state from nagarik.privacy_requests where target_id = (
+             select id from nagarik.issues where public_id = $1::uuid
+           )`,
+          [approved.issue!.publicId],
+        )
+      )[0].state,
+      'fulfilled',
+    );
   } finally {
     await database.close();
   }

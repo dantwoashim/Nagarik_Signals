@@ -43,6 +43,7 @@ const removalInputSchema = z
     reasonCode: z.string().regex(/^[a-z][a-z0-9_]{2,63}$/),
     publicMessage: z.string().trim().min(8).max(500),
     privateNote: z.string().trim().min(8).max(2_000),
+    cachePurgeReference: z.string().trim().min(3).max(200),
   })
   .strict();
 
@@ -506,6 +507,8 @@ export async function removePublishedIssue(
 
     const identity = `${input.publicId}:${input.idempotencyKey}`;
     const eventId = deterministicUuidV4('nagarik:v2:publication-removal', identity);
+    const privacyRequestId = deterministicUuidV4('nagarik:v2:privacy-request', identity);
+    const accessOverlayId = deterministicUuidV4('nagarik:v2:access-overlay', identity);
     const publicEvent = {
       schemaVersion: 'nagarik-removal-event-v1',
       reasonCode: input.removal.reasonCode,
@@ -562,6 +565,53 @@ export async function removePublishedIssue(
         nextDomainVersion,
         input.removal.privateNote,
         JSON.stringify(publicEvent),
+        input.actor.subjectId,
+        now.toISOString(),
+      ],
+    );
+    const overlayVersions = await query.query(
+      `select coalesce(max(overlay_version), 0)::bigint + 1 as next_version
+       from nagarik.access_overlays
+       where issue_id = $1::uuid`,
+      [String(row.issue_id)],
+    );
+    const overlayVersion = Number(overlayVersions[0]?.next_version);
+    if (!Number.isSafeInteger(overlayVersion) || overlayVersion < 1) {
+      throw new Error('access_overlay_version_invalid');
+    }
+    await query.query(
+      `insert into nagarik.privacy_requests(
+         id, organization_id, target_type, target_id, request_type,
+         description, state, created_at, updated_at
+       )
+       values (
+         $1::uuid, $2::uuid, 'public_issue', $3::uuid, 'erasure',
+         $4, 'in_review', $5::timestamptz, $5::timestamptz
+       )`,
+      [
+        privacyRequestId,
+        input.actor.organizationId,
+        String(row.issue_id),
+        `Publication removal requested under ${input.removal.reasonCode}.`,
+        now.toISOString(),
+      ],
+    );
+    await query.query(
+      `insert into nagarik.access_overlays(
+         id, privacy_request_id, issue_id, overlay_version, state,
+         reason_category, decision_event_id, created_by, created_at
+       )
+       values (
+         $1::uuid, $2::uuid, $3::uuid, $4, 'restricted',
+         $5, $6::uuid, $7::uuid, $8::timestamptz
+       )`,
+      [
+        accessOverlayId,
+        privacyRequestId,
+        String(row.issue_id),
+        overlayVersion,
+        input.removal.reasonCode,
+        eventId,
         input.actor.subjectId,
         now.toISOString(),
       ],
@@ -629,6 +679,9 @@ export async function removePublishedIssue(
         JSON.stringify({
           reasonCode: input.removal.reasonCode,
           chainSequence: chainJob.next.updateCount,
+          privacyRequestId,
+          accessOverlayId,
+          cachePurgeReference: input.removal.cachePurgeReference,
         }),
         now.toISOString(),
       ],

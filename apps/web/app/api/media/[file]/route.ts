@@ -40,6 +40,7 @@ type MediaRow = {
   publication_state: string | null;
   public_read_enabled: boolean;
   public_media_enabled: boolean;
+  access_restricted: boolean;
 };
 
 function asResponseBody(body: ReadableStream<Uint8Array> | Uint8Array): BodyInit {
@@ -207,6 +208,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ file
          media.expires_at,
          projection.state as projection_state,
          issue.publication_state,
+         coalesce(nagarik.is_issue_access_restricted(projection.issue_public_id), false)
+           as access_restricted,
          coalesce(public_read.disabled = false, false) as public_read_enabled,
          coalesce(public_media.disabled = false, false) as public_media_enabled
        from nagarik.media_objects media
@@ -225,14 +228,16 @@ export async function GET(request: Request, { params }: { params: Promise<{ file
     const media = rows[0] as MediaRow | undefined;
     if (!media) return neutralNotFound();
 
-    const publicAccess = isPublicMediaReadable({
-      mediaState: media.state,
-      hasSourceDerivative: Boolean(media.source_media_id),
-      projectionEligible: media.projection_state === 'eligible',
-      issuePublicationState: media.publication_state,
-      publicReadEnabled: media.public_read_enabled,
-      publicMediaEnabled: media.public_media_enabled,
-    });
+    const publicAccess =
+      !media.access_restricted &&
+      isPublicMediaReadable({
+        mediaState: media.state,
+        hasSourceDerivative: Boolean(media.source_media_id),
+        projectionEligible: media.projection_state === 'eligible',
+        issuePublicationState: media.publication_state,
+        publicReadEnabled: media.public_read_enabled,
+        publicMediaEnabled: media.public_media_enabled,
+      });
 
     let access: 'public' | 'private' | null = publicAccess ? 'public' : null;
     if (!access) {

@@ -13,6 +13,12 @@ const output = resolve(option('--output', 'artifacts/security/security-audit.jso
 const clientRoot = resolve('apps/web/.next/static');
 const findings: Finding[] = [];
 
+// These pinned packages predate SPDX metadata; their bundled license files were reviewed.
+const reviewedLegacyLicenses = new Map([
+  ['node_modules/eyes@0.1.8', 'MIT'],
+  ['node_modules/text-encoding-utf-8@1.0.2', 'Unlicense'],
+]);
+
 const secretPatterns = [
   { rule: 'private_key', pattern: /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/ },
   { rule: 'github_token', pattern: /\bgh[pousr]_[A-Za-z0-9]{36,}\b/ },
@@ -129,22 +135,40 @@ function scanClientArtifacts() {
 
 function scanProductionLicenses() {
   const lock = JSON.parse(readFileSync(resolve('package-lock.json'), 'utf8')) as {
-    packages?: Record<string, { dev?: boolean; license?: string }>;
+    packages?: Record<
+      string,
+      { dev?: boolean; license?: string; link?: boolean; version?: string }
+    >;
   };
   const licenses = new Set<string>();
+  const reviewedOverrides: Array<{ package: string; license: string }> = [];
   let unknown = 0;
   for (const [path, metadata] of Object.entries(lock.packages ?? {})) {
-    if (!path.startsWith('node_modules/') || metadata.dev) continue;
-    if (!metadata.license) {
+    if (!path.startsWith('node_modules/') || metadata.dev || metadata.link) continue;
+    const packageId = `${path}@${metadata.version ?? 'unknown'}`;
+    const license = metadata.license ?? reviewedLegacyLicenses.get(packageId);
+    if (!license) {
       unknown += 1;
+      findings.push({
+        category: 'license',
+        file: normalized(path),
+        rule: `license_metadata_missing:${metadata.version ?? 'unknown'}`,
+      });
       continue;
     }
-    licenses.add(metadata.license);
-    if (/(?:AGPL|BUSL|SSPL|(?:^|[^L])GPL-3)/i.test(metadata.license)) {
-      findings.push({ category: 'license', file: normalized(path), rule: metadata.license });
+    if (!metadata.license) reviewedOverrides.push({ package: packageId, license });
+    licenses.add(license);
+    if (/(?:AGPL|BUSL|SSPL|(?:^|[^L])GPL-3)/i.test(license)) {
+      findings.push({ category: 'license', file: normalized(path), rule: license });
     }
   }
-  return { licenses: [...licenses].sort(), unknown };
+  return {
+    licenses: [...licenses].sort(),
+    unknown,
+    reviewedOverrides: reviewedOverrides.sort((left, right) =>
+      left.package.localeCompare(right.package),
+    ),
+  };
 }
 
 const tracked = trackedFiles();

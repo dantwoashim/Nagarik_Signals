@@ -24,7 +24,7 @@ jobs:
     timeout-minutes: 25
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node
         uses: actions/setup-node@v6
@@ -87,7 +87,7 @@ jobs:
 
       - name: Upload web gate evidence
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: gates-web
           path: artifacts/release/gates/*.json
@@ -96,7 +96,7 @@ jobs:
 
       - name: Upload security evidence
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: security-evidence
           path: artifacts/security/*.json
@@ -109,7 +109,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node
         uses: actions/setup-node@v6
@@ -129,7 +129,7 @@ jobs:
 
       - name: Upload database gate evidence
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: gates-database
           path: artifacts/release/gates/*.json
@@ -142,7 +142,7 @@ jobs:
     timeout-minutes: 45
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install pinned Rust toolchain
         run: |
@@ -154,7 +154,7 @@ jobs:
 
       - name: Cache Anchor CLI
         id: anchor-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.cargo/bin/anchor
           key: anchor-cli-${{ runner.os }}-0.30.1-rust-1.79.0
@@ -195,7 +195,7 @@ jobs:
 
       - name: Upload program gate evidence
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: gates-rust-anchor
           path: artifacts/release/gates/*.json
@@ -208,7 +208,7 @@ jobs:
     timeout-minutes: 25
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node
         uses: actions/setup-node@v6
@@ -233,7 +233,7 @@ jobs:
 
       - name: Upload browser gate evidence
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: gates-browser
           path: artifacts/release/gates/*.json
@@ -242,7 +242,7 @@ jobs:
 
       - name: Upload browser failure artifacts
         if: failure()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: browser-failures
           path: artifacts/playwright
@@ -256,7 +256,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node
         uses: actions/setup-node@v6
@@ -269,14 +269,14 @@ jobs:
         run: npm ci
 
       - name: Download automated gate evidence
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           pattern: gates-*
           path: artifacts/release/gates
           merge-multiple: true
 
       - name: Download security evidence
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: security-evidence
           path: artifacts/security
@@ -290,7 +290,7 @@ jobs:
         run: npm run verify:release:report
 
       - name: Upload release manifest
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: release-manifest-${{ github.sha }}
           path: artifacts/release/release-manifest.json

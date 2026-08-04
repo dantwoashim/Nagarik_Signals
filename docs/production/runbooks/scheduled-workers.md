@@ -7,16 +7,17 @@ Postgres.
 
 ## Deployment Preconditions
 
-- Use a Vercel plan that permits per-minute cron schedules. A Hobby deployment
-  is not an approved writable pilot profile because its cron cadence is limited
-  to once per day.
+- Use either Vercel-managed per-minute schedules or the reviewed Cloudflare
+  scheduler in `infra/cloudflare-scheduler`. Vercel Hobby is an approved
+  constrained-pilot host only when its `vercel.json` registers no paid-cadence
+  schedules and the external scheduler is deployed from the same release.
 - Set independent random `CRON_SECRET` and `NAGARIK_WORKER_AUTH_SECRET` values
   of at least 32 bytes. Never reuse an application, auth, database, Blob, RPC,
   signer, or capability secret.
 - Configure the public HTTPS alert endpoint and independent bearer described in
   [the observability contract](../observability.md).
-- Confirm all four jobs appear under the production project's Cron Jobs view
-  after deployment. Preview deployments do not run these schedules.
+- Confirm all four jobs appear in the selected scheduler after deployment.
+  Preview deployments do not run these schedules.
 - Keep invite intake, publication, and v2 writes disabled until the database,
   signer, RPC, Blob, alerting, and human release gates are ready.
 
@@ -29,9 +30,16 @@ Postgres.
 | `/api/internal/reconcile`      | every 10 minutes | inspects at most 25 bindings in dry-run mode                           |
 | `/api/internal/retention`      | daily at 02:17   | deletes at most 25 eligible expired media objects                      |
 
-Every cron call is a bodyless `GET` authenticated by Vercel's bearer and cron
-user agent. The endpoint rejects query parameters, another path, another
-method, a missing/incorrect bearer, and a non-cron user agent.
+Every scheduled call is a bodyless `GET` authenticated by the independent cron
+bearer and an approved scheduler identity. Vercel uses `vercel-cron/1.0`.
+Cloudflare uses `nagarik-scheduler/1.0` plus
+`X-Nagarik-Scheduler: cloudflare-cron-v1`. The endpoint rejects query
+parameters, another path, another method, a missing/incorrect bearer, and an
+unknown or incomplete scheduler identity.
+
+For the zero-cost constrained pilot, follow
+[the free-tier deployment profile](../free-tier-deployment.md). The scheduler
+stores no civic data, signer material, database credentials, or Blob token.
 
 ## Manual Invocation
 

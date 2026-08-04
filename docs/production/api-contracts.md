@@ -2003,10 +2003,13 @@ Internal endpoints are not browser APIs.
 
 Manual `POST` calls require the dedicated worker bearer and the exact
 `X-Nagarik-Worker-Audience` documented below. They accept no query parameters.
-Registered Vercel schedules use a bodyless `GET` alias, the separate
-`CRON_SECRET` bearer, exact route path, and `vercel-cron/1.0` user agent. A cron
-alias has fixed server-side behavior and accepts no caller-selected limit,
-mode, account, hash, or signer input.
+Registered schedules use a bodyless `GET` alias, the separate `CRON_SECRET`
+bearer, and the exact route path. Vercel identifies itself with
+`vercel-cron/1.0`. The reviewed external scheduler identifies itself with
+`nagarik-scheduler/1.0` and
+`X-Nagarik-Scheduler: cloudflare-cron-v1`. A scheduled alias has fixed
+server-side behavior and accepts no caller-selected limit, mode, account, hash,
+or signer input.
 
 ### `POST /api/internal/outbox/process`
 

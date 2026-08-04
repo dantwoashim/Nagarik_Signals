@@ -47,19 +47,39 @@ test('internal worker authorization binds the bearer to POST and an exact audien
   );
 });
 
-test('scheduled worker authorization binds Vercel cron identity to one GET path', () => {
+test('scheduled worker authorization binds an approved scheduler identity to one GET path', () => {
   const secret = `cron-${'b'.repeat(40)}`;
   const path = '/api/internal/outbox/process';
-  const scheduled = (url = `https://nagarik.invalid${path}`, userAgent = 'vercel-cron/1.0') =>
+  const scheduled = (
+    url = `https://nagarik.invalid${path}`,
+    userAgent = 'vercel-cron/1.0',
+    scheduler?: string,
+  ) =>
     new Request(url, {
-      headers: { authorization: `Bearer ${secret}`, 'user-agent': userAgent },
+      headers: {
+        authorization: `Bearer ${secret}`,
+        'user-agent': userAgent,
+        ...(scheduler ? { 'x-nagarik-scheduler': scheduler } : {}),
+      },
     });
 
   assert.equal(isAuthorizedScheduledRequest(scheduled(), secret, path), true);
+  assert.equal(
+    isAuthorizedScheduledRequest(
+      scheduled(undefined, 'nagarik-scheduler/1.0', 'cloudflare-cron-v1'),
+      secret,
+      path,
+    ),
+    true,
+  );
   assert.equal(
     isAuthorizedScheduledRequest(scheduled(`${scheduled().url}?limit=100`), secret, path),
     false,
   );
   assert.equal(isAuthorizedScheduledRequest(scheduled(undefined, 'browser'), secret, path), false);
+  assert.equal(
+    isAuthorizedScheduledRequest(scheduled(undefined, 'nagarik-scheduler/1.0'), secret, path),
+    false,
+  );
   assert.equal(isAuthorizedScheduledRequest(scheduled(), secret, '/api/internal/reconcile'), false);
 });

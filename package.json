@@ -49,7 +49,7 @@
     "verify:release": "tsx scripts/verify-release.ts",
     "verify:release:report": "tsx scripts/verify-release.ts --allow-no-go",
     "verify:deployment": "tsx scripts/verify-deployment.ts",
-    "test:ops": "tsx --test \"scripts/*.test.ts\"",
+    "test:ops": "tsx --test \"scripts/*.test.ts\" && node --test \"infra/**/*.test.mjs\"",
     "ops:load-smoke": "tsx scripts/load-smoke.ts",
     "ops:verify-evidence": "tsx scripts/verify-operational-evidence.ts"
   },

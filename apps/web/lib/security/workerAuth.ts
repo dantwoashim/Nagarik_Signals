@@ -6,6 +6,15 @@ export type WorkerAudience =
   | 'nagarik-worker/reconcile/v1'
   | 'nagarik-worker/retention/v1';
 
+function hasExpectedSchedulerIdentity(request: Request): boolean {
+  const userAgent = request.headers.get('user-agent');
+  if (userAgent === 'vercel-cron/1.0') return true;
+  return (
+    userAgent === 'nagarik-scheduler/1.0' &&
+    request.headers.get('x-nagarik-scheduler') === 'cloudflare-cron-v1'
+  );
+}
+
 function hasExpectedBearer(request: Request, expectedSecret: string): boolean {
   if (Buffer.byteLength(expectedSecret, 'utf8') < 32) return false;
   const authorization = request.headers.get('authorization');
@@ -37,7 +46,7 @@ export function isAuthorizedScheduledRequest(
     request.method === 'GET' &&
     url.pathname === expectedPath &&
     url.search === '' &&
-    request.headers.get('user-agent') === 'vercel-cron/1.0' &&
+    hasExpectedSchedulerIdentity(request) &&
     hasExpectedBearer(request, expectedSecret)
   );
 }

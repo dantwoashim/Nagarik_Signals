@@ -15,6 +15,33 @@ environment publicly.
 - Obtain a real database backup, media inventory/manifest, and deletion or
   revocation ledger. Do not use synthetic empty files.
 
+## Automated Database Recovery Check
+
+The public repository includes
+`.github/workflows/backup-restore.yml`. It creates a data-only backup of the
+`legacy_v1`, `nagarik`, and `public` schemas, encrypts it, decrypts it into an
+ephemeral PostgreSQL service, reapplies the checked-in migrations, restores the
+data, compares every table count, and verifies the schema and RLS invariants.
+
+Configure these repository values:
+
+- variable `NAGARIK_BACKUP_ENABLED=true`;
+- secret `NAGARIK_BACKUP_DATABASE_URL` using the Supabase direct or session
+  connection URL, not the transaction pooler;
+- secret `NAGARIK_BACKUP_ENCRYPTION_KEY` containing at least 32 random
+  characters. Generate it with `openssl rand -base64 48` and retain it in the
+  approved recovery credential store.
+
+The job runs weekly, retains five rolling encrypted snapshots for 35 days, and
+fails before upload if one archive exceeds 48 MiB. It uploads only the encrypted
+database, a checksum manifest, and a sanitized restore log. A key rotation must
+retain the previous key until all backups encrypted with it expire.
+
+This automated check proves database backup decryptability and structural
+restore. It does not copy private Blob objects, replay a post-snapshot deletion
+ledger, provide an independent reviewer, or satisfy the complete release gate
+below.
+
 ## Restore Procedure
 
 1. Record checksums and byte counts before restoring anything.

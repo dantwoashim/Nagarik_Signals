@@ -30,8 +30,9 @@ real invocation and CPU use before activation.
 3. Enable provider usage notifications and treat any quota warning as a
    capacity incident. Free tiers stop or degrade instead of silently changing
    the release profile.
-4. Generate an encrypted database backup through GitHub Actions and perform a
-   clean restore verification before activation and at the documented cadence.
+4. Enable `.github/workflows/backup-restore.yml`. It keeps five weekly,
+   restore-tested encrypted database snapshots for 35 days and fails when the
+   48 MiB per-snapshot pilot ceiling is exceeded.
 5. Keep public intake, signals, publication, and v2 writes closed until the
    dependency checks, signer, restore, rollback, canary, and human gates pass.
 6. Keep `NAGARIK_MAINNET_WRITES=false` and reject any mainnet endpoint or
@@ -47,3 +48,4 @@ real invocation and CPU use before activation.
 - [Helius plans](https://www.helius.dev/docs/billing/plans)
 - [Alchemy pricing](https://www.alchemy.com/pricing)
 - [GitHub Actions billing](https://docs.github.com/en/actions/concepts/billing-and-usage)
+- [GitHub Actions artifact retention](https://docs.github.com/en/organizations/managing-organization-settings/configuring-the-retention-period-for-github-actions-artifacts-and-logs-in-your-organization)

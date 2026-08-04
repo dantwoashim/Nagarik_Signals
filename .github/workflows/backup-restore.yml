@@ -1,0 +1,237 @@
+name: Encrypted Database Recovery
+
+on:
+  schedule:
+    - cron: '41 1 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: encrypted-database-recovery
+  cancel-in-progress: false
+
+jobs:
+  backup-restore:
+    name: Backup and isolated restore
+    if: ${{ github.event_name == 'workflow_dispatch' || vars.NAGARIK_BACKUP_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      restore-database:
+        image: postgres:17
+        env:
+          POSTGRES_DB: nagarik_restore
+          POSTGRES_PASSWORD: restore-only-password
+          POSTGRES_USER: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d nagarik_restore"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      NAGARIK_BACKUP_DATABASE_URL: ${{ secrets.NAGARIK_BACKUP_DATABASE_URL }}
+      NAGARIK_BACKUP_ENCRYPTION_KEY: ${{ secrets.NAGARIK_BACKUP_ENCRYPTION_KEY }}
+      RESTORE_DATABASE_URL: postgresql://postgres:restore-only-password@127.0.0.1:5432/nagarik_restore
+      MAX_ENCRYPTED_BACKUP_BYTES: '50331648'
+
+    steps:
+      - name: Checkout exact release
+        uses: actions/checkout@v6
+
+      - name: Validate recovery secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$NAGARIK_BACKUP_DATABASE_URL"
+          test "${#NAGARIK_BACKUP_ENCRYPTION_KEY}" -ge 32
+          case "$NAGARIK_BACKUP_DATABASE_URL" in
+            postgresql://*|postgres://*) ;;
+            *) echo "Backup database URL must use PostgreSQL" >&2; exit 1 ;;
+          esac
+
+      - name: Create data backup and source counts
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          mkdir -p artifacts/recovery/private artifacts/recovery/upload
+
+          docker run --rm --network host \
+            --user "$(id -u):$(id -g)" \
+            -e NAGARIK_BACKUP_DATABASE_URL \
+            -v "$PWD/artifacts/recovery/private:/recovery" \
+            -v "$PWD/scripts/ops:/workspace/scripts/ops:ro" \
+            postgres:17 sh -ec '
+              pg_dump "$NAGARIK_BACKUP_DATABASE_URL" \
+                --format=custom \
+                --compress=6 \
+                --data-only \
+                --no-owner \
+                --no-privileges \
+                --schema=nagarik \
+                --schema=public \
+                --schema=legacy_v1 \
+                --file=/recovery/database.dump
+              psql "$NAGARIK_BACKUP_DATABASE_URL" -XqAt \
+                -v ON_ERROR_STOP=1 \
+                -f /workspace/scripts/ops/table-counts.sql \
+                > /recovery/source-counts.tsv
+            '
+
+          test -s artifacts/recovery/private/database.dump
+          test -s artifacts/recovery/private/source-counts.tsv
+
+      - name: Encrypt and decrypt the backup
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          plain=artifacts/recovery/private/database.dump
+          encrypted=artifacts/recovery/upload/database.dump.enc
+          restored=artifacts/recovery/private/database.restored.dump
+          source_sha="$(sha256sum "$plain" | cut -d ' ' -f 1)"
+
+          openssl enc -aes-256-cbc -salt -pbkdf2 -iter 600000 -md sha256 \
+            -in "$plain" \
+            -out "$encrypted" \
+            -pass env:NAGARIK_BACKUP_ENCRYPTION_KEY
+          test -s "$encrypted"
+
+          encrypted_bytes="$(stat -c '%s' "$encrypted")"
+          if [ "$encrypted_bytes" -gt "$MAX_ENCRYPTED_BACKUP_BYTES" ]; then
+            echo "Encrypted backup exceeds the constrained-pilot storage ceiling" >&2
+            exit 1
+          fi
+
+          rm -f "$plain"
+          openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 -md sha256 \
+            -in "$encrypted" \
+            -out "$restored" \
+            -pass env:NAGARIK_BACKUP_ENCRYPTION_KEY
+          test -s "$restored"
+          test "$(sha256sum "$restored" | cut -d ' ' -f 1)" = "$source_sha"
+
+      - name: Rebuild an isolated schema
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm --network host \
+            -v "$PWD/supabase/migrations:/migrations:ro" \
+            -v "$PWD/scripts/ops:/workspace/scripts/ops:ro" \
+            -e RESTORE_DATABASE_URL \
+            postgres:17 sh -ec '
+              psql "$RESTORE_DATABASE_URL" -Xq -v ON_ERROR_STOP=1 \
+                -f /workspace/scripts/ops/bootstrap-restore.sql
+              for migration in /migrations/*.sql; do
+                psql "$RESTORE_DATABASE_URL" -Xq -v ON_ERROR_STOP=1 -f "$migration"
+              done
+              psql "$RESTORE_DATABASE_URL" -Xq -v ON_ERROR_STOP=1 \
+                -f /workspace/scripts/ops/truncate-restore.sql
+            '
+
+      - name: Restore and verify real data
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm --network host \
+            --user "$(id -u):$(id -g)" \
+            -e RESTORE_DATABASE_URL \
+            -v "$PWD/artifacts/recovery/private:/recovery" \
+            -v "$PWD/scripts/ops:/workspace/scripts/ops:ro" \
+            postgres:17 sh -ec '
+              pg_restore \
+                --dbname="$RESTORE_DATABASE_URL" \
+                --data-only \
+                --disable-triggers \
+                --exit-on-error \
+                --no-owner \
+                --no-privileges \
+                /recovery/database.restored.dump
+              psql "$RESTORE_DATABASE_URL" -XqAt \
+                -v ON_ERROR_STOP=1 \
+                -f /workspace/scripts/ops/table-counts.sql \
+                > /recovery/restored-counts.tsv
+            '
+
+          cmp -s \
+            artifacts/recovery/private/source-counts.tsv \
+            artifacts/recovery/private/restored-counts.tsv || {
+              echo "Restored table counts do not match the source" >&2
+              exit 1
+            }
+
+          invariants="$(docker run --rm --network host \
+            -e RESTORE_DATABASE_URL \
+            postgres:17 psql "$RESTORE_DATABASE_URL" -XqAt -v ON_ERROR_STOP=1 -F '|' -c \
+            "select
+               (select count(*) from information_schema.tables where table_schema = 'nagarik'),
+               (select count(*) from pg_class join pg_namespace on pg_namespace.oid = pg_class.relnamespace where pg_namespace.nspname = 'nagarik' and pg_class.relkind = 'r' and pg_class.relrowsecurity and pg_class.relforcerowsecurity),
+               (select count(*) from pg_policies),
+               (to_regclass('nagarik.recovery_ledger') is not null and to_regclass('public.issue_projection') is not null and to_regclass('public.media_projection') is not null and to_regclass('public.proof_projection') is not null))"
+          )"
+          test "$invariants" = '36|36|32|t'
+
+      - name: Build sanitized recovery artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          encrypted=artifacts/recovery/upload/database.dump.enc
+          encrypted_bytes="$(stat -c '%s' "$encrypted")"
+          encrypted_sha="$(sha256sum "$encrypted" | cut -d ' ' -f 1)"
+          generated_at="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+
+          jq -n \
+            --arg releaseSha "$GITHUB_SHA" \
+            --arg generatedAt "$generated_at" \
+            --arg sha256 "$encrypted_sha" \
+            --argjson bytes "$encrypted_bytes" \
+            '{
+              schemaVersion: "nagarik-encrypted-database-backup-v1",
+              releaseSha: $releaseSha,
+              generatedAt: $generatedAt,
+              encryption: "aes-256-cbc-pbkdf2-sha256-600000",
+              encryptedArtifact: {file: "database.dump.enc", bytes: $bytes, sha256: $sha256},
+              restore: {
+                isolated: true,
+                decryptionHashMatched: true,
+                tableCountsMatched: true,
+                schemaInvariantsPassed: true,
+                publicTrafficEnabled: false,
+                chainWritesEnabled: false
+              }
+            }' > artifacts/recovery/upload/manifest.json
+
+          printf '%s\n' \
+            'result=pass' \
+            "release_sha=$GITHUB_SHA" \
+            'restore_environment=isolated_ephemeral_postgres' \
+            'decryption_hash=match' \
+            'table_counts=match' \
+            'private_tables=36' \
+            'forced_rls_tables=36' \
+            'policies=32' \
+            'public_traffic=false' \
+            'chain_writes=false' \
+            > artifacts/recovery/upload/restore.log
+
+          test -s artifacts/recovery/upload/manifest.json
+          test -s artifacts/recovery/upload/restore.log
+          test ! -e artifacts/recovery/upload/database.dump
+          test ! -e artifacts/recovery/upload/database.restored.dump
+
+      - name: Upload encrypted recovery package
+        uses: actions/upload-artifact@v7
+        with:
+          name: encrypted-database-backup-${{ github.run_id }}
+          path: artifacts/recovery/upload/
+          if-no-files-found: error
+          retention-days: 35
+
+      - name: Remove plaintext recovery files
+        if: always()
+        shell: bash
+        run: rm -rf artifacts/recovery/private

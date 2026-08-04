@@ -55,7 +55,7 @@
     "ops:verify-evidence": "tsx scripts/verify-operational-evidence.ts"
   },
   "devDependencies": {
-    "@coral-xyz/anchor": "^0.30.1",
+    "@coral-xyz/anchor": "^0.32.1",
     "@electric-sql/pglite": "0.5.4",
     "prettier": "3.9.6",
     "supabase": "2.110.0",

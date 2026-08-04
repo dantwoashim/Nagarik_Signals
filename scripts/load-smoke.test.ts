@@ -9,8 +9,19 @@ import { runLoadSmoke } from './load-smoke';
 
 const releaseId = '1234567890abcdef1234567890abcdef12345678';
 
-async function fixtureServer(failingPath: string | null = null) {
+async function fixtureServer(
+  failingPath: string | null = null,
+  requiredBypassSecret: string | null = null,
+) {
   const server = createServer((request, response) => {
+    if (
+      requiredBypassSecret &&
+      request.headers['x-vercel-protection-bypass'] !== requiredBypassSecret
+    ) {
+      response.statusCode = 401;
+      response.end('protected');
+      return;
+    }
     if (request.url === '/api/health') {
       response.setHeader('content-type', 'application/json');
       response.end(JSON.stringify({ ok: true, release: { commitSha: releaseId } }));
@@ -43,6 +54,7 @@ function config(baseUrl: string, directory: string, paths = ['/api/health', '/ap
   return {
     baseUrl,
     expectedSha: releaseId,
+    protectionBypassSecret: null,
     requests: 24,
     concurrency: 4,
     timeoutMs: 2_000,
@@ -81,6 +93,22 @@ test('load smoke fails the gate when an approved threshold is exceeded', async (
     );
     const gate = JSON.parse(await readFile(join(directory, 'gate.json'), 'utf8'));
     assert.equal(gate.status, 'fail');
+  } finally {
+    await fixture.close();
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test('load smoke authenticates to a protected preview without recording the secret', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'nagarik-load-'));
+  const secret = 'preview-bypass-secret';
+  const fixture = await fixtureServer(null, secret);
+  try {
+    const input = config(fixture.baseUrl, directory);
+    input.protectionBypassSecret = secret;
+    const report = await runLoadSmoke(input);
+    assert.equal(report.result.passed, true);
+    assert.doesNotMatch(await readFile(join(directory, 'load.json'), 'utf8'), new RegExp(secret));
   } finally {
     await fixture.close();
     await rm(directory, { recursive: true, force: true });

@@ -12,6 +12,7 @@ type RequestResult = {
 export type LoadSmokeConfig = {
   baseUrl: string;
   expectedSha: string | null;
+  protectionBypassSecret: string | null;
   requests: number;
   concurrency: number;
   timeoutMs: number;
@@ -53,6 +54,25 @@ function targetOrigin(value: string) {
   return url.origin;
 }
 
+function optionalHeaderSecret(value: string | null) {
+  const secret = value?.trim() || null;
+  if (secret && (secret.length > 1_024 || /[\u0000-\u001f\u007f]/.test(secret))) {
+    throw new Error('load_protection_bypass_secret_invalid');
+  }
+  return secret;
+}
+
+function requestHeaders(config: LoadSmokeConfig, accept: string) {
+  const headers: Record<string, string> = {
+    accept,
+    'user-agent': 'nagarik-release-load-smoke/1',
+  };
+  if (config.protectionBypassSecret) {
+    headers['x-vercel-protection-bypass'] = config.protectionBypassSecret;
+  }
+  return headers;
+}
+
 function percentile(values: number[], fraction: number) {
   if (!values.length) return null;
   const sorted = [...values].sort((left, right) => left - right);
@@ -74,10 +94,7 @@ async function requestOnce(config: LoadSmokeConfig, path: string): Promise<Reque
       method: 'GET',
       redirect: 'error',
       cache: 'no-store',
-      headers: {
-        accept: path.startsWith('/api/') ? 'application/json' : 'text/html',
-        'user-agent': 'nagarik-release-load-smoke/1',
-      },
+      headers: requestHeaders(config, path.startsWith('/api/') ? 'application/json' : 'text/html'),
       signal: AbortSignal.timeout(config.timeoutMs),
     });
     const declaredLength = Number(response.headers.get('content-length'));
@@ -108,7 +125,7 @@ async function releaseIdentity(config: LoadSmokeConfig) {
   const response = await fetch(new URL('/api/health', config.baseUrl), {
     method: 'GET',
     cache: 'no-store',
-    headers: { accept: 'application/json', 'user-agent': 'nagarik-release-load-smoke/1' },
+    headers: requestHeaders(config, 'application/json'),
     signal: AbortSignal.timeout(config.timeoutMs),
   });
   if (!response.ok) throw new Error(`load_health_http_${response.status}`);
@@ -130,6 +147,7 @@ export async function runLoadSmoke(input: LoadSmokeConfig) {
   const config: LoadSmokeConfig = {
     ...input,
     baseUrl: targetOrigin(input.baseUrl),
+    protectionBypassSecret: optionalHeaderSecret(input.protectionBypassSecret),
     requests: boundedInteger('load_requests', input.requests, 1, 5_000),
     concurrency: boundedInteger('load_concurrency', input.concurrency, 1, 100),
     timeoutMs: boundedInteger('load_timeout_ms', input.timeoutMs, 100, 60_000),
@@ -258,6 +276,7 @@ async function main() {
   const report = await runLoadSmoke({
     baseUrl: process.env.NAGARIK_LOAD_BASE_URL?.trim() ?? '',
     expectedSha: process.env.NAGARIK_LOAD_EXPECTED_SHA?.trim().toLowerCase() || null,
+    protectionBypassSecret: process.env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim() || null,
     requests: Number(process.env.NAGARIK_LOAD_REQUESTS ?? 200),
     concurrency: Number(process.env.NAGARIK_LOAD_CONCURRENCY ?? 8),
     timeoutMs: Number(process.env.NAGARIK_LOAD_TIMEOUT_MS ?? 8_000),

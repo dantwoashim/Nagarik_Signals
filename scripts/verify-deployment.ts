@@ -12,6 +12,15 @@ function option(name: string, fallback = '') {
   return (index >= 0 ? process.argv[index + 1] : undefined) ?? fallback;
 }
 
+function requestHeaders() {
+  const secret = process.env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim();
+  if (!secret) return undefined;
+  if (secret.length > 1_024 || /[\u0000-\u001f\u007f]/.test(secret)) {
+    fail('deployment_protection_bypass_secret_invalid');
+  }
+  return { 'x-vercel-protection-bypass': secret };
+}
+
 function normalizedUrl(value: string) {
   const url = new URL(value);
   const local = ['localhost', '127.0.0.1', '::1'].includes(url.hostname);
@@ -78,7 +87,11 @@ function assertNoPrivateMaterial(value: unknown, label: string) {
 
 async function fetchResponse(url: string, label: string) {
   try {
-    return await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(30_000) });
+    return await fetch(url, {
+      cache: 'no-store',
+      headers: requestHeaders(),
+      signal: AbortSignal.timeout(30_000),
+    });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'request_failed';
     fail(`${label}_request_failed:${message}`);

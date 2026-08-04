@@ -5,7 +5,6 @@ import {
   Connection,
   Keypair,
   PublicKey,
-  sendAndConfirmTransaction,
   SystemProgram,
   Transaction,
   VersionedTransaction,
@@ -106,6 +105,11 @@ type V2Accounts = {
 
 type AnchorWallet = ConstructorParameters<typeof AnchorProvider>[1];
 
+export type V2TransactionAuthority = {
+  readonly publicKey: PublicKey;
+  signTransaction(transaction: Transaction): Promise<Transaction>;
+};
+
 function bytes(value: string): number[] {
   return [...Buffer.from(value, 'hex')];
 }
@@ -114,19 +118,27 @@ function hex(value: number[]): string {
   return Buffer.from(value).toString('hex');
 }
 
-function authorityWallet(authority: Keypair): AnchorWallet {
-  function sign<T extends Transaction | VersionedTransaction>(transaction: T): T {
-    if (transaction instanceof VersionedTransaction) {
-      transaction.sign([authority]);
-    } else {
-      transaction.partialSign(authority);
-    }
-    return transaction;
-  }
+function instructionWallet(publicKey: PublicKey): AnchorWallet {
+  const disabled = async <T extends Transaction | VersionedTransaction>(_transaction: T) => {
+    throw new Error('v2_anchor_wallet_signing_disabled');
+  };
+  return {
+    publicKey,
+    signTransaction: disabled,
+    signAllTransactions: async () => {
+      throw new Error('v2_anchor_wallet_signing_disabled');
+    },
+  };
+}
+
+function transactionAuthority(authority: Keypair | V2TransactionAuthority): V2TransactionAuthority {
+  if (!(authority instanceof Keypair)) return authority;
   return {
     publicKey: authority.publicKey,
-    signTransaction: async (transaction) => sign(transaction),
-    signAllTransactions: async (transactions) => transactions.map(sign),
+    async signTransaction(transaction) {
+      transaction.sign(authority);
+      return transaction;
+    },
   };
 }
 
@@ -135,20 +147,22 @@ export class AnchorV2Transport implements V2ChainTransport {
   private readonly program: Program;
   private readonly methods: V2Methods;
   private readonly accounts: V2Accounts;
+  private readonly authority: V2TransactionAuthority;
 
   constructor(
     private readonly connection: Connection,
-    private readonly authority: Keypair,
+    authority: Keypair | V2TransactionAuthority,
     profile: Omit<ChainProfile, 'programId' | 'authority'>,
   ) {
+    this.authority = transactionAuthority(authority);
     this.profile = {
       ...profile,
       programId: V2_PROGRAM_ID.toBase58(),
-      authority: authority.publicKey.toBase58(),
+      authority: this.authority.publicKey.toBase58(),
     };
     const provider = new AnchorProvider(
       connection,
-      authorityWallet(authority),
+      instructionWallet(this.authority.publicKey),
       AnchorProvider.defaultOptions(),
     );
     this.program = new Program(nagarikSignalV2Idl, provider);
@@ -248,7 +262,6 @@ export class AnchorV2Transport implements V2ChainTransport {
       lastValidBlockHeight: latest.lastValidBlockHeight,
     });
     transaction.add(await this.instruction(job));
-    transaction.sign(this.authority);
     return transaction;
   }
 
@@ -305,16 +318,23 @@ export class AnchorV2Transport implements V2ChainTransport {
   }
 
   async submit(job: PreparedChainJob): Promise<string> {
-    return sendAndConfirmTransaction(
-      this.connection,
-      await this.transaction(job),
-      [this.authority],
-      {
-        commitment: 'confirmed',
-        preflightCommitment: 'confirmed',
-        maxRetries: 3,
-      },
-    );
+    const unsigned = await this.transaction(job);
+    const expectedMessage = unsigned.serializeMessage();
+    const signed = await this.authority.signTransaction(unsigned);
+    if (
+      !Buffer.from(signed.serializeMessage()).equals(expectedMessage) ||
+      signed.signatures.length !== 1 ||
+      !signed.signatures[0].publicKey.equals(this.authority.publicKey) ||
+      signed.signatures[0].signature === null ||
+      !signed.verifySignatures()
+    ) {
+      throw new Error('v2_signed_transaction_invalid');
+    }
+    return this.connection.sendRawTransaction(signed.serialize(), {
+      maxRetries: 3,
+      preflightCommitment: 'confirmed',
+      skipPreflight: false,
+    });
   }
 
   async confirm(job: PreparedChainJob, signature: string): Promise<ObservedCommitmentEvent | null> {

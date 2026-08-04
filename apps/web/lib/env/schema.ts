@@ -18,6 +18,10 @@ const alertWebhookUrl = httpsUrl.refine(
   (value) => safeAlertWebhookUrl(value) !== null,
   'must be a public credential-free HTTPS endpoint',
 );
+const remoteSignerUrl = httpsUrl.refine((value) => {
+  const parsed = safeAlertWebhookUrl(value);
+  return parsed !== null && parsed.pathname === '/sign';
+}, 'must be an exact credential-free HTTPS /sign endpoint');
 const secret = z
   .string()
   .min(32)
@@ -71,7 +75,9 @@ export const serverEnvironmentSchema = z
       .regex(/^[0-9A-F]{64}$/)
       .optional(),
     NAGARIK_V2_SIGNER_PUBLIC_KEY: publicKey.optional(),
-    NAGARIK_V2_SIGNER_KMS_KEY_ID: z.string().min(8).max(240).optional(),
+    NAGARIK_V2_SIGNER_ENDPOINT: remoteSignerUrl.optional(),
+    NAGARIK_V2_SIGNER_AUTH_SECRET: secret.optional(),
+    NAGARIK_V2_SIGNER_CUSTODY_ID: z.string().min(8).max(240).optional(),
     NAGARIK_V2_LOCAL_SIGNER_PATH: z.string().min(1).optional(),
     NAGARIK_CAPABILITY_DERIVATION_KEY: secret.optional(),
     NAGARIK_CAPABILITY_VERIFIER_KEY: secret.optional(),
@@ -141,7 +147,9 @@ export const serverEnvironmentSchema = z
       'NAGARIK_V1_IDL_SHA256',
       'NAGARIK_V2_IDL_SHA256',
       'NAGARIK_V2_SIGNER_PUBLIC_KEY',
-      'NAGARIK_V2_SIGNER_KMS_KEY_ID',
+      'NAGARIK_V2_SIGNER_ENDPOINT',
+      'NAGARIK_V2_SIGNER_AUTH_SECRET',
+      'NAGARIK_V2_SIGNER_CUSTODY_ID',
       'NAGARIK_CAPABILITY_DERIVATION_KEY',
       'NAGARIK_CAPABILITY_VERIFIER_KEY',
       'NAGARIK_SECURITY_CORRELATION_KEY',
@@ -218,6 +226,17 @@ export const serverEnvironmentSchema = z
         message: 'must use an independent provider',
       });
     }
+    if (
+      env.NAGARIK_V2_SIGNER_ENDPOINT &&
+      env.NEXT_PUBLIC_APP_URL &&
+      new URL(env.NAGARIK_V2_SIGNER_ENDPOINT).hostname === new URL(env.NEXT_PUBLIC_APP_URL).hostname
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['NAGARIK_V2_SIGNER_ENDPOINT'],
+        message: 'must use an independently hosted signer',
+      });
+    }
     if (env.NAGARIK_RPC_PRIMARY_URL && env.NAGARIK_RPC_SECONDARY_URL) {
       const primary = safeSolanaRpcUrl(env.NAGARIK_RPC_PRIMARY_URL);
       const secondary = safeSolanaRpcUrl(env.NAGARIK_RPC_SECONDARY_URL);
@@ -266,6 +285,7 @@ export const serverEnvironmentSchema = z
       'NAGARIK_CSRF_SECRET',
       'NAGARIK_WORKER_AUTH_SECRET',
       'CRON_SECRET',
+      'NAGARIK_V2_SIGNER_AUTH_SECRET',
       'NAGARIK_ALERT_WEBHOOK_TOKEN',
     ] as const;
     const seen = new Map<string, string>();

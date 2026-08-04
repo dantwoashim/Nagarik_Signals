@@ -5,6 +5,7 @@ workers_dev = true
 
 [vars]
 NAGARIK_BASE_URL = "https://nagarik-signal.vercel.app"
+NAGARIK_V2_PROGRAM_ID = "A1PDikCUQekCAbc8CHcZgEFwxxhEyspfHGEbG7PX4URP"
 
 [triggers]
 crons = ["* * * * *", "*/5 * * * *", "*/10 * * * *", "17 2 * * *"]

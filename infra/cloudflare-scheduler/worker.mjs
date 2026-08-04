@@ -1,3 +1,5 @@
+import { handleSignerRequest } from './signer.mjs';
+
 const routesByCron = Object.freeze({
   '* * * * *': '/api/internal/outbox/process',
   '*/5 * * * *': '/api/internal/health',
@@ -59,6 +61,9 @@ export async function invokeSchedule(cron, env, fetcher = fetch) {
 }
 
 export default {
+  async fetch(request, env) {
+    return handleSignerRequest(request, env);
+  },
   async scheduled(controller, env, context) {
     context.waitUntil(invokeSchedule(controller.cron, env));
   },

@@ -31,7 +31,9 @@ const validProduction = {
   NAGARIK_V1_IDL_SHA256: '7'.repeat(64),
   NAGARIK_V2_IDL_SHA256: '8'.repeat(64),
   NAGARIK_V2_SIGNER_PUBLIC_KEY: 'Vote111111111111111111111111111111111111111',
-  NAGARIK_V2_SIGNER_KMS_KEY_ID: 'kms/nagarik-v2-signer',
+  NAGARIK_V2_SIGNER_ENDPOINT: 'https://nagarik-signer.example/sign',
+  NAGARIK_V2_SIGNER_AUTH_SECRET: `signer-${'l'.repeat(40)}`,
+  NAGARIK_V2_SIGNER_CUSTODY_ID: 'cloudflare-secret/nagarik-v2-signer',
   NAGARIK_CAPABILITY_DERIVATION_KEY: `derive-${'d'.repeat(40)}`,
   NAGARIK_CAPABILITY_VERIFIER_KEY: `verify-${'e'.repeat(40)}`,
   NAGARIK_SECURITY_CORRELATION_KEY: `correlate-${'f'.repeat(40)}`,
@@ -87,7 +89,7 @@ describe('production environment', () => {
     );
   });
 
-  it('requires a dedicated Vercel cron secret', () => {
+  it('requires a dedicated scheduler secret', () => {
     assert.throws(() =>
       parseServerEnvironment({
         ...validProduction,
@@ -128,6 +130,27 @@ describe('production environment', () => {
       parseServerEnvironment({
         ...validProduction,
         NAGARIK_RPC_PRIMARY_URL: 'https://api.devnet.solana.com',
+      }),
+    );
+  });
+
+  it('requires an independent exact remote signer endpoint', () => {
+    assert.throws(() =>
+      parseServerEnvironment({
+        ...validProduction,
+        NAGARIK_V2_SIGNER_ENDPOINT: 'https://nagarik.example/sign',
+      }),
+    );
+    assert.throws(() =>
+      parseServerEnvironment({
+        ...validProduction,
+        NAGARIK_V2_SIGNER_ENDPOINT: 'https://nagarik-signer.example/sign?mode=unsafe',
+      }),
+    );
+    assert.throws(() =>
+      parseServerEnvironment({
+        ...validProduction,
+        NAGARIK_V2_SIGNER_ENDPOINT: 'https://127.0.0.1/sign',
       }),
     );
   });

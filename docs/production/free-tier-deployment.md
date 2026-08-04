@@ -4,6 +4,9 @@ This profile preserves the production architecture while imposing hard usage
 ceilings. It is suitable for a small, non-commercial, partner-operated pilot.
 It is not an SLA-backed nationwide service.
 
+The current non-mainnet program and service-role evidence is recorded in the
+[devnet deployment record](devnet-deployment.md).
+
 ## Service Map
 
 | Capability                   | Service                                 | Hard pilot boundary                                                                                |

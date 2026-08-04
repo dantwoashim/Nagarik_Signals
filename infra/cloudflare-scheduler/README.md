@@ -14,16 +14,20 @@ and verifies that the returned message is byte-identical.
 
 ## Deploy
 
-1. Generate a dedicated Solana keypair for this non-mainnet program. Fund it
-   only with the minimum test currency required by the controlled pilot and
-   grant only the v2 protocol role.
+1. Run `npm run chain:bootstrap:devnet` from the repository root. The current
+   checked-out deployment uses service authority
+   `8BiVyKRMyqQm4t1J3UanjpdxfsLUuUMpntWz5AKoX31`, funded with `0.1` devnet SOL
+   and granted only the v2 protocol role. The command is idempotent.
 2. From this directory, run `npx wrangler login` and `npx wrangler deploy`.
 3. Add `CRON_SECRET` as a Worker secret with the same independent value used in
    Vercel Production.
 4. Add three more Worker secrets: `NAGARIK_SIGNER_AUTH_SECRET`,
    `NAGARIK_SIGNER_KEYPAIR_BASE64`, and `NAGARIK_SIGNER_PUBLIC_KEY`. The auth
    secret must be independent and at least 32 random bytes. The keypair value
-   is the base64 encoding of the 64 raw bytes in the Solana keypair JSON.
+   is the base64 encoding of the 64 raw bytes in
+   `target/deploy/nagarik_signal_v2-service-authority.json`; pipe the encoded
+   value directly to `wrangler secret put` so it is not printed or retained in
+   shell history.
 5. Configure Vercel Production with the Worker URL plus `/sign`, the same signer
    auth secret, the public key, and custody ID
    `cloudflare-secret/nagarik-v2-signer`.

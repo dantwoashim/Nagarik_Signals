@@ -53,3 +53,5 @@ Fable.txt
 
 # Imported reference material
 viral_sync_reuse/
+
+.env*.local

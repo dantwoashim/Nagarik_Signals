@@ -272,7 +272,40 @@ async function main() {
   );
   const firstPublicId = items[0]?.publicId;
   const publicId = configuredPublicId ?? (typeof firstPublicId === 'string' ? firstPublicId : null);
-  if (!publicId || !publicIdPattern.test(publicId)) fail('public_issue_fixture_missing');
+  if (publicId && !publicIdPattern.test(publicId)) fail('public_issue_fixture_invalid');
+
+  if (!publicId) {
+    if (Number(stats.total) !== 0 || items.length !== 0) {
+      fail('public_issue_empty_state_inconsistent');
+    }
+    const tombstone = await verifyTombstone(baseUrl, tombstoneId);
+    console.log(
+      JSON.stringify(
+        {
+          ok: true,
+          action: 'verify_deployment',
+          baseUrl,
+          release: healthRelease,
+          readiness: 'ready',
+          publicData: {
+            total: 0,
+            checkedPublicId: null,
+            protocolVersion: null,
+            media: { checked: false },
+            tombstone,
+          },
+          pages: {
+            checked: pageBytes.length,
+            bytes: pageBytes.reduce((sum, value) => sum + value, 0),
+          },
+          mutationRequests: 0,
+        },
+        null,
+        2,
+      ),
+    );
+    return;
+  }
 
   const [{ payload: detailPayload }, { payload: proofPayload }, issuePageBytes, tombstone] =
     await Promise.all([

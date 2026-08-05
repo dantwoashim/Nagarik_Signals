@@ -190,8 +190,7 @@
   position: absolute;
   left: 14px;
   top: 14px;
-  background: rgba(255, 254, 252, 0.94);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 254, 252, 0.98);
 }
 
 .prod-map-preview-copy {
@@ -279,12 +278,35 @@
   gap: 6px;
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 5px;
-  background: rgba(255, 254, 252, 0.93);
+  background: rgba(255, 254, 252, 0.98);
   color: var(--ink);
   padding: 7px 9px;
   font-size: 11px;
   font-weight: 720;
-  backdrop-filter: blur(8px);
+}
+
+.prod-map-live-badge {
+  position: absolute;
+  left: 14px;
+  top: 55px;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid rgba(199, 206, 201, 0.9);
+  border-radius: 5px;
+  background: rgba(255, 254, 252, 0.98);
+  color: var(--ink);
+  padding: 7px 9px;
+  font-size: 11px;
+  font-weight: 720;
+}
+
+.prod-map-live-badge > span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--crimson);
 }
 
 .prod-map-fit {
@@ -304,10 +326,16 @@
   gap: 5px;
   border: 1px solid rgba(255, 255, 255, 0.7);
   border-radius: 6px;
-  background: rgba(255, 254, 252, 0.95);
+  background: rgba(255, 254, 252, 0.985);
   padding: 13px 14px;
   box-shadow: 0 8px 24px rgba(23, 32, 30, 0.12);
-  backdrop-filter: blur(10px);
+}
+
+.prod-map-alert-media {
+  display: grid;
+  place-items: center;
+  background: #edf1ee;
+  color: var(--ink-soft);
 }
 
 .prod-map-empty-note strong {
@@ -558,14 +586,11 @@
   color: inherit;
   padding: 16px 8px;
   text-decoration: none;
-  transition:
-    background-color 160ms ease,
-    padding 180ms var(--ease-out);
+  transition: background-color 160ms ease;
 }
 
 .prod-record-row:hover {
   background: var(--surface);
-  padding-inline: 14px;
 }
 
 .prod-record-media {
@@ -1657,9 +1682,8 @@
   overflow-x: auto;
   margin-block: 22px 34px;
   border-bottom: 1px solid var(--line);
-  background: rgba(245, 244, 240, 0.94);
+  background: rgba(245, 244, 240, 0.985);
   padding-block: 8px;
-  backdrop-filter: blur(12px);
 }
 
 .prod-issue-nav a {

@@ -68,6 +68,24 @@ export type PublicIssueStats = {
   updatedAt: string | null;
 };
 
+export type OfficialAlert = {
+  id: string;
+  kind: 'road_closure' | 'air_quality' | 'incident';
+  title: string;
+  summary: string;
+  category: string;
+  place: string;
+  latitude: number;
+  longitude: number;
+  status: 'active' | 'reported' | 'resolved' | 'recheck_due';
+  sourceLabel: string;
+  sourceUrl: string;
+  publishedAt: string;
+  observedAt: string | null;
+  expiresAt: string | null;
+  minutesOld: number;
+};
+
 export type PublicProof = {
   schemaVersion: 'nagarik-proof-response-v2';
   publicId: string;

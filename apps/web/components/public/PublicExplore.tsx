@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useDeferredValue, useEffect, useMemo, useState } from 'react';
 import { FunnelSimple, ListBullets, MagnifyingGlass, MapTrifold } from '@phosphor-icons/react';
 
 import { PublicIssueRow } from './PublicIssueRow';
@@ -28,6 +28,7 @@ export function PublicExplore() {
   const [ward, setWard] = useState('');
   const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading');
   const [loadingMore, setLoadingMore] = useState(false);
+  const deferredQuery = useDeferredValue(query);
 
   async function load(nextCursor?: string | null) {
     const append = Boolean(nextCursor);
@@ -78,7 +79,7 @@ export function PublicExplore() {
     return [...values.entries()];
   }, [issues]);
   const filtered = useMemo(() => {
-    const needle = query.trim().toLowerCase();
+    const needle = deferredQuery.trim().toLowerCase();
     return issues.filter((issue) => {
       const issueWard = publicWard(issue.ward);
       const issueLifecycle = issue.lifecycle ?? issue.legacyStatus ?? 'open';
@@ -92,7 +93,7 @@ export function PublicExplore() {
         (!ward || issueWard.id === ward)
       );
     });
-  }, [category, issues, lifecycle, query, ward]);
+  }, [category, deferredQuery, issues, lifecycle, ward]);
 
   return (
     <section className="container page-section prod-explore">

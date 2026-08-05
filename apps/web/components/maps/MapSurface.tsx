@@ -80,6 +80,7 @@ export function MapSurface({
 
     let disposed = false;
     let loadTimer = 0;
+    let resizeFrame = 0;
     let resizeObserver: ResizeObserver | null = null;
     setState('loading');
 
@@ -101,7 +102,7 @@ export function MapSurface({
           attributionControl: false,
           cooperativeGestures: true,
           fadeDuration: reducedMotion ? 0 : 180,
-          pixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+          pixelRatio: Math.min(window.devicePixelRatio || 1, window.matchMedia('(pointer: coarse)').matches ? 1.5 : 2),
           pitchWithRotate: false,
           refreshExpiredTiles: true,
         });
@@ -131,7 +132,17 @@ export function MapSurface({
           if (!map.loaded() && !disposed) setState('error');
         }, 5_000);
 
-        resizeObserver = new ResizeObserver(() => map.resize());
+        let previousWidth = 0;
+        let previousHeight = 0;
+        resizeObserver = new ResizeObserver(([entry]) => {
+          const width = Math.round(entry?.contentRect.width ?? 0);
+          const height = Math.round(entry?.contentRect.height ?? 0);
+          if (width === previousWidth && height === previousHeight) return;
+          previousWidth = width;
+          previousHeight = height;
+          window.cancelAnimationFrame(resizeFrame);
+          resizeFrame = window.requestAnimationFrame(() => map.resize());
+        });
         resizeObserver.observe(hostRef.current);
       } catch {
         if (!disposed) setState('error');
@@ -143,6 +154,7 @@ export function MapSurface({
     return () => {
       disposed = true;
       window.clearTimeout(loadTimer);
+      window.cancelAnimationFrame(resizeFrame);
       resizeObserver?.disconnect();
       onMapReadyRef.current?.(null);
       mapRef.current?.remove();

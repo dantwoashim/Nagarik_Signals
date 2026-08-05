@@ -52,9 +52,8 @@ h3 { font-weight: 680; }
   position: sticky;
   top: 0;
   z-index: 40;
-  background: rgba(246, 247, 245, 0.92);
+  background: rgba(246, 247, 245, 0.985);
   border-bottom-color: rgba(199, 206, 201, 0.75);
-  backdrop-filter: blur(14px) saturate(140%);
 }
 
 .site-header-inner { min-height: 68px; }

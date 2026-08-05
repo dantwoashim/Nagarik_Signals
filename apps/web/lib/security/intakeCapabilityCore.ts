@@ -1,4 +1,7 @@
+import { createHash, timingSafeEqual } from 'node:crypto';
+
 import {
+  parseCapabilityToken,
   verifyCapabilityToken,
   type CapabilityKeys,
   type CapabilityCoordinates,
@@ -21,7 +24,7 @@ export type IntakeCapability = {
   pilotPolicyVersion: string;
 };
 
-function intakeScope(value: unknown): { pilotPolicyVersion: string } | null {
+function intakeScope(value: unknown): { pilotPolicyVersion: string; publicAccess: boolean } | null {
   if (!value || typeof value !== 'object') return null;
   const scope = value as Record<string, unknown>;
   const scopes = Array.isArray(scope.scopes) ? scope.scopes : [];
@@ -32,7 +35,26 @@ function intakeScope(value: unknown): { pilotPolicyVersion: string } | null {
   ) {
     return null;
   }
-  return { pilotPolicyVersion: scope.pilotPolicyVersion };
+  return {
+    pilotPolicyVersion: scope.pilotPolicyVersion,
+    publicAccess:
+      scope.schemaVersion === 'public-intake-capability-v2' && scope.access === 'public',
+  };
+}
+
+function verifyPublicIntakeToken(token: string, row: IntakeCapabilityRow): boolean {
+  const parsed = parseCapabilityToken(token);
+  if (
+    !parsed ||
+    parsed.purpose !== 'pilot_intake' ||
+    parsed.capabilityId !== row.capabilityId ||
+    parsed.keyVersion !== row.keyVersion
+  ) {
+    return false;
+  }
+  const expected = createHash('sha256').update(parsed.secret).digest();
+  const stored = Buffer.from(row.verifier);
+  return stored.byteLength === expected.byteLength && timingSafeEqual(stored, expected);
 }
 
 export function authorizeIntakeCapability(
@@ -42,12 +64,15 @@ export function authorizeIntakeCapability(
   now = new Date(),
 ): IntakeCapability | null {
   const scope = intakeScope(row.scope);
+  const tokenValid = scope?.publicAccess
+    ? verifyPublicIntakeToken(token, row)
+    : verifyCapabilityToken(token, row, keys);
   if (
     row.purpose !== 'pilot_intake' ||
     row.state !== 'active' ||
     row.expiresAt.getTime() <= now.getTime() ||
     !scope ||
-    !verifyCapabilityToken(token, row, keys)
+    !tokenValid
   ) {
     return null;
   }

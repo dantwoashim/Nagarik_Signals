@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+
 import { z } from 'zod';
 
 import type { QueryExecutor } from '../db/query';
@@ -52,7 +54,7 @@ function coordinates(input: {
   policyVersion: string;
   day: string;
 }): CapabilityCoordinates {
-  const identity = `${input.actorKey}:${input.policyVersion}:${input.day}`;
+  const identity = `v2:${input.actorKey}:${input.policyVersion}:${input.day}`;
   return {
     keyVersion: 1,
     purpose: 'pilot_intake',
@@ -128,6 +130,7 @@ export async function createPublicIntakeSession(
       day: day.key,
     });
     const material = deriveCapabilityMaterial(capability, dependencies.keys);
+    const publicVerifier = createHash('sha256').update(material.secret).digest('hex');
     const inserted = await query.query(
       `insert into nagarik.capabilities(
          id, organization_id, purpose, subject_id, issuance_idempotency_id,
@@ -144,9 +147,9 @@ export async function createPublicIntakeSession(
         organizationId,
         capability.subjectId,
         capability.issuanceIdempotencyId,
-        material.verifier.toString('hex'),
+        publicVerifier,
         JSON.stringify({
-          schemaVersion: 'public-intake-capability-v1',
+          schemaVersion: 'public-intake-capability-v2',
           access: 'public',
           pilotPolicyVersion: policyVersion,
           scopes: ['intake'],

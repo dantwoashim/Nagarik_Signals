@@ -202,16 +202,14 @@ export function PublicExplore() {
             Try again
           </button>
         </div>
+      ) : view === 'map' ? (
+        <PublicMap issues={filtered} />
       ) : filtered.length ? (
-        view === 'map' ? (
-          <PublicMap issues={filtered} />
-        ) : (
-          <div className="prod-record-list">
-            {filtered.map((issue) => (
-              <PublicIssueRow key={issue.publicId} issue={issue} />
-            ))}
-          </div>
-        )
+        <div className="prod-record-list">
+          {filtered.map((issue) => (
+            <PublicIssueRow key={issue.publicId} issue={issue} />
+          ))}
+        </div>
       ) : (
         <div className="prod-service-state">
           <div>

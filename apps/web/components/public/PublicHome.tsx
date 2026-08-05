@@ -119,18 +119,8 @@ export function PublicHome() {
               Try again
             </button>
           </div>
-        ) : issues.length ? (
-          <PublicMap issues={issues} compact />
         ) : (
-          <div className="prod-service-state">
-            <div>
-              <strong>No public records yet.</strong>
-              <span>Reviewed records will appear here after publication.</span>
-            </div>
-            <Link className="button secondary" href="/report">
-              Report an issue
-            </Link>
-          </div>
+          <PublicMap issues={issues} compact />
         )}
       </section>
 

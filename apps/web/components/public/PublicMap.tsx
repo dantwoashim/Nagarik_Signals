@@ -216,27 +216,32 @@ export function PublicMap({
     window.requestAnimationFrame(() => fitMap(api, mapped));
   }
 
-  if (!issues.length) return null;
   const ward = selected ? publicWard(selected.ward) : null;
   const state = selected?.lifecycle ?? selected?.legacyStatus ?? 'open';
 
   return (
-    <section className={`prod-map ${compact ? 'prod-map-compact' : ''}`}>
+    <section
+      className={`prod-map ${compact ? 'prod-map-compact' : ''} ${selected ? '' : 'prod-map-empty'}`}
+    >
       <div className="prod-map-canvas">
-        {mapped.length ? (
-          <MapSurface
-            ariaLabel={`Map of ${mapped.length} approximate civic issue locations`}
-            className="prod-map-surface"
-            initialCenter={[85.324, 27.708]}
-            initialZoom={7}
-            minZoom={5}
-            deferUntilVisible={compact}
-            onMapReady={ready}
-          >
-            <div className="prod-map-privacy">
-              <ShieldCheck size={14} weight="bold" aria-hidden="true" />
-              Approximate locations
-            </div>
+        <MapSurface
+          ariaLabel={
+            mapped.length
+              ? `Map of ${mapped.length} approximate civic issue locations`
+              : 'Public civic issue map of Nepal'
+          }
+          className="prod-map-surface"
+          initialCenter={mapped.length ? [85.324, 27.708] : [84.1, 28.2]}
+          initialZoom={mapped.length ? 7 : 5.8}
+          minZoom={5}
+          deferUntilVisible={compact}
+          onMapReady={ready}
+        >
+          <div className="prod-map-privacy">
+            <ShieldCheck size={14} weight="bold" aria-hidden="true" />
+            Approximate locations
+          </div>
+          {mapped.length ? (
             <button
               className="map-tool-button prod-map-fit"
               type="button"
@@ -248,10 +253,20 @@ export function PublicMap({
             >
               <ArrowsOutSimple size={18} weight="bold" />
             </button>
-          </MapSurface>
-        ) : (
-          <div className="prod-map-no-location">Mapped locations are currently unavailable.</div>
-        )}
+          ) : (
+            <div className="prod-map-empty-note" role="status">
+              <strong>
+                {issues.length ? 'No public location available' : 'No published records yet'}
+              </strong>
+              <span>
+                {issues.length
+                  ? 'These records do not expose an approximate location.'
+                  : 'Reviewed records will appear here.'}
+              </span>
+              {!issues.length ? <Link href="/report">Report an issue</Link> : null}
+            </div>
+          )}
+        </MapSurface>
       </div>
 
       {selected ? (

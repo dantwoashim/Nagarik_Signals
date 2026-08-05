@@ -523,6 +523,7 @@
         "timelineHash": "8704e5569e5ae8811e611f1cfdd3e2cb2666ade7d470435720e18a80ad21993f",
         "proofStatus": "indexed_devnet",
         "createTxSig": "5vGKTAehcJL86D1bGUgKgkK6YQUR99M4ccDLYkVZxL6coDrfBJZMVZEv8jWjgRASQ67s7PMWaK16LtDE2TVUysvC",
+        "finalizedSlot": 476232054,
         "latestTxSig": "5vGKTAehcJL86D1bGUgKgkK6YQUR99M4ccDLYkVZxL6coDrfBJZMVZEv8jWjgRASQ67s7PMWaK16LtDE2TVUysvC",
         "explorerUrl": "https://explorer.solana.com/address/E1pYBumVS2bgdfjFTZ7qKfNTJG7nyGxUnfLwAsc7Vs9m?cluster=devnet"
       },
@@ -583,6 +584,7 @@
         "timelineHash": "e858281c49f219b10931d821f161bcd78dce97031d603b36d652fc6365b99412",
         "proofStatus": "indexed_devnet",
         "createTxSig": "5NCVoL5WnBirPu7R15Tp3Gbw8umCwgHRYG8Zmf1RsqiP6JdoLr9ruzrkvFKsR3kGe4ADRXX6MZXEKWEfCaNdpbyP",
+        "finalizedSlot": 476232056,
         "latestTxSig": "5NCVoL5WnBirPu7R15Tp3Gbw8umCwgHRYG8Zmf1RsqiP6JdoLr9ruzrkvFKsR3kGe4ADRXX6MZXEKWEfCaNdpbyP",
         "explorerUrl": "https://explorer.solana.com/address/E6yoJ6Hb8zuPwXpx1545Y14VjM3dReQTYwqRneYMNGuV?cluster=devnet"
       },
@@ -643,6 +645,7 @@
         "timelineHash": "0be27b34484068172762bc9772791ae2b37074066cae32a68e796c57e1d15f2c",
         "proofStatus": "indexed_devnet",
         "createTxSig": "2sNYwswwUcD4CEdJGhPrsP9EvGhvCcr5UnLfHsSMNRTmrpzGpLgNrMWamuxuVFunr3WWNPgRA4Kec1aEEHAkBSvY",
+        "finalizedSlot": 476232059,
         "latestTxSig": "2sNYwswwUcD4CEdJGhPrsP9EvGhvCcr5UnLfHsSMNRTmrpzGpLgNrMWamuxuVFunr3WWNPgRA4Kec1aEEHAkBSvY",
         "explorerUrl": "https://explorer.solana.com/address/CbgEF5T7QC6UamxfbXRzoaXeqciv6veN4DvUbDLtTPJi?cluster=devnet"
       },
@@ -703,6 +706,7 @@
         "timelineHash": "4c6237f859995653b89b480d7e6b0b18023a0b023bafa682aeeeecbeb7dad79b",
         "proofStatus": "indexed_devnet",
         "createTxSig": "4XrjWRCkpjm8kdUBgT4jdKxeykA98JobJQ9ShT4sfX5KsRt9dTgfzD7dq2SujXM1rA4BVcvKK5ArTZaeKXRrSd7d",
+        "finalizedSlot": 476232062,
         "latestTxSig": "4XrjWRCkpjm8kdUBgT4jdKxeykA98JobJQ9ShT4sfX5KsRt9dTgfzD7dq2SujXM1rA4BVcvKK5ArTZaeKXRrSd7d",
         "explorerUrl": "https://explorer.solana.com/address/FYZUAY3v5n9cmpdVy6fBTgKyEd3jzcFKR8MJaiuDmu8Y?cluster=devnet"
       },

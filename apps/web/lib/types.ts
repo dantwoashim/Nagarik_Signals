@@ -89,6 +89,7 @@ export type IssueProof = {
   timelineHash: string;
   proofStatus: ProofStatus;
   createTxSig: string | null;
+  finalizedSlot?: number;
   latestTxSig: string | null;
   explorerUrl: string | null;
 };

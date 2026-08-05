@@ -7,6 +7,7 @@ type ReceiptRecord = {
   issueId: number;
   issuePda: string;
   txSig: string;
+  finalizedSlot: number;
   metadataHash: string;
   evidenceHash: string;
   locationHash: string;
@@ -84,6 +85,7 @@ for (const issue of sources) {
     ['evidenceHash', issue.proof.evidenceHash, row.evidenceHash],
     ['locationHash', issue.proof.locationHash, row.locationHash],
     ['sourceUrl', issue.provenance.sourceUrl, row.sourceUrl],
+    ['finalizedSlot', issue.proof.finalizedSlot, row.finalizedSlot],
   ] as const;
   for (const [field, actual, expected] of comparisons) {
     if (actual !== expected) fail(`source_receipt_mismatch:${issue.issueId}:${field}`);

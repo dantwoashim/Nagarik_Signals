@@ -2,6 +2,14 @@ import { createHash } from 'node:crypto';
 
 import { z } from 'zod';
 
+import { canonicalize } from '../../apps/web/lib/proof/canonicalize';
+import { buildProofMetadata } from '../../apps/web/lib/proof/metadata';
+
+const LEGACY_CLUSTER = 'devnet';
+const LEGACY_GENESIS_HASH = 'EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG';
+const LEGACY_PROGRAM_ID = '76PwNDW9hANj3tiebTEUdAj4yHYHVMfjcVDPjUWLQmqY';
+const ZERO_HASH = '00'.repeat(32);
+
 const hash = z.string().regex(/^[0-9a-f]{64}$/);
 const recordKind = z.enum([
   'community_report',
@@ -26,6 +34,7 @@ const legacyIssueSchema = z
     ]),
     wardId: z.string().min(1).max(120),
     locality: z.string().min(1).max(240),
+    geohash: z.string().min(3).max(80),
     status: z.string().min(1).max(80),
     recordKind,
     provenance: z.unknown().nullable(),
@@ -36,7 +45,11 @@ const legacyIssueSchema = z
     safetyReviewStatus: z.enum(['visible', 'hidden_media', 'disputed', 'rejected', 'resolved']),
     latDisplay: z.number().min(-90).max(90),
     lngDisplay: z.number().min(-180).max(180),
+    photoUrl: z.string().min(1).max(500),
     proof: z.object({
+      issuePda: z.string().max(64),
+      createTxSig: z.string().max(128).nullable(),
+      finalizedSlot: z.number().int().nonnegative().optional(),
       metadataHash: hash,
       evidenceHash: hash,
       locationHash: hash,
@@ -71,7 +84,13 @@ export type PreparedLegacyIssue = {
     latRounded: number;
     lngRounded: number;
     precision: 3;
+    legacyGeohash: string;
   };
+  photoUrl: string;
+  canonicalMetadata: unknown;
+  issueAccount: string;
+  signature: string;
+  finalizedSlot: number;
   metadataHash: string;
   evidenceHash: string;
   locationHash: string;
@@ -136,6 +155,42 @@ export function deterministicUuid(namespace: string, value: string): string {
 
 function toPreparedIssue(issue: LegacyIssue): PreparedLegacyIssue {
   const key = String(issue.issueId);
+  if (!/^\/source-dossiers\/[a-z0-9-]+\.png$/.test(issue.photoUrl)) {
+    throw new Error(`legacy_media_path_invalid:${issue.issueId}`);
+  }
+  if (issue.proof.issuePda.length < 32) throw new Error(`legacy_issue_account_invalid:${issue.issueId}`);
+  if (!issue.proof.createTxSig || issue.proof.createTxSig.length < 64) {
+    throw new Error(`legacy_signature_invalid:${issue.issueId}`);
+  }
+  if (issue.proof.finalizedSlot === undefined) {
+    throw new Error(`legacy_finalized_slot_missing:${issue.issueId}`);
+  }
+  const canonicalMetadata = buildProofMetadata({
+    title: issue.title,
+    description: issue.description,
+    category: issue.category,
+    wardId: issue.wardId,
+    locality: issue.locality,
+    latDisplay: issue.latDisplay,
+    lngDisplay: issue.lngDisplay,
+    geohash: issue.geohash,
+    firstObservedAt: issue.firstObservedAt,
+    evidenceHash: issue.proof.evidenceHash,
+    photoUrl: issue.photoUrl,
+    recordKind: issue.recordKind,
+    provenance: issue.provenance as Parameters<typeof buildProofMetadata>[0]['provenance'],
+  });
+  const computedMetadataHash = sha256(canonicalize(canonicalMetadata));
+  if (computedMetadataHash !== issue.proof.metadataHash) {
+    throw new Error(`legacy_metadata_hash_mismatch:${issue.issueId}`);
+  }
+  const computedLocationHash = sha256(`${issue.wardId}:${issue.geohash}:v1`);
+  if (computedLocationHash !== issue.proof.locationHash) {
+    throw new Error(`legacy_location_hash_mismatch:${issue.issueId}`);
+  }
+  const provenance = issue.provenance && typeof issue.provenance === 'object'
+    ? { ...(issue.provenance as Record<string, unknown>), legacyMediaPath: issue.photoUrl }
+    : { legacyMediaPath: issue.photoUrl };
   return {
     legacyIssueId: issue.issueId,
     issueId: deterministicUuid('nagarik:legacy:issue:v1', key),
@@ -148,12 +203,18 @@ function toPreparedIssue(issue: LegacyIssue): PreparedLegacyIssue {
     wardLabel: issue.locality,
     legacyStatus: issue.status,
     recordKind: issue.recordKind as 'community_report' | 'public_source',
-    provenance: issue.provenance,
+    provenance,
     publicLocation: {
       latRounded: Number(issue.latDisplay.toFixed(3)),
       lngRounded: Number(issue.lngDisplay.toFixed(3)),
       precision: 3,
+      legacyGeohash: issue.geohash,
     },
+    photoUrl: issue.photoUrl,
+    canonicalMetadata,
+    issueAccount: issue.proof.issuePda,
+    signature: issue.proof.createTxSig,
+    finalizedSlot: issue.proof.finalizedSlot,
     metadataHash: issue.proof.metadataHash,
     evidenceHash: issue.proof.evidenceHash,
     locationHash: issue.proof.locationHash,
@@ -422,6 +483,90 @@ export async function applyLegacyImport(
         JSON.stringify(issue.provenance),
         issue.legacyStatus,
         issue.signalCount,
+        issue.publishedAt,
+      ],
+    );
+
+    await transaction.query(
+      `insert into public.proof_projection(
+         issue_public_id,
+         protocol_version,
+         version_id,
+         metadata_hash,
+         evidence_hash,
+         location_hash,
+         cluster,
+         genesis_hash,
+         program_id,
+         issue_account,
+         signature,
+         finalized_slot,
+         update_count,
+         timeline_head,
+         handoff_head,
+         canonical_metadata,
+         confirmed_at,
+         updated_at
+       )
+       values (
+         $1::uuid,
+         'v1_legacy',
+         $2::uuid,
+         decode($3, 'hex'),
+         decode($4, 'hex'),
+         decode($5, 'hex'),
+         $6,
+         $7,
+         $8,
+         $9,
+         $10,
+         $11::bigint,
+         $12::bigint,
+         decode($13, 'hex'),
+         decode($14, 'hex'),
+         $15::jsonb,
+         $16::timestamptz,
+         $16::timestamptz
+       )`,
+      [
+        issue.publicId,
+        issue.versionId,
+        issue.metadataHash,
+        issue.evidenceHash,
+        issue.locationHash,
+        LEGACY_CLUSTER,
+        LEGACY_GENESIS_HASH,
+        LEGACY_PROGRAM_ID,
+        issue.issueAccount,
+        issue.signature,
+        issue.finalizedSlot,
+        issue.updateCount,
+        issue.timelineHash,
+        ZERO_HASH,
+        JSON.stringify(issue.canonicalMetadata),
+        issue.publishedAt,
+      ],
+    );
+
+    await transaction.query(
+      `insert into public.event_projection(
+         event_id,
+         issue_public_id,
+         event_type,
+         chain_sequence,
+         public_event,
+         occurred_at
+       )
+       values ($1::uuid, $2::uuid, 'source_dossier_anchored', null, $3::jsonb, $4::timestamptz)`,
+      [
+        deterministicUuid('nagarik:legacy:event:v1', String(issue.legacyIssueId)),
+        issue.publicId,
+        JSON.stringify({
+          schemaVersion: 'nagarik-legacy-source-event-v1',
+          label: 'Source dossier anchored',
+          note: 'A checked public-source dossier was anchored on Solana devnet. It is not a firsthand field report.',
+          signature: issue.signature,
+        }),
         issue.publishedAt,
       ],
     );

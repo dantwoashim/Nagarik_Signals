@@ -6,6 +6,7 @@ import {
   findPublicIssueProof,
   listPublicIssueEvents,
 } from '@/lib/db/repositories/publicIssues';
+import { publicMediaPath } from '@/lib/public/mediaPath';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -81,7 +82,7 @@ export async function GET(
           category: issue.category,
           ward: issue.ward,
           location: issue.location,
-          mediaUrl: issue.media_id ? `/api/media/med_${issue.media_id}` : null,
+          mediaUrl: publicMediaPath(issue),
           provenance: issue.provenance,
           lifecycle: issue.lifecycle,
           legacyStatus: issue.legacy_status,

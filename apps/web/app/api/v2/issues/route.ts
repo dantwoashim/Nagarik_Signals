@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { getDatabase } from '@/lib/db/postgres';
 import { listPublicIssues } from '@/lib/db/repositories/publicIssues';
+import { publicMediaPath } from '@/lib/public/mediaPath';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -79,7 +80,7 @@ export async function GET(request: Request) {
             category: issue.category,
             ward: issue.ward,
             location: issue.location,
-            mediaUrl: issue.media_id ? `/api/media/med_${issue.media_id}` : null,
+            mediaUrl: publicMediaPath(issue),
             lifecycle: issue.lifecycle,
             legacyStatus: issue.legacy_status,
             signalCount: Number(issue.signal_count),

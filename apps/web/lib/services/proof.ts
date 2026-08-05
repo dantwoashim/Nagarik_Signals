@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import type { PublicIssueProjection, PublicIssueProof } from '../db/repositories/publicIssues';
 import { canonicalize } from '../proof/canonicalize';
 import { verifyDeliveredEvidence } from '../proof/evidence';
+import { publicMediaPath } from '../public/mediaPath';
 import { verifyV2PublicProof } from '../solana/v2/readOnly';
 
 function bytesHex(value: Uint8Array): string {
@@ -13,6 +14,15 @@ function hash(value: unknown): string {
   return createHash('sha256').update(canonicalize(value)).digest('hex');
 }
 
+function legacyLocationHash(issue: PublicIssueProjection): string | null {
+  if (!issue.location || typeof issue.location !== 'object' || Array.isArray(issue.location)) return null;
+  if (!issue.ward || typeof issue.ward !== 'object' || Array.isArray(issue.ward)) return null;
+  const geohash = (issue.location as Record<string, unknown>).legacyGeohash;
+  const wardId = (issue.ward as Record<string, unknown>).id;
+  if (typeof geohash !== 'string' || typeof wardId !== 'string') return null;
+  return createHash('sha256').update(`${wardId}:${geohash}:v1`).digest('hex');
+}
+
 export async function buildPublicProofResponse(input: {
   issue: PublicIssueProjection;
   proof: PublicIssueProof;
@@ -21,9 +31,13 @@ export async function buildPublicProofResponse(input: {
   const metadataExpected = bytesHex(input.proof.metadata_hash);
   const metadataComputed = hash(input.proof.canonical_metadata);
   const locationExpected = bytesHex(input.proof.location_hash);
-  const locationComputed = input.issue.location ? hash(input.issue.location) : null;
+  const locationComputed = input.proof.protocol_version === 'v1_legacy'
+    ? legacyLocationHash(input.issue)
+    : input.issue.location
+      ? hash(input.issue.location)
+      : null;
   const evidenceExpected = bytesHex(input.proof.evidence_hash);
-  const mediaPath = input.issue.media_id ? `/api/media/med_${input.issue.media_id}` : null;
+  const mediaPath = publicMediaPath(input.issue);
   const [evidence, chainVerification] = await Promise.all([
     mediaPath && input.issue.publication_state !== 'removed'
       ? verifyDeliveredEvidence(mediaPath, evidenceExpected, {

@@ -13,6 +13,7 @@ export type PublicLocation = {
   uncertaintyRadiusM?: number;
   latRounded?: number;
   lngRounded?: number;
+  legacyGeohash?: string;
 };
 
 export type PublicIssueSummary = {

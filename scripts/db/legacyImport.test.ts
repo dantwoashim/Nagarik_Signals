@@ -176,8 +176,16 @@ test('legacy import commits atomically and an identical rerun is a no-op', async
     const projectionCount = await database.query<{ count: number }>(
       'select count(*)::integer as count from public.issue_projection',
     );
+    const proofCount = await database.query<{ count: number }>(
+      'select count(*)::integer as count from public.proof_projection',
+    );
+    const eventCount = await database.query<{ count: number }>(
+      'select count(*)::integer as count from public.event_projection',
+    );
     assert.equal(issueCount.rows[0].count, 4);
     assert.equal(projectionCount.rows[0].count, 4);
+    assert.equal(proofCount.rows[0].count, 4);
+    assert.equal(eventCount.rows[0].count, 4);
 
     const second = await database.transaction((transaction) =>
       applyLegacyImport(adapter(transaction as unknown as PGlite), plan, organizationId),

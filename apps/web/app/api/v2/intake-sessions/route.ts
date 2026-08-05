@@ -6,14 +6,23 @@ import { readJsonLimited, RequestBodyError } from '@/lib/api/requestBody';
 import { runDatabaseTransaction } from '@/lib/db/transaction';
 import { databaseExecutor } from '@/lib/db/transaction';
 import { capabilityKeysFromEnvironment } from '@/lib/security/capabilityTokens';
-import { requireIdempotencyKey } from '@/lib/security/ids';
+import { keyedActorHash, requireIdempotencyKey } from '@/lib/security/ids';
 import { IntakeAuthorizationError, requireIntakeCapability } from '@/lib/security/intakeCapability';
-import { assertTrustedMutation, securityErrorResponse } from '@/lib/security/request';
+import {
+  assertTrustedMutation,
+  requestIpHash,
+  securityErrorResponse,
+} from '@/lib/security/request';
 import {
   consumePilotInvitation,
   parseIntakeSessionInput,
   PilotInvitationError,
 } from '@/lib/services/pilotInvitations';
+import {
+  createPublicIntakeSession,
+  parsePublicIntakeSessionInput,
+  PublicIntakeError,
+} from '@/lib/services/publicIntake';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -90,17 +99,39 @@ export async function POST(request: Request) {
   try {
     assertTrustedMutation(request, { maxBytes: 4 * 1024 });
     const idempotencyKey = requireIdempotencyKey(request);
-    const session = parseIntakeSessionInput(await readJsonLimited<unknown>(request, 4 * 1024));
+    const body = await readJsonLimited<unknown>(request, 4 * 1024);
+    const schemaVersion =
+      body && typeof body === 'object' && !Array.isArray(body)
+        ? (body as Record<string, unknown>).schemaVersion
+        : null;
+    const publicSession =
+      schemaVersion === 'public-intake-session-v1' ? parsePublicIntakeSessionInput(body) : null;
     const correlationKey = process.env.NAGARIK_SECURITY_CORRELATION_KEY;
-    if (!correlationKey) return failure(requestId, 'pilot_invitation_unavailable', 503);
-    const result = await consumePilotInvitation(
-      { idempotencyKey, session },
-      {
-        transaction: runDatabaseTransaction,
-        keys: capabilityKeysFromEnvironment(),
-        correlationKey,
-      },
-    );
+    if (!correlationKey) {
+      return failure(
+        requestId,
+        publicSession ? 'public_intake_unavailable' : 'pilot_invitation_unavailable',
+        503,
+      );
+    }
+    const result = publicSession
+      ? await createPublicIntakeSession(
+          {
+            actorKey: keyedActorHash(correlationKey, `public-intake:${requestIpHash(request)}`),
+          },
+          {
+            transaction: runDatabaseTransaction,
+            keys: capabilityKeysFromEnvironment(),
+          },
+        )
+      : await consumePilotInvitation(
+          { idempotencyKey, session: parseIntakeSessionInput(body) },
+          {
+            transaction: runDatabaseTransaction,
+            keys: capabilityKeysFromEnvironment(),
+            correlationKey,
+          },
+        );
     const response = NextResponse.json(
       {
         ok: true,
@@ -138,6 +169,9 @@ export async function POST(request: Request) {
     }
     return response;
   } catch (error) {
+    if (error instanceof PublicIntakeError) {
+      return failure(requestId, error.code, error.status);
+    }
     if (error instanceof PilotInvitationError) {
       return failure(requestId, error.code, error.status);
     }

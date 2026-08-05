@@ -7,7 +7,6 @@ import {
   ArrowRight,
   Camera,
   CheckCircle,
-  Key,
   MapPin,
   NotePencil,
   ShieldCheck,
@@ -80,10 +79,10 @@ function errorMessage(error: unknown) {
     return 'The report service is temporarily unavailable.';
   }
   const messages: Record<string, string> = {
-    intake_capability_required: 'This pilot invitation is no longer active.',
+    intake_capability_required: 'Your reporting session expired. Try sending the report again.',
     intake_disabled: 'New reports are temporarily paused.',
-    pilot_invitation_unavailable: 'This invitation could not be opened.',
-    pilot_invitation_invalid: 'Check the invitation and try again.',
+    public_intake_unavailable: 'New reporting sessions are temporarily unavailable.',
+    public_intake_rate_limited: 'Too many reporting attempts were made. Try again in an hour.',
     media_too_large: 'The photo is too large. Choose a file under 10 MB.',
     media_type_not_allowed: 'Choose a JPG, PNG, or WebP photo.',
     submission_invalid: 'Check the report details and selected date.',
@@ -94,14 +93,32 @@ function errorMessage(error: unknown) {
   return messages[error.code] ?? 'The report could not be sent. Check the fields and try again.';
 }
 
+async function establishPublicIntakeSession(): Promise<PilotContext> {
+  try {
+    return await readPublicApi<PilotContext>('/api/v2/intake-sessions');
+  } catch (error) {
+    if (!(error instanceof PublicApiError) || error.status !== 401) throw error;
+  }
+
+  const session = await readPublicApi<SessionResponse>('/api/v2/intake-sessions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Idempotency-Key': crypto.randomUUID(),
+    },
+    body: JSON.stringify({ schemaVersion: 'public-intake-session-v1' }),
+  });
+  if (!session.scope.includes('intake')) {
+    throw new PublicApiError('public_intake_unavailable', 503, true);
+  }
+  return readPublicApi<PilotContext>('/api/v2/intake-sessions');
+}
+
 export function ReportExperience() {
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
-  const [sessionState, setSessionState] = useState<'checking' | 'required' | 'ready' | 'error'>(
-    'checking',
-  );
+  const [sessionState, setSessionState] = useState<'checking' | 'ready' | 'error'>('checking');
   const [context, setContext] = useState<PilotContext | null>(null);
-  const [invitation, setInvitation] = useState('');
   const [stage, setStage] = useState(0);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
@@ -113,62 +130,29 @@ export function ReportExperience() {
 
   function checkSession() {
     setSessionState('checking');
-    readPublicApi<PilotContext>('/api/v2/intake-sessions')
+    establishPublicIntakeSession()
       .then((result) => {
         setContext(result);
         setSessionState('ready');
       })
-      .catch((error: unknown) => {
-        if (error instanceof PublicApiError && error.status === 401) {
-          setSessionState('required');
-        } else {
-          setSessionState('error');
-        }
-      });
+      .catch(() => setSessionState('error'));
   }
 
   useEffect(() => {
-    readPublicApi<PilotContext>('/api/v2/intake-sessions')
+    let active = true;
+    establishPublicIntakeSession()
       .then((result) => {
+        if (!active) return;
         setContext(result);
         setSessionState('ready');
       })
-      .catch((error: unknown) => {
-        if (error instanceof PublicApiError && error.status === 401) {
-          setSessionState('required');
-        } else {
-          setSessionState('error');
-        }
+      .catch(() => {
+        if (active) setSessionState('error');
       });
+    return () => {
+      active = false;
+    };
   }, []);
-
-  async function openInvitation(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setBusy(true);
-    setMessage('');
-    try {
-      const result = await readPublicApi<SessionResponse>('/api/v2/intake-sessions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Idempotency-Key': crypto.randomUUID(),
-        },
-        body: JSON.stringify({
-          schemaVersion: 'pilot-invitation-v1',
-          invitation: invitation.trim(),
-        }),
-      });
-      if (!result.scope.includes('intake')) {
-        throw new PublicApiError('pilot_invitation_invalid', 400, false);
-      }
-      setInvitation('');
-      checkSession();
-    } catch (error) {
-      setMessage(errorMessage(error));
-    } finally {
-      setBusy(false);
-    }
-  }
 
   function validateCurrentStage() {
     const section = formRef.current?.querySelector<HTMLElement>(`[data-stage="${stage}"]`);
@@ -249,7 +233,7 @@ export function ReportExperience() {
       setMessage(errorMessage(error));
       setProgress('idle');
       if (error instanceof PublicApiError && error.status === 401) {
-        setSessionState('required');
+        checkSession();
       }
     } finally {
       setBusy(false);
@@ -260,7 +244,7 @@ export function ReportExperience() {
     return (
       <div className="prod-report-gate" role="status">
         <span className="prod-inline-spinner" aria-hidden="true" />
-        Checking pilot access
+        Preparing secure reporting
       </div>
     );
   }
@@ -276,46 +260,6 @@ export function ReportExperience() {
         <button className="button secondary" type="button" onClick={checkSession}>
           Try again
         </button>
-      </div>
-    );
-  }
-
-  if (sessionState === 'required') {
-    return (
-      <div className="prod-invitation-layout">
-        <section className="prod-invitation-copy">
-          <span className="eyebrow">
-            <Key size={14} weight="bold" /> Curated pilot
-          </span>
-          <h2>Open your reporting invitation</h2>
-          <p>
-            Reporting is currently limited to invited residents and civic partners while privacy and
-            moderation operations are monitored.
-          </p>
-        </section>
-        <form className="prod-invitation-form" onSubmit={openInvitation}>
-          <label className="field">
-            <span>Invitation</span>
-            <textarea
-              value={invitation}
-              onChange={(event) => setInvitation(event.target.value)}
-              rows={4}
-              minLength={80}
-              maxLength={220}
-              autoComplete="off"
-              spellCheck={false}
-              required
-            />
-          </label>
-          {message ? (
-            <p className="form-error" role="alert">
-              {message}
-            </p>
-          ) : null}
-          <button className="button primary" type="submit" disabled={busy}>
-            {busy ? 'Opening...' : 'Continue'} <ArrowRight size={17} weight="bold" />
-          </button>
-        </form>
       </div>
     );
   }

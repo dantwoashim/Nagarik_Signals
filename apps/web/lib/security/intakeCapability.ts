@@ -41,14 +41,20 @@ function intakeCookie(request: Request): string | null {
   );
 }
 
+function recordAuthorizationFailure(reason: string): void {
+  console.warn(JSON.stringify({ event: 'intake_authorization_failed', reason }));
+}
+
 export async function requireIntakeCapability(request: Request): Promise<IntakeCapability> {
   if (process.env.NAGARIK_CAP_INVITE_INTAKE !== 'true') {
+    recordAuthorizationFailure('environment_disabled');
     throw new IntakeAuthorizationError('intake_disabled', 503);
   }
 
   const token = intakeCookie(request);
   const parsed = token ? parseCapabilityToken(token) : null;
   if (!token || !parsed || parsed.purpose !== 'pilot_intake') {
+    recordAuthorizationFailure(token ? 'token_malformed' : 'token_missing');
     throw new IntakeAuthorizationError('intake_capability_required', 401);
   }
 
@@ -75,6 +81,7 @@ export async function requireIntakeCapability(request: Request): Promise<IntakeC
   );
   const raw = rows[0];
   if (!raw || raw.intake_disabled === true) {
+    recordAuthorizationFailure(raw ? 'database_disabled' : 'capability_missing');
     throw new IntakeAuthorizationError('intake_disabled', 503);
   }
 
@@ -92,6 +99,7 @@ export async function requireIntakeCapability(request: Request): Promise<IntakeC
   };
   const authorized = authorizeIntakeCapability(token, row, capabilityKeysFromEnvironment());
   if (!authorized) {
+    recordAuthorizationFailure(`capability_invalid_scope_${typeof raw.scope}`);
     throw new IntakeAuthorizationError('intake_capability_required', 401);
   }
   return authorized;

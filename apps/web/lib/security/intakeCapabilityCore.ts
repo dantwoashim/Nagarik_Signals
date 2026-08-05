@@ -25,8 +25,16 @@ export type IntakeCapability = {
 };
 
 function intakeScope(value: unknown): { pilotPolicyVersion: string; publicAccess: boolean } | null {
-  if (!value || typeof value !== 'object') return null;
-  const scope = value as Record<string, unknown>;
+  let parsed = value;
+  if (typeof parsed === 'string') {
+    try {
+      parsed = JSON.parse(parsed);
+    } catch {
+      return null;
+    }
+  }
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return null;
+  const scope = parsed as Record<string, unknown>;
   const scopes = Array.isArray(scope.scopes) ? scope.scopes : [];
   if (
     typeof scope.pilotPolicyVersion !== 'string' ||

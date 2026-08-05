@@ -84,7 +84,7 @@ test('public reporting creates one bounded intake capability per network and day
       verifier: raw.verifier as Uint8Array,
       state: raw.state as IntakeCapabilityRow['state'],
       expiresAt: new Date(String(raw.expires_at)),
-      scope: raw.scope,
+      scope: typeof raw.scope === 'string' ? raw.scope : JSON.stringify(raw.scope),
     };
     assert.ok(authorizeIntakeCapability(first.intakeToken, row, keys, now()));
   } finally {

@@ -300,9 +300,8 @@ h3 { font-weight: 680; }
   overflow: hidden;
   border: 1px solid rgba(16, 21, 19, 0.16);
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.96);
+  background: #ffffff;
   box-shadow: 0 18px 44px -24px rgba(16, 21, 19, 0.62);
-  backdrop-filter: blur(12px);
 }
 
 .civic-atlas-compact .atlas-selection { border: 0; }
@@ -547,9 +546,8 @@ h3 { font-weight: 680; }
   margin-inline: -16px;
   border-block: 1px solid var(--line);
   border-radius: 0;
-  background: rgba(246, 247, 245, 0.94);
+  background: #f6f7f5;
   padding-inline: 16px;
-  backdrop-filter: blur(12px);
 }
 
 .issue-jump-nav a { min-height: 48px; font-size: 11px; }
@@ -710,9 +708,8 @@ h3 { font-weight: 680; }
     overflow: hidden;
     border: 1px solid rgba(16, 21, 19, 0.16);
     border-radius: 6px;
-    background: rgba(255, 255, 255, 0.96);
+    background: #ffffff;
     box-shadow: 0 18px 44px -24px rgba(16, 21, 19, 0.62);
-    backdrop-filter: blur(12px);
   }
 
   .atlas-record-index { display: none; }

@@ -91,6 +91,7 @@ export function MapSurface({
         if (disposed || !hostRef.current) return;
 
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
         const map = new library.Map({
           container: hostRef.current,
           style: styleUrl,
@@ -100,11 +101,19 @@ export function MapSurface({
           maxZoom,
           maxBounds: nepalMapInteractionBounds,
           attributionControl: false,
+          canvasContextAttributes: {
+            antialias: false,
+            desynchronized: true,
+            powerPreference: 'high-performance',
+          },
           cooperativeGestures: true,
-          fadeDuration: reducedMotion ? 0 : 180,
-          pixelRatio: Math.min(window.devicePixelRatio || 1, window.matchMedia('(pointer: coarse)').matches ? 1.5 : 2),
+          crossSourceCollisions: false,
+          fadeDuration: reducedMotion || coarsePointer ? 0 : 120,
+          maxTileCacheZoomLevels: 3,
+          pixelRatio: Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.5 : 2),
           pitchWithRotate: false,
-          refreshExpiredTiles: true,
+          refreshExpiredTiles: false,
+          renderWorldCopies: false,
         });
         mapRef.current = map;
         map.dragRotate.disable();

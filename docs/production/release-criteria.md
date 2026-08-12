@@ -296,8 +296,7 @@ rule into `pass`.
 | operations/recovery/security | partial                                    | clean CI, source/dependency scans, SBOM, load/recovery tools, and runbooks exist; real load, restore, rollback, alert, and tabletop evidence is absent |
 | external human               | blocked                                    | no approved penetration-test, legal, custody, audit, or operator evidence supplied                                                                     |
 
-Evidence snapshot: [production execution log](execution-log.md), including
-[Release CI run 30635040244](https://github.com/dantwoashim/Nagarik_Signals/actions/runs/30635040244).
+Evidence snapshot: [Release CI run 30635040244](https://github.com/dantwoashim/Nagarik_Signals/actions/runs/30635040244).
 
 Decision: `NO_GO` for production or a partner-operated pilot. The code-level
 candidate is substantially implemented, but automation cannot supply the
